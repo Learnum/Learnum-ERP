@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- <meta name="”robots”" content="index, follow" /> -->
+  <meta charset="utf-8" />
+  <title>Learnum_ERP</title>
+  <base href="/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <!-- <link rel="shortcut icon" href="./assets/images/favicon.ico" /> -->
+  <!-- Main Css -->
+  <link href="./assets/css/style.css" rel="stylesheet" type="text/css" id="theme-opt" />
+  <link href="./assets/css/colors/default.css" rel="stylesheet" id="color-opt" />
+  <!-- Bootstrap -->
+  <!-- <link href="./assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" /> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="./assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" />
+  <!-- Slider -->
+  <link rel="stylesheet" href="./assets/css/tiny-slider.css" />
+
+  <!-- TaxBlock loading Screen CSS -->
+  <style type="text/css">
+    #loading-bg {
+      width: 100%;
+      height: 100%;
+      background: rgba(5, 5, 5, 0.452);
+      display: block;
+      position: absolute;
+      z-index: 99999;
+      pointer-events: none;
+    }
+
+    .loading-logo {
+      position: absolute;
+      left: calc(50% - 45px);
+      top: 40%;
+    }
+
+    .loading {
+      position: absolute;
+      left: calc(50% - 35px);
+      top: 50%;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      border: 3px solid transparent;
+    }
+
+    .loading .effect-1,
+    .loading .effect-2 {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 3px solid transparent;
+      border-left: 3px solid rgba(121, 97, 249, 1);
+      border-radius: 50%;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    .loading .effect-1 {
+      animation: rotate 1s ease infinite;
+    }
+
+    .loading .effect-2 {
+      animation: rotateOpacity 1s ease infinite 0.1s;
+    }
+
+    .loading .effect-3 {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 3px solid transparent;
+      border-left: 3px solid rgba(121, 97, 249, 1);
+      -webkit-animation: rotateOpacity 1s ease infinite 0.2s;
+      animation: rotateOpacity 1s ease infinite 0.2s;
+      border-radius: 50%;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    .loading .effects {
+      transition: all 0.3s ease;
+    }
+
+    @keyframes rotate {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+      }
+    }
+
+    @keyframes rotateOpacity {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+        opacity: 0.1;
+      }
+
+      100% {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+        opacity: 1;
+      }
+    }
+  </style>
+  <!-- / TaxBlock loading Screen CSS -->
+
+</head>
+
+<body>
+  <!-- TaxBlock loading Screen -->
+  <core-loading-screen id="loading-bg">
+    <div class="loading-logo">
+      <!-- <img src="assets/images/taxblock/logo.png" alt="Logo" /> -->
+    </div>
+    <div class="loading">
+      <div class="effect-1 effects"></div>
+      <div class="effect-2 effects"></div>
+      <div class="effect-3 effects"></div>
+    </div>
+  </core-loading-screen>
+  <!-- / TaxBlock loading Screen -->
+ 
+  <app-root></app-root>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+    integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+    crossorigin="anonymous"></script>
+
+  <!-- javascript -->
+  <script src="./assets/js/bootstrap.bundle.min.js"></script>
+  <!-- SLIDER -->
+  <script src="./assets/js/tiny-slider.js "></script>
+  <!-- Icons -->
+  <script src="./assets/js/feather.min.js"></script>
+  <!-- Main Js -->
+  <script src="./assets/js/plugins.init.js"></script>
+  <!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
+  <script src="/assets/js/app.js"></script>
+  <!--Note: All important javascript like page loader, menu, sticky menu, menu-toggler, one page menu etc. -->
+
+  <!-- jQuery CDN - Slim version (=without AJAX) -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <!-- Popper.JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+    integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+    crossorigin="anonymous"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+    integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+    crossorigin="anonymous"></script>
+  
+
+</body>
+
+</html>

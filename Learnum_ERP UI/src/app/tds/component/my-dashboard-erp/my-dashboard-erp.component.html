@@ -1,0 +1,66 @@
+<!-- src/app/attendance/attendance.component.html
+<div class="attendance-container">
+  <div class="attendance-top">
+    <div class="actions">
+      <button (click)="checkIn()" class="btn">Check In</button>
+      <button (click)="checkOut()" class="btn">Check Out</button>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <span class="count">{{ presentDaysThisMonth }}</span>
+        <span>Present Days this month</span>
+      </div>
+      <div class="stat">
+        <span class="count">{{ presentDaysLastMonth }}</span>
+        <span>Present Days in last month</span>
+      </div>
+    </div>
+  </div>
+  <div class="attendance-bottom">
+    <div class="birthday">
+      <h3>Today's Birthday</h3>
+      <p *ngIf="!todayBirthday">No records match your specified criteria!</p>
+      <p *ngIf="todayBirthday">{{ todayBirthday }}</p>
+      <a href="#" class="import">Import</a>
+    </div>
+  </div>
+</div> -->
+
+
+<div id="table" #table class="tg" style="background: #fff; padding: 15px">
+    <table border="1" class="tg">
+        <tr>
+            <th>
+                <button (click)="checkIn()" class="btn">Check In</button>
+            </th>
+            <th>
+                <button (click)="checkOut()" class="btn">Check Out</button>
+            </th>
+            <th>
+                <div class="stat">
+                    <span class="count">{{ presentDaysThisMonth }}</span>
+                    <span>Present Days this month</span>
+                </div>
+            </th>
+            <th>
+                <div class="stat">
+                    <span class="count">{{ presentDaysLastMonth }}</span>
+                    <span>Present Days in last month</span>
+                </div>
+            </th>
+        </tr>
+        <tbody>
+            <tr>
+                <td colspan="4">
+                    <div class="birthday">
+                        <h3>Today's Birthday</h3>
+                        <p *ngIf="!todayBirthday" class="centered">No records match your specified criteria!</p>
+                        <p *ngIf="todayBirthday" class="centered">{{ todayBirthday }}</p>
+                        <a href="#" class="import centered">Import</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

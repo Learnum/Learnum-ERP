@@ -1,0 +1,107 @@
+<div style="margin-left: 5px;" class="row d-flex">
+    <h5 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);">
+      <b><span data-toggle="tooltip" title="Close"><i class="uil uil-multiply"></i> &nbsp;</span>MCQ Assignment</b>
+    </h5>
+    <div>
+        <form id="MyForm" [formGroup]="form">
+          <formly-form [model]="subjectDetails" [fields]="fields" [options]="options" [form]="form">
+          </formly-form>
+        </form>
+       </div>
+  </div>
+  <div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
+    <button class="btn btn-cloud me-2" (click)="onSubmit()">Submit</button>
+    <button class="btn btn-cloud me-2" type="button" (click)="reset()">Reset</button>
+    <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
+
+  </div>
+  
+<!-- Contact Details -->
+<div style="margin-left: 5px;" class="row d-flex">
+  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip" title="Close"> &nbsp;</span>Add MCQ</b></h6>
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th>Option A</th>
+          <th>Option B</th>
+          <th>Option c</th>
+          <th>Option D</th>
+          <th>Answer</th>
+          <th>Marks</th>
+          <th>MCQ Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of contactDetails">
+          <td>{{ contact.Question }}</td>
+          <td>{{ contact.OptionA }}</td>
+          <td>{{ contact.OptionB }}</td>
+          <td>{{ contact.OptionC }}</td>
+          <td>{{ contact.OptionD }}</td>
+          <td>{{ contact.OptionAnswer }}</td>
+          <td>{{ contact.Marks}}</td>
+          <td>{{ contact.McqStatus}}</td>
+
+      </tbody>
+      <!-- Button trigger modal for Contact -->
+      <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#contactModal">
+        Add New
+      </button>
+    </table>
+  </div>
+</div>
+<!-- Modal for Contact Details -->
+<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="color: #0e0909;">
+        <h5 class="modal-title" id="contactModalTitle">Add MCQ</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="contactForm">
+          <div class="form-group">
+            <label for="question">Question</label>
+            <input type="text" class="form-control" id="question" formControlName="question" placeholder="Enter Question">
+          </div>
+          <div class="form-group">
+            <label for="optionA">Option A</label>
+            <input type="text" class="form-control" id="optionA" formControlName="optionA" placeholder="Enter Option A">
+          </div>
+          <div class="form-group">
+            <label for="optionB">Option B</label>
+            <input type="text" class="form-control" id="optionB" formControlName="optionB" placeholder="Enter Option B">
+          </div>
+          <div class="form-group">
+            <label for="optionC">Option C</label>
+            <input type="text" class="form-control" id="optionC" formControlName="optionC" placeholder="Enter Option C">
+          </div>
+          <div class="form-group">
+            <label for="optionD">Option D</label>
+            <input type="text" class="form-control" id="optionD" formControlName="optionD" placeholder="Enter Option D">
+          </div>
+          <div class="form-group">
+            <label for="answer">Answer</label>
+            <input type="text" class="form-control" id="answer" formControlName="answer" placeholder="Enter Answer">
+          </div>
+          <div class="form-group">
+            <label for="marks">Marks</label>
+            <input type="number" class="form-control" id="marks" formControlName="marks" placeholder="Enter Marks">
+          </div>
+          <div class="form-group">
+            <label for="mcqStatus">MCQ Status</label>
+            <input type="text" class="form-control" id="mcqStatus" formControlName="mcqStatus" placeholder="Enter MCQ Status">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cloud me-2 mt-2" (click)="addContact()">Done</button>
+        <button type="button" class="btn btn-fent-cloud" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

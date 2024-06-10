@@ -1,0 +1,27 @@
+<div id="table" #table class="tg" style="background: #fff; padding: 25px">
+    <table border="1" class="tg">
+        <tr>
+           
+            <th>
+                <div class="stat">
+                    <span class="count">{{ NewEmployeethisMonth }}</span>
+                    <span>New Employee this Month</span>
+                </div>
+            </th>
+          
+        </tr>
+        <tbody>
+            <tr>
+                <td colspan="4">
+                    <div class="allpracticalproblem">
+                        <h3>All Practical Problems</h3>
+                        <p *ngIf="!norecord" class="centered">You haven't added any records yet!!</p>
+                        <p *ngIf="norecord" class="centered">{{ norecord }}</p>
+                        <a href="#" class="import centered">Import</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

@@ -1,0 +1,5 @@
+export class CountryDetails {
+    CountryName :string;
+    CountryId :number;
+    CountryCode :number;
+}

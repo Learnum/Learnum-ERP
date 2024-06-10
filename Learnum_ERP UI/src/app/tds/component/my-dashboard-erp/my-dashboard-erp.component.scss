@@ -1,0 +1,202 @@
+// /* src/app/attendance/attendance.component.css */
+// .attendance-container {
+//   padding: 20px;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+// }
+
+// .box {
+//   width: 50%;
+//   border: 1px solid #ddd;
+//   border-radius: 8px;
+//   padding: 20px;
+//   margin-bottom: 20px;
+//   background-color: #f9f9f9;
+
+// }
+
+// .attendance-top {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .attendance-bottom {
+//   text-align: center;
+//   height: 600px;
+//   justify-content: flex-start;
+// }
+
+.actions {
+  margin-right: 40px;
+}
+
+.btn {
+  margin: 0 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+}
+
+.stat {
+  text-align: center;
+  font-size: 16px;
+  flex-direction: row;
+  justify-content: center;
+  gap: 40px;
+
+}
+
+.count {
+  display: block;
+  font-size: 24px;
+  color: red;
+}
+
+.birthday {
+  margin-top: 5px;
+}
+
+.import {
+  display: block;
+  color: blue;
+  margin-top: 30px;
+  text-decoration: none;
+  text-align:center;
+  height: 500px;
+  //justify-content: flex-start;
+  justify-content: center; /* Change this */
+  align-items: center; /* Add this */
+  display: flex; /* Add this */
+}
+
+.import:hover {
+  text-decoration: underline;
+}
+
+h3 {
+  margin-bottom: 20px;
+}
+
+.partition-right {
+  border-right: 1px solid #ccc;
+  height: 100%;
+}
+
+// .partition-bottom {
+//   border-bottom: 1px solid #ccc;
+//   height: 100%;
+// }
+// .partition-inner {
+//   border-right: 1px solid #ccc;
+//   height: 100%;
+// }
+
+.card {
+  cursor: pointer;
+  margin: 10px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.card:hover {
+  background-color: #e9ecef;
+}
+
+.card-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.content {
+  margin-top: 20px;
+}
+
+// .big-card .card-body {
+//   padding: 0px; 
+//   display: flex;
+//   justify-content: flex-start;
+//   height: 500px;
+//   align-items: flex-start; 
+//   margin: 10px;
+//   width: 200px;
+// }
+
+// .big-card .card-title {
+//   font-size: 1.5rem;
+//   font-weight: bold;
+//   margin-bottom: 0; 
+//   text-align: left; }
+
+.tg {
+  //border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  height: 60px;
+  
+}
+
+.tg td {
+ // border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  overflow: hidden;
+  padding: 50px 10px;
+  word-break: normal;
+  
+}
+
+.tg th {
+  // border-color: black;
+  border-style: solid;
+  // border-width: 1px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  overflow: hidden;
+  padding: 10px 5px;
+  word-break: normal;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+}
+
+.tg .tg-0lax {
+  text-align: center;
+  vertical-align: top;
+
+}
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

@@ -1,0 +1,159 @@
+<div style="margin-left: 5px;" class="row d-flex">
+  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip"
+        title="Close"><i class="uil uil-multiply"></i> &nbsp;</span>Add College</b></h6>
+  <div>
+    <form id="MyForm" [formGroup]="form">
+      <formly-form [model]="collegeDetails" [fields]="fields" [options]="options" [form]="form">
+      </formly-form>
+    </form>
+  </div>
+ 
+</div>
+
+
+
+<!-- Contact Details -->
+<div style="margin-left: 5px;" class="row d-flex">
+  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip" title="Close"> &nbsp;</span>Contact Details</b></h6>
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Job Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of contactDetails">
+          <td>{{ contact.name }}</td>
+          <td>{{ contact.phone }}</td>
+          <td>{{ contact.email }}</td>
+          <td>{{ contact.jobRole }}</td>
+      </tbody>
+
+      <!-- Button trigger modal for Contact -->
+      <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#contactModal">
+        Add New
+      </button>
+    </table>
+  </div>
+</div>
+
+<!-- Modal for Contact Details -->
+<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="color: #fff;">
+        <h5 class="modal-title" id="contactModalTitle">Add Contact Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="contactForm">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter Name">
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" class="form-control" id="phone" formControlName="phone" placeholder="Enter Phone">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter Email">
+          </div>
+          <div class="form-group">
+            <label for="jobRole">Job Role</label>
+            <select class="form-control" id="jobRole" formControlName="jobRole">
+              <option value="" disabled selected>Select Job Role</option>
+              <option value="principle">Principle</option>
+              <option value="vice-principle">Vice Principle</option>
+              <option value="HOD">Head of Department</option>
+              <option value="senior-teacher">Senior Teacher</option>
+              <option value="junior-teacher">Junior Teacher</option>
+              <option value="accountant">Accountant</option>
+              <option value="office-boy">Office Boy</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cloud me-2 mt-2" (click)="addContact()">Add</button>
+        <button type="button" class="btn btn-fent-cloud" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Department Details -->
+<div style="margin-left: 5px;" class="row d-flex">
+  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip" title="Close"> &nbsp;</span>Department Seats</b></h6>
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Course Name</th>
+          <th>Seats</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let department of departmentDetails">
+          <td>{{ department.coursename }}</td>
+          <td>{{ department.seats }}</td>
+        </tr>
+      </tbody>
+      <!-- Button trigger modal for Department -->
+      <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#departmentModal">
+        Add New
+      </button>
+    </table>
+  </div>
+</div>
+
+
+
+<!-- Modal for Department Details -->
+<div class="modal fade" id="departmentModal" tabindex="-1" role="dialog" aria-labelledby="departmentModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="color: #fff;">
+        <h5 class="modal-title" id="departmentModalTitle">Department Seats</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="departmentForm">
+          <div class="form-group">
+            <label for="coursename">Course Name</label>
+            <select class="form-control" id="coursename" formControlName="coursename">
+              <option value="" disabled selected>Select Job Role</option>
+              <option value="fy">FY B.com</option>
+              <option value="sy">SY B.com</option>
+              <option value="ty">TY B.com</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="seats">Seats</label>
+            <input type="text" class="form-control" id="seats" formControlName="seats" placeholder="Enter Seats">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cloud me-2 mt-2" (click)="addDepartment()">Add</button>
+        <button type="button" class="btn btn-fent-cloud" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
+  <button class="btn btn-cloud me-2" (click)="onSubmit()">Add</button>
+  <button class="btn btn-fent-cloud" (click)="onCancelClick()">Cancel</button>
+</div>
