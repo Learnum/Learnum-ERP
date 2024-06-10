@@ -1,11 +1,13 @@
 import { formatDate } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
+import { FormGroup } from '@angular/forms';
+
 
 @Component({
   selector: 'app-add-employee',
@@ -13,6 +15,9 @@ import { MessageService } from 'src/app/core/services/message.service';
   styleUrls: ['./add-employee.component.scss']
 })
 export class AddEmployeeComponent implements OnInit {
+onSubmit() {
+throw new Error('Method not implemented.');
+}
 
   form = new FormGroup({});
   //employeeDetails: EmployeeDetails = new EmployeeDetails();
@@ -25,7 +30,8 @@ export class AddEmployeeComponent implements OnInit {
   coOwners: any;
   NowDate: any = new Date();
   employeeDetails: any;
-  model: any = {};
+  model = {};
+  coursesDetails: any;
 
   constructor(
     // private addEmployeeService: AddEmployeeService,
@@ -103,18 +109,20 @@ export class AddEmployeeComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-3',
-            type: 'input',
-            key: 'EmployeePhoto',
-            templateOptions: {
-              placeholder: 'Upload Employee Photo',
-              label: 'Employee Photo',
-              description: 'Choose a photo to upload',
+            className: 'col-md-1',
+            type: 'file',
+            key: 'file',
+            props: {
+              placeholder: 'select File',
+             // type: 'text',
+              label: "Upload Brochure",
+              required: true,
+
             },
             validation: {
-              show: true,
               messages: {
-                required: 'Employee photo is required',
+                required: 'Classroom Status is required',
+
               },
             },
           },
@@ -293,28 +301,6 @@ export class AddEmployeeComponent implements OnInit {
 
   get f() {
     return this.form.controls;
-  }
-
-
-  onSubmit(): void {
-    if (this.form.valid) {
-      // Handle form submission, including file upload
-      const file: File = this.model.EmployeePhoto[0];
-      if (file) {
-        this.uploadFile(file);
-      }
-    }
-  }
-
-  uploadFile(file: File): void {
-    const formData = new FormData();
-    formData.append('employeePhoto', file, file.name);
-
-    // Make an HTTP request to upload the file
-    this.http.post('/upload', formData).subscribe(response => {
-      console.log('Upload response', response);
-      // Handle upload response if needed
-    });
   }
 
 }
