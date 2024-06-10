@@ -58,8 +58,8 @@ export class AddClassroomsComponent implements OnInit {
         fieldGroup: [
 
           {
-            className: 'col-md-4',
-            type: 'input',
+            className: 'col-md-6',
+            type: 'select',
             key: 'Branch Name',
             templateOptions: {
               placeholder: 'Enter Branch Name',
@@ -71,7 +71,7 @@ export class AddClassroomsComponent implements OnInit {
 
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'input',
             key: 'Classroom Name',
             props: {
@@ -89,7 +89,7 @@ export class AddClassroomsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'input',
             key: 'Student Capacity',
             props: {
@@ -108,8 +108,8 @@ export class AddClassroomsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            type: 'input',
+            className: 'col-md-6',
+            type: 'select',
             key: 'Classroom Status',
             props: {
               placeholder: 'Enter Classroom Status',

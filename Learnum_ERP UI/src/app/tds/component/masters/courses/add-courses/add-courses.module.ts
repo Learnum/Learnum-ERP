@@ -7,18 +7,26 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { AddCoursesComponent } from './add-courses.component';
 import { FormlyModule } from '@ngx-formly/core';
+import { FormlyFieldFile } from './file-type.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { FileValueAccessor } from 'src/environments/file-value-accessor';
+
 
 @NgModule({
-  declarations: [AddCoursesComponent],
+  declarations: [AddCoursesComponent,FileValueAccessor,FormlyFieldFile],
   imports: [
     CommonModule,
+    //BrowserModule,
     AddCoursesRoutingModule,
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
     FormlyBootstrapModule,
-    FormlyModule
-
-  ]
+    FormlyModule,
+    FormlyModule.forRoot({
+      types: [{ name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] }],
+    })
+  ],
+ 
 })
 export class AddCoursesModule { }

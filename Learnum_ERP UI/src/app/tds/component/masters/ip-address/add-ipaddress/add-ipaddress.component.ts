@@ -96,7 +96,7 @@ export class AddIpaddressComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            type: 'input',
+            type: 'select',
             key: 'IPstatus',
             props: {
               placeholder: 'Select IP Status',

@@ -45,8 +45,10 @@ employeeDetails: any;
   }
   createForm(): void {
     this.form = this.fb.group({
-      EMPID: ['', Validators.required], 
-      Name: ['', Validators.required], 
+      BranchManagerName: ['', Validators.required], 
+      BranchName: ['', Validators.required], 
+      status: ['', Validators.required], 
+
       
     });
   }
