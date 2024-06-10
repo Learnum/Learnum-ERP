@@ -1,0 +1,31 @@
+<div class="row grid-section">
+  <!-- Filter -->
+  <div class="col-3" *ngIf="isFilterable">
+    <input type="text" class="form-control" 
+      placeholder="search here" 
+      [(ngModel)]="searchText"
+      (ngModelChange)="applyFilter()">
+  </div>
+
+  <!-- Action Button -->
+  <div class="col" *ngIf="actionButtons?.length">
+    <button type="button" *ngFor="let item of actionButtons"
+      style="margin-left: 5px; float: right; vertical-align: middle ;" 
+      [class]="item.buttonClass"
+      (click)="emitActionButton(item.action)">
+      {{ item.actionButtonName }}
+    </button>
+  </div>
+</div>
+
+<!-- AG Grid -->
+<ag-grid-angular class="ag-theme-alpine grid-width" style="height: 450px;"
+  [gridOptions]="gridOptions" 
+  [defaultColDef]="defaultColDef"
+  [columnDefs]="displayedColumns"
+  [rowData]="tableDataSource" 
+  [suppressRowClickSelection]="true" 
+  [rowSelection]="rowSelection"
+  (selectionChanged)="toggleSelectedRow($event)" 
+  (gridReady)="onGridReady($event)">
+</ag-grid-angular>

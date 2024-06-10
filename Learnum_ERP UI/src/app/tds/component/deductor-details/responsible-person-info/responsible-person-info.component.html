@@ -1,0 +1,12 @@
+<div>
+  <form id="MyForm" [formGroup]="form" (ngSubmit)="insertResponisblePersonInfo(responsiblePersonDetails)">
+    <formly-form [model]="responsiblePersonDetails" [fields]="fields" [options]="options" [form]="form">
+
+    </formly-form>
+  </form>
+</div>
+
+<div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
+  <button class="btn btn-cloud me-2" (click)="insertResponisblePersonInfo(responsiblePersonDetails)" type="submit" form="MyForm">Next</button>
+  <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
+</div>

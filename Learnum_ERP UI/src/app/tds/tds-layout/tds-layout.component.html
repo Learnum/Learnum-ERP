@@ -1,0 +1,264 @@
+<div class="sidebar-nav" style="padding: 28px 0px !important;">
+  <nav class="navbar navbar-dark fixed-top d-inline-block" style="background:#9938a5">
+    <div class="">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-7 mobile-nav">
+              <span>
+
+                <div>
+                  <button id="CloseOnSubMenuClick" class="navbar-toggler p-0 m-2 border-0" type="button"
+                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                    data-bs-backdrop="static" data-bs-keyboard="false">
+                    <span class="navbar-toggler-icon">
+                      <svg xmlns='http://www.w3.org/2000/svg' height='30' width='30'>
+                        <path fill='none' stroke='white' stroke-width='2' d='M4 7h22M4 15h22M4 23h22' />
+                      </svg>
+                    </span>
+                  </button>
+
+
+                </div>
+<!-- 
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
+                  aria-labelledby="offcanvasNavbarLabel">
+                  <div class="offcanvas-body p-0">
+                    <ul class="navbar-nav">
+                      <li *ngFor="let menu of Menu"><a *ngIf="!menu.submenu" [routerLink]="menu.url"
+                          [ngStyle]="{'pointer-events' : ((CycleTypeId==2 || CycleTypeId==0) && menu.id == 3) || this.isDisabledForVerifyPending ? 'none':(((CycleTypeId == 1 || CycleTypeId==0) && menu.id == 5) || this.isDisabledForVerifyPending ? 'none':'') , 'color' : ((CycleTypeId==2 || CycleTypeId==0) && menu.id == 3) || this.isDisabledForVerifyPending ? 'gray':(((CycleTypeId==1 || CycleTypeId==0) && menu.id == 5) || this.isDisabledForVerifyPending ? 'gray':'')}"
+                          *ngIf="menu.type != 'collapsible'" routerLinkActive="active" (click)="onClickSingalMenu()">
+
+                          <span class="item-text">{{menu.title}}</span>
+                        </a>
+                        <a [href]="'#'+ menu.id" [id]="'0'+menu.id" *ngIf="menu.type == 'collapsible'"
+                          data-toggle="collapse" aria-expanded="false" (click)="onClickMenu(menu.id)"><span
+                            class="item-text">{{menu.title}}</span></a>
+                        <ul class="collapse list-unstyled" [id]="menu.id">
+                          //<li *ngFor="let submenu of menu.children">
+                            <li *ngFor="let submenu of menu.submenu">
+                            <a [routerLink]="submenu.url" routerLinkActive="active-menu"
+                              (click)="onClickSubMenu()">{{submenu.title}}</a>
+                          </li>
+                        </ul>
+
+                      </li>
+                    </ul>
+
+                  </div>
+                </div> -->
+
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                  <div class="offcanvas-body p-0">
+                    <ul class="navbar-nav">
+                      <li *ngFor="let menu of Menu">
+                        <a *ngIf="!menu.submenu" [routerLink]="menu.url"
+                          [ngStyle]="{'pointer-events' : ((CycleTypeId==2 || CycleTypeId==0) && menu.id == 20) || this.isDisabledForVerifyPending ? 'none':(((CycleTypeId == 1 || CycleTypeId==0) && menu.id == 5) || this.isDisabledForVerifyPending ? 'none':'') , 'color' : ((CycleTypeId==2 || CycleTypeId==0) && menu.id == 3) || this.isDisabledForVerifyPending ? 'gray':(((CycleTypeId==1 || CycleTypeId==0) && menu.id == 5) || this.isDisabledForVerifyPending ? 'gray':'')}"
+                          routerLinkActive="active" (click)="onClickSingalMenu()">
+                          <span class="item-text">{{menu.title}}</span>
+                        </a>
+                        <a *ngIf="menu.submenu" href="javascript:void(0);" data-bs-toggle="collapse"
+                          [attr.data-bs-target]="'#menu-' + menu.id" aria-expanded="false" aria-controls="collapseExample">
+                          <span class="item-text">{{menu.title}}</span>
+                        </a>
+                        <ul class="collapse list-unstyled" [attr.id]="'menu-' + menu.id">
+                          <li *ngFor="let submenu of menu.submenu">
+                            <a [routerLink]="submenu.url" routerLinkActive="active-menu"
+                              (click)="onClickSubMenu()">{{submenu.title}}</a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+              </span>
+              <span class="mobile-logo-view text-white ms-3" style="vertical-align: middle;">
+                <h3 class="pc-logo mb-0" style="color: #fff;" ><b>Learnum_ERP</b></h3>
+
+                <!-- <p class="pc-logo">
+                <h3 style="margin-top: 12px !important;margin-bottom: 0px;color: #fff;"><b>Learnum_ERP</b></h3>
+                </p> -->
+                <a class="mobile-logo">
+                  <h4><b>Learnum_ERP</b></h4>
+                </a>
+              </span>
+              <!-- <span style="text-align: right; float: right;" class="left-content">
+                <p style="margin-top: 12px !important;margin-bottom: 0px;color: #fff;"><b>FY: 2023-24 (AY -2024-25)</b>
+                </p>
+              </span> -->
+              <span class="mobile-view">
+                <!-- <a class="camera" *ngIf="employeeTypeDetailsId == 1 && UserRoleID == 3"
+                  style="font-size: 30px;cursor: pointer; color: #fff;" href="/poi/employee/poi/poi-attach-documents"><i
+                    class="uil uil-camera me-3"></i></a>
+                <a style="font-size: 30px;cursor: pointer; color: #fff;" data-bs-toggle="modal"
+                  data-bs-target="#poiNotification">
+                  <i class="uil uil-bell me-3">
+                    <p *ngIf="isNotificationPresent" class="notification-dot m-0"></p>
+                  </i>
+                </a>
+                <a style="font-size: 30px;cursor: pointer;color: #fff;" (click)="showAllMessages()"><i
+                    class="uil uil-comment"></i></a> -->
+                <button class="btn btn-icon" type="button" style="vertical-align:unset !important;"
+                  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="uil uil-user align-middle" style="font-size: 28px; color: #fff;"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                  style="transform: translate(-20px, 10px)">
+                  <a class="dropdown-item" href="/poi/employee/employee-profile/"><i
+                      class="uil uil-user align-middle me-1"></i>Profile</a>
+                  <a class="dropdown-item" href="/poi/dashboard"><i
+                      class="uil uil-clipboard align-middle me-1"></i>Dashboard</a>
+                  <a class="dropdown-item text-dark" style="cursor: pointer" href="/poi/changePassword"><i
+                      class="uil uil-unlock-alt align-middle me-1"></i>
+                    Change Password</a>
+                  <a class="dropdown-item text-dark" (click)="Logout()" style="cursor: pointer"><i
+                      class="uil uil-sign-out-alt align-middle me-1"></i>
+                    Logout</a>
+                </div>
+              </span>
+
+            </div>
+            <div class="col-md-3 left-content">
+              <!-- <div class="row">
+                <div class="col-md-12 " align="right">
+                  <div class="row" style="color: #fff;">
+                    <div class="col-md-12">
+                      <h6 class="m-0">{{UserName}}</h6>
+                    </div>
+                    <div class="col-md-12 ">
+                      <p class="m-0">{{UserRole}}-{{EmpId}}</p>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div> -->
+              <!-- <div class="row d-flex" style="color: #fff;">
+                <div class="col-md-6" align="right">
+                  <p style="margin-top: 10px !important; font-size: 12px; margin-bottom: 0px;color: #fff;"><b>{{UserName}}</b>
+                  </p>
+                </div>
+
+                <div class="col-md-6" align="right">
+                  <p style="margin-top: 10px !important;  font-size: 12px; margin-bottom: 0px;color: #fff;"><b>{{UserRole}}-{{EmpId}}</b>
+                  </p>
+                </div>
+              </div> -->
+              <!-- <div class="row text-center">
+                <p style="margin-top: 10px !important; font-size: 12px; margin-bottom: 0px;color: #fff;">
+                  <b>{{UserName}}&nbsp;({{EmpId}})</b>
+              </div> -->
+            </div>
+            <div class="col-md-2 left-content pe-3" align="right">
+
+              <!-- <a class="camera" style="font-size: 30px;cursor: pointer;color: #fff;"
+                href="/poi/employee/poi/poi-attach-documents"><i class="uil uil-camera me-3"></i></a>
+              <a style="font-size: 30px;cursor: pointer;color: #fff;" (click)="onNotificationClick()"
+                data-bs-toggle="modal" data-bs-target="#poiNotification">
+                <i class="uil uil-bell me-3">
+                  <p *ngIf="isNotificationPresent" class="notification-dot m-0"></p>
+                </i>
+              </a>
+              <a style="font-size: 30px;cursor: pointer;color: #fff;" (click)="showAllMessages()"><i
+                  class="uil uil-comment me-2">
+                  <p class="round-btn m-0" style="font-family: monospace;font-style: normal;font-size: 12px;">
+                    {{totalMessageCount}}
+                  </p>
+                </i></a> -->
+              <button class="btn btn-icon" type="button" style="vertical-align:unset !important;"
+                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="uil uil-user align-middle" style="font-size: 28px;color: #fff;"></i>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="transform: translate(0px, 10px)">
+                <a class="dropdown-item" href="/poi/employee/employee-profile/"><i
+                    class="uil uil-user align-middle me-1"></i>Profile</a>
+                <a class="dropdown-item" href="/poi/dashboard"><i
+                    class="uil uil-clipboard align-middle me-1"></i>Dashboard</a>
+                <a class="dropdown-item text-dark" style="cursor: pointer" href="/poi/changePassword"><i
+                    class="uil uil-unlock-alt align-middle me-1"></i>
+                  Change Password</a>
+                <a class="dropdown-item text-dark" (click)="Logout()" style="cursor: pointer"><i
+                    class="uil uil-sign-out-alt align-middle me-1"></i>
+                  Logout</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-4 " align="right">
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+<div class="container-flude px-2" id="outerComponent">
+  <div class="row" style="height: 91vh;">
+    <!-- <div class="col-md-3 left-content" *ngIf="this.UserRoleID == 3 && !hideLeftContent" style="background: #EEEFF6;">
+      <div class="row">
+        <div class="col-md-11 pe-0">
+          <div class="" style="padding: 5% 1% 0% 8%;">
+
+          
+            <div class="content-font" style=" text-align: justify;">
+              <p class="scrollbox" style="
+                            height:75vh; overflow: auto; padding-right: 3%;
+                          " [innerHTML]="layoutDetails.data | sanitizeHtml"></p>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-1 collapse-btn">
+          <a type="button" [title]="hideLeftContent ? 'Open Content':'Close Content'"
+            style="position: absolute; z-index: 10;left:18px; top:55%" (click)="hideShowLeftContent()"><i
+              style="font-size: 20px;color: #29398d;" class="fa "
+              [ngClass]="!hideLeftContent ? 'fa-chevron-circle-left':'fa-chevron-circle-right'"></i></a>
+        </div>
+        <div class="col-md-12">
+          <div class="poi-left-content" style=" bottom:0;">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-4 p-0 mt-2" align="right"><b>Powered By</b></div>
+                  <div class="col-md-8">
+                    <a class="" href="home">
+                      <img src="assets/images/taxblock/logo.png" height="30" class="" alt="" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div> -->
+    <div class="for-mobile-view col-md-12">
+      <a type="button" *ngIf="hideLeftContent" [title]="hideLeftContent ? 'Open Content':'Close Content'"
+        style="position: absolute; z-index: 10;left:5px;top:50%" (click)="hideShowLeftContent()"><i
+          style="font-size: 20px;color: #29398d;" class="fa "
+          [ngClass]="!hideLeftContent ? 'fa-chevron-circle-left':'fa-chevron-circle-right'"></i></a>
+      <div class="clearfix ">
+        <div class="tab-pane" style="display: block">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="tab-inner">
+
+                <router-outlet></router-outlet>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+ 
+
+</div>

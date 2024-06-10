@@ -1,0 +1,46 @@
+<form [formGroup]="SalaySectionInfo">
+    <div class="btn-group" style="margin-top: 10px; margin-bottom: 20px;" role="group">
+        <label>Select Entry Type</label>
+        <label *ngFor="let option of radioOptions" class="radio-label" style="margin-left:20px;">
+          <input type="radio" [value]="option.value" [(ngModel)]="selectedOption" formControlName="EntryType" >
+          {{ option.label }}
+        </label>
+      </div>
+      <input type="hidden" formControlName="IsActive">
+      <input type="hidden" formControlName="SalaryInfoId">
+      <input type="hidden" formControlName="DeductorId">
+
+
+    <div class="row">
+        <div class="col-lg-2 form-group">
+            <label>Salary Section Name</label>
+            <input type="text" name="SalarySectionName"  class="form-control" 
+            formControlName="SalarySectionName"
+            placeholder="Enter Section Name"  style="width:200px;height:40px;" required
+            (keypress)="notallonumber($event)">
+        </div>
+        <div class="col-lg-3 form-group">
+            <label>Salary Section Type</label>
+            <select class="form-control" 
+                formControlName="SalarySectionTypeId"
+                class="form-select" style="width: 300px;height:40px">
+                <option selected disabled value="0">Select Section Type</option>
+                <option *ngFor="let SalarySectionTypeList of SalarySectionTypeList" [value]="SalarySectionTypeList.SalarySectionTypeId" >
+                    {{SalarySectionTypeList.SalarySectionTypeName}}
+                </option>
+            </select>
+        </div>
+        <div class="col-lg-2 mt-3">                                 
+            <button type="submit" rippleEffect style="border: none; background-color: #9938A5 !important;"
+            class="btn btn-primary" 
+           (click)="SaveSalaryInfoData()">Save</button>                               
+        </div>
+    </div>
+</form>
+<app-data-grid class="ag-theme-alpine" #viewEmployeeGrid [tableData]="salaryinformationList" [tableColumns]="userTableColumns"
+[actionColumns]="userActionColumns" [rowSelection]="rowSelection" [isEditable]="false" [isSortable]="true"
+    [isFilterable]="false" [isColumnFilterable]="false" [isResizable]="false" [isPageable]="true" [defaultPageSize]="10"
+    (selectedRows)="selectEmployee($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">
+</app-data-grid>
+
+

@@ -1,0 +1,264 @@
+<div class="container-flude">
+    <div class="row" style="height:100vh;">
+      <div class="col-md-5 pc-button d-flex align-items-center justify-content-center" style="background-color: #9938A5;">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="text-center">
+              <img src="assets/images/Cloudstine/rightside_image.png" alt="" title="" width="70%" height="auto" />
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="text-center text-white">
+              <h2>Cloudstine One Account</h2>
+              <h4>One Account. Multiple Apps</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-md-7">
+        <!--Sign Up Form-->
+        <div class="row mx-2 my-5" *ngIf="signUP">
+          <div class="col-md-11">
+            <!--Button-->
+            <div class="row d-flex justify-content-end">
+              <div class="col-auto">
+                <button type="button" class="btn btn-outline-cloud" (click)="Home_Page()">Home</button>
+              </div>
+              <div class="col-auto">
+                <button type="button" class="btn btn-cloud" (click)="onSignInClick()">Sign In</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <!--Cloudstine Logo-->
+            <div class="row mt-3">
+              <div class="text-left ps-0">
+                <img src="assets/images/Cloudstine/cloudstine.png" alt="" title="" width="50%" height="auto">
+              </div>
+            </div>
+  
+            <!--Sign In-->
+            <div class="row mt-3">
+              <div class="text-left">
+                <h3>Sign Up</h3>
+                <form class="sign-up-form" [formGroup]="signUpForm">
+                  <div class="row">
+                    <div class="col-md-12 mt-3">
+                      <div class="form-group">
+                        <label class="form-label">Your Name<span class="text-danger">*</span></label>
+                        <input type="name" class="form-control" placeholder="Enter Name" formControlName="UserName" (keypress)="onlyAlphabetKey($event)"/>
+                        <div class="form text text-danger" *ngIf="signUpForm.controls['UserName'].invalid && (signUpForm.controls['UserName'].dirty || signUpForm.controls['UserName'].touched)">
+                          <div *ngIf="signUpForm.controls['UserName'].errors.required">
+                            Name is required.
+                          </div>
+                          <div *ngIf="signUpForm.controls['UserName'].errors.pattern">
+                            Please enter only alphabets.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                      <div class="form-group">
+                        <label class="form-label">Email Address<span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" placeholder="Enter Email" formControlName="EmailId" />
+                        <div class="form text text-danger" *ngIf="signUpForm.controls['EmailId'].invalid && (signUpForm.controls['EmailId'].dirty || signUpForm.controls['EmailId'].touched)">
+                          <div *ngIf="signUpForm.controls['EmailId'].errors.required">
+                            Email is required.
+                          </div>
+                          <div *ngIf="signUpForm.controls['EmailId'].errors.email">
+                            Please enter a valid email address.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                      <div class="form-group">
+                        <label class="form-label">Mobile Number<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Enter Mobile Number" formControlName="MobileNo" maxlength="10" (keypress)="validateNumber($event)" />
+                        <div class="form text text-danger" *ngIf="signUpForm.controls['MobileNo'].invalid && (signUpForm.controls['MobileNo'].dirty || signUpForm.controls['MobileNo'].touched)">
+                          <div *ngIf="signUpForm.controls['MobileNo'].errors.required">
+                            Mobile number is required.
+                          </div>
+                          <div *ngIf="signUpForm.controls['MobileNo'].errors.pattern">
+                            Please enter a valid mobile number.
+                          </div>
+                          <div *ngIf="signUpForm.controls['MobileNo'].errors.minlength || signUpForm.controls['MobileNo'].errors.maxLength">
+                            Mobile number must be 10 digits.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mt-4">
+                      <button type="button" class="btn btn-cloud w-100" (click)="onNextClick()">Next</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!--OTP Section-->
+        <div class="row mx-2 my-5" *ngIf="isVerifyOTP">
+          <div class="col-md-11">
+            <!--Button-->
+            <div class="row d-flex justify-content-end">
+              <div class="col-auto">
+                <button type="button" class="btn btn-outline-cloud" (click)="backToSignUp()">Back</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <!--Cloudstine Logo-->
+            <div class="row mt-3">
+              <div class="text-left ps-0">
+                <img src="assets/images/Cloudstine/cloudstine.png" alt="" title="" width="50%" height="auto">
+              </div>
+            </div>
+  
+            <!--Verify OTP-->
+            <div class="row mt-3">
+              <div class="text-left">
+                <h3>Verify OTP</h3>
+                <form>
+                  <div class="row">
+                    <div class="col-md-12 mt-3">
+                      <div class="form-group">
+                        <label class="form-label">Enter OTP<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Enter OTP" [(ngModel)]="EnterOTP" />
+                        <div class="form text text-danger" *ngIf="isShake">
+                          Please enter the correct OTP.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mt-4">
+                      <button type="button" class="btn btn-cloud w-100" (click)="onClickVerifyOTP()">Verify OTP</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!--Create Password Section-->
+        <div class="row mx-2 my-5" *ngIf="createPass">
+          <div class="col-md-11">
+            <!--Button-->
+            <div class="row d-flex justify-content-end">
+              <div class="col-auto">
+                <button type="button" class="btn btn-outline-cloud" (click)="backToOTP()">Back</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <!--Cloudstine Logo-->
+            <div class="row mt-3">
+              <div class="text-left ps-0">
+                <img src="assets/images/Cloudstine/cloudstine.png" alt="" title="" width="50%" height="auto">
+              </div>
+            </div>
+  
+            <!--Set Password-->
+            <div class="row mt-3">
+              <div class="text-left">
+                <h3>Create Password</h3>
+                <form #setPasswordForm="ngForm">
+                  <div class="row">
+                    <div class="col-md-12 mt-3">
+                      <div class="form-group">
+                        <label class="form-label">Password<span class="text-danger">*</span></label>
+                        <div class="input-group">
+                          <input
+                            type="{{ passwordTextType ? 'text' : 'password' }}"
+                            class="form-control"
+                            placeholder="Enter Password"
+                            name="password"
+                            ngModel
+                            required
+                            minlength="8"
+                          />
+                          <button
+                            type="button"
+                            class="btn btn-outline-secondary"
+                            (click)="togglePasswordTextType()"
+                          >
+                            <i class="fa" [ngClass]="passwordTextType ? 'fa-eye-slash' : 'fa-eye'"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                      <div class="form-group">
+                        <label class="form-label">Re-Enter Password<span class="text-danger">*</span></label>
+                        <div class="input-group">
+                          <input
+                            type="{{ repasswordTextType ? 'text' : 'password' }}"
+                            class="form-control"
+                            placeholder="Re-Enter Password"
+                            name="confirmPassword"
+                            ngModel
+                            required
+                            minlength="8"
+                          />
+                          <button
+                            type="button"
+                            class="btn btn-outline-secondary"
+                            (click)="toggleRePasswordTextType()"
+                          >
+                            <i class="fa" [ngClass]="repasswordTextType ? 'fa-eye-slash' : 'fa-eye'"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mt-4">
+                      <button
+                        type="button"
+                        class="btn btn-cloud w-100"
+                        (click)="setPassword(setPasswordForm)"
+                      >
+                        Set Password
+                      </button>
+                    </div>
+                    <div class="col-md-12 mt-4 text-danger">
+                      <div *ngIf="setPasswordForm.invalid && setPasswordForm.submitted">
+                        <div *ngIf="setPasswordForm.controls.password?.errors?.required">
+                          Password is required.
+                        </div>
+                        <div *ngIf="setPasswordForm.controls.password?.errors?.minlength">
+                          Password must be at least 8 characters long.
+                        </div>
+                        <div *ngIf="setPasswordForm.controls.confirmPassword?.errors?.required">
+                          Confirm password is required.
+                        </div>
+                        <div *ngIf="setPasswordForm.controls.confirmPassword?.errors?.minlength">
+                          Confirm password must be at least 8 characters long.
+                        </div>
+                        <div *ngIf="setPasswordForm.controls.password?.value !== setPasswordForm.controls.confirmPassword?.value">
+                          Passwords do not match.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!--Success Message-->
+        <!-- <div class="row mx-2 my-5" id="afterSignUp">
+          <div class="col-md-11">
+            <div class="alert alert-success">
+              Account successfully created. You can now log in.
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  

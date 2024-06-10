@@ -1,0 +1,115 @@
+<h6 class="mt-2 pb-2 border-bottom"><b><a href="/tds/tds-return"><i class="uil uil-multiply"
+    style="color: black;"></i></a>Upload Excel</b></h6>
+<div class="body">
+
+    <div class="right card">
+      <div class="uploader card-body" style="text-align: -webkit-center;">
+        <div class="row" style="width: 80%;">
+          <div class="col-md-4"></div>
+          <div class="col-md-4" align="center">
+            <h6><b>Upload File</b></h6>
+          </div>
+          <div class="col-md-4" align="right">
+            <h6>Download Template&nbsp;&nbsp;<i class="uil uil-download-alt" (click)="download()"></i></h6><br><br>
+          </div>
+        </div>
+        <div class="row container">
+          <div class="col-md-12">
+            <div class="center">
+              <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
+                (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" accept="All Files">
+                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <p class="text-secondary">Drag and drop you files here or</p>  
+                      <a type="button" (click)="openFileSelector()"
+                      >
+                        <u>Select the file</u>
+                   </a>
+                    
+                    </div>
+                  </div>
+                </ng-template>
+              </ngx-file-drop>
+              <div class="upload-table">
+                <table class="border table table-hover mt-3">
+                  <thead class="">
+                    <tr>
+                      <th>Name</th>
+                      <!-- <th>Password</th> -->
+                      <th></th>
+                      <th style="text-align: center">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody class="upload-name-style">
+                    <tr *ngFor="let item of uploadedFile; let i = index">
+                      <td>
+                        <strong>{{ item.FileName }}</strong>
+                      </td>
+                      <!-- <td>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    width="70%"
+                                    [(ngModel)]="item.Password"
+                                    name="Password"
+                                  />
+                                </td> -->
+                      <td></td>
+                      <!-- <td style="text-align: center; vertical-align: middle">
+                        <a (click)="onDeleteClick(item)"><i class="fa fa-trash trash" aria-hidden="true"></i></a>
+                      </td> -->
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="col-md-12" style="text-align: right">
+                  <button (click)="onSubmitClick(uploadedFile)" class="btn btn-primary">
+                    Upload File
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<div class="col-md-12">
+<div class="row" align="right">
+<div class="col-md-8"></div>
+<div class="col-md-2">
+</div>
+<div class="col-md-12" style="display: flex; justify-content: flex-end;">
+    <input type="text" class="from-control me-2" placeholder="Enter Challan Serial Number" style="width:200px;">
+  <select name="" id="" class="form-select me-2 select-cloud">
+    <option *ngFor="let formQsection of formQsectionList" [value]="formQsection.value">
+      {{ formQsection.label }}
+    </option>
+  </select>
+  <select name="" id="" class="form-select me-2 select-cloud">
+    <option *ngFor="let month of monthList" [value]="month.value">
+      {{ month.label }}
+    </option>
+  </select>
+</div>
+</div>
+</div>
+<!-- ag-grid -->
+<app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="tdsReturnList" [tableColumns]="declaredTableColumns"
+[isEditable]="false" [isSortable]="true" [isFilterable]="false" [isColumnFilterable]="false" [isResizable]="false"
+[isPageable]="true" [defaultPageSize]="12" (selectedRows)="selectEmployee($event)" (rowAction)="onRowAction($event)"  [frameworkComponents]="{ customTextCellEditor: this }"
+>
+</app-data-grid>
+<!-- end of ag-grid -->
+<!-- Buttons -->
+<div class="row mb-3 mt-4">
+<div class="col-12 mx-2 " align="left">
+<a type="button" class="btn btn-cloud" href="/tds/dashboard">Confirm</a>&nbsp;&nbsp;
+<a type="button" class=" btn btn-fent-cloud" (click)="onCancleClick()" >Cancel</a>&nbsp;&nbsp;
+</div>
+</div>
+<!-- end of button -->
