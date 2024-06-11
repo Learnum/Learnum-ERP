@@ -31,21 +31,23 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let contact of contactDetails">
-          <td>{{ contact.question }}</td>
-          <td>{{ contact.optionA }}</td>
-          <td>{{ contact.optionB }}</td>
-          <td>{{ contact.optionC }}</td>
-          <td>{{ contact.optionD }}</td>
-          <td>{{ contact.answer }}</td>
-          <td>{{ contact.marks }}</td>
-          <td>{{ contact.mcqStatus }}</td>
+        <tr *ngFor="let mcq of mcqDetails">
+          <td>{{ mcq.question }}</td>
+          <td>{{ mcq.optionA }}</td>
+          <td>{{ mcq.optionB }}</td>
+          <td>{{ mcq.optionC }}</td>
+          <td>{{ mcq.optionD }}</td>
+          <td>{{ mcq.answer }}</td>
+          <td>{{ mcq.marks }}</td>
+          <td>{{ mcq.mcqStatus }}</td>
         </tr>
       </tbody>
     </table>
+    <!-- Button trigger modal for MCQ -->
     <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#mcqModal">
-      Add New
-    </button>
+Add New MCQ
+</button>
+
   </div>
 </div>
 
@@ -60,7 +62,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="contactForm">
+        <form [formGroup]="mcqForm">
           <div class="form-group">
             <label for="question">Question</label>
             <input type="text" class="form-control" id="question" formControlName="question" placeholder="Enter Question">
@@ -91,12 +93,12 @@
           </div>
           <div class="form-group">
             <label for="mcqStatus">MCQ Status</label>
-            <input type="text" class="form-control" id="mcqStatus" formControlName="mcqStatus" placeholder="Enter MCQ Status">
+            <input type="select" class="form-control" id="mcqStatus" formControlName="mcqStatus" placeholder="Enter MCQ Status">
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-cloud me-2 mt-2" (click)="addContact()">Done</button>
+        <button type="button" class="btn btn-cloud me-2 mt-2" (click)="addMcq()">Done</button>
         <button type="button" class="btn btn-fent-cloud" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -105,7 +107,7 @@
 
 
 <div style="margin-left: 5px;" class="row d-flex">
-  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip" title="Close"> &nbsp;</span>Questions</b></h6>
+  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip" title="Close"> &nbsp;</span>Add Practical Problem</b></h6>
   <div>
     <table class="table">
       <thead>
@@ -114,38 +116,38 @@
           <th>Model Answer</th>
           <th>Attachment</th>
           <th>Marks</th>
-          <th>Practical Problem Status</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let contact of contactDetails">
-          <td>{{ contact.question }}</td>
-          <td>{{ contact.modelAnswer }}</td>
-          <td>{{ contact.attachment }}</td>
-          <td>{{ contact.marks }}</td>
-          <td>{{ contact.practicalProblemStatus }}</td>
+        <tr *ngFor="let problem of practicalProblemDetails">
+          <td>{{ problem.question }}</td>
+          <td>{{ problem.modelAnswer }}</td>
+          <td>{{ problem.attachment }}</td>
+          <td>{{ problem.marks }}</td>
+          <td>{{ problem.practicalProblemStatus }}</td>
         </tr>
       </tbody>
     </table>
-    <!-- Button trigger modal for Contact -->
-    <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#questionsModal">
-      Add New
+    <!-- Button trigger modal for Practical Problem -->
+    <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#practicalProblemModal">
+      Add New Practical Problem
     </button>
   </div>
 </div>
 
-<!-- Modal for Questions Details -->
-<div class="modal fade" id="questionsModal" tabindex="-1" role="dialog" aria-labelledby="questionsModalTitle" aria-hidden="true">
+<!-- Modal for Practical Problem Details -->
+<div class="modal fade" id="practicalProblemModal" tabindex="-1" role="dialog" aria-labelledby="practicalProblemModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="color: #0e0909;">
-        <h5 class="modal-title" id="questionsModalTitle">Questions</h5>
+        <h5 class="modal-title" id="practicalProblemModalTitle">Add Practical Problem</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="contactForm">
+        <form [formGroup]="practicalProblemForm">
           <div class="form-group">
             <label for="question">Question</label>
             <input type="text" class="form-control" id="question" formControlName="question" placeholder="Enter Question">
@@ -156,22 +158,30 @@
           </div>
           <div class="form-group">
             <label for="attachment">Attachment</label>
-            <input type="text" class="form-control" id="attachment" formControlName="attachment" placeholder="Enter Attachment">
+            <input type="file" class="form-control" id="attachment" formControlName="attachment">
           </div>
           <div class="form-group">
             <label for="marks">Marks</label>
             <input type="number" class="form-control" id="marks" formControlName="marks" placeholder="Enter Marks">
           </div>
           <div class="form-group">
-            <label for="practicalProblemStatus">Practical Problem Status</label>
-            <input type="text" class="form-control" id="practicalProblemStatus" formControlName="practicalProblemStatus" placeholder="Enter Practical Problem Status">
+            <label for="practicalProblemStatus">Status</label>
+            <input type="text" class="form-control" id="practicalProblemStatus" formControlName="practicalProblemStatus" placeholder="Enter Status">
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-cloud me-2 mt-2" (click)="addContact()">Done</button>
-        <button type="button" class="btn btn-fent-cloud" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="addPracticalProblem()">Save changes</button>
       </div>
     </div>
   </div>
 </div>
+
+
+<!-- <div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
+  <button class="btn btn-cloud me-2" (click)="onSubmit()">Submit</button>
+  <button class="btn btn-cloud me-2" type="button" (click)="reset()">Reset</button>
+  <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
+
+</div> -->

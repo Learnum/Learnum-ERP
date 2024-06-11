@@ -12447,19 +12447,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {}
+    "C:\\Users\\Chhaya.Thosar\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.API\\Learnum.ERP.API.csproj",
+      "projectUniqueName": "D:\\Learnum-ERP\\Learnum.ERP.API\\Learnum.ERP.API.csproj",
       "projectName": "Learnum.ERP.API",
-      "projectPath": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.API\\Learnum.ERP.API.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.API\\obj\\",
+      "projectPath": "D:\\Learnum-ERP\\Learnum.ERP.API\\Learnum.ERP.API.csproj",
+      "packagesPath": "C:\\Users\\Chhaya.Thosar\\.nuget\\packages\\",
+      "outputPath": "D:\\Learnum-ERP\\Learnum.ERP.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Chhaya.Thosar\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -12473,11 +12473,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj": {
-              "projectPath": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj"
+            "D:\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj": {
+              "projectPath": "D:\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj"
             },
-            "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj": {
-              "projectPath": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj"
+            "D:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj": {
+              "projectPath": "D:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj"
             }
           }
         }
