@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-addmcq',
   templateUrl: './addmcq.component.html',
@@ -13,20 +14,23 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class AddmcqComponent implements OnInit {
  
   contactForm: any;
-  formBuilder: any;
  
-  //subjectDetails: subjectDetails = new subjectDetails(); 
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
   tdsReturnList: any;
-    form: any;
-    branchDetails: any;
-   subjectDetails: any;
-   contactDetails: any[] = [];
-   McqDetails:any[]=[];
-   departmentDetails: any[] = [];
-   model: any = {};
+  form: any;
+  branchDetails: any;
+  subjectDetails: any;
+  contactDetails: any[] = [];
+  mcqDetails: any[] = [];
+  mcqForm: FormGroup;
+  departmentDetails: any[] = [];
+  model: any = {};
+  
+  collegeDetails: any;
+ 
+
     constructor(
       private router: Router,
       
@@ -35,27 +39,28 @@ export class AddmcqComponent implements OnInit {
       private alertService: AlertService,
       private messageService: MessageService,
       private activateRoute: ActivatedRoute,
-      private fb: FormBuilder,
-      private modalService: NgbModal
+      // private fb: FormBuilder,
+      private modalService: NgbModal,
+      private formBuilder: FormBuilder 
 
     ) { }
   
     ngOnInit(): void {
       this.setParameter();
        this.createForm();
-       this.createContactForm();
+       this.createMcqForm();
     }
     
       createForm(): void {
-        this.form = this.fb.group({
-          EMPID: ['', Validators.required], 
-          Location: ['', Validators.required], 
-          LocationIP: ['', Validators.required], 
-          IPStatus: ['', Validators.required], 
+        this.form = this.formBuilder.group({
+          CourseName: ['', Validators.required], 
+          SubjectName: ['', Validators.required], 
+          TopicName: ['', Validators.required], 
+          McqAssignmentStatus: ['', Validators.required], 
            });
      }
-     createContactForm(): void {
-      this.contactForm = this.formBuilder.group({
+     createMcqForm(): void {
+      this.mcqForm = this.formBuilder.group({
         question: ['', Validators.required],
         optionA: ['', Validators.required],
         optionB: ['', Validators.required],
@@ -109,9 +114,9 @@ export class AddmcqComponent implements OnInit {
               fieldGroup: [
         
                 {
-                  className: 'col-md-4',
+                  className: 'col-md-6',
                   type: 'select',
-                  key: 'Course Name',
+                  key: 'CourseName',
                   templateOptions: {
                     placeholder: 'Select',
                     type: 'text',
@@ -122,9 +127,9 @@ export class AddmcqComponent implements OnInit {
                  
                   },
                 {
-                  className: 'col-md-4',
+                  className: 'col-md-6',
                   type: 'select',
-                  key: 'Subject Name',
+                  key: 'SubjectName',
                   props: { 
                     placeholder: 'Enter Subject Name',
                     type: 'text',
@@ -135,7 +140,7 @@ export class AddmcqComponent implements OnInit {
                  
                 },
                 {
-                  className: 'col-md-4',
+                  className: 'col-md-6',
                   type: 'select',
                   key: 'TopicName',
                   props: { 
@@ -149,7 +154,7 @@ export class AddmcqComponent implements OnInit {
                 },
                
                 {
-                  className: 'col-md-4',
+                  className: 'col-md-6',
                   type: 'select',
                   key: 'McqAssignmentStatus',
                   props: { 
@@ -209,15 +214,13 @@ export class AddmcqComponent implements OnInit {
         //   );
         //   this.router.navigateByUrl('tds/masters/branches');
         // }
-        addContact(): void {
-          if (this.contactForm.valid) {
-            this.contactDetails.push(this.contactForm.value);
-            this.contactForm.reset();
-            this.modalService.dismissAll(); // Ensure modal service dismisses the modal
+        addMcq(): void {
+          if (this.mcqForm.valid) {
+            this.mcqDetails.push(this.mcqForm.value);
+            this.mcqForm.reset();
+            this.modalService.dismissAll();
           } else {
-            console.log('Form is invalid');
-            this.contactForm.markAllAsTouched(); // Mark all fields as touched to show validation errors
+            this.mcqForm.markAllAsTouched();
           }
         }
-        }
-        
+      }

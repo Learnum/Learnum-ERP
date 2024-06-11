@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { subjectDetails } from '../../../masters/subjects/add-subjects/add-subject.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-addsyllabus',
@@ -17,8 +18,10 @@ export class AddsyllabusComponent implements OnInit {
   options: FormlyFormOptions = {};
   editData: any;
   tdsReturnList: any;
-    form: any;
-    branchDetails: any;
+  form: FormGroup;
+  branchDetails: any;
+  topicDetails: any[] = [];
+  topicDetailsForm: FormGroup;
   
     constructor(
       private router: Router,
@@ -28,13 +31,15 @@ export class AddsyllabusComponent implements OnInit {
       private alertService: AlertService,
       private messageService: MessageService,
       private activateRoute: ActivatedRoute,
-      private fb: FormBuilder
+      private fb: FormBuilder,
+      private modalService: NgbModal
     
     ) { }
   
     ngOnInit(): void {
       this.setParameter();
        this.createForm();
+       this.createTopicDetailsForm();
     }
     
       createForm(): void {
@@ -43,11 +48,29 @@ export class AddsyllabusComponent implements OnInit {
           SubjectName: ['', Validators.required], 
           NameofTopic: ['', Validators.required], 
           TopicStatus: ['', Validators.required], 
-          
-         
-        });
-      
-    }
+           });
+          }
+
+          createTopicDetailsForm(): void {
+            this.topicDetailsForm = this.fb.group({
+              heading: ['', Validators.required],
+              content: ['', Validators.required],
+              attachments: [null],
+              references: ['', Validators.required],
+              subTopic: ['', Validators.required],
+              status: ['', Validators.required]
+            });
+          }
+          addTopicDetails(): void {
+            if (this.topicDetailsForm.valid) {
+              this.topicDetails.push(this.topicDetailsForm.value);
+              this.topicDetailsForm.reset();
+              this.modalService.dismissAll();
+            } else {
+              this.topicDetailsForm.markAllAsTouched();
+            }
+          }
+        
     
     
       // getBranchDetails(BranchId: number) {
@@ -92,7 +115,7 @@ export class AddsyllabusComponent implements OnInit {
               fieldGroup: [
         
                 {
-                  className: 'col-md-4',
+                  className: 'col-md-6',
                   type: 'select',
                   key: 'CourseName',
                   templateOptions: {
@@ -105,7 +128,7 @@ export class AddsyllabusComponent implements OnInit {
                  
                   },
                 {
-                  className: 'col-md-4',
+                  className: 'col-md-6',
                   type: 'select',
                   key: 'SubjectName',
                   props: { 
@@ -123,7 +146,7 @@ export class AddsyllabusComponent implements OnInit {
                   },
                 },
                 {
-                  className: 'col-md-4',
+                  className: 'col-md-6',
                   type: 'input',
                   key: 'NameofTopic',
                   props: { 
@@ -135,7 +158,7 @@ export class AddsyllabusComponent implements OnInit {
                   },
                 },
                 {
-                  className: 'col-md-4',
+                  className: 'col-md-6',
                   type: 'select',
                   key: 'TopicStatus',
                   props: {

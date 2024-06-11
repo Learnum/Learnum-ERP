@@ -11,12 +11,11 @@ import { FormlyFieldFile } from './file-type.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FileValueAccessor } from 'src/environments/file-value-accessor';
 
-
 @NgModule({
   declarations: [AddCoursesComponent,FileValueAccessor,FormlyFieldFile],
   imports: [
     CommonModule,
-    //BrowserModule,
+    BrowserModule,
     AddCoursesRoutingModule,
     SharedModule,
     ReactiveFormsModule,
@@ -27,6 +26,6 @@ import { FileValueAccessor } from 'src/environments/file-value-accessor';
       types: [{ name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] }],
     })
   ],
- 
+  bootstrap: [AddCoursesComponent],
 })
 export class AddCoursesModule { }

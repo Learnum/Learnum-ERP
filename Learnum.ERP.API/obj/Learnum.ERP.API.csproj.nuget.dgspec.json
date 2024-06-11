@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.API\\Learnum.ERP.API.csproj": {}
+    "D:\\Learnum-ERP\\Learnum.ERP.API\\Learnum.ERP.API.csproj": {}
   },
   "projects": {
-    "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.API\\Learnum.ERP.API.csproj": {
+    "D:\\Learnum-ERP\\Learnum.ERP.API\\Learnum.ERP.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.API\\Learnum.ERP.API.csproj",
+        "projectUniqueName": "D:\\Learnum-ERP\\Learnum.ERP.API\\Learnum.ERP.API.csproj",
         "projectName": "Learnum.ERP.API",
-        "projectPath": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.API\\Learnum.ERP.API.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.API\\obj\\",
+        "projectPath": "D:\\Learnum-ERP\\Learnum.ERP.API\\Learnum.ERP.API.csproj",
+        "packagesPath": "C:\\Users\\Chhaya.Thosar\\.nuget\\packages\\",
+        "outputPath": "D:\\Learnum-ERP\\Learnum.ERP.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Chhaya.Thosar\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,11 +28,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj": {
-                "projectPath": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj"
+              "D:\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj": {
+                "projectPath": "D:\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj"
               },
-              "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj": {
-                "projectPath": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj"
+              "D:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj": {
+                "projectPath": "D:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj"
               }
             }
           }
@@ -164,17 +164,17 @@
         }
       }
     },
-    "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj": {
+    "D:\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj",
+        "projectUniqueName": "D:\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj",
         "projectName": "Learnum.ERP.Repository",
-        "projectPath": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Repository\\obj\\",
+        "projectPath": "D:\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj",
+        "packagesPath": "C:\\Users\\Chhaya.Thosar\\.nuget\\packages\\",
+        "outputPath": "D:\\Learnum-ERP\\Learnum.ERP.Repository\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Chhaya.Thosar\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -188,8 +188,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj": {
-                "projectPath": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj"
+              "D:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj": {
+                "projectPath": "D:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj"
               }
             }
           }
@@ -258,17 +258,17 @@
         }
       }
     },
-    "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj": {
+    "D:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj",
+        "projectUniqueName": "D:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj",
         "projectName": "Learnum.ERP.Shared",
-        "projectPath": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Taxblock_Project\\cloudstine_new\\Learnum-ERP\\Learnum.ERP.Shared\\obj\\",
+        "projectPath": "D:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj",
+        "packagesPath": "C:\\Users\\Chhaya.Thosar\\.nuget\\packages\\",
+        "outputPath": "D:\\Learnum-ERP\\Learnum.ERP.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Chhaya.Thosar\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
