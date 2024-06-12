@@ -9,3 +9,5 @@
 /Learnum.ERP.API.Repository/obj
 /Learnum.ERP.API.Shared/bin/Debug/net8.0
 /Learnum.ERP.API.Shared/obj
+/Learnum.ERP.Repository/obj/Debug/net8.0
+/Learnum.ERP.Shared/obj/Debug/net8.0/Learnum.ERP.Shared.csproj.AssemblyReference.cache

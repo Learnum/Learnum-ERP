@@ -96,15 +96,12 @@ export class DailyWorkComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    //private addEmployeeService: AddEmployeeService,
-   // private addBranchService: AddBranchService,
+    
     private formBuilder: FormBuilder) {
     {
       this.form = this.formBuilder.group({
-        // Define form controls with validators as needed
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
-        // Add more form controls as needed
       });
     }
   }
