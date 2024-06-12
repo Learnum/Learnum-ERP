@@ -14,6 +14,24 @@ export class DailyWorkComponent implements OnInit {
 
   tdsReturnList: any[] = [];
   form: FormGroup;
+  constructor(private router: Router,
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+    private alertService: AlertService,
+    private formBuilder: FormBuilder) {
+    {
+      this.form = this.formBuilder.group({
+        Name: ['', Validators.required],
+        Email: ['', Validators.required],
+        DateofBirth: ['', Validators.required],
+        Role: ['', Validators.required],
+        addedBy: ['', Validators.required],
+        modifiedBy: ['', Validators.required],
+        modifiedTime: ['', Validators.required],
+
+      });
+    }
+  }
 
   declaredTableColumns: TableColumn[] = [
     {
@@ -92,51 +110,11 @@ export class DailyWorkComponent implements OnInit {
     //this.GetbranchList();
   }
 
-  constructor(private router: Router,
-    private route: ActivatedRoute,
-    private messageService: MessageService,
-    private alertService: AlertService,
-    //private addEmployeeService: AddEmployeeService,
-   // private addBranchService: AddBranchService,
-    private formBuilder: FormBuilder) {
-    {
-      this.form = this.formBuilder.group({
-        // Define form controls with validators as needed
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        // Add more form controls as needed
-      });
-    }
-  }
+ 
   selectBranch(branch: any) {
 
   }
-  // editEmploy(employeeData: any) {
-
-  //   const employeeId = employeeData.EmpID;
-  //   const index = this.tdsReturnList.findIndex(emp => emp.EmpID === employeeId);
-  //   if (index !== -1) {
-  //   this.openEditForm(employeeData).then((editedEmployeeData: any) => {
-  //   this.tdsReturnList[index] = editedEmployeeData;
-  //   console.log('Edited Employee:', editedEmployeeData);
-  // });
-  //   }
-  // }
-
-  // openEditForm(employeeData: any): Promise<any> {
-
-  //   return new Promise((resolve, reject) => {
-
-  //     setTimeout(() => {
-  //       const editedEmployeeData = { ...employeeData };
-
-  //       editedEmployeeData.Status = 'Edited';
-  //       resolve(editedEmployeeData);
-  //     }, 1000);
-  //   });
-  // }
-
-  onRowAction(data: any) {
+ onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
       'branchID': data.row.branchID
@@ -156,47 +134,9 @@ export class DailyWorkComponent implements OnInit {
     },
   ];
   onAddDailywork() {
-
-    // let navigationExtras: NavigationExtras = {};
-    // if (employee) {
-    //   navigationExtras = {
-    //     state: {
-    //       employeeData: employee
-    //     }
-    //   };
-    // }
     this.router.navigateByUrl('tds/hrd/daily-work/add-worksheet')
   }
-  // onAddBranch(branch?:any)
-  // {
-  //   let navigationExtras: NavigationExtras = {};
-  //   if (branch) {
-  //     navigationExtras = {
-  //       state: {
-  //         branchData: branch
-  //       }
-  //     };
-  //   }
-  //   this.router.navigate(['tds/masters/branches/add-branch']);
-  // }
-
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
-
-
-  // GetbranchList() {
-  //   this.addBranchService.getBranchDetails().subscribe(
-  //     (result: any) => {
-  //       this.tdsReturnList = result.Value;
-  //       let tdsReturnList = result.Value;
-  //     },
-  //     (error: any) => {
-  //       console.error("Error occurred while fetching employee details:", error);
-  //       this.alertService.ShowErrorMessage("An error occurred while fetching employee details. Please try again later.");
-  //     }
-  //   );
-  // }
-
-
 }

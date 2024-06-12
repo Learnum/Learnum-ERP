@@ -11,7 +11,7 @@ import { FormlyModule } from '@ngx-formly/core';
 
 @NgModule({
   declarations: [
-   EmployeesComponent
+    EmployeesComponent
   ],
   imports: [
     CommonModule,

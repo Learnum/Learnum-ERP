@@ -28,6 +28,7 @@
 //   justify-content: flex-start;
 // }
 
+
 .actions {
   margin-right: 40px;
 }
@@ -41,7 +42,10 @@
   color: white;
   cursor: pointer;
   border-radius: 4px;
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 .btn:hover {

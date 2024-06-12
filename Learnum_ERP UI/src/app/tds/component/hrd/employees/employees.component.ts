@@ -136,11 +136,11 @@ export class EmployeesComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    
+
     private formBuilder: FormBuilder) {
     {
       this.form = this.formBuilder.group({
-       
+
         // Add more form controls as needed
       });
     }
@@ -148,7 +148,7 @@ export class EmployeesComponent implements OnInit {
   selectBranch(branch: any) {
 
   }
-  
+
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
@@ -180,7 +180,7 @@ export class EmployeesComponent implements OnInit {
     // }
     this.router.navigateByUrl('tds/hrd/employees/add-employee')
   }
- 
+
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
