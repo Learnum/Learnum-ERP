@@ -5,6 +5,9 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AlertService {
+  error(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
   constructor(private router: Router, private toastrService: ToastrService) {}
 
   ShowInfoMessage(message: any) {

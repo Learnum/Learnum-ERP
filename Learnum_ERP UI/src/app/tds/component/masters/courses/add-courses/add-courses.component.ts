@@ -6,6 +6,7 @@ import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { coursesDetails } from './coursesDetails.model';
 import { FormGroup } from '@angular/forms';
+
 @Component({
   selector: 'app-add-courses',
   templateUrl: './add-courses.component.html',

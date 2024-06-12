@@ -152,10 +152,10 @@ setParameter() {
           },
           {
             className: 'col-md-6',
-            type: 'input',
+            type: 'select',
             key: 'Role',
             props: {
-              placeholder: 'Role',
+              placeholder: 'select',
               type: 'text',
               label: "Role",
               required: true,

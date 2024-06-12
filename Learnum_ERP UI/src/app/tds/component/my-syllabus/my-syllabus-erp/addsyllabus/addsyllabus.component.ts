@@ -57,8 +57,8 @@ export class AddsyllabusComponent implements OnInit {
               content: ['', Validators.required],
               attachments: [null],
               references: ['', Validators.required],
-              subTopic: ['', Validators.required],
-              status: ['', Validators.required]
+              subTopicstatus: ['', Validators.required],
+              
             });
           }
           addTopicDetails(): void {

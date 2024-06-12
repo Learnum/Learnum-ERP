@@ -38,13 +38,15 @@
         </tr>
       </tbody>
     </table>
-    <!-- Button trigger modal for Practical Problem -->
-    <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#practicalProblemModal">
-      Add New Practical Problem
-    </button>
-  </div>
+    <!-- for Practical Problem -->
+    <div class="mb-3">
+      <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#practicalProblemModal">
+        <i class="uil uil-plus"></i> Add New Practical Problem
+      </button>
+    </div>
 </div>
 
+<!-- Modal for Practical Problem Details -->
 <!-- Modal for Practical Problem Details -->
 <div class="modal fade" id="practicalProblemModal" tabindex="-1" role="dialog" aria-labelledby="practicalProblemModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -59,11 +61,17 @@
         <form [formGroup]="practicalProblemForm">
           <div class="form-group">
             <label for="question">Question</label>
-            <input type="text" class="form-control" id="question" formControlName="question" placeholder="Enter Question">
+            <input type="text" class="form-control" id="question" formControlName="question" placeholder="Enter Question" required>
+            <div *ngIf="practicalProblemForm.get('question').invalid && (practicalProblemForm.get('question').dirty || practicalProblemForm.get('question').touched)" class="text-danger">
+              Question is required
+            </div>
           </div>
           <div class="form-group">
             <label for="modelAnswer">Model Answer</label>
-            <input type="text" class="form-control" id="modelAnswer" formControlName="modelAnswer" placeholder="Enter Model Answer">
+            <input type="text" class="form-control" id="modelAnswer" formControlName="modelAnswer" placeholder="Enter Model Answer" required>
+            <div *ngIf="practicalProblemForm.get('modelAnswer').invalid && (practicalProblemForm.get('modelAnswer').dirty || practicalProblemForm.get('modelAnswer').touched)" class="text-danger">
+              Model Answer is required
+            </div>
           </div>
           <div class="form-group">
             <label for="attachment">Attachment</label>
@@ -75,13 +83,17 @@
           </div>
           <div class="form-group">
             <label for="practicalProblemStatus">Status</label>
-            <input type="text" class="form-control" id="practicalProblemStatus" formControlName="practicalProblemStatus" placeholder="Enter Status">
+            <select class="form-select" id="practicalProblemStatus" formControlName="practicalProblemStatus">
+              <option value="" disabled selected>Select Status</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="addPracticalProblem()">Save changes</button>
+        <button type="button" class="btn btn-primary" (click)="addPracticalProblem()" [disabled]="practicalProblemForm.invalid">Save changes</button>
       </div>
     </div>
   </div>
