@@ -1,0 +1,15 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Learnum.ERP.API/bin/Debug/net8.0
+/Learnum.ERP.API/bin/Release/net8.0
+/Learnum.ERP.API/0bj
+/Learnum.ERP.Repository/bin/Debug/net8.0
+/Learnum.ERP.Repository/obj
+/Learnum.ERP.Repository/bin/Release/net8.0
+/Learnum.ERP.Shared/bin/Debug/net8.0
+/Learnum.ERP.Shared/bin/Release/net8.0
+/Learnum.ERP.Shared/obj
+
