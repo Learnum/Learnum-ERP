@@ -127,11 +127,14 @@ export class AddSubjectsComponent implements OnInit {
             className: 'col-md-6',
             type: 'textarea',
             key: 'SubjectDescription',
-            props: {
+            templateOptions: {
               placeholder: 'Enter Subject Description',
               label: 'Subject Description',
               required: true,
               rows: 4,
+              attributes: {
+                style: 'overflow: auto;',
+              },
             },
             validation: {
               messages: {
@@ -144,24 +147,17 @@ export class AddSubjectsComponent implements OnInit {
             type: 'select',
             key: 'SubjectStatus',
             props: {
-              placeholder: 'In R&D',
+              placeholder: 'select',
               required: true,
               type: 'text',
-              label: "Subject Status",
-
-            },
-
-            validation: {
-              messages: {
-                required: 'IP status is required',
-
-              },
+              label: 'Subject Status',
+              options: [
+                { value: 'R&D', label: 'IN R&D' },
+                { value: 'Active', label: 'Active' },
+                { value: 'Inactive', label: 'Inactive' }
+              ]
             },
           },
-
-
-
-
         ],
       },
     ];
@@ -185,30 +181,7 @@ export class AddSubjectsComponent implements OnInit {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
-  // insertIP() {
-  //   this.subjectDetails.AddedBy = 1;
-  //   this.subjectDetails.AddedDate = new Date();
-  //   this.subjectDetails.UpdatedBy = 1;
-  //   this.subjectDetails.UpdatedDate = new Date();
-  //   this.subjectDetails.IsActive = true;
 
-  //   this.addipaddressService.insertIPData(this.branchDetails).subscribe(
-  //     (result: any) => {
-  //       const serviceResponse = result.Value;
-  //       if (serviceResponse === ResponseCode.Success) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-  //       } else if (serviceResponse === ResponseCode.Update) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-  //       } else {
-  //         this.alertService.ShowErrorMessage(this.messageService.serviceError);
-  //       }
-  //     },
-  //     (error: any) => {
-  //       this.alertService.ShowErrorMessage("Enter all required fields");
-  //     }
-  //   );
-  //   this.router.navigateByUrl('tds/masters/branches');
-  // }
 }
 
 

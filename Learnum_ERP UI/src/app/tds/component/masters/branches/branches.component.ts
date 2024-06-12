@@ -95,7 +95,7 @@ export class BranchesComponent {
 
 
   ngOnInit(): void {
-    this.GetbranchList();
+    //this.GetbranchList();
   }
 
   constructor(private router: Router,
@@ -153,17 +153,4 @@ export class BranchesComponent {
     alert(action + ' ' + 'action button clicked.');
   }
 
-
-  GetbranchList() {
-    this.addBranchService.getBranchDetails().subscribe(
-      (result: any) => {
-        this.tdsReturnList = result.Value;
-        let tdsReturnList = result.Value;
-      },
-      (error: any) => {
-        console.error("Error occurred while fetching employee details:", error);
-        this.alertService.ShowErrorMessage("An error occurred while fetching employee details. Please try again later.");
-      }
-    );
-  }
 }

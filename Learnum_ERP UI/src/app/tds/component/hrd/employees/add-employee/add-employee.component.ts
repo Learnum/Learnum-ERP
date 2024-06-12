@@ -1,13 +1,11 @@
 import { formatDate } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
-import { FormGroup } from '@angular/forms';
-
 
 @Component({
   selector: 'app-add-employee',
@@ -15,12 +13,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./add-employee.component.scss']
 })
 export class AddEmployeeComponent implements OnInit {
-onSubmit() {
-throw new Error('Method not implemented.');
-}
-
   form = new FormGroup({});
-  //employeeDetails: EmployeeDetails = new EmployeeDetails();
   reasonList: any[] = [];
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
@@ -34,7 +27,6 @@ throw new Error('Method not implemented.');
   coursesDetails: any;
 
   constructor(
-    // private addEmployeeService: AddEmployeeService,
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -45,18 +37,13 @@ throw new Error('Method not implemented.');
 
   ngOnInit(): void {
     this.setParameter();
-    //this.getReason();
     this.createForm();
-    this.editData = this.activateRoute.snapshot.queryParams;
-    if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
-      // this.getEmployeeDetails(this.editData.EmployeeDetailId);
-    }
-
   }
+
   createForm(): void {
     this.form = this.fb.group({
       EmployeeName: ['', Validators.required],
-      EmployeeEmail: ['', Validators.required],
+      EmployeeEmail: ['', [Validators.required, Validators.email]],
       EmployeePhoto: ['', Validators.required],
       EmployeePhone: ['', Validators.required],
       AADHAARNumber: ['', Validators.required],
@@ -64,10 +51,20 @@ throw new Error('Method not implemented.');
       BloodGroup: ['', Validators.required],
       Gender: ['', Validators.required],
       Qualification: ['', Validators.required],
-      CurrentAddress: ['', Validators.required],
-      PermanentAddress: ['', Validators.required],
-      EmployeeRole: ['', Validators.required],
-      EmployeeStatus: ['', Validators.required],
+      AddressDetails: this.fb.group({
+        Address: ['', Validators.required],
+        City: ['', Validators.required],
+        District: ['', Validators.required],
+        State: ['', Validators.required],
+        PinCode: ['', Validators.required]
+      }),
+      PermanentAddress: this.fb.group({
+        Address: ['', Validators.required],
+        City: ['', Validators.required],
+        District: ['', Validators.required],
+        State: ['', Validators.required],
+        PinCode: ['', Validators.required]
+      }),
     });
   }
 
@@ -75,31 +72,27 @@ throw new Error('Method not implemented.');
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
-        // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
-
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'EmployeeName',
             templateOptions: {
               placeholder: 'Enter Employee Name',
               type: 'text',
-              label: "EmployeeName",
+              label: 'Employee Name',
               required: true,
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'EmployeeEmail',
-            props: {
+            templateOptions: {
               placeholder: 'Enter Email',
-              type: 'text',
-              label: "Employee Email",
+              type: 'email',
+              label: 'Employee Email',
               required: true,
-              pattern: '^[A-Za-z]+$',
-              title: 'Only characters are allowed',
             },
             validation: {
               messages: {
@@ -109,53 +102,37 @@ throw new Error('Method not implemented.');
             },
           },
           {
-            className: 'col-md-1',
+            className: 'col-md-2',
+            key: 'EmployeePhoto',
             type: 'file',
-            key: 'file',
-            props: {
-              placeholder: 'select File',
-             // type: 'text',
-              label: "Upload Brochure",
+            templateOptions: {
+              placeholder: 'Select File',
+              label: 'Employee Photo',
               required: true,
-
-            },
-            validation: {
-              messages: {
-                required: 'Classroom Status is required',
-
-              },
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'EmployeePhone',
-            props: {
+            templateOptions: {
               placeholder: 'Enter Employee Phone',
               required: true,
-              valueProp: 'value',
-              labelProp: 'label',
-              label: "Employee Phone",
+              label: 'Employee Phone',
             },
-            // Disable manual input by setting the input type to 'select' explicitly
-            //inputType: 'select'
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'AADHAARNumber',
-            props: {
-              placeholder: 'Enter Adhar Number',
+            templateOptions: {
+              placeholder: 'Enter AADHAAR Number',
               required: true,
-              valueProp: 'value',
-              labelProp: 'label',
-              label: "AADHAAR Number",
+              label: 'AADHAAR Number',
             },
-            // Disable manual input by setting the input type to 'select' explicitly
-            //inputType: 'select'
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'DateofBirth',
             templateOptions: {
@@ -166,7 +143,6 @@ throw new Error('Method not implemented.');
               attributes: {
                 max: formatDate(this.NowDate, 'YYYY-MM-dd', 'en-IN'),
               },
-
             },
             validation: {
               messages: {
@@ -174,13 +150,12 @@ throw new Error('Method not implemented.');
               },
             },
           },
-
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'BloodGroup',
             templateOptions: {
-              label: "Blood Group",
+              label: 'Blood Group',
               placeholder: 'Enter Blood Group',
               required: true,
             },
@@ -191,14 +166,14 @@ throw new Error('Method not implemented.');
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'Gender',
-            props: {
+            templateOptions: {
               placeholder: 'Enter Gender',
               required: true,
               type: 'text',
-              label: "Gender",
+              label: 'Gender',
             },
             validation: {
               messages: {
@@ -207,15 +182,14 @@ throw new Error('Method not implemented.');
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'Qualification',
-            props: {
+            templateOptions: {
               placeholder: 'Qualification',
               required: true,
               type: 'text',
-              label: "Qualification",
-              defaultValue: 0,
+              label: 'Qualification',
             },
             validation: {
               messages: {
@@ -224,83 +198,198 @@ throw new Error('Method not implemented.');
               },
             },
           },
-
+        ],
+      },
+      {
+        template: '<label class="form-label"><b>Current Address</b></label>',
+      },
+      {
+        key: 'AddressDetails',
+        fieldGroupClassName: 'row card-body p-2',
+        fieldGroup: [
           {
-            className: 'col-md-3',
+            className: 'col-md-6',
             type: 'input',
-            key: 'CurrentAddress',
-            props: {
-              placeholder: 'Enter CurrentAddress',
+            key: 'Address',
+            templateOptions: {
+              label: 'Address Line',
+              placeholder: 'Enter Address Line 1',
               required: true,
-              type: 'text',
-              label: "Current Address",
             },
             validation: {
               messages: {
-                required: 'This field is required',
+                required: 'Address Line is required',
               },
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-6',
             type: 'input',
-            key: 'PermanentAddress',
-            props: {
-              placeholder: 'enter Permanent Address',
+            key: 'City',
+            templateOptions: {
+              label: 'City / District',
+              placeholder: 'Enter City / District',
               required: true,
-              type: 'text',
-              label: "Permanent Address",
             },
             validation: {
               messages: {
-                required: 'This field is required',
-              },
-            },
-          },
-
-          {
-            className: 'col-md-3',
-            type: 'input',
-            key: 'EmployeeRole',
-            props: {
-              placeholder: 'Enter EmployeeRole',
-              required: true,
-              type: 'text',
-              label: "Employee Role",
-            }
-            , validation: {
-              messages: {
-                required: 'This field is required',
+                required: 'City / District is required',
               },
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-6',
             type: 'input',
-            key: 'EmployeeStatus',
-            props: {
-              placeholder: 'Enter Employee Status',
+            key: 'State',
+            templateOptions: {
+              label: 'State / Province',
+              placeholder: 'Enter State / Province',
               required: true,
-              type: 'text',
-              label: "Employee Status",
-            }
-            , validation: {
+            },
+            validation: {
               messages: {
-                required: 'This field is required',
+                required: 'State / Province is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-6',
+            type: 'input',
+            key: 'PinCode',
+            templateOptions: {
+              label: 'Postal Code',
+              placeholder: 'Enter Postal Code',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'Postal Code is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-6',
+            type: 'checkbox',
+            key: 'SameAsCurrentAddress',
+            templateOptions: {
+              label: 'Same As Current Address',
+            },
+          },
+        ],
+      },
+      {
+        template: '<label class="form-label"><b>Permanent Address</b></label>',
+      },
+      {
+        key: 'PermanentAddress',
+        fieldGroupClassName: 'row card-body p-2',
+        fieldGroup: [
+          {
+            className: 'col-md-6',
+            type: 'input',
+            key: 'Address',
+            templateOptions: {
+              label: 'Address Line',
+              placeholder: 'Enter Address Line 1',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'Address Line is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-6',
+            type: 'input',
+            key: 'City',
+            templateOptions: {
+              label: 'City / District',
+              placeholder: 'Enter City / District',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'City / District is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-6',
+            type: 'input',
+            key: 'State',
+            templateOptions: {
+              label: 'State / Province',
+              placeholder: 'Enter State / Province',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'State / Province is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-6',
+            type: 'input',
+            key: 'PinCode',
+            templateOptions: {
+              label: 'Postal Code',
+              placeholder: 'Enter Postal Code',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'Postal Code is required',
               },
             },
           },
         ],
       },
-    ]
+      {
+      fieldGroupClassName: 'row card-body p-2',
+      fieldGroup: [
+        {
+          className: 'col-md-2',
+          type: 'select',
+          key: 'EmployeeRole',
+          templateOptions: {
+            placeholder: 'select',
+            type: 'text',
+            label: 'Employee Role',
+            required: true,
+          },
+        },
+        {
+          className: 'col-md-2',
+          type: 'select',
+          key: 'EmployeeStatus',
+          templateOptions: {
+            placeholder: 'select',
+            type: 'text',
+            label: 'Employee Status',
+            required: true,
+          },
+        }
+      ]
+    }
+    ];
   }
 
-  onCancleClick() {
+  onCancelClick() {
     this.router.navigateByUrl('tds/hrd/employees');
+  }
+
+  onSubmit() {
+    if (this.form.valid) {
+      // Handle the form submission
+      console.log(this.form.value);
+    } else {
+      this.alertService.error('Please fill all required fields');
+    }
   }
 
   get f() {
     return this.form.controls;
   }
-
 }

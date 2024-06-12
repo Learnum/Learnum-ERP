@@ -42,8 +42,8 @@
         </tbody>
       </table>
       <!-- Button trigger modal for MCQ -->
-      <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#mcqModal">
-  Add New MCQ
+      <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#mcqModal">  <i class="uil uil-plus"></i>  Add New Mcq
+  
 </button>
 
     </div>
@@ -64,40 +64,68 @@
             <div class="form-group">
               <label for="question">Question</label>
               <input type="text" class="form-control" id="question" formControlName="question" placeholder="Enter Question">
+              <div *ngIf="mcqForm.get('question').invalid && (mcqForm.get('question').dirty || mcqForm.get('question').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('question').errors?.required">Question is required</small>
+              </div>
             </div>
             <div class="form-group">
               <label for="optionA">Option A</label>
               <input type="text" class="form-control" id="optionA" formControlName="optionA" placeholder="Enter Option A">
+              <div *ngIf="mcqForm.get('optionA').invalid && (mcqForm.get('optionA').dirty || mcqForm.get('optionA').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('optionA').errors?.required">Option A is required</small>
+              </div>
             </div>
             <div class="form-group">
               <label for="optionB">Option B</label>
               <input type="text" class="form-control" id="optionB" formControlName="optionB" placeholder="Enter Option B">
+              <div *ngIf="mcqForm.get('optionB').invalid && (mcqForm.get('optionB').dirty || mcqForm.get('optionB').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('optionB').errors?.required">Option B is required</small>
+              </div>
             </div>
             <div class="form-group">
               <label for="optionC">Option C</label>
               <input type="text" class="form-control" id="optionC" formControlName="optionC" placeholder="Enter Option C">
+              <div *ngIf="mcqForm.get('optionC').invalid && (mcqForm.get('optionC').dirty || mcqForm.get('optionC').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('optionC').errors?.required">Option C is required</small>
+              </div>
             </div>
             <div class="form-group">
               <label for="optionD">Option D</label>
               <input type="text" class="form-control" id="optionD" formControlName="optionD" placeholder="Enter Option D">
+              <div *ngIf="mcqForm.get('optionD').invalid && (mcqForm.get('optionD').dirty || mcqForm.get('optionD').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('optionD').errors?.required">Option D is required</small>
+              </div>
             </div>
             <div class="form-group">
               <label for="answer">Answer</label>
               <input type="text" class="form-control" id="answer" formControlName="answer" placeholder="Enter Answer">
+              <div *ngIf="mcqForm.get('answer').invalid && (mcqForm.get('answer').dirty || mcqForm.get('answer').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('answer').errors?.required">Answer is required</small>
+              </div>
             </div>
             <div class="form-group">
               <label for="marks">Marks</label>
               <input type="number" class="form-control" id="marks" formControlName="marks" placeholder="Enter Marks">
+              <div *ngIf="mcqForm.get('marks').invalid && (mcqForm.get('marks').dirty || mcqForm.get('marks').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('marks').errors?.required">Marks are required</small>
+                <small *ngIf="mcqForm.get('marks').errors?.min">Marks must be at least 1</small>
+              </div>
             </div>
             <div class="form-group">
               <label for="mcqStatus">MCQ Status</label>
-              <input type="select" class="form-control" id="mcqStatus" formControlName="mcqStatus" placeholder="Enter MCQ Status">
+              <select class="form-control" id="mcqStatus" formControlName="mcqStatus">
+                <option value="">Select Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+              <div *ngIf="mcqForm.get('mcqStatus').invalid && (mcqForm.get('mcqStatus').dirty || mcqForm.get('mcqStatus').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('mcqStatus').errors?.required">MCQ Status is required</small>
+              </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-cloud me-2 mt-2" (click)="addMcq()">Done</button>
-          <button type="button" class="btn btn-fent-cloud" data-dismiss="modal">Close</button>
+          <button class="btn btn-cloud me-2" (click)="addMcq()">Done</button>
         </div>
       </div>
     </div>
