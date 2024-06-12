@@ -1,8 +1,0 @@
-
-/.vs
-/Learnum.ERP.API/bin/Debug/net8.0
-/Learnum.ERP.API/obj
-/Learnum.ERP.API.Repository/bin/Debug/net8.0
-/Learnum.ERP.API.Repository/obj
-/Learnum.ERP.API.Shared/bin/Debug/net8.0
-/Learnum.ERP.API.Shared/obj

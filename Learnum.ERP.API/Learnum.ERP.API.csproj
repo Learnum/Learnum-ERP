@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\**" />
+    <Content Remove="Controllers\**" />
+    <EmbeddedResource Remove="Controllers\**" />
+    <None Remove="Controllers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EPPlus" Version="7.0.10" />
     <PackageReference Include="iTextSharp" Version="5.5.13.3" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />
@@ -34,10 +41,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Learnum.ERP.Repository\Learnum.ERP.Repository.csproj" />
     <ProjectReference Include="..\Learnum.ERP.Shared\Learnum.ERP.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>
