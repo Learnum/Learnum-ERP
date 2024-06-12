@@ -58,7 +58,7 @@ setParameter() {
         fieldGroup: [
 
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'select',
             key: 'Accountant Name',
             templateOptions: {
@@ -71,7 +71,7 @@ setParameter() {
             },
             },
             {
-              className: 'col-md-3',
+              className: 'col-md-4',
               type: 'select',
               key: 'Branch Name',
               templateOptions: {
@@ -82,7 +82,7 @@ setParameter() {
               },
               },
               {
-                className: 'col-md-3',
+                className: 'col-md-4',
                 type: 'select',
                 key: 'Status',
                 templateOptions: {

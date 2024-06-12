@@ -44,9 +44,9 @@ employeeDetails: any;
   }
   createForm(): void {
     this.form = this.fb.group({
-      EMPID: ['', Validators.required], 
-      Name: ['', Validators.required], 
-      PANNo: ['', Validators.required], 
+      CounsellorName: ['', Validators.required], 
+      BranchName: ['', Validators.required], 
+      Status: ['', Validators.required], 
       
     });
   }
@@ -103,7 +103,7 @@ setParameter() {
         fieldGroup: [
 
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'select',
             key: 'CounsellorName',
             templateOptions: {
@@ -114,7 +114,7 @@ setParameter() {
             },
             },
             {
-              className: 'col-md-3',
+              className: 'col-md-4',
               type: 'select',
               key: 'BranchName',
               templateOptions: {
@@ -125,7 +125,7 @@ setParameter() {
               },
               },
               {
-                className: 'col-md-3',
+                className: 'col-md-4',
                 type: 'select',
                 key: 'Status',
                 templateOptions: {

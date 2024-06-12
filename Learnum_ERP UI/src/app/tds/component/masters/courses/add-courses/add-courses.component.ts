@@ -5,6 +5,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { coursesDetails } from './coursesDetails.model';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-add-courses',
@@ -18,9 +19,8 @@ export class AddCoursesComponent implements OnInit {
   options: FormlyFormOptions = {};
   editData: any;
   tdsReturnList: any;
-  form: any;
   branchDetails: any;
-
+  form = new FormGroup({});
   constructor(
     private router: Router,
 
@@ -57,7 +57,7 @@ export class AddCoursesComponent implements OnInit {
         fieldGroup: [
 
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'input',
             key: 'Courses Name',
             templateOptions: {
@@ -70,7 +70,7 @@ export class AddCoursesComponent implements OnInit {
 
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'input',
             key: 'Description',
             props: {
@@ -88,11 +88,11 @@ export class AddCoursesComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            type: 'input',
+            className: 'col-md-6',
+            type: 'select',
             key: 'Course Status',
             props: {
-              placeholder: 'Enter SCourse Status',
+              placeholder: 'Enter Course Status',
               required: true,
               type: 'text',
               label: "Course Status",
@@ -107,12 +107,12 @@ export class AddCoursesComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            type: 'input',
-            key: 'Upload Brochure',
+            className: 'col-md-1',
+            type: 'file',
+            key: 'file',
             props: {
               placeholder: 'select File',
-              type: 'text',
+             // type: 'text',
               label: "Upload Brochure",
               required: true,
 

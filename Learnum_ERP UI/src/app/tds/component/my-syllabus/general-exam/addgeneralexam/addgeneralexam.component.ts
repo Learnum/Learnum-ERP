@@ -15,34 +15,37 @@ export class AddgeneralexamComponent implements OnInit {
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   form: FormGroup;
-  contactForm: FormGroup;
-  contactDetails: any[] = [];
-subjectDetails: any;
+  subjectDetails: any;
+  mcqDetails: any[] = [];
+  mcqForm: FormGroup;
+  practicalProblemForm: FormGroup;
+  practicalProblemDetails: any[] = [];
 
   constructor(
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder ,
     private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
     this.setParameter();
     this.createForm();
-    this.createContactFormMCQ();
+    this.createMcqForm();
+    this.createPracticalProblemForm();
   }
 
   createForm(): void {
-    this.form = this.fb.group({
+    this.form = this.formBuilder.group({
       CourseName: ['', Validators.required], 
       SujectName: ['', Validators.required], 
       ExamName: ['', Validators.required], 
     });
   }
 
-  createContactFormMCQ(): void {
-    this.contactForm = this.fb.group({
+  createMcqForm(): void {
+    this.mcqForm = this.formBuilder.group({
       question: ['', Validators.required],
       optionA: ['', Validators.required],
       optionB: ['', Validators.required],
@@ -53,14 +56,22 @@ subjectDetails: any;
       mcqStatus: ['', Validators.required]
     });
   }
-
+  createPracticalProblemForm(): void {
+    this.practicalProblemForm = this.formBuilder.group({
+      question: ['', Validators.required],
+      modelAnswer: ['', Validators.required],
+      attachment: [null],
+      marks: ['', Validators.required],
+      practicalProblemStatus: ['', Validators.required]
+    });
+  }
   setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'select',
             key: 'CourseName',
             templateOptions: {
@@ -71,7 +82,7 @@ subjectDetails: any;
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'select',
             key: 'SubjectName',
             props: { 
@@ -82,18 +93,18 @@ subjectDetails: any;
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'select',
-            key: 'TopicName',
+            key: 'ExamName',
             props: { 
               placeholder: 'select',
               type: 'text',
-              label: "Topic Name",
+              label: "Exam Name",
               required: true,
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'select',
             key: 'McqAssignmentStatus',
             props: { 
@@ -129,14 +140,22 @@ subjectDetails: any;
     this.form.reset();
   }
 
-  addContact(): void {
-    if (this.contactForm.valid) {
-      this.contactDetails.push(this.contactForm.value);
-      this.contactForm.reset();
-      this.modalService.dismissAll(); // Ensure modal service dismisses the modal
+  addMcq(): void {
+    if (this.mcqForm.valid) {
+      this.mcqDetails.push(this.mcqForm.value);
+      this.mcqForm.reset();
+      this.modalService.dismissAll();
     } else {
-      console.log('Form is invalid');
-      this.contactForm.markAllAsTouched(); // Mark all fields as touched to show validation errors
+      this.mcqForm.markAllAsTouched();
+    }
+  }
+  addPracticalProblem(): void {
+    if (this.practicalProblemForm.valid) {
+      this.practicalProblemDetails.push(this.practicalProblemForm.value);
+      this.practicalProblemForm.reset();
+      this.modalService.dismissAll();
+    } else {
+      this.practicalProblemForm.markAllAsTouched();
     }
   }
 }

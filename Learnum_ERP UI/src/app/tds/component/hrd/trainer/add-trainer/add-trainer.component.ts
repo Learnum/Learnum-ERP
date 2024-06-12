@@ -107,12 +107,12 @@ setParameter() {
         fieldGroup: [
 
            {
-            className: 'col-md-3',
-            type: 'input',
+            className: 'col-md-6',
+            type: 'select',
             key: 'Course Name',
             props: { 
               placeholder: 'Enter Course Name',
-              type: 'text',
+             
               label: "Name",
               required: true,
               pattern: '^[A-Za-z]+$',
@@ -126,8 +126,8 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-3',
-            type: 'input',
+            className: 'col-md-6',
+            type: 'select',
             key: 'Subject Name',
             props: {
               placeholder: 'Enter Subject Name',
@@ -145,8 +145,8 @@ setParameter() {
 
 
           {
-            className: 'col-md-3',
-            type: 'input',
+            className: 'col-md-6',
+            type: 'select',
             key: 'Branch Name',
             props: {
               placeholder: 'Select Branch Name',
@@ -163,8 +163,8 @@ setParameter() {
             },
           }, 
          {
-            className: 'col-md-3',
-            type: 'input',
+            className: 'col-md-6',
+            type: 'select',
             key: 'Branch Name',
             props: {
               placeholder: 'Enter Branch Name',
@@ -179,8 +179,8 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-3',
-            type: 'input',
+            className: 'col-md-6',
+            type: 'select',
             key: 'Trainer Name',
             props: {
               placeholder: 'Trainer Name',
@@ -198,7 +198,7 @@ setParameter() {
           },
           
           {
-            className: 'col-md-3',
+            className: 'col-md-6',
             type: 'select',
             key: 'TrainerBatchStatus',
             props: {
