@@ -25,7 +25,7 @@ export class CounsellorComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      minWidth: 150
 
     },
     {
@@ -35,14 +35,14 @@ export class CounsellorComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      minWidth: 150
     },
     {
       field: 'addedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
     {
       field: 'addedTime',

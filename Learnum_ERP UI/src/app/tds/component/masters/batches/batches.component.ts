@@ -51,7 +51,7 @@ export class BatchesComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
     {
       field: 'addedTime',
@@ -65,7 +65,7 @@ export class BatchesComponent implements OnInit {
       headerName: 'Modified By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
     {
       field: 'modifiedTime',

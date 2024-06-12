@@ -1,18 +1,103 @@
 <div style="margin-left: 5px;" class="row d-flex">
-    <h5 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);">
-      <b><span data-toggle="tooltip" title="Close"><i class="uil uil-multiply"></i> &nbsp;</span>Add Topic</b>
-    </h5>
-    <div>
-        <form id="MyForm" [formGroup]="form">
-          <formly-form [model]="subjectDetails" [fields]="fields" [options]="options" [form]="form">
-          </formly-form>
-        </form>
-       </div>
+  <h5 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);">
+    <b><span data-toggle="tooltip" title="Close"><i class="uil uil-multiply"></i> &nbsp;</span>Add Topic</b>
+  </h5>
+  <div>
+    <form id="MyForm" [formGroup]="form">
+      <formly-form [model]="subjectDetails" [fields]="fields" [options]="options" [form]="form">
+      </formly-form>
+    </form>
   </div>
-  <div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
-    <button class="btn btn-cloud me-2" (click)="onSubmit()">Save</button>
-    <button class="btn btn-cloud me-2" type="button" (click)="reset()">Reset</button>
-    <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
+</div>
+<div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
+  <button class="btn btn-cloud me-2" (click)="onSubmit()">Save</button>
+  <button class="btn btn-cloud me-2" type="button" (click)="reset()">Reset</button>
+  <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
+</div>
+<div style="margin-left: 5px;" class="row d-flex">
+  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b><span data-toggle="tooltip" title="Close">&nbsp;</span>Add Topic Details</b></h6>
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Heading</th>
+          <th>Content</th>
+          <th>Attachments</th>
+          <th>References</th>
+          <th>SubTopic</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let topic of topicDetails">
+          <td>{{ topic.heading }}</td>
+          <td>{{ topic.content }}</td>
+          <td>{{ topic.attachments }}</td>
+          <td>{{ topic.references }}</td>
+          <td>{{ topic.subTopicstatus }}</td>
+         
+        </tr>
+      </tbody>
+    </table>
+    <!-- Button trigger modal for Topic Details -->
+    <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#topicDetailsModal">
+      <i class="uil uil-plus"></i>  Add New Topic Details
+    </button>
+  </div>
+</div>
 
+<!-- Modal for Topic Details -->
+<div class="modal fade" id="topicDetailsModal" tabindex="-1" role="dialog" aria-labelledby="topicDetailsModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="color: #0e0909;">
+        <h5 class="modal-title" id="topicDetailsModalTitle">Add Topic Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="topicDetailsForm">
+          <div class="form-group">
+            <label for="heading">Heading</label>
+            <input type="text" class="form-control" id="heading" formControlName="heading" placeholder="Enter Heading">
+            <div *ngIf="topicDetailsForm.get('heading').invalid && (topicDetailsForm.get('heading').dirty || topicDetailsForm.get('heading').touched)" class="text-danger">
+              <small *ngIf="topicDetailsForm.get('heading').errors?.required">Heading is required</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="content">Content</label>
+            <input type="text" class="form-control" id="content" formControlName="content" placeholder="Enter Content">
+            <div *ngIf="topicDetailsForm.get('content').invalid && (topicDetailsForm.get('content').dirty || topicDetailsForm.get('content').touched)" class="text-danger">
+              <small *ngIf="topicDetailsForm.get('content').errors?.required">Content is required</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="attachments">Attachments</label>
+            <input type="file" class="form-control" id="attachments" formControlName="attachments">
+          </div>
+          <div class="form-group">
+            <label for="references">References</label>
+            <input type="text" class="form-control" id="references" formControlName="references" placeholder="Enter References">
+            <div *ngIf="topicDetailsForm.get('references').invalid && (topicDetailsForm.get('references').dirty || topicDetailsForm.get('references').touched)" class="text-danger">
+              <small *ngIf="topicDetailsForm.get('references').errors?.required">References are required</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="subTopicstatus">SubTopic Status</label>
+            <select class="form-select" id="subTopicstatus" formControlName="subTopicstatus">
+              <option value="">Select Status</option>
+              <option value="option1">Active</option>
+              <option value="option2">Inactive</option>
+            </select>
+            <div *ngIf="topicDetailsForm.get('subTopicstatus').invalid && (topicDetailsForm.get('subTopicstatus').dirty || topicDetailsForm.get('subTopicstatus').touched)" class="text-danger">
+              <small *ngIf="topicDetailsForm.get('subTopicstatus').errors?.required">SubTopic status is required</small>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-cloud me-2" (click)="addTopicDetails()">Done</button>
+      </div>    </div>
   </div>
-  
+</div>

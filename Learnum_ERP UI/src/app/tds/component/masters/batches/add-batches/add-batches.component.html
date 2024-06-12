@@ -1,18 +1,18 @@
-<div style=" margin-left: 5px;" class="row d-flex">
-    <h5 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip"
-                title="Close"><i class="uil uil-multiply"></i> &nbsp;</span>Add Batches</b></h5>
 
-    <div>
-
-        <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">
-            <formly-form [model]="branchDetails" [fields]="fields" [options]="options" [form]="form">
-            </formly-form>
+<div class="row d-flex">
+    <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);">
+        <b> 
+            <span data-toggle="tooltip" title="Close"><i class="uil uil-multiply"></i> &nbsp;</span>
+            Add Batch
+        </b>
+    </h6>
+    <div class="form-container">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
+            <div class="col-12 px-4 py-2 border-top buttons-container">
+                <button class="btn btn-cloud me-2" type="submit">Save</button>
+                <button class="btn btn-fent-cloud" type="button" (click)="onCancelClick()">Cancel</button>
+            </div>
         </form>
     </div>
-</div>
-
-<div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
-    <button class="btn btn-cloud me-2" (click)="onSubmit()">Add</button>
-    <button class="btn btn-cloud me-2">reset</button>
-    <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
 </div>

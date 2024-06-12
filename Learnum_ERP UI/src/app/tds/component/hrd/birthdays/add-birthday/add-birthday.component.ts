@@ -107,7 +107,7 @@ setParameter() {
         // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
             {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'Name',
             templateOptions: {
@@ -118,7 +118,7 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'Email',
             props: {
@@ -135,7 +135,7 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'DateofBirth',
             templateOptions: {
@@ -155,7 +155,7 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key:'Day',
             props: {
@@ -166,7 +166,7 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'Month',
             props: {
@@ -177,7 +177,7 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'select',
             key: 'Status',
             props: {

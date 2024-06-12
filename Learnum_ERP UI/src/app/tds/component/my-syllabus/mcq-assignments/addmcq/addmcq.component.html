@@ -1,107 +1,139 @@
 <div style="margin-left: 5px;" class="row d-flex">
-    <h5 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);">
-      <b><span data-toggle="tooltip" title="Close"><i class="uil uil-multiply"></i> &nbsp;</span>MCQ Assignment</b>
-    </h5>
-    <div>
-        <form id="MyForm" [formGroup]="form">
-          <formly-form [model]="subjectDetails" [fields]="fields" [options]="options" [form]="form">
-          </formly-form>
-        </form>
-       </div>
+  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip"
+        title="Close"><i class="uil uil-multiply"></i> &nbsp;</span>Add College</b></h6>
+  <div>
+    <form id="MyForm" [formGroup]="form">
+      <formly-form [model]="collegeDetails" [fields]="fields" [options]="options" [form]="form">
+      </formly-form>
+    </form>
   </div>
+ 
+</div>
+
+ 
+
+  <div style="margin-left: 5px;" class="row d-flex">
+    <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip" title="Close"> &nbsp;</span>Add MCQ</b></h6>
+    <div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Option A</th>
+            <th>Option B</th>
+            <th>Option C</th>
+            <th>Option D</th>
+            <th>Answer</th>
+            <th>Marks</th>
+            <th>MCQ Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mcq of mcqDetails">
+            <td>{{ mcq.question }}</td>
+            <td>{{ mcq.optionA }}</td>
+            <td>{{ mcq.optionB }}</td>
+            <td>{{ mcq.optionC }}</td>
+            <td>{{ mcq.optionD }}</td>
+            <td>{{ mcq.answer }}</td>
+            <td>{{ mcq.marks }}</td>
+            <td>{{ mcq.mcqStatus }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Button trigger modal for MCQ -->
+      <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#mcqModal">  <i class="uil uil-plus"></i>  Add New Mcq
+  
+</button>
+
+    </div>
+  </div>
+  
+  <!-- Modal for MCQ Details -->
+  <div class="modal fade" id="mcqModal" tabindex="-1" role="dialog" aria-labelledby="mcqModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="color: #0e0909;">
+          <h5 class="modal-title" id="mcqModalTitle">Add MCQ</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="mcqForm">
+            <div class="form-group">
+              <label for="question">Question</label>
+              <input type="text" class="form-control" id="question" formControlName="question" placeholder="Enter Question">
+              <div *ngIf="mcqForm.get('question').invalid && (mcqForm.get('question').dirty || mcqForm.get('question').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('question').errors?.required">Question is required</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="optionA">Option A</label>
+              <input type="text" class="form-control" id="optionA" formControlName="optionA" placeholder="Enter Option A">
+              <div *ngIf="mcqForm.get('optionA').invalid && (mcqForm.get('optionA').dirty || mcqForm.get('optionA').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('optionA').errors?.required">Option A is required</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="optionB">Option B</label>
+              <input type="text" class="form-control" id="optionB" formControlName="optionB" placeholder="Enter Option B">
+              <div *ngIf="mcqForm.get('optionB').invalid && (mcqForm.get('optionB').dirty || mcqForm.get('optionB').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('optionB').errors?.required">Option B is required</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="optionC">Option C</label>
+              <input type="text" class="form-control" id="optionC" formControlName="optionC" placeholder="Enter Option C">
+              <div *ngIf="mcqForm.get('optionC').invalid && (mcqForm.get('optionC').dirty || mcqForm.get('optionC').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('optionC').errors?.required">Option C is required</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="optionD">Option D</label>
+              <input type="text" class="form-control" id="optionD" formControlName="optionD" placeholder="Enter Option D">
+              <div *ngIf="mcqForm.get('optionD').invalid && (mcqForm.get('optionD').dirty || mcqForm.get('optionD').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('optionD').errors?.required">Option D is required</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="answer">Answer</label>
+              <input type="text" class="form-control" id="answer" formControlName="answer" placeholder="Enter Answer">
+              <div *ngIf="mcqForm.get('answer').invalid && (mcqForm.get('answer').dirty || mcqForm.get('answer').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('answer').errors?.required">Answer is required</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="marks">Marks</label>
+              <input type="number" class="form-control" id="marks" formControlName="marks" placeholder="Enter Marks">
+              <div *ngIf="mcqForm.get('marks').invalid && (mcqForm.get('marks').dirty || mcqForm.get('marks').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('marks').errors?.required">Marks are required</small>
+                <small *ngIf="mcqForm.get('marks').errors?.min">Marks must be at least 1</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="mcqStatus">MCQ Status</label>
+              <select class="form-control" id="mcqStatus" formControlName="mcqStatus">
+                <option value="">Select Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+              <div *ngIf="mcqForm.get('mcqStatus').invalid && (mcqForm.get('mcqStatus').dirty || mcqForm.get('mcqStatus').touched)" class="text-danger">
+                <small *ngIf="mcqForm.get('mcqStatus').errors?.required">MCQ Status is required</small>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-cloud me-2" (click)="addMcq()">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
     <button class="btn btn-cloud me-2" (click)="onSubmit()">Submit</button>
     <button class="btn btn-cloud me-2" type="button" (click)="reset()">Reset</button>
     <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
 
   </div>
-  
-<!-- Contact Details -->
-<div style="margin-left: 5px;" class="row d-flex">
-  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip" title="Close"> &nbsp;</span>Add MCQ</b></h6>
-  <div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Question</th>
-          <th>Option A</th>
-          <th>Option B</th>
-          <th>Option c</th>
-          <th>Option D</th>
-          <th>Answer</th>
-          <th>Marks</th>
-          <th>MCQ Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let contact of contactDetails">
-          <td>{{ contact.Question }}</td>
-          <td>{{ contact.OptionA }}</td>
-          <td>{{ contact.OptionB }}</td>
-          <td>{{ contact.OptionC }}</td>
-          <td>{{ contact.OptionD }}</td>
-          <td>{{ contact.OptionAnswer }}</td>
-          <td>{{ contact.Marks}}</td>
-          <td>{{ contact.McqStatus}}</td>
-
-      </tbody>
-      <!-- Button trigger modal for Contact -->
-      <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#contactModal">
-        Add New
-      </button>
-    </table>
-  </div>
-</div>
-<!-- Modal for Contact Details -->
-<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header" style="color: #0e0909;">
-        <h5 class="modal-title" id="contactModalTitle">Add MCQ</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="contactForm">
-          <div class="form-group">
-            <label for="question">Question</label>
-            <input type="text" class="form-control" id="question" formControlName="question" placeholder="Enter Question">
-          </div>
-          <div class="form-group">
-            <label for="optionA">Option A</label>
-            <input type="text" class="form-control" id="optionA" formControlName="optionA" placeholder="Enter Option A">
-          </div>
-          <div class="form-group">
-            <label for="optionB">Option B</label>
-            <input type="text" class="form-control" id="optionB" formControlName="optionB" placeholder="Enter Option B">
-          </div>
-          <div class="form-group">
-            <label for="optionC">Option C</label>
-            <input type="text" class="form-control" id="optionC" formControlName="optionC" placeholder="Enter Option C">
-          </div>
-          <div class="form-group">
-            <label for="optionD">Option D</label>
-            <input type="text" class="form-control" id="optionD" formControlName="optionD" placeholder="Enter Option D">
-          </div>
-          <div class="form-group">
-            <label for="answer">Answer</label>
-            <input type="text" class="form-control" id="answer" formControlName="answer" placeholder="Enter Answer">
-          </div>
-          <div class="form-group">
-            <label for="marks">Marks</label>
-            <input type="number" class="form-control" id="marks" formControlName="marks" placeholder="Enter Marks">
-          </div>
-          <div class="form-group">
-            <label for="mcqStatus">MCQ Status</label>
-            <input type="text" class="form-control" id="mcqStatus" formControlName="mcqStatus" placeholder="Enter MCQ Status">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-cloud me-2 mt-2" (click)="addContact()">Done</button>
-        <button type="button" class="btn btn-fent-cloud" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>

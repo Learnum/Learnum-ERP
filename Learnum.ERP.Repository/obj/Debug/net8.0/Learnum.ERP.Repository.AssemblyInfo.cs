@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Learnum.ERP.Repository")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2e82cf0dc174eece848f0353f72c6e51a945b93d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d2f00c5b1081f18aad9193b011cdeebeaa92c4ae")]
 [assembly: System.Reflection.AssemblyProductAttribute("Learnum.ERP.Repository")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Learnum.ERP.Repository")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

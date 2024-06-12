@@ -45,10 +45,11 @@ export class AddContentwriterComponent {
   }
   createForm(): void {
     this.form = this.fb.group({
-      EMPID: ['', Validators.required],
-      Name: ['', Validators.required],
-
-    });
+      SelectCourse: ['', Validators.required],
+      SelectSubject: ['', Validators.required],
+      SelectContentWriter: ['', Validators.required],
+      Status: ['', Validators.required],
+   });
   }
   setParameter() {
     this.fields = [
@@ -58,7 +59,7 @@ export class AddContentwriterComponent {
         fieldGroup: [
 
           {
-            className: 'col-md-3',
+            className: 'col-md-6',
             type: 'select',
             key: 'SelectCourse',
             templateOptions: {
@@ -69,7 +70,7 @@ export class AddContentwriterComponent {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-6',
             type: 'select',
             key: 'SelectSubject',
             templateOptions: {
@@ -80,7 +81,7 @@ export class AddContentwriterComponent {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-6',
             type: 'select',
             key: 'SelectContentWriter',
             templateOptions: {
@@ -91,7 +92,7 @@ export class AddContentwriterComponent {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-6',
             type: 'select',
             key: 'Status',
             templateOptions: {
