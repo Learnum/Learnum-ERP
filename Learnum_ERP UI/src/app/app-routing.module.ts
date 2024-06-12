@@ -6,10 +6,10 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
 
   {
-    path: "",
+    path: '',
     //redirectTo: ":companyName/login",
-    redirectTo: "tds/component/my-dashboard-erp",
-    pathMatch: "full",
+    redirectTo: 'login',
+    pathMatch: 'full',
   },
   {
     path: 'tds',

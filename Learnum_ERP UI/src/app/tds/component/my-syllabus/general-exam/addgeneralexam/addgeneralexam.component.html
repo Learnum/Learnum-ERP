@@ -46,7 +46,7 @@
     <!-- Button trigger modal for MCQ -->
     <div class="mb-3">
       <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#mcqModal">
-        Add New MCQ
+        <i class="uil uil-plus"></i>  Add New MCQ
       </button>
     </div>
   </div>
@@ -67,34 +67,58 @@
           <div class="form-group">
             <label for="question">Question</label>
             <input type="text" class="form-control" id="question" formControlName="question" placeholder="Enter Question">
+            <div *ngIf="mcqForm.get('question').invalid && mcqForm.get('question').touched" class="text-danger">
+              Question is required.
+            </div>
           </div>
           <div class="form-group">
             <label for="optionA">Option A</label>
             <input type="text" class="form-control" id="optionA" formControlName="optionA" placeholder="Enter Option A">
+            <div *ngIf="mcqForm.get('optionA').invalid && mcqForm.get('optionA').touched" class="text-danger">
+              Option A is required.
+            </div>
           </div>
           <div class="form-group">
             <label for="optionB">Option B</label>
             <input type="text" class="form-control" id="optionB" formControlName="optionB" placeholder="Enter Option B">
+            <div *ngIf="mcqForm.get('optionB').invalid && mcqForm.get('optionB').touched" class="text-danger">
+              Option B is required.
+            </div>
           </div>
           <div class="form-group">
             <label for="optionC">Option C</label>
             <input type="text" class="form-control" id="optionC" formControlName="optionC" placeholder="Enter Option C">
+            <div *ngIf="mcqForm.get('optionC').invalid && mcqForm.get('optionC').touched" class="text-danger">
+              Option C is required.
+            </div>
           </div>
           <div class="form-group">
             <label for="optionD">Option D</label>
             <input type="text" class="form-control" id="optionD" formControlName="optionD" placeholder="Enter Option D">
+            <div *ngIf="mcqForm.get('optionD').invalid && mcqForm.get('optionD').touched" class="text-danger">
+              Option D is required.
+            </div>
           </div>
           <div class="form-group">
             <label for="answer">Answer</label>
             <input type="text" class="form-control" id="answer" formControlName="answer" placeholder="Enter Answer">
+            <div *ngIf="mcqForm.get('answer').invalid && mcqForm.get('answer').touched" class="text-danger">
+              Answer is required.
+            </div>
           </div>
           <div class="form-group">
             <label for="marks">Marks</label>
             <input type="number" class="form-control" id="marks" formControlName="marks" placeholder="Enter Marks">
+            <div *ngIf="mcqForm.get('marks').invalid && mcqForm.get('marks').touched" class="text-danger">
+              Marks are required.
+            </div>
           </div>
           <div class="form-group">
             <label for="mcqStatus">MCQ Status</label>
-            <input type="select" class="form-control" id="mcqStatus" formControlName="mcqStatus" placeholder="Enter MCQ Status">
+            <input type="text" class="form-control" id="mcqStatus" formControlName="mcqStatus" placeholder="Enter MCQ Status">
+            <div *ngIf="mcqForm.get('mcqStatus').invalid && mcqForm.get('mcqStatus').touched" class="text-danger">
+              MCQ Status is required.
+            </div>
           </div>
         </form>
       </div>
@@ -105,7 +129,6 @@
     </div>
   </div>
 </div>
-
 
 <div style="margin-left: 5px;" class="row d-flex">
   <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip" title="Close"> &nbsp;</span>Add Practical Problem</b></h6>
@@ -133,7 +156,7 @@
     <!-- Button trigger modal for Practical Problem -->
     <div class="mb-3">
       <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#practicalProblemModal">
-        Add New Practical Problem
+        <i class="uil uil-plus"></i>   Add New Practical Problem
       </button>
     </div>
   </div>
@@ -154,37 +177,44 @@
           <div class="form-group">
             <label for="question">Question</label>
             <input type="text" class="form-control" id="question" formControlName="question" placeholder="Enter Question">
+            <div *ngIf="practicalProblemForm.get('question').invalid && practicalProblemForm.get('question').touched" class="text-danger">
+              Question is required.
+            </div>
           </div>
           <div class="form-group">
             <label for="modelAnswer">Model Answer</label>
             <input type="text" class="form-control" id="modelAnswer" formControlName="modelAnswer" placeholder="Enter Model Answer">
+            <div *ngIf="practicalProblemForm.get('modelAnswer').invalid && practicalProblemForm.get('modelAnswer').touched" class="text-danger">
+              Model Answer is required.
+            </div>
           </div>
           <div class="form-group">
             <label for="attachment">Attachment</label>
             <input type="file" class="form-control" id="attachment" formControlName="attachment">
+            <div *ngIf="practicalProblemForm.get('attachment').invalid && practicalProblemForm.get('attachment').touched" class="text-danger">
+              Attachment is required.
+            </div>
           </div>
           <div class="form-group">
             <label for="marks">Marks</label>
             <input type="number" class="form-control" id="marks" formControlName="marks" placeholder="Enter Marks">
+            <div *ngIf="practicalProblemForm.get('marks').invalid && practicalProblemForm.get('marks').touched" class="text-danger">
+              Marks are required.
+            </div>
           </div>
           <div class="form-group">
             <label for="practicalProblemStatus">Status</label>
             <input type="text" class="form-control" id="practicalProblemStatus" formControlName="practicalProblemStatus" placeholder="Enter Status">
+            <div *ngIf="practicalProblemForm.get('practicalProblemStatus').invalid && practicalProblemForm.get('practicalProblemStatus').touched" class="text-danger">
+              Status is required.
+            </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="addPracticalProblem()">Save changes</button>
+        <button class="btn btn-cloud me-2" (click)="addPracticalProblem()">Save</button>
+        <button type="button" class="btn btn-fent-cloud" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
-
-
-<!-- <div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
-  <button class="btn btn-cloud me-2" (click)="onSubmit()">Submit</button>
-  <button class="btn btn-cloud me-2" type="button" (click)="reset()">Reset</button>
-  <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
-
-</div> -->

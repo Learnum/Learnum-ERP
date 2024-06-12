@@ -1,66 +1,117 @@
-<!-- src/app/attendance/attendance.component.html
-<div class="attendance-container">
-  <div class="attendance-top">
-    <div class="actions">
-      <button (click)="checkIn()" class="btn">Check In</button>
-      <button (click)="checkOut()" class="btn">Check Out</button>
-    </div>
-    <div class="stats">
-      <div class="stat">
-        <span class="count">{{ presentDaysThisMonth }}</span>
-        <span>Present Days this month</span>
-      </div>
-      <div class="stat">
-        <span class="count">{{ presentDaysLastMonth }}</span>
-        <span>Present Days in last month</span>
-      </div>
-    </div>
-  </div>
-  <div class="attendance-bottom">
-    <div class="birthday">
-      <h3>Today's Birthday</h3>
-      <p *ngIf="!todayBirthday">No records match your specified criteria!</p>
-      <p *ngIf="todayBirthday">{{ todayBirthday }}</p>
-      <a href="#" class="import">Import</a>
-    </div>
-  </div>
+<!-- <div id="table" #table class="tg" style="background: #fff; padding: 15px">
+  <table border="1" class="tg">
+    <tr>
+      <th>
+        <button (click)="checkIn()" class="btn">Check In</button>
+      </th>
+      <th>
+        <button (click)="checkOut()" class="btn">Check Out</button>
+      </th>
+      <th>
+        <div class="stat">
+          <span class="count">{{ presentDaysThisMonth }}</span>
+          <span>Present Days this month</span>
+        </div>
+      </th>
+      <th>
+        <div class="stat">
+          <span class="count">{{ presentDaysLastMonth }}</span>
+          <span>Present Days in last month</span>
+        </div>
+      </th>
+    </tr>
+    <tbody>
+      <tr>
+        <td colspan="4">
+          <div class="birthday">
+            <h3>Today's Birthday</h3>
+            <p *ngIf="!todayBirthday" class="centered">No records match your specified criteria!</p>
+            <p *ngIf="todayBirthday" class="centered">{{ todayBirthday }}</p>
+            <a href="#" class="import centered">Import</a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div> -->
 
-
 <div id="table" #table class="tg" style="background: #fff; padding: 15px">
-    <table border="1" class="tg">
-        <tr>
-            <th>
-                <button (click)="checkIn()" class="btn">Check In</button>
-            </th>
-            <th>
-                <button (click)="checkOut()" class="btn">Check Out</button>
-            </th>
-            <th>
-                <div class="stat">
-                    <span class="count">{{ presentDaysThisMonth }}</span>
-                    <span>Present Days this month</span>
-                </div>
-            </th>
-            <th>
-                <div class="stat">
-                    <span class="count">{{ presentDaysLastMonth }}</span>
-                    <span>Present Days in last month</span>
-                </div>
-            </th>
-        </tr>
-        <tbody>
-            <tr>
-                <td colspan="4">
-                    <div class="birthday">
-                        <h3>Today's Birthday</h3>
-                        <p *ngIf="!todayBirthday" class="centered">No records match your specified criteria!</p>
-                        <p *ngIf="todayBirthday" class="centered">{{ todayBirthday }}</p>
-                        <a href="#" class="import centered">Import</a>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+  <table border="1" class="tg">
+    <tr>
+      <th>
+        <button (click)="checkIn()" class="btn">Check In</button>
+       
+      </th>
+      <th>
+        <button type="button" class="btn" data-toggle="modal" data-target="#checkoutModal">Check Out</button>
+      </th>
+      <th>
+        <div class="stat">
+          <span class="count">{{ presentDaysThisMonth }}</span>
+          <span>Present Days this month</span>
+        </div>
+      </th>
+      <th>
+        <div class="stat">
+          <span class="count">{{ presentDaysLastMonth }}</span>
+          <span>Present Days in last month</span>
+        </div>
+      </th>
+    </tr>
+    <tbody>
+      <tr>
+        <td colspan="4">
+          <div class="birthday">
+            <h3>Today's Birthday</h3>
+            <p *ngIf="!todayBirthday" class="centered">No records match your specified criteria!</p>
+            <p *ngIf="todayBirthday" class="centered">{{ todayBirthday }}</p>
+            <a href="#" class="import centered">Import</a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
+<!-- Checkout Modal -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="checkoutModalLabel">Check Out</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="checkOut" (ngSubmit)="onCheckout()">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter your name">
+          </div>
+           <div class="form-group">
+            <label for="role">Role</label>
+            <select class="form-control" id="role" formControlName="role">
+              <option value="">Select your role</option>
+              <option value="Developer">Developer</option>
+              <option value="Automation">Automation</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="time">Check Out Time</label>
+            <input type="time" class="form-control" id="time" formControlName="time">
+          </div>
+          <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" class="form-control" id="date" formControlName="date">
+          </div>
+          <div class="form-group">
+            <label for="todaysWork">Today's Work</label>
+            <textarea class="form-control" id="todaysWork" formControlName="todaysWork" rows="3" placeholder="Describe today's work"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Check Out</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
