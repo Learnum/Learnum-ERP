@@ -4,11 +4,14 @@
 
 /.vs
 /Learnum.ERP.API/bin/Debug/net8.0
-/Learnum.ERP.API/obj
+/Learnum.ERP.API/obj/Debug/net8.0
+/Learnum.ERP.API/bin/Release/net8.0
 
-/Learnum.ERP.API.Repository/bin/Debug/net8.0
+/Learnum.ERP.Repository/bin/Debug/net8.0
 /Learnum.ERP.Repository/obj/Debug/net8.0
+/Learnum.ERP.Repository/bin/Release/net8.0
 
-/Learnum.ERP.API.Shared/bin/Debug/net8.0
+/Learnum.ERP.Shared/bin/Debug/net8.0
 /Learnum.ERP.Shared/obj/Debug/net8.0
+/Learnum.ERP.Shared/bin/Release/net8.0
 
