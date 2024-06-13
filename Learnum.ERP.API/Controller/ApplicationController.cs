@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Learnum.ERP.API.NewFolder
+namespace Learnum.ERP.API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
