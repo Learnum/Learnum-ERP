@@ -1,14 +1,10 @@
-﻿using Dapper.Contrib.Extensions;
-using Dapper;
+﻿using Dapper;
+using Dapper.Contrib.Extensions;
 using Learnum.ERP.Repository.Infrastructure;
-using Learnum.ERP.Shared.Core;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Learnum.ERP.Repository.Core
 {
@@ -40,12 +36,5 @@ namespace Learnum.ERP.Repository.Core
 
             }
         }
-
-        /*internal IDbConnection GetConnection()
-        {
-            string connectionString = ApplicationSettings.TDSConnectionString;
-            _dbConnection = new SqlConnection(connectionString);
-            return _dbConnection;
-        }*/
     }
 }

@@ -1,4 +1,8 @@
-﻿namespace Learnum.ERP.API.Helpers
+﻿using System;
+using System.IO;
+using Learnum.ERP.Shared.Core;
+
+namespace Learnum.ERP.API.Helpers
 {
     public class DirectoryHelper
     {

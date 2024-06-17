@@ -13,9 +13,9 @@ namespace Learnum.ERP.API
         public static void Main(string[] args)
         {
             //GridMigration();
-            //string connectionString = "server=164.52.219.47;database=Cloudstine.TDS_Dev;user=ITHead_UAT;pwd=TaxPat@2023;";
+            //string connectionString = "server=164.52.219.47;database=Cloudstine.Core;user=ITHead_UAT;pwd=TaxPat@2023;";
 
-            //Encrypt the connection string
+            // Encrypt the connection string
             //string encryptedConnectionString = EncryptionHelper.Encrypt(connectionString);
 
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
@@ -23,12 +23,13 @@ namespace Learnum.ERP.API
 
 
             ApplicationSettings.CoreConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("CoreConnection"));
-          /*  ApplicationSettings.TDSConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("TDSConnection"));
-            ApplicationSettings.Form16ConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("Form16Connection"));*/
+
+           /* ApplicationSettings.TDSConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("TDSConnection"));*/
 
 
             //string encrypt = EncryptionHelper.Decrypt(@"amHlro5hyOdjl+JCTA2sSRRxpUcfaf3hbkthPHWNvo8=");
-            //string encrypt = EncryptionHelper.Encrypt(@"Server=164.52.219.47;initial catalog=Cloudstine.Core_Dev;integrated security=true");
+            //string encrypt = EncryptionHelper.Encrypt(@"Server=184.168.120.110;initial catalog=Cloudstine.Core_Dev;integrated security=true");
+            //string encrypt = EncryptionHelper.Encrypt(@"Server=184.168.120.110;Initial Catalog=Cloudstine.CMS_UAT;Integrated Security=false;User Id=sa;Password=Cloudstine@2020;");
             //SQLMapper.DBConnection = ApplicationSettings.ConnectionString;
 
             ApplicationSettings.TokenSymetricKey = Configuration["JWT:KEY"];

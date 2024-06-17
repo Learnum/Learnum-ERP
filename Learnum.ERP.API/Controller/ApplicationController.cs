@@ -7,5 +7,6 @@ namespace Learnum.ERP.API.Controller
     [ApiController]
     public class ApplicationController : ControllerBase
     {
+
     }
 }

@@ -1,4 +1,9 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 
 namespace Learnum.ERP.API.Helpers
 {
@@ -60,7 +65,7 @@ namespace Learnum.ERP.API.Helpers
             var claims = new List<Claim>
             {
               new Claim(JwtRegisteredClaimNames.Sub, this.subject),
-              new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+              //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             }
             .Union(this.claims);
 
@@ -72,6 +77,7 @@ namespace Learnum.ERP.API.Helpers
                               signingCredentials: new SigningCredentials(
                                                         this.securityKey,
                                                         SecurityAlgorithms.HmacSha256));
+
 
             return new JwtToken(token);
         }

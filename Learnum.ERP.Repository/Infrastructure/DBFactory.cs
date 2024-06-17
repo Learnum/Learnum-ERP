@@ -26,6 +26,27 @@ namespace Learnum.ERP.Repository.Infrastructure
             _dbConnection = new SqlConnection(ApplicationSettings.CoreConnectionString);
             return _dbConnection;
         }
+        public IDbConnection GetTDSConnection()
+        {
+            _dbConnection = new SqlConnection(ApplicationSettings.TDSConnectionString);
+            return _dbConnection;
+        }
+
+        public IDbConnection GetCMSConnection()
+        {
+            _dbConnection = new SqlConnection(ApplicationSettings.CMSConnectionString);
+            return _dbConnection;
+        }
+        public IDbConnection GetCommunicationConnection()
+        {
+            _dbConnection = new SqlConnection(ApplicationSettings.CommunicationConnectionString);
+            return _dbConnection;
+        }
+        public IDbConnection GetTransactionConnection()
+        {
+            _dbConnection = new SqlConnection(ApplicationSettings.TransactionConnectionString);
+            return _dbConnection;
+        }
 
         public IDbCommand GetCommand()
         {

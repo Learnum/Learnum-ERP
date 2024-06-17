@@ -83,11 +83,11 @@ namespace Learnum.ERP.API
             );
 
 
-            /*services.Configure<IISOptions>(options =>
+            services.Configure<IISOptions>(options =>
             {
                 options.ForwardClientCertificate = false;
             });
-            ApplicationList.ServiceProvider = services.BuildServiceProvider()*/;
+
 
         }
 
@@ -157,7 +157,7 @@ namespace Learnum.ERP.API
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cloudstine TDS API v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cloudstine Core API v1");
                 c.RoutePrefix = string.Empty;
                 //c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });

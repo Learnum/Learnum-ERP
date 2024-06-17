@@ -25,6 +25,9 @@ namespace Learnum.ERP.Shared.Core
         UserRoleAlreadyExists = 10013,
         UploadDocument = 10014,
         PayNow = 10015,
-        Updated = 11116
+        AlreadyAssignOtherRole = 11111,
+        Updated = 11116,
+        UserDeactivated = 10016,
+        AccountDoesNotExists = 10017
     }
 }
