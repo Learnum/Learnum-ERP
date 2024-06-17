@@ -108,30 +108,8 @@ export class DailyWorkComponent implements OnInit {
   selectBranch(branch: any) {
 
   }
-  // editEmploy(employeeData: any) {
+  
 
-  //   const employeeId = employeeData.EmpID;
-  //   const index = this.tdsReturnList.findIndex(emp => emp.EmpID === employeeId);
-  //   if (index !== -1) {
-  //   this.openEditForm(employeeData).then((editedEmployeeData: any) => {
-  //   this.tdsReturnList[index] = editedEmployeeData;
-  //   console.log('Edited Employee:', editedEmployeeData);
-  // });
-  //   }
-  // }
-
-  // openEditForm(employeeData: any): Promise<any> {
-
-  //   return new Promise((resolve, reject) => {
-
-  //     setTimeout(() => {
-  //       const editedEmployeeData = { ...employeeData };
-
-  //       editedEmployeeData.Status = 'Edited';
-  //       resolve(editedEmployeeData);
-  //     }, 1000);
-  //   });
-  // }
 
   onRowAction(data: any) {
     let data1 = {
@@ -143,7 +121,7 @@ export class DailyWorkComponent implements OnInit {
 
 
 
-  declaredActionColumns: ActionColumn[] = [
+   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
       actionPage: 'ViewBranch',
@@ -164,36 +142,9 @@ export class DailyWorkComponent implements OnInit {
     // }
     this.router.navigateByUrl('tds/hrd/daily-work/add-worksheet')
   }
-  // onAddBranch(branch?:any)
-  // {
-  //   let navigationExtras: NavigationExtras = {};
-  //   if (branch) {
-  //     navigationExtras = {
-  //       state: {
-  //         branchData: branch
-  //       }
-  //     };
-  //   }
-  //   this.router.navigate(['tds/masters/branches/add-branch']);
-  // }
+
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
-
-
-  // GetbranchList() {
-  //   this.addBranchService.getBranchDetails().subscribe(
-  //     (result: any) => {
-  //       this.tdsReturnList = result.Value;
-  //       let tdsReturnList = result.Value;
-  //     },
-  //     (error: any) => {
-  //       console.error("Error occurred while fetching employee details:", error);
-  //       this.alertService.ShowErrorMessage("An error occurred while fetching employee details. Please try again later.");
-  //     }
-  //   );
-  // }
-
-
 }

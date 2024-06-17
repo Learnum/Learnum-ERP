@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
@@ -125,6 +126,7 @@ export class EmployeesComponent implements OnInit {
   ];
 
   getEmployeeList: any;
+  addEmployeeService: any;
 
 
 
@@ -184,6 +186,24 @@ export class EmployeesComponent implements OnInit {
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
+  }
+  GetEmployeeDetailsList() {
+    this.addEmployeeService.getEmployeeList().subscribe(
+      (result: any) => {
+        let serviceResponse = result.Value;
+        console.log(result.Value);
+        this.tdsReturnList = serviceResponse;
+
+        if (result.Value === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error.error);
+      }
+    );
   }
 
 }

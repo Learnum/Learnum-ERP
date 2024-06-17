@@ -174,6 +174,10 @@ export class AddEmployeeComponent implements OnInit {
               required: true,
               type: 'text',
               label: 'Gender',
+              options: [
+                { value: 'Male', label: 'Male' },
+                { value: 'Female', label: 'Female' }
+              ]
             },
             validation: {
               messages: {
@@ -358,6 +362,10 @@ export class AddEmployeeComponent implements OnInit {
             type: 'text',
             label: 'Employee Role',
             required: true,
+            options: [
+              { value: 'developer', label: 'Developer' },
+              { value: 'manager', label: 'Manager' }
+            ]
           },
         },
         {
@@ -369,6 +377,10 @@ export class AddEmployeeComponent implements OnInit {
             type: 'text',
             label: 'Employee Status',
             required: true,
+            options: [
+              { value: 'active', label: 'active' },
+              { value: 'Inactive', label: 'Inactive' }
+            ]
           },
         }
       ]
