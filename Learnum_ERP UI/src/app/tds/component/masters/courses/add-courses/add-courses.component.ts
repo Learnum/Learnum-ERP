@@ -119,7 +119,7 @@ export class AddCoursesComponent implements OnInit {
             },
             validation: {
               messages: {
-                required: 'Classroom Status is required',
+                required: 'Upload Brochure is required',
 
               },
             },

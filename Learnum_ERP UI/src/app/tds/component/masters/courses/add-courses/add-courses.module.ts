@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { AddCoursesComponent } from './add-courses.component';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyFieldFile } from './file-type.component';
-import { FileValueAccessor } from 'src/environments/file-value-accessor';
+import { FileValueAccessor } from 'src/app/shared/file-value-accessor';
 
 @NgModule({
   declarations: [AddCoursesComponent,FileValueAccessor,FormlyFieldFile],

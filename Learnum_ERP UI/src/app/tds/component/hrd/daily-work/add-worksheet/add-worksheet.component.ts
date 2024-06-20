@@ -13,19 +13,15 @@ import { MessageService } from 'src/app/core/services/message.service';
 })
 export class AddWorksheetComponent implements OnInit {
   form = new FormGroup({});
-  //employeeDetails: EmployeeDetails = new EmployeeDetails();
-  reasonList: any[] = [];
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
   tdsReturnList: any;
-  GetEmployeeList: any;
   coOwners: any;
   NowDate: any = new Date();
-employeeDetails: any;
+  worksheetDetails: any;
  
   constructor(
-    //private addEmployeeService: AddEmployeeService,
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -35,11 +31,9 @@ employeeDetails: any;
 
   ngOnInit(): void {
     this.setParameter();
-  //  this.getReason();
     this.createForm();
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
-   //   this.getEmployeeDetails(this.editData.EmployeeDetailId);
     }
     
   }
@@ -51,51 +45,6 @@ employeeDetails: any;
       Role: ['', Validators.required],
     });
   }
-
-
-  // getReason() {
-  //   this.addEmployeeService.getReason().subscribe(
-  //     (result: any) => {
-  //       this.reasonList = result.Value;
-  //       this.setParameter();
-  //     },
-  //     (error) => {
-  //       // Handle error
-  //     }
-  //   );
-  // }
-
-  // getEmployeeDetails(EmployeeDetailId: number) {
-  //   this.addEmployeeService.getEmployeeDetails(EmployeeDetailId).subscribe(
-  //     (result: any) => {
-  //       if (result && result.Value && result.Value.Item1) {
-  //         this.employeeDetails = result.Value.Item1;
-          
-  //         //DateofPayment && DateOfDeduction
-  //         this.employeeDetails.DateOfPayment = this.addEmployeeService.formatDate(this.employeeDetails.DateOfPayment);
-  //         this.employeeDetails.DateOfDeduction = this.addEmployeeService.formatDate(this.employeeDetails.DateOfDeduction);
-
-  //         this.setParameter();
-  //       } else {
-  //         console.error('No data found for EmployeeDetailId: ' + EmployeeDetailId);
-
-  //       }
-  //     },
-  //     (error: any) => {
-  //       console.error('Error retrieving employee details:', error);
-
-  //       if (error && error.status === 404) {
-  //         console.error('Employee not found.');
-
-  //       } else {
-  //         console.error('An unexpected error occurred. Please try again later.');
-
-  //       }
-  //     }
-  //   );
-  // }
-
-
 setParameter() {
     this.fields = [
       {
@@ -201,7 +150,7 @@ setParameter() {
     this.form.markAllAsTouched();
     if (this.form.valid) {
     //  this.insertAddEmployee();
-      this.GetEmployeeList();
+      
     }
     else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
