@@ -6,14 +6,11 @@ import { AddEmployeeRoutingModule } from './add-employee-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
-//import { BrowserModule } from '@angular/platform-browser';
-//import { FileValueAccessor } from 'src/environments/file-value-accessor';
-import { FormlyFieldFile } from './file-type.component';
-
+import { FormlyFieldFile } from '../../../masters/courses/add-courses/file-type.component';
 
 @NgModule({
   declarations: [
-       AddEmployeeComponent,FormlyFieldFile],
+       AddEmployeeComponent],
   imports: [
     //BrowserModule,
     CommonModule,
