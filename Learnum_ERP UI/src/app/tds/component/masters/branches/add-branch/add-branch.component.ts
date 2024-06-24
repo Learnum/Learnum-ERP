@@ -37,9 +37,7 @@ export class AddBranchComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-
-    this.createForm();
-
+  // this.createForm();
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.BranchId) {
 
@@ -47,17 +45,16 @@ export class AddBranchComponent implements OnInit {
 
   }
 
-  createForm(): void {
-    this.form = this.fb.group({
-
-      BranchName: ['', Validators.required],
-      Address: ['', Validators.required],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      postalcode: ['', Validators.required],
-      branchstatus: ['', Validators.required]
-    });
-  }
+  // createForm(): void {
+  //   this.form = this.fb.group({
+  //     BranchName: ['', Validators.required],
+  //     Address: ['', Validators.required],
+  //     city: ['', Validators.required],
+  //     state: ['', Validators.required],
+  //     postalcode: ['', Validators.required],
+  //     branchstatus: ['', Validators.required]
+  //   });
+  // }
 
   reset() {
     throw new Error('Method not implemented.');
@@ -84,11 +81,11 @@ export class AddBranchComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'Address',
+            key: 'Town',
             props: {
               placeholder: 'Enter Address',
               type: 'text',
-              label: "Address",
+              label: "Town",
               required: true,
 
             },
@@ -177,9 +174,9 @@ export class AddBranchComponent implements OnInit {
     this.router.navigateByUrl('tds/masters/branches');
   }
 
-  get f() {
-    return this.form.controls;
-  }
+  // get f() {
+  //   return this.form.controls;
+  // }
 
   onSubmit(): void {
     this.form.markAllAsTouched();
@@ -199,7 +196,7 @@ export class AddBranchComponent implements OnInit {
     this.branchDetails.UpdatedDate = new Date();
     this.branchDetails.IsActive = true;
 
-    this.addBranchService.insertBranchData(this.branchDetails).subscribe(
+    this.addBranchService.insertaddBranchData(this.branchDetails).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
