@@ -37,7 +37,7 @@ namespace Learnum.ERP.API
             services.AddCors(options => {
                 options.AddPolicy("CloudstinePolicy", builder => builder
                  .WithOrigins("*")
-                 //.SetIsOriginAllowed((host) => true)
+                 .SetIsOriginAllowed((host) => true)
                  .AllowAnyMethod()
                  .AllowAnyHeader());
             });

@@ -2,23 +2,19 @@ import { Injectable } from '@angular/core';
 import { BranchDetails } from './addbranch.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { APIService } from 'src/app/core/services/apiService';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddBranchService {
 
-  private urlbranchDetails: string = "EmployeeDetails/insertEmployeeDetails";
-  private urlGetBranch: string = "EmployeeDetails/insertEmployeeDetails";
+  private urlbranchDetails: string = "BranchDetails/InsertBranchDetails";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private apiService: APIService) { }
 
-  insertBranchData(branchDetails: BranchDetails): Observable<any>{
-    return this.http.post(this.urlbranchDetails, branchDetails);
-  }
-
-  getBranchDetails():Observable<any>{
-    return this.http.get(this.urlGetBranch );
+  insertaddBranchData(branchDetails: BranchDetails){
+    return this.apiService.postData(this.urlbranchDetails, branchDetails);
   }
 
 }
