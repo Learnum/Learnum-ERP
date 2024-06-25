@@ -27,6 +27,13 @@ namespace Learnum.ERP.API
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             });
 
+            /*services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowOrigin", builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+                });
+            });*/
 
 
             services.AddServices();
@@ -35,11 +42,12 @@ namespace Learnum.ERP.API
             ConfigureAuthentication(services);
 
             services.AddCors(options => {
-                options.AddPolicy("CloudstinePolicy", builder => builder
-                 .WithOrigins("*")
-                 .SetIsOriginAllowed((host) => true)
+                options.AddPolicy("learnumPolicy", builder => builder
+                 .WithOrigins("http://localhost:4203")
+                 //.SetIsOriginAllowed((host) => true)
                  .AllowAnyMethod()
-                 .AllowAnyHeader());
+                 .AllowAnyHeader()
+                 .AllowCredentials());
             });
 
             var mvcBuilder = services.AddMvc(config =>
@@ -147,7 +155,8 @@ namespace Learnum.ERP.API
 
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseRouting();
-            app.UseCors("LearnumPolicy");
+            app.UseCors("learnumPolicy");
+           /* app.UseCors("AllowOrigin");*/
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -42,7 +42,7 @@ namespace Learnum.ERP.API.Controller.Branch
         }
 
         [HttpGet("getAllBranchList")]
-        public async Task<IActionResult> GetEmployeeDetailsList()
+        public async Task<IActionResult> GetBranchDetailsList()
         {
             var data = await branchDetailsRepository.GetBranchDetailsList();
             if (data != null)
