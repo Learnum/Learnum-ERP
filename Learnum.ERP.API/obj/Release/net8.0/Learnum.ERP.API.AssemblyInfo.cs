@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Learnum.ERP.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9935019269c3ee73c7b93aeacf2a89817025ff9e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a6d2f6640c5b7ff6ca81963174bffcb0fcf946da")]
 [assembly: System.Reflection.AssemblyProductAttribute("Learnum.ERP.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Learnum.ERP.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
