@@ -13,8 +13,8 @@ namespace Learnum.ERP.Shared.Entities.Models
 
         public string ClassroomName { get; set; }
 
-        public string StudentCapacity { get; set;}
+        public long StudentCapacity { get; set;}
 
-        public string ClassroomStatus { get; set;}
+        public Boolean IsActive { get; set; }
     }
 }

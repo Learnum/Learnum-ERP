@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models
 {
-    public class LocationDetailsModel
+    public class LocationDetailsModel : BaseModel
     {
         public long LocationId { get; set; }
 
@@ -14,6 +14,6 @@ namespace Learnum.ERP.Shared.Entities.Models
 
         public string LocationIP { get; set; }
 
-        public string IPStatus { get; set; }
+        public Boolean IsActive { get; set; }
     }
 }

@@ -43,11 +43,10 @@ namespace Learnum.ERP.API
 
             services.AddCors(options => {
                 options.AddPolicy("learnumPolicy", builder => builder
-                 .WithOrigins("http://localhost:4203")
+                 .WithOrigins("*")
                  //.SetIsOriginAllowed((host) => true)
                  .AllowAnyMethod()
-                 .AllowAnyHeader()
-                 .AllowCredentials());
+                 .AllowAnyHeader());
             });
 
             var mvcBuilder = services.AddMvc(config =>

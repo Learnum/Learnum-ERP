@@ -12,8 +12,8 @@ import { AccessUserDetails } from './core/models/UserAccessDetails';
 export class AppComponent {
   title = 'POI';
   constructor(
-    private _userProfileService: UserProfileService,
-    private _cookieService: CookieService,
+    // private _userProfileService: UserProfileService,
+    // private _cookieService: CookieService,
   ) {}
 
   ngOnInit() {

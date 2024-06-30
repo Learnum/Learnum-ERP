@@ -49,7 +49,7 @@ namespace Learnum.ERP.API
             ApplicationSettings.TokenIssuer = Configuration["JWT:Issuer"];
             ApplicationSettings.TokenAudience = Configuration["JWT:Issuer"];
             ApplicationSettings.RootPath = System.AppDomain.CurrentDomain.BaseDirectory;
-            ApplicationSettings.UploadPath = System.AppDomain.CurrentDomain.BaseDirectory;
+            ApplicationSettings.UploadPath = Configuration["path:UploadPath"];
 
             Log.Logger = new LoggerConfiguration()
             .ReadFrom.Configuration(Configuration)
