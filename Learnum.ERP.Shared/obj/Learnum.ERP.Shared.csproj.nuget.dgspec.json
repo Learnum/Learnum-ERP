@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj": {}
+    "C:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj": {}
   },
   "projects": {
-    "D:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj": {
+    "C:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj",
+        "projectUniqueName": "C:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj",
         "projectName": "Learnum.ERP.Shared",
-        "projectPath": "D:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj",
-        "packagesPath": "C:\\Users\\Chhaya.Thosar\\.nuget\\packages\\",
-        "outputPath": "D:\\Learnum-ERP\\Learnum.ERP.Shared\\obj\\",
+        "projectPath": "C:\\Learnum-ERP\\Learnum.ERP.Shared\\Learnum.ERP.Shared.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Learnum-ERP\\Learnum.ERP.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Chhaya.Thosar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
