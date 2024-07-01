@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "DaSCt/n84C+/0PCq0NHVBA5U5w7sWIEHgBY5gnx/RLeek5LjGE5toQh8rrk7w8nHArffuKqhjY+QDVIgBursSQ==",
+  "dgSpecHash": "A2itIFMD+6HVrx54o52YDcuI0+phafrKXcojhAeIn3aOAaWZ2KpWwXwv96+EvX4bEQxRxcextFfQBnjaPFzqqA==",
   "success": true,
   "projectFilePath": "C:\\Learnum-ERP\\Learnum.ERP.Repository\\Learnum.ERP.Repository.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\Admin\\.nuget\\packages\\masstransit.abstractions\\8.2.3\\masstransit.abstractions.8.2.3.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\masstransit.extensions.dependencyinjection\\7.3.1\\masstransit.extensions.dependencyinjection.7.3.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\masstransit.rabbitmq\\8.2.3\\masstransit.rabbitmq.8.2.3.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.2.0\\microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.extensions.diagnostics.abstractions\\8.0.0\\microsoft.extensions.diagnostics.abstractions.8.0.0.nupkg.sha512",
