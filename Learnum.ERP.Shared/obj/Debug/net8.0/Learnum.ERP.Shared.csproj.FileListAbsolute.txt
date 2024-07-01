@@ -35,3 +35,16 @@ C:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.dll
 C:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\refint\Learnum.ERP.Shared.dll
 C:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.pdb
 C:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\ref\Learnum.ERP.Shared.dll
+D:\Learnum-ERP\Learnum.ERP.Shared\bin\Debug\net8.0\Learnum.ERP.Shared.deps.json
+D:\Learnum-ERP\Learnum.ERP.Shared\bin\Debug\net8.0\Learnum.ERP.Shared.dll
+D:\Learnum-ERP\Learnum.ERP.Shared\bin\Debug\net8.0\Learnum.ERP.Shared.pdb
+D:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.csproj.AssemblyReference.cache
+D:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.GeneratedMSBuildEditorConfig.editorconfig
+D:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.AssemblyInfoInputs.cache
+D:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.AssemblyInfo.cs
+D:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.csproj.CoreCompileInputs.cache
+D:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.sourcelink.json
+D:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.dll
+D:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\refint\Learnum.ERP.Shared.dll
+D:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.pdb
+D:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\ref\Learnum.ERP.Shared.dll

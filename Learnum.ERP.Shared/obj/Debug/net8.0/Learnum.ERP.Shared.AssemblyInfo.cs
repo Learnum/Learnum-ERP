@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Learnum.ERP.Shared")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+581f385ac2b4f8a013fbdd7b4e9bbb55b701bdd2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7b508006fce2c8b564fc820e42fd1443be2e7488")]
 [assembly: System.Reflection.AssemblyProductAttribute("Learnum.ERP.Shared")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Learnum.ERP.Shared")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
