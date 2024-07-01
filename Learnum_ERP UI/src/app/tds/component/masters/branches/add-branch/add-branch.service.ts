@@ -1,27 +1,24 @@
-import { Injectable } from '@angular/core';
+
 import { BranchDetails } from './addbranch.model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { APIService } from 'src/app/core/services/apiService';
+import { Observable } from 'rxjs';
+import { BaseService } from 'src/app/core/services/baseService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AddBranchService {
-  //private apiUrl = 'https://localhost:7189/api/'; // Replace with your API endpoint
+export class AddBranchService extends BaseService {
 
-  private urlbranchDetails: string = "BranchDetails/InsertBranchDetails";
+  private urlInsertBranchDetails: string = "BranchDetails/insertBranchDetails";
 
-  constructor(private http: HttpClient,private apiService: APIService) { }
-
-  insertaddBranchData(branchDetails: BranchDetails){
-    return this.apiService.postData(this.urlbranchDetails, branchDetails);
-
-    // return this.http.post(this.apiUrl + this.urlbranchDetails, branchDetails, {
-    //   headers: new HttpHeaders({
-    //     'Content-Type': 'application/json'
-    //   })
-    // });
+  constructor(private apiService: APIService) {
+    super();
   }
 
+  insertBranchData(branchDetails: BranchDetails) {
+    return this.apiService.postData(this.urlInsertBranchDetails,branchDetails);
+  }
+
+  
 }

@@ -13,34 +13,34 @@ using Learnum.ERP.Repository.Core;
 namespace Learnum.ERP.Repository.Master
 {
 
-    public interface ISubjectDetailsRepository
+    public interface IBatchesDetailsRepository
     {
-        Task<ResponseCode> InsertSubjectDetails(SubjectDetailsModel subjectDetailsModel);
-        Task<List<SubjectDetailsResponseModel>> GetSubjectDetailsList();
+        Task<ResponseCode> InsertBatchesDetails(BatchesDetailsModel batchesDetailsModel);
+        Task<List<BatchesDetailsResponseModel>> GetBatchesDetailsList();
     }
-
-    public class SubjectDetailsRepository : BaseRepository, ISubjectDetailsRepository
+    public class BatchesDetailsRepository : BaseRepository, IBatchesDetailsRepository
     {
-        public async Task<ResponseCode> InsertSubjectDetails(SubjectDetailsModel subjectDetailsModel)
+
+        public async Task<ResponseCode> InsertBatchesDetails(BatchesDetailsModel batchesDetailsModel)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
-                var dbparams = new DynamicParameters(subjectDetailsModel);
+                var dbparams = new DynamicParameters(batchesDetailsModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("PROC_InsertSubjectDetails", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_InsertBatchesDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
         }
 
-        public async Task<List<SubjectDetailsResponseModel>> GetSubjectDetailsList()
+        public async Task<List<BatchesDetailsResponseModel>> GetBatchesDetailsList()
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<SubjectDetailsResponseModel>("PROC_GetSubjectDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                var result = dbConnection.Query<BatchesDetailsResponseModel>("PROC_GetBatchDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
-            }                       
+            }
         }
 
     }

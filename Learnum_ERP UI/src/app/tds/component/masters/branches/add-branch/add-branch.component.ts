@@ -66,16 +66,22 @@ export class AddBranchComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
-
+          
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'Branch Name',
+            key: 'BranchName',
             templateOptions: {
               placeholder: 'Enter Branch',
               type: 'text',
               label: "Branch Name",
               required: true,
+            },
+            validation: {
+              messages: {
+                required: 'Branch Name is required',
+
+              },
             },
           },
           {
@@ -132,7 +138,7 @@ export class AddBranchComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'postal code',
+            key: 'PostalCode',
             props: {
               placeholder: 'Enter postal code',
               required: true,
@@ -148,7 +154,7 @@ export class AddBranchComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'select',
-            key: 'branchStatus',
+            key: 'IsActive',
             props: {
               placeholder: 'Select Branch ',
               required: true,
@@ -179,12 +185,18 @@ export class AddBranchComponent implements OnInit {
   // }
 
   onSubmit(): void {
-    this.form.markAllAsTouched();
+    this.form.markAllAsTouched();  // Mark all fields as touched to trigger validation messages
+  
     if (this.form.valid) {
       this.insertBranch();
-      //this.getBranchDetails();
-    }
-    else {
+    } else {
+      // Iterate over the form controls to log the invalid fields
+      Object.keys(this.form.controls).forEach(key => {
+        const control = this.form.get(key);
+        if (control && control.invalid) {
+          console.log(`Invalid field: ${key}`);
+        }
+      });
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
@@ -194,9 +206,9 @@ export class AddBranchComponent implements OnInit {
     this.branchDetails.AddedDate = new Date();
     this.branchDetails.UpdatedBy = 1;
     this.branchDetails.UpdatedDate = new Date();
-    this.branchDetails.IsActive = true;
+    this.branchDetails.IsActive = false;
 
-    this.addBranchService.insertaddBranchData(this.branchDetails).subscribe(
+    this.addBranchService.insertBranchData(this.branchDetails).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
@@ -213,4 +225,7 @@ export class AddBranchComponent implements OnInit {
     );
     this.router.navigateByUrl('tds/masters/branches');
   }
+
+  
+
 }
