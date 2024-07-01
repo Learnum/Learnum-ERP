@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models
 {
-   public class EmployeeDetailsModel
+   public class EmployeeDetailsModel : BaseModel
     {
         public long EmployeeId {  get; set; }
 
