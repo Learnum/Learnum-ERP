@@ -15,7 +15,7 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
     public interface IAttendenceSheetDetailsRepository
     {
         Task<ResponseCode> InsertAttendenceSheetDetails(AttendenceSheetDetailsModel attendenceSheetDetailsModel);
-        Task<List<AttendenceSheetDetailsResponsModel>> GetAttendenceSheetDetailsList();
+        Task<List<AttendenceSheetDetailsResponseModel>> GetAttendenceSheetDetailsList();
     }
 
     public class AttendenceSheetDetailsRepository : BaseRepository, IAttendenceSheetDetailsRepository
@@ -32,12 +32,12 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
             }
         }
 
-        public async Task<List<AttendenceSheetDetailsResponsModel>> GetAttendenceSheetDetailsList()
+        public async Task<List<AttendenceSheetDetailsResponseModel>> GetAttendenceSheetDetailsList()
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<AttendenceSheetDetailsResponsModel>("PROC_GetAttendenceSheetDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                var result = dbConnection.Query<AttendenceSheetDetailsResponseModel>("PROC_GetAttendenceSheetDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }

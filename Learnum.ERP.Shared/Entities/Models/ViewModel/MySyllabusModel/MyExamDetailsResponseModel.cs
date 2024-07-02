@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models.ViewModel.MySyllabusModel
 {
-    internal class MyExamDetailsResponseModel
+    public class MyExamDetailsResponseModel
     {
+
     }
 }

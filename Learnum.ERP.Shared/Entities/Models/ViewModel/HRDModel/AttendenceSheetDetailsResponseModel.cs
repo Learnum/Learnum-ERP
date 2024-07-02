@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models.ViewModel.HRDModel
 {
-    public class AttendenceSheetDetailsResponsModel:BaseModel
+    public class AttendenceSheetDetailsResponseModel:BaseModel
     {
         public string Name { get; set; }
         public string Role { get; set; }
