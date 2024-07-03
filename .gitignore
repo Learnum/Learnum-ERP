@@ -31,3 +31,8 @@
 /Learnum.ERP.Repository/obj/project.assets.json
 /Learnum.ERP.Repository/obj/Learnum.ERP.Repository.csproj.nuget.g.props
 /Learnum.ERP.Repository/obj/Learnum.ERP.Repository.csproj.nuget.dgspec.json
+/Learnum.ERP.Repository/bin/Debug/net8.0/Learnum.ERP.Repository.dll
+/Learnum.ERP.Repository/bin/Debug/net8.0/Learnum.ERP.Repository.pdb
+/Learnum.ERP.Repository/bin/Debug/net8.0/Learnum.ERP.Shared.dll
+/Learnum.ERP.Repository/bin/Debug/net8.0/Learnum.ERP.Shared.pdb
+/Learnum.ERP.Shared/obj/Debug/net8.0/Learnum.ERP.Shared.GeneratedMSBuildEditorConfig.editorconfig
