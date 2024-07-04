@@ -14,7 +14,7 @@ namespace Learnum.ERP.Shared.Entities.Models
         public string Town { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public long PostalCode { get; set; }
-        public Boolean IsActive { get; set; }
+        public string PostalCode { get; set; }
+        public bool IsActive { get; set; }
     }
 }

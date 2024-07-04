@@ -1,13 +1,13 @@
 export class BranchDetails {
-  BranchId: Number;
+  BranchId: number;
   BranchName: string;
   Town: string;
-  city: string;
-  state: string;
-  PostalCode: Number;
+  City: string;
+  State: string;
+  PostalCode: number;
   IsActive: boolean;
   UpdatedDate: Date;
-  UpdatedBy: Number;
+  UpdatedBy: number;
   AddedDate: Date;
-  AddedBy: Number;
+  AddedBy: number;
 }

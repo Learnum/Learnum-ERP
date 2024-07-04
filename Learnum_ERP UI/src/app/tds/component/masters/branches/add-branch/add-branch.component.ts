@@ -202,11 +202,12 @@ export class AddBranchComponent implements OnInit {
   }
 
   insertBranch() {
-    this.branchDetails.AddedBy = 1;
-    this.branchDetails.AddedDate = new Date();
-    this.branchDetails.UpdatedBy = 1;
-    this.branchDetails.UpdatedDate = new Date();
-    this.branchDetails.IsActive = false;
+    //this.branchDetails.AddedBy = 1;
+    //this.branchDetails.AddedDate = new Date();
+    //this.branchDetails.UpdatedBy = 1;
+    //this.branchDetails.UpdatedDate = new Date();
+   // this.branchDetails.IsActive = true;
+console.log(this.insertBranch)
 
     this.addBranchService.insertBranchData(this.branchDetails).subscribe(
       (result: any) => {
