@@ -68,7 +68,7 @@ export class AddBranchComponent implements OnInit {
         fieldGroup: [
           
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'input',
             key: 'BranchName',
             templateOptions: {
@@ -85,7 +85,7 @@ export class AddBranchComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'input',
             key: 'Town',
             props: {
@@ -103,7 +103,7 @@ export class AddBranchComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'input',
             key: 'city',
             props: {
@@ -119,7 +119,7 @@ export class AddBranchComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'input',
             key: 'state',
             props: {
@@ -136,7 +136,7 @@ export class AddBranchComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'input',
             key: 'PostalCode',
             props: {
@@ -152,7 +152,7 @@ export class AddBranchComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'select',
             key: 'IsActive',
             props: {
@@ -186,7 +186,7 @@ export class AddBranchComponent implements OnInit {
 
   onSubmit(): void {
     this.form.markAllAsTouched();  // Mark all fields as touched to trigger validation messages
-  
+
     if (this.form.valid) {
       this.insertBranch();
     } else {
@@ -207,7 +207,7 @@ export class AddBranchComponent implements OnInit {
     //this.branchDetails.UpdatedBy = 1;
     //this.branchDetails.UpdatedDate = new Date();
    // this.branchDetails.IsActive = true;
-console.log(this.insertBranch)
+
 
     this.addBranchService.insertBranchData(this.branchDetails).subscribe(
       (result: any) => {

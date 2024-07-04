@@ -7,6 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { FormlyFieldFile } from '../../../masters/courses/add-courses/file-type.component';
+
 
 @NgModule({
   declarations: [StudentAddComponent],
@@ -16,7 +18,9 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
     ReactiveFormsModule,
     SharedModule,
     FormsModule,
-    FormlyModule,
+    FormlyModule.forRoot({
+      types: [{ name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] }],
+    }),
     FormlyBootstrapModule
   ]
 })
