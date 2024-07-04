@@ -165,12 +165,12 @@ setParameter() {
          {
             className: 'col-md-6',
             type: 'select',
-            key: 'Branch Name',
+            key: 'Batch Name',
             props: {
-              placeholder: 'Enter Branch Name',
+              placeholder: 'Enter batch Name',
               required: true,
               type: 'number',
-              label: "Branch Name",
+              label: "Batch Name",
               },
             validation: {
               messages: {
