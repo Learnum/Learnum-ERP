@@ -6,13 +6,14 @@ import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
 
+
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
   styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent implements OnInit {
-  tdsReturnList: any[] = [];
+  
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
@@ -127,11 +128,12 @@ export class EmployeesComponent implements OnInit {
 
   getEmployeeList: any;
   addEmployeeService: any;
+employeeList: any;
 
 
 
   ngOnInit(): void {
-    //this.GetbranchList();
+    this.GetEmployeeList();
   }
 
   constructor(private router: Router,
@@ -144,12 +146,12 @@ export class EmployeesComponent implements OnInit {
       this.form = this.formBuilder.group({
        
         // Add more form controls as needed
+        firstName: ['', Validators.required],
+          lastName: ['', Validators.required],
       });
     }
   }
-  selectBranch(branch: any) {
-
-  }
+ 
   
   onRowAction(data: any) {
     let data1 = {
@@ -159,7 +161,20 @@ export class EmployeesComponent implements OnInit {
     this.router.navigate(['/tds/masters/add-employee'], { queryParams: data1 });
   }
 
+  selectEmployee(employees: any) {
 
+  }
+  editEmployee(employeeData: any) {
+
+  //   const employeeId = employeeData.EmpID;
+  //   const index = this.tdsReturnList.findIndex(emp => emp.EmpID === employeeId);
+  //   if (index !== -1) {
+  //   this.openEditForm(employeeData).then((editedEmployeeData: any) => {
+  //   this.tdsReturnList[index] = editedEmployeeData;
+  //   console.log('Edited Employee:', editedEmployeeData);
+  // });
+  //   }
+  }
 
   declaredActionColumns: ActionColumn[] = [
     {
@@ -170,16 +185,16 @@ export class EmployeesComponent implements OnInit {
       colorClass: 'text-secondary h4'
     },
   ];
-  onAddEmployee() {
+  onAddEmployee(employee?: any) {
 
-    // let navigationExtras: NavigationExtras = {};
-    // if (employee) {
-    //   navigationExtras = {
-    //     state: {
-    //       employeeData: employee
-    //     }
-    //   };
-    // }
+    let navigationExtras: NavigationExtras = {};
+    if (employee) {
+      navigationExtras = {
+        state: {
+          employeeData: employee
+        }
+      };
+    }
     this.router.navigateByUrl('tds/hrd/employees/add-employee')
   }
  
@@ -187,23 +202,17 @@ export class EmployeesComponent implements OnInit {
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
-  GetEmployeeDetailsList() {
+  GetEmployeeList() {
     this.addEmployeeService.getEmployeeList().subscribe(
       (result: any) => {
-        let serviceResponse = result.Value;
-        console.log(result.Value);
-        this.tdsReturnList = serviceResponse;
-
-        if (result.Value === ResponseCode.Success) {
-          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-        } else {
-          this.alertService.ShowErrorMessage(this.messageService.serviceError);
-        }
+        // this.tdsReturnList = result.Value;
+        // let tdsReturnList = result.Value;
       },
       (error: any) => {
-        this.alertService.ShowErrorMessage(error.error);
-      }
-    );
+        console.error("Error occurred while fetching employee details:", error); 
+        this.alertService.ShowErrorMessage("An error occurred while fetching employee details. Please try again later."); 
+  }
+);
   }
 
 }

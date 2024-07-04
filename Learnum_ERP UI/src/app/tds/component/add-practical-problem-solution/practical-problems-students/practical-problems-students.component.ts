@@ -97,9 +97,9 @@ export class PracticalProblemsStudentsComponent implements OnInit {
           //   },
           // },
           {
-            //className: 'col-md-6',
+            className: 'col-md-6',
             key: 'file',
-            type: 'input',
+            type: 'file',
             props: {
               label: 'Attachment',
               placeholder: 'Upload Attachment',

@@ -8,11 +8,11 @@
     </form>
   </div>
 </div>
-<div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
+<!-- <div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
   <button class="btn btn-cloud me-2" (click)="onSubmit()">Save</button>
   <button class="btn btn-cloud me-2" type="button" (click)="reset()">Reset</button>
   <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
-</div>
+</div> -->
 
 <div style="margin-left: 5px;" class="row d-flex">
   <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip" title="Close"> &nbsp;</span>Add MCQ</b></h6>
@@ -115,7 +115,11 @@
           </div>
           <div class="form-group">
             <label for="mcqStatus">MCQ Status</label>
-            <input type="text" class="form-control" id="mcqStatus" formControlName="mcqStatus" placeholder="Enter MCQ Status">
+            <select class="form-select" id="mcqStatus" formControlName="mcqStatus">
+              <option value="">Select Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
             <div *ngIf="mcqForm.get('mcqStatus').invalid && mcqForm.get('mcqStatus').touched" class="text-danger">
               MCQ Status is required.
             </div>
@@ -204,7 +208,11 @@
           </div>
           <div class="form-group">
             <label for="practicalProblemStatus">Status</label>
-            <input type="text" class="form-control" id="practicalProblemStatus" formControlName="practicalProblemStatus" placeholder="Enter Status">
+            <select class="form-select" id="practicalProblemStatus" formControlName="practicalProblemStatus">
+              <option value="">Select Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
             <div *ngIf="practicalProblemForm.get('practicalProblemStatus').invalid && practicalProblemForm.get('practicalProblemStatus').touched" class="text-danger">
               Status is required.
             </div>
@@ -217,4 +225,14 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="form-container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+<!-- <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form> -->
+      <div class="col-12 px-4 py-2 border-top buttons-container">
+          <button class="btn btn-cloud me-2" type="submit">Save</button>
+          <button class="btn btn-fent-cloud" type="button" (click)="onCancelClick()">Cancel</button>
+      </div>
+  </form>
 </div>

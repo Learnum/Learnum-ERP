@@ -202,13 +202,14 @@ setParameter() {
             type: 'select',
             key: 'TrainerBatchStatus',
             props: {
-              placeholder: 'status',
+              placeholder: ' select status',
               required: true,
               type: 'text',
               label: "Trainer Batch Status",
-              //readonly: this.IsPreviousEmp || (this.isPOIStatusRejected && !this.isEmployee),
-              // label:  this.previousEmployement.previousEmployement[8].
-              // investmentColumnTypeName
+              options: [
+                { value: 'active', label: 'active' },
+                { value: 'Inactive', label: 'Inactive' }
+              ]
             },
             validation: {
               messages: {

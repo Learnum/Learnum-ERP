@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
+import { EmployeeDetails } from './add-employee.model';
 
 @Component({
   selector: 'app-add-employee',
@@ -14,18 +15,15 @@ import { MessageService } from 'src/app/core/services/message.service';
 })
 export class AddEmployeeComponent implements OnInit {
   form = new FormGroup({});
-  reasonList: any[] = [];
+  employeeDetails: EmployeeDetails = new EmployeeDetails();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
   GetEmployeeList: any;
-  coOwners: any;
   NowDate: any = new Date();
-  employeeDetails: any;
   model = {};
-  coursesDetails: any;
-
+  addEmployeeService: any;
+  
   constructor(
     private router: Router,
     private alertService: AlertService,
@@ -37,37 +35,14 @@ export class AddEmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-    this.createForm();
+   // this.createForm();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
+      this.getEmployeeDetails(this.editData.EmployeeDetailId);
+    }
   }
 
-  createForm(): void {
-    this.form = this.fb.group({
-      EmployeeName: ['', Validators.required],
-      EmployeeEmail: ['', [Validators.required, Validators.email]],
-      EmployeePhoto: ['', Validators.required],
-      EmployeePhone: ['', Validators.required],
-      AADHAARNumber: ['', Validators.required],
-      DateofBirth: ['', Validators.required],
-      BloodGroup: ['', Validators.required],
-      Gender: ['', Validators.required],
-      Qualification: ['', Validators.required],
-      AddressDetails: this.fb.group({
-        Address: ['', Validators.required],
-        City: ['', Validators.required],
-        District: ['', Validators.required],
-        State: ['', Validators.required],
-        PinCode: ['', Validators.required]
-      }),
-      PermanentAddress: this.fb.group({
-        Address: ['', Validators.required],
-        City: ['', Validators.required],
-        District: ['', Validators.required],
-        State: ['', Validators.required],
-        PinCode: ['', Validators.required]
-      }),
-    });
-  }
-
+ 
   setParameter() {
     this.fields = [
       {
@@ -101,16 +76,7 @@ export class AddEmployeeComponent implements OnInit {
               },
             },
           },
-          {
-            className: 'col-md-2',
-            key: 'EmployeePhoto',
-            type: 'file',
-            templateOptions: {
-              placeholder: 'Select File',
-              label: 'Employee Photo',
-              required: true,
-            },
-          },
+         
           {
             className: 'col-md-4',
             type: 'input',
@@ -152,12 +118,18 @@ export class AddEmployeeComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            type: 'input',
+            type: 'select',
             key: 'BloodGroup',
             templateOptions: {
               label: 'Blood Group',
-              placeholder: 'Enter Blood Group',
+              placeholder: 'Select Blood Group',
               required: true,
+              options: [
+                { value: 'A+', label: 'A+' },
+                { value: 'B+', label: 'B+' },
+                { value: 'A-', label: 'A-' },
+                { value: 'B-', label: 'B-' },
+              ]
             },
             validation: {
               messages: {
@@ -167,7 +139,7 @@ export class AddEmployeeComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            type: 'input',
+            type: 'select',
             key: 'Gender',
             templateOptions: {
               placeholder: 'Enter Gender',
@@ -202,38 +174,59 @@ export class AddEmployeeComponent implements OnInit {
               },
             },
           },
+          {
+            className: 'col-md-2',
+            key: 'EmployeePhoto',
+            type: 'file',
+            templateOptions: {
+              placeholder: 'Select File',
+              label: 'Employee Photo',
+              required: true,
+            },
+          },
         ],
       },
       {
-        template: '<label class="form-label"><b>Current Address</b></label>',
+        template: '<label class="form-label"><h6><b>Address Details</b></h6></label>',
+      },
+      {
+        template: `
+          
+          <h6><b>Current Address</b></h6>
+          <hr style="border-bottom : 2px solid rgb(230, 230, 230); margin-top: 10px; margin-bottom: 10px;">
+        `,
       },
       {
         key: 'AddressDetails',
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
             key: 'Address',
             templateOptions: {
-              label: 'Address Line',
-              placeholder: 'Enter Address Line 1',
+              label: 'Address ',
+              placeholder: 'Enter Address ',
               required: true,
             },
             validation: {
               messages: {
-                required: 'Address Line is required',
+                required: 'Address  is required',
               },
             },
           },
           {
-            className: 'col-md-6',
-            type: 'input',
+            className: 'col-md-3',
+            type: 'select',
             key: 'City',
             templateOptions: {
               label: 'City / District',
               placeholder: 'Enter City / District',
               required: true,
+              options: [
+                { value: 'city', label: 'Nashik' },
+                { value: 'city', label: 'Pune' }
+              ]
             },
             validation: {
               messages: {
@@ -242,13 +235,17 @@ export class AddEmployeeComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            type: 'input',
+            className: 'col-md-3',
+            type: 'select',
             key: 'State',
             templateOptions: {
               label: 'State / Province',
               placeholder: 'Enter State / Province',
               required: true,
+              options: [
+                { value: 'state', label: 'nashik' },
+                { value: 'state', label: 'pune' }
+              ]
             },
             validation: {
               messages: {
@@ -257,7 +254,7 @@ export class AddEmployeeComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
             key: 'PinCode',
             templateOptions: {
@@ -281,36 +278,45 @@ export class AddEmployeeComponent implements OnInit {
           },
         ],
       },
+     
       {
-        template: '<label class="form-label"><b>Permanent Address</b></label>',
+        template: `
+         
+          <h6><b>Permanent Address</b></h6>
+          <hr style="border: 1px solid rgb(230, 230, 230); margin-top: 10px; margin-bottom: 10px;">
+        `,
       },
       {
         key: 'PermanentAddress',
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
             key: 'Address',
             templateOptions: {
               label: 'Address Line',
-              placeholder: 'Enter Address Line 1',
+              placeholder: 'Enter Address ',
               required: true,
             },
             validation: {
               messages: {
-                required: 'Address Line is required',
+                required: 'Address is required',
               },
             },
           },
           {
-            className: 'col-md-6',
-            type: 'input',
+            className: 'col-md-3',
+            type: 'select',
             key: 'City',
             templateOptions: {
               label: 'City / District',
-              placeholder: 'Enter City / District',
+              placeholder: 'Enter City ',
               required: true,
+              options: [
+                { value: 'Nashik', label: 'Nashik' },
+                { value: 'Pune', label: 'Pune' }
+              ]
             },
             validation: {
               messages: {
@@ -319,22 +325,26 @@ export class AddEmployeeComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            type: 'input',
+            className: 'col-md-3',
+            type: 'select',
             key: 'State',
             templateOptions: {
-              label: 'State / Province',
-              placeholder: 'Enter State / Province',
+              label: 'State',
+              placeholder: 'Enter State',
               required: true,
+              options: [
+                { value: 'Nashik', label: 'Nashik' },
+                { value: 'Pune', label: 'Pune' }
+              ]
             },
             validation: {
               messages: {
-                required: 'State / Province is required',
+                required: 'State is required',
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
             key: 'PinCode',
             templateOptions: {
@@ -386,6 +396,33 @@ export class AddEmployeeComponent implements OnInit {
       ]
     }
     ];
+  }
+  getEmployeeDetails(EmployeeDetailId: number) {
+    this.addEmployeeService.getEmployeeDetails(EmployeeDetailId).subscribe(
+      (result: any) => {
+        if (result && result.Value && result.Value.Item1) {
+          this.employeeDetails = result.Value.Item1;
+          
+          //DateofPayment && DateOfDeduction
+          
+          this.setParameter();
+        } else {
+          console.error('No data found for EmployeeDetailId: ' + EmployeeDetailId);
+
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving employee details:', error);
+
+        if (error && error.status === 404) {
+          console.error('Employee not found.');
+
+        } else {
+          console.error('An unexpected error occurred. Please try again later.');
+
+        }
+      }
+    );
   }
 
   onCancelClick() {
