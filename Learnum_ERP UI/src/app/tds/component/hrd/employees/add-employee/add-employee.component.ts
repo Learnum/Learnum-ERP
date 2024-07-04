@@ -37,36 +37,9 @@ export class AddEmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-    this.createForm();
   }
 
-  createForm(): void {
-    this.form = this.fb.group({
-      EmployeeName: ['', Validators.required],
-      EmployeeEmail: ['', [Validators.required, Validators.email]],
-      EmployeePhoto: ['', Validators.required],
-      EmployeePhone: ['', Validators.required],
-      AADHAARNumber: ['', Validators.required],
-      DateofBirth: ['', Validators.required],
-      BloodGroup: ['', Validators.required],
-      Gender: ['', Validators.required],
-      Qualification: ['', Validators.required],
-      AddressDetails: this.fb.group({
-        Address: ['', Validators.required],
-        City: ['', Validators.required],
-        District: ['', Validators.required],
-        State: ['', Validators.required],
-        PinCode: ['', Validators.required]
-      }),
-      PermanentAddress: this.fb.group({
-        Address: ['', Validators.required],
-        City: ['', Validators.required],
-        District: ['', Validators.required],
-        State: ['', Validators.required],
-        PinCode: ['', Validators.required]
-      }),
-    });
-  }
+  
 
   setParameter() {
     this.fields = [

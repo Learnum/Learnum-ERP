@@ -34,17 +34,10 @@ export class AddCoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-    this.createForm();
+   
   }
 
-  createForm(): void {
-    this.form = this.fb.group({
-      CourseName: ['', Validators.required],
-      Description: ['', Validators.required],
-      CourseStatus: ['', Validators.required],
-      UploadBrochure: ['', Validators.required],
-   });
-}
+  
   reset() {
     throw new Error('Method not implemented.');
   }
@@ -63,7 +56,7 @@ export class AddCoursesComponent implements OnInit {
             templateOptions: {
               placeholder: 'Enter Courses Name',
               type: 'text',
-              label: "Courses Name",
+              label: "CoursesName",
               required: true,
 
             },
@@ -90,9 +83,9 @@ export class AddCoursesComponent implements OnInit {
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'Course Status',
+            key: 'CourseStatus',
             props: {
-              placeholder: 'Enter Course Status',
+              placeholder: 'Course Status',
               required: true,
               type: 'text',
               label: "Course Status",

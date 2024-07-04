@@ -35,18 +35,8 @@ export class AddClassroomsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-    this.createForm();
   }
 
-  createForm(): void {
-    this.form = this.fb.group({
-      // EMPID: ['', Validators.required], 
-      // Location: ['', Validators.required], 
-      // LocationIP: ['', Validators.required], 
-      // IPStatus: ['', Validators.required], 
-    });
-
-  }
   reset() {
     throw new Error('Method not implemented.');
   }
@@ -62,7 +52,7 @@ export class AddClassroomsComponent implements OnInit {
             type: 'select',
             key: 'Branch Name',
             templateOptions: {
-              placeholder: 'Enter Branch Name',
+              placeholder: 'Branch Name',
               type: 'text',
               label: "Branch Name",
               required: true,
@@ -75,7 +65,7 @@ export class AddClassroomsComponent implements OnInit {
             type: 'input',
             key: 'Classroom Name',
             props: {
-              placeholder: 'Enter Classroom NameP',
+              placeholder: 'Classroom Name',
               type: 'text',
               label: "Classroom Name",
               required: true,
@@ -93,7 +83,7 @@ export class AddClassroomsComponent implements OnInit {
             type: 'input',
             key: 'Student Capacity',
             props: {
-              placeholder: 'Enter Student Capacity',
+              placeholder: 'Student Capacity',
               required: true,
               type: 'text',
               label: "Student Capacity",
@@ -112,7 +102,7 @@ export class AddClassroomsComponent implements OnInit {
             type: 'select',
             key: 'Classroom Status',
             props: {
-              placeholder: 'Enter Classroom Status',
+              placeholder: 'Classroom Status',
               type: 'text',
               label: "Classroom Status",
               required: true,
