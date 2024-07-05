@@ -404,6 +404,8 @@ export class AddEmployeeComponent implements OnInit {
           this.employeeDetails = result.Value.Item1;
           
           //DateofPayment && DateOfDeduction
+
+      
           
           this.setParameter();
         } else {

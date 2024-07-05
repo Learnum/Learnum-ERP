@@ -128,7 +128,7 @@ export class EmployeesComponent implements OnInit {
 
   getEmployeeList: any;
   addEmployeeService: any;
-employeeList: any;
+ employeeList: any;
 
 
 
@@ -187,14 +187,14 @@ employeeList: any;
   ];
   onAddEmployee(employee?: any) {
 
-    let navigationExtras: NavigationExtras = {};
-    if (employee) {
-      navigationExtras = {
-        state: {
-          employeeData: employee
-        }
-      };
-    }
+    // let navigationExtras: NavigationExtras = {};
+    // if (employee) {
+    //   navigationExtras = {
+    //     state: {
+    //       employeeData: employee
+    //     }
+    //   };
+    // }
     this.router.navigateByUrl('tds/hrd/employees/add-employee')
   }
  
