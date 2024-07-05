@@ -32,26 +32,14 @@ export class AddCollegsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.createForm();
+  
     this.createContactForm();
     this.createDepartmentForm();
     this.setParameter();
 
   }
 
-  createForm(): void {
-    this.form = this.formBuilder.group({
-      collegeName: ['', Validators.required],
-      collegeAddress: ['', Validators.required],
-      branchName: ['', Validators.required],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      pincode: ['', Validators.required],
-      collegeWebsite: ['', Validators.required],
-      aboutCollege: ['', Validators.required],
-      branchName1: ['', Validators.required],
-    });
-  }
+ 
 
   setParameter() {
     this.fields = [
