@@ -12,6 +12,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./addgeneralexam.component.scss']
 })
 export class AddgeneralexamComponent implements OnInit {
+model: any;
+onCancelClick() {
+throw new Error('Method not implemented.');
+}
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   form: FormGroup;

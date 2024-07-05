@@ -57,7 +57,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
               label: 'Question',
               placeholder: 'Enter Question',
               required: true,
-              rows: 10
+              rows: 6
             },
             validation: {
               messages: {
@@ -73,7 +73,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
               label: 'Model Answer',
               placeholder: 'Enter Model Answer',
               required: true,
-              rows: 10
+              rows: 6
             },
             validation: {
               messages: {
@@ -81,38 +81,10 @@ export class PracticalProblemsStudentsComponent implements OnInit {
               },
             },
           },
-          // {
-          //   className: 'col-md-6',
-          //   key: 'attachment',
-          //   type: 'file', 
-          //   props: {
-          //     label: 'Attachment',
-          //     placeholder: 'Upload Attachment',
-          //     required: true,
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'Attachment is required',
-          //     },
-          //   },
-          // },
+        
+        
           {
-            //className: 'col-md-6',
-            key: 'file',
-            type: 'input',
-            props: {
-              label: 'Attachment',
-              placeholder: 'Upload Attachment',
-              type: 'number',
-            },
-            validation: {
-              messages: {
-                required: 'Attachment is required'
-              },
-            },
-          },
-          {
-            className: 'col-md-6',
+            className: 'col-md-5',
             key: 'marks',
             type: 'input',
             props: {
@@ -130,7 +102,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-5',
             key: 'practicalProblemStatus',
             type: 'select',
             props: {
@@ -145,6 +117,21 @@ export class PracticalProblemsStudentsComponent implements OnInit {
             validation: {
               messages: {
                 required: 'Practical Problem Status is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-2',
+            key: 'file',
+            type: 'file',
+            props: {
+              label: 'Attachment*',
+              placeholder: 'Upload Attachment',
+              type: 'number',
+            },
+            validation: {
+              messages: {
+                required: 'Attachment is required'
               },
             },
           },

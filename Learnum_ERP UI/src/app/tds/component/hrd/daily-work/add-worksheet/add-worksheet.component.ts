@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 
@@ -20,6 +21,7 @@ export class AddWorksheetComponent implements OnInit {
   coOwners: any;
   NowDate: any = new Date();
   worksheetDetails: any;
+  addWorksheetService: any;
  
   constructor(
     private router: Router,
@@ -31,25 +33,18 @@ export class AddWorksheetComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-    this.createForm();
+    
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
     }
     
   }
-  createForm(): void {
-    this.form = this.fb.group({
-      Name: ['', Validators.required],
-      Email: ['', Validators.required],
-      DateofBirth: ['', Validators.required],
-      Role: ['', Validators.required],
-    });
-  }
+ 
 setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-',
-        // key: 'ITDPreEmploymentSalModel',
+        
         fieldGroup: [
 
           {
@@ -116,7 +111,7 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-12',
+            className: 'col-md-6',
             type: 'textarea',
             key: 'TodayWork',
             props: {
@@ -125,6 +120,10 @@ setParameter() {
               label: "Today's work",
               required: true,
               rows:5,
+              style: {
+                height: '150px', 
+                width: '100%',   
+              },
             },
             validation: {
               messages: {
@@ -157,34 +156,36 @@ setParameter() {
     }
   }
 
-  // insertAddEmployee() {
-  //   this.employeeDetails.AddedBy = 1;
-  //   this.employeeDetails.AddedDate = new Date();
-  //   this.employeeDetails.UpdatedBy = 1;
-  //   this.employeeDetails.UpdatedDate = new Date();
-  //   this.employeeDetails.IsActive = true;
-
-  //   this.addEmployeeService.insertEmployeeData(this.employeeDetails).subscribe(
-  //     (result: any) => {
-  //       let serviceResponse = result.Value
-  //       if (result.Value === ResponseCode.Success) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-
-  //       }
-  //       else if (serviceResponse == ResponseCode.Update) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-  //       }
-  //       else {
-  //         this.alertService.ShowErrorMessage(this.messageService.serviceError);
-  //       }
-  //     },
-  //     (error: any) => {
-  //       this.alertService.ShowErrorMessage("Enter all required fields");
-  //     }
-  //   )
-  //   this.router.navigateByUrl('tds/tds-return/employee');
-  // }
-
+  insertAddWorksheet() {
+    // Assuming worksheetDetails is a property in your component that holds the worksheet data
+    this.worksheetDetails.AddedBy = 1;
+    this.worksheetDetails.AddedDate = new Date();
+    this.worksheetDetails.UpdatedBy = 1;
+    this.worksheetDetails.UpdatedDate = new Date();
+    this.worksheetDetails.IsActive = true;
+  
+    this.addWorksheetService.insertWorksheetData(this.worksheetDetails).subscribe(
+      (result: any) => {
+        let serviceResponse = result.Value;
+        if (result.Value === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        }
+        else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        }
+        else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage("Enter all required fields");
+      }
+    );
+    this.router.navigateByUrl('tds/worksheet/employee'); 
+  }
+  
+ 
+ 
 
 
 }

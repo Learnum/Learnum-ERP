@@ -166,14 +166,8 @@ export class AddsyllabusComponent implements OnInit {
                     required: true,
                     type: 'text',
                     label: "Topic Status",
-                    
-                  },
-              
-                },
-        
-        
-                
-                   
+                    },
+                 },     
               ],
             },
           ];

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 
@@ -23,7 +24,9 @@ export class AddBirthdayComponent implements OnInit {
   GetEmployeeList: any;
   coOwners: any;
   NowDate: any = new Date();
-employeeDetails: any;
+ employeeDetails: any;
+  birthdayDetails: any;
+  addBirthdayService: any;
  
   constructor(
     //private addEmployeeService: AddEmployeeService,
@@ -37,37 +40,15 @@ employeeDetails: any;
   ngOnInit(): void {
     this.setParameter();
   //  this.getReason();
-    this.createForm();
+    // this.createForm();
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
    //   this.getEmployeeDetails(this.editData.EmployeeDetailId);
     }
     
   }
-  createForm(): void {
-    this.form = this.fb.group({
-      Name: ['', Validators.required], 
-      Email: ['', Validators.required], 
-      Role : ['', Validators.required],
-      DateofBirth : ['', Validators.required],
-      Day : ['', Validators.required],
-      Month : ['', Validators.required],
-      Status : ['', Validators.required], 
-    });
-  }
+  
 
-
-  // getReason() {
-  //   this.addEmployeeService.getReason().subscribe(
-  //     (result: any) => {
-  //       this.reasonList = result.Value;
-  //       this.setParameter();
-  //     },
-  //     (error) => {
-  //       // Handle error
-  //     }
-  //   );
-  // }
 
   // getEmployeeDetails(EmployeeDetailId: number) {
   //   this.addEmployeeService.getEmployeeDetails(EmployeeDetailId).subscribe(
@@ -111,7 +92,7 @@ setParameter() {
             type: 'input',
             key: 'Name',
             templateOptions: {
-              placeholder: 'Name',
+              placeholder: 'Enter Name',
               type: 'text',
               label: "Name",
               required: true,
@@ -122,7 +103,7 @@ setParameter() {
             type: 'input',
             key: 'Email',
             props: {
-              placeholder: 'Email',
+              placeholder: 'Enter Email',
               type: 'text',
               label: "Email",
               required: true,
@@ -140,7 +121,7 @@ setParameter() {
             key: 'DateofBirth',
             templateOptions: {
               label: 'Date of Birth',
-              placeholder: 'Date',
+              placeholder: 'Enter Date',
               type: 'date',
               required: true,
               attributes: {
@@ -159,7 +140,7 @@ setParameter() {
             type: 'input',
             key:'Day',
             props: {
-              placeholder: 'Day',
+              placeholder: 'Enter Day',
               type: 'text',
               label: "Day",
               required: true,
@@ -170,7 +151,7 @@ setParameter() {
             type: 'input',
             key: 'Month',
             props: {
-              placeholder: 'Month',
+              placeholder: 'Enter Month',
               type: 'text',
               label: "Month",
               required: true,
@@ -181,10 +162,15 @@ setParameter() {
             type: 'select',
             key: 'Status',
             props: {
-              placeholder: 'select',
+              placeholder: 'status',
+              
               type: 'text',
               label: "Status",
               required: true,
+              options: [
+                { value: 'Active', label: 'Active' },
+                { value: 'Inactive', label: 'Inactive' }
+              ]
             },
            
           },
@@ -213,33 +199,29 @@ setParameter() {
     }
   }
 
-  // insertAddEmployee() {
-  //   this.employeeDetails.AddedBy = 1;
-  //   this.employeeDetails.AddedDate = new Date();
-  //   this.employeeDetails.UpdatedBy = 1;
-  //   this.employeeDetails.UpdatedDate = new Date();
-  //   this.employeeDetails.IsActive = true;
+  insertAddBirthday() {
+    this.birthdayDetails.AddedBy = 1;
+    this.birthdayDetails.AddedDate = new Date();
+    this.birthdayDetails.UpdatedBy = 1;
+    this.birthdayDetails.UpdatedDate = new Date();
+    this.birthdayDetails.IsActive = true;
 
-  //   this.addEmployeeService.insertEmployeeData(this.employeeDetails).subscribe(
-  //     (result: any) => {
-  //       let serviceResponse = result.Value
-  //       if (result.Value === ResponseCode.Success) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-
-  //       }
-  //       else if (serviceResponse == ResponseCode.Update) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-  //       }
-  //       else {
-  //         this.alertService.ShowErrorMessage(this.messageService.serviceError);
-  //       }
-  //     },
-  //     (error: any) => {
-  //       this.alertService.ShowErrorMessage("Enter all required fields");
-  //     }
-  //   )
-  //   this.router.navigateByUrl('tds/tds-return/employee');
-  // }
-
+    this.addBirthdayService.insertBirthdayData(this.birthdayDetails).subscribe(
+      (result: any) => {
+        let serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse == ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage("Enter all required fields");
+      }
+    );
+    this.router.navigateByUrl('tds/tds-return/employee');
+  }
 
 }

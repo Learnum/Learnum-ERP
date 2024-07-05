@@ -25,7 +25,6 @@
           <th>Attachments</th>
           <th>References</th>
           <th>SubTopic</th>
-          <th>Status</th>
         </tr>
       </thead>
       <tbody>
@@ -35,6 +34,7 @@
           <td>{{ topic.attachments }}</td>
           <td>{{ topic.references }}</td>
           <td>{{ topic.subTopicstatus }}</td>
+          
          
         </tr>
       </tbody>
@@ -94,10 +94,11 @@
               <small *ngIf="topicDetailsForm.get('subTopicstatus').errors?.required">SubTopic status is required</small>
             </div>
           </div>
+          
         </form>
       </div>
       <div class="modal-footer">
         <button class="btn btn-cloud me-2" (click)="addTopicDetails()">Done</button>
-      </div>    </div>
+      </div></div>
   </div>
 </div>
