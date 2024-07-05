@@ -35,12 +35,9 @@ export class AddEmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-   // this.createForm();
-    this.editData = this.activateRoute.snapshot.queryParams;
-    if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
-      this.getEmployeeDetails(this.editData.EmployeeDetailId);
-    }
   }
+
+  
 
  
   setParameter() {

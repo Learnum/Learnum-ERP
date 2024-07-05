@@ -37,17 +37,6 @@ export class AddSubjectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-    this.createForm();
-  }
-
-  createForm(): void {
-    this.form = this.fb.group({
-      CourseName: ['', Validators.required],
-      SubjectName: ['', Validators.required],
-      SubjectDescriptio: ['', Validators.required],
-      SubjectStatus: ['', Validators.required],
-    });
-
   }
 
 
@@ -93,7 +82,7 @@ export class AddSubjectsComponent implements OnInit {
         fieldGroup: [
 
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
             type: 'input',
             key: 'CourseName',
             templateOptions: {
@@ -106,11 +95,11 @@ export class AddSubjectsComponent implements OnInit {
 
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
             type: 'input',
             key: 'SubjectName',
             props: {
-              placeholder: 'Enter Subject Name',
+              placeholder: 'Subject Name',
               type: 'text',
               label: "Subject Name",
               required: true,
@@ -124,17 +113,30 @@ export class AddSubjectsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
+            type: 'select',
+            key: 'SubjectStatus',
+            props: {
+              placeholder: 'Select Subject',
+              required: true,
+              type: 'text',
+              label: 'Subject Status',
+              options: [
+                { value: 'Active', label: 'Active' },
+                { value: 'Inactive', label: 'Inactive' }
+              ]
+            },
+          },
+          {
+            className: 'col-md-',
             type: 'textarea',
             key: 'SubjectDescription',
             templateOptions: {
               placeholder: 'Enter Subject Description',
               label: 'Subject Description',
               required: true,
-              rows: 4,
-              attributes: {
-                style: 'overflow: auto;',
-              },
+              rows: 10,
+             
             },
             validation: {
               messages: {
@@ -142,22 +144,7 @@ export class AddSubjectsComponent implements OnInit {
               },
             },
           },
-          {
-            className: 'col-sm-6',
-            type: 'select',
-            key: 'SubjectStatus',
-            props: {
-              placeholder: 'select',
-              required: true,
-              type: 'text',
-              label: 'Subject Status',
-              options: [
-                { value: 'R&D', label: 'IN R&D' },
-                { value: 'Active', label: 'Active' },
-                { value: 'Inactive', label: 'Inactive' }
-              ]
-            },
-          },
+          
         ],
       },
     ];
@@ -181,6 +168,7 @@ export class AddSubjectsComponent implements OnInit {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
+
 
 }
 

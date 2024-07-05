@@ -41,26 +41,8 @@ export class AddBatchesComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-    this.createForm();
   }
 
-  createForm(): void {
-    this.form = this.fb.group({
-      BatchName: ['', Validators.required],
-      BranchName: ['', Validators.required],
-      Classroom: ['', Validators.required],
-      CourseName: ['', Validators.required],
-      CourseFeesinInstallment: ['', Validators.required],
-      OneTimeCourseFees: ['', Validators.required],
-      Installments: this.fb.array([]),
-      StartOn: ['', Validators.required],
-      EndOn: ['', Validators.required],
-      BatchStatus: ['', Validators.required],
-      StartTime: ['', Validators.required],
-      EndTime: ['', Validators.required],
-      ZbookID: ['', Validators.required]
-    });
-  }
 
   setParameter() {
     this.fields = [
@@ -91,10 +73,10 @@ export class AddBatchesComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            type: 'input',
+            type: 'select',
             key: 'Classroom',
             templateOptions: {
-              placeholder: 'Select',
+              placeholder: 'Select Classroom',
               type: 'text',
               label: "Classroom",
               required: true,
