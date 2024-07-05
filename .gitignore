@@ -43,3 +43,5 @@
 /Learnum.ERP.Shared/obj/Debug/net8.0/Learnum.ERP.Shared.AssemblyInfo.cs
 /Learnum.ERP.API/Controller/Business Lead/AllBusinessLeadController.cs
 
+/Learnum.ERP.Shared/obj/Debug/net8.0/Learnum.ERP.Shared.AssemblyInfo.cs
+/.gitignore
