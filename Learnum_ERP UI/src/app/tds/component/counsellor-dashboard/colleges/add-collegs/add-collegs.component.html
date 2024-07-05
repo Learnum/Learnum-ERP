@@ -35,7 +35,7 @@
 
       <!-- Button trigger modal for Contact -->
       <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#contactModal">
-        Add New
+        <i class="uil uil-plus"></i> Add New
       </button>
     </table>
   </div>
@@ -108,7 +108,7 @@
       </tbody>
       <!-- Button trigger modal for Department -->
       <button type="button" class="btn btn-cloud me-2 mt-2" data-toggle="modal" data-target="#departmentModal">
-        Add New
+        <i class="uil uil-plus"></i>  Add New
       </button>
     </table>
   </div>
@@ -153,7 +153,12 @@
 
 
 
-<div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
-  <button class="btn btn-cloud me-2" (click)="onSubmit()">Add</button>
-  <button class="btn btn-fent-cloud" (click)="onCancelClick()">Cancel</button>
+<div class="form-container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+<!-- <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form> -->
+      <div class="col-12 px-4 py-2 border-top buttons-container">
+          <button class="btn btn-cloud me-2" type="submit">Add</button>
+          <button class="btn btn-fent-cloud" type="button" (click)="onCancelClick()">Cancel</button>
+      </div>
+  </form>
 </div>
