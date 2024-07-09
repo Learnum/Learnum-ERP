@@ -48,3 +48,16 @@ D:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.dll
 D:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\refint\Learnum.ERP.Shared.dll
 D:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.pdb
 D:\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\ref\Learnum.ERP.Shared.dll
+C:\Users\Revati Jadhav\source\repos\Learnum\Learnum-ERP\Learnum.ERP.Shared\bin\Debug\net8.0\Learnum.ERP.Shared.deps.json
+C:\Users\Revati Jadhav\source\repos\Learnum\Learnum-ERP\Learnum.ERP.Shared\bin\Debug\net8.0\Learnum.ERP.Shared.dll
+C:\Users\Revati Jadhav\source\repos\Learnum\Learnum-ERP\Learnum.ERP.Shared\bin\Debug\net8.0\Learnum.ERP.Shared.pdb
+C:\Users\Revati Jadhav\source\repos\Learnum\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.csproj.AssemblyReference.cache
+C:\Users\Revati Jadhav\source\repos\Learnum\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Revati Jadhav\source\repos\Learnum\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.AssemblyInfoInputs.cache
+C:\Users\Revati Jadhav\source\repos\Learnum\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.AssemblyInfo.cs
+C:\Users\Revati Jadhav\source\repos\Learnum\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.csproj.CoreCompileInputs.cache
+C:\Users\Revati Jadhav\source\repos\Learnum\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.sourcelink.json
+C:\Users\Revati Jadhav\source\repos\Learnum\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.dll
+C:\Users\Revati Jadhav\source\repos\Learnum\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\refint\Learnum.ERP.Shared.dll
+C:\Users\Revati Jadhav\source\repos\Learnum\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\Learnum.ERP.Shared.pdb
+C:\Users\Revati Jadhav\source\repos\Learnum\Learnum-ERP\Learnum.ERP.Shared\obj\Debug\net8.0\ref\Learnum.ERP.Shared.dll

@@ -36,6 +36,10 @@ namespace Learnum.ERP.API.Helpers
             services.AddTransient<IBatchesDetailsRepository, BatchesDetailsRepository>();
             services.AddTransient<IBirthdayDetailsRepository, BirthdayDetailsRepository>();
 
+
+            services.AddTransient<IEmployeeDetailsRepository, EmployeeDetailsRepository>();
+            services.AddTransient<IBranchManagerDetailsRepository,BranchManagerDetailsRepository>();
+
         }
     }
 }
