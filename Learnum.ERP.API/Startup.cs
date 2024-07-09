@@ -44,6 +44,7 @@ namespace Learnum.ERP.API
             services.AddCors(options => {
                 options.AddPolicy("learnumPolicy", builder => builder
                  .WithOrigins("*")
+                 .AllowAnyOrigin()
                  //.SetIsOriginAllowed((host) => true)
                  .AllowAnyMethod()
                  .AllowAnyHeader());
@@ -155,6 +156,7 @@ namespace Learnum.ERP.API
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseRouting();
             app.UseCors("learnumPolicy");
+
            /* app.UseCors("AllowOrigin");*/
 
             app.UseAuthentication();
