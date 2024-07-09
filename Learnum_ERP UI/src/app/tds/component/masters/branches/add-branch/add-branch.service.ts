@@ -13,7 +13,7 @@ import { ConfigurationSettings } from 'src/app/core/models/configuration';
 export class AddBranchService extends BaseService {
   private httpClientWithoutInterceptor: HttpClient;
 
-  private urlInsertBranchDetails: string = "BranchDetails/insertBranchDetails";
+  private urlInsertBranchDetails: string = "BranchDetails/InsertBranchDetails";
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
