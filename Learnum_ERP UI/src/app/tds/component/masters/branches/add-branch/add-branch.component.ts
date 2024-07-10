@@ -65,7 +65,7 @@ export class AddBranchComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         // key: 'ITDPreEmploymentSalModel',
-        fieldGroup: [
+F        fieldGroup: [
           
           {
             className: 'col-md-6',
@@ -221,7 +221,7 @@ export class AddBranchComponent implements OnInit {
         }
       },
       (error: any) => {
-        this.alertService.ShowErrorMessage("Enter all required fields");
+        this.alertService.ShowErrorMessage(error);
       }
     );
     this.router.navigateByUrl('tds/masters/branches');

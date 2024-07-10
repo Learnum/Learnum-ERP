@@ -22,7 +22,7 @@ export class AddBranchService extends BaseService {
 
   insertBranchData(branchDetails: BranchDetails) {
     const URL = ConfigurationSettings.BASE_API_URL;
-    return this.httpClientWithoutInterceptor.post(URL + this.urlInsertBranchDetails,branchDetails);
+    return this.apiService.postData(this.urlInsertBranchDetails,branchDetails);
   }
 
   
