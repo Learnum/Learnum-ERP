@@ -1,6 +1,7 @@
 ﻿using Learnum.ERP.Repository.Master;
 using Learnum.ERP.Shared.Core;
 using Learnum.ERP.Shared.Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,8 @@ namespace Learnum.ERP.API.Controller.Branch
             logger = _logger;
             branchDetailsRepository = _branchDetailsRepository;
         }
+
+        [AllowAnonymous]
 
         [HttpPost("InsertBranchDetails")]
         public async Task<IActionResult> InsertBranchDetails(BranchDetailsModel branchDetailsModel)

@@ -5,7 +5,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AddBranchService } from './add-branch.service';
-import { BranchDetails } from './addbranch.model';
+import { BranchDetailsModel } from './addbranch.model';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
 
@@ -18,7 +18,7 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
 export class AddBranchComponent implements OnInit {
 
   form = new FormGroup({});
-  branchDetails: BranchDetails = new BranchDetails();
+  branchDetails: BranchDetailsModel = new BranchDetailsModel();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
@@ -174,22 +174,7 @@ export class AddBranchComponent implements OnInit {
   //   return this.form.controls;
   // }
 
-  // onSubmit(): void {
-  //   this.form.markAllAsTouched();  // Mark all fields as touched to trigger validation messages
-
-  //   if (this.form.valid) {
-  //     this.insertBranch();
-  //   } else {
-  //     // Iterate over the form controls to log the invalid fields
-  //     Object.keys(this.form.controls).forEach(key => {
-  //       const control = this.form.get(key);
-  //       if (control && control.invalid) {
-  //         console.log(`Invalid field: ${key}`);
-  //       }
-  //     });
-  //     this.alertService.ShowErrorMessage('Please fill in all required fields.');
-  //   }
-  // }
+  
 
   onSubmit(): void {
     this.form.markAllAsTouched();
@@ -201,11 +186,11 @@ export class AddBranchComponent implements OnInit {
   }
 
   insertBranch() {
-    this.branchDetails.AddedBy = 1;
-    this.branchDetails.AddedDate = new Date();
-    this.branchDetails.UpdatedBy = 1;
-    this.branchDetails.UpdatedDate = new Date();
-    this.branchDetails.BranchId = 0;
+    this.branchDetails.addedBy = 1;
+    this.branchDetails.addedDate = new Date();
+    this.branchDetails.updatedBy = 1;
+    this.branchDetails.updatedDate = new Date();
+    this.branchDetails.branchId = 0;
 
     this.addBranchService.insertBranchData(this.branchDetails).subscribe(
       (result: any) => {
