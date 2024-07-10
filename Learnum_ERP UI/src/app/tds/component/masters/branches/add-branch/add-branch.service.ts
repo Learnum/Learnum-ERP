@@ -1,5 +1,5 @@
 
-import { BranchDetails } from './addbranch.model';
+import { BranchDetailsModel } from './addbranch.model';
 import { Injectable } from '@angular/core';
 import { APIService } from 'src/app/core/services/apiService';
 import { Observable } from 'rxjs';
@@ -13,16 +13,16 @@ import { ConfigurationSettings } from 'src/app/core/models/configuration';
 export class AddBranchService extends BaseService {
   private httpClientWithoutInterceptor: HttpClient;
 
-  private urlInsertBranchDetails: string = "BranchDetails/insertBranchDetails";
+  private urlInsertBranchDetails: string = "BranchDetails/InsertBranchDetails";
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
     this.httpClientWithoutInterceptor = new HttpClient(httpBackend);
   }
 
-  insertBranchData(branchDetails: BranchDetails) {
-    const URL = ConfigurationSettings.BASE_API_URL;
-    return this.apiService.postData(this.urlInsertBranchDetails,branchDetails);
+  insertBranchData(branchDetails: BranchDetailsModel) {
+    //const URL = ConfigurationSettings.BASE_API_URL;
+    return this.apiService.postBlob(this.urlInsertBranchDetails,branchDetails);
   }
 
   
