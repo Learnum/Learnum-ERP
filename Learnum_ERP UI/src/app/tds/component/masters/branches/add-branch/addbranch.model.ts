@@ -1,7 +1,7 @@
 export class BranchDetailsModel {
   branchId: number;
   branchName: string;
-  town: string;
+  address: string;
   city: string;
   state: string;
   postalCode: number;

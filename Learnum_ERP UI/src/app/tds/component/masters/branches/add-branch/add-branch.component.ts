@@ -77,11 +77,11 @@ export class AddBranchComponent implements OnInit {
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'Town',
+            key: 'Address',
             props: {
               placeholder: 'Enter Address',
               type: 'text',
-              label: "Town",
+              label: "Address",
               required: true,
 
             },
