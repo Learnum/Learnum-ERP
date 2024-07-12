@@ -1,8 +1,9 @@
-export class classroomDetailsModel {
-  branchId: number;
-  classroomName: string;
-  studentCapacity: number;
-  isActive: boolean;
+export class IPAddressDetailsModel {
+
+  locationId: number;
+  location: string;
+  locationIP: string;
+  IsActive: boolean;
   addedBy: number | null;
   addedDate: Date | null;
   updatedBy: number | null;

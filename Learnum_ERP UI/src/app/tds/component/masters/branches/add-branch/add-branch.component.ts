@@ -55,7 +55,7 @@ export class AddBranchComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         // key: 'ITDPreEmploymentSalModel',
-F        fieldGroup: [
+       fieldGroup: [
           
           {
             className: 'col-md-6',
@@ -190,7 +190,7 @@ F        fieldGroup: [
     this.branchDetails.addedDate = new Date();
     this.branchDetails.updatedBy = 1;
     this.branchDetails.updatedDate = new Date();
-    this.branchDetails.branchId = 0;
+    //this.branchDetails.branchId = 0;
 
     this.addBranchService.insertBranchData(this.branchDetails).subscribe(
       (result: any) => {

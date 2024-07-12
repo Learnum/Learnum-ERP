@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
+import { branchManagerDetailsModel } from './branchManagerDetailsModel';
+import { AddbranchManagerService } from './addbranch.service';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
 @Component({
   selector: 'app-add-branch',
@@ -13,19 +16,16 @@ import { MessageService } from 'src/app/core/services/message.service';
 export class AddBranchComponent implements OnInit {
 
   form = new FormGroup({});
-  //employeeDetails: EmployeeDetails = new EmployeeDetails();
+  branchManagerDetails:branchManagerDetailsModel = new branchManagerDetailsModel();
   reasonList: any[] = [];
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
-  GetEmployeeList: any;
-  coOwners: any;
   NowDate: any = new Date();
-employeeDetails: any;
+  
  
   constructor(
-   // private addEmployeeService: AddEmployeeService,
+     private addbranchManagerService: AddbranchManagerService,
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -35,34 +35,18 @@ employeeDetails: any;
 
   ngOnInit(): void {
     this.setParameter();
-    //this.getReason();
-    this.createForm();
+    //this.createForm();
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
-     // this.getEmployeeDetails(this.editData.EmployeeDetailId);
+     
     }
     
   }
-  createForm(): void {
-    this.form = this.fb.group({
-      BranchManagerName: ['', Validators.required], 
-      BranchName: ['', Validators.required], 
-      status: ['', Validators.required], 
-
-      
-    });
-  }
-
-
-  
-  
-
 
 setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
-        // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
 
           {
@@ -74,6 +58,10 @@ setParameter() {
               type: 'text',
               label: "Branch Manager Name",
               required: true,
+              options: [
+                { value: 'mr ganesh Agre', label: 'mr ganesh agre' },
+                { value: 'raj', label: 'raj' }
+              ],
           
             },
             },
@@ -86,7 +74,10 @@ setParameter() {
               type: 'text',
               label: "BranchName",
               required: true,
-              
+              options: [
+                { value: 'cpat', label: 'cpat' },
+                { value: 'taxblock', label: 'taxblock' }
+              ],
             },
           },
          {
@@ -99,6 +90,10 @@ setParameter() {
               valueProp: 'value',
               labelProp: 'label',
               label: "status",
+              options: [
+                { value: 'active', label: 'Active' },
+                { value: 'inactive', label: 'InActive' }
+              ],
             },
           }, 
          ],
@@ -115,44 +110,42 @@ setParameter() {
     return this.form.controls;
   }
 
-  onSubmit():void {
+  onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-     // this.insertAddEmployee();
-      this.GetEmployeeList();
-    }
-    else {
+      this.insertBranchManager();
+    } else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
 
-  // insertAddEmployee() {
-  //   this.employeeDetails.AddedBy = 1;
-  //   this.employeeDetails.AddedDate = new Date();
-  //   this.employeeDetails.UpdatedBy = 1;
-  //   this.employeeDetails.UpdatedDate = new Date();
-  //   this.employeeDetails.IsActive = true;
+  insertBranchManager() {
+    this.branchManagerDetails.addedBy = 1;
+    this.branchManagerDetails.addedDate = new Date();
+    this.branchManagerDetails.updatedBy = 1;
+    this.branchManagerDetails.updatedDate = new Date();
+    this.branchManagerDetails.isActive = true;
 
-  //   this.addEmployeeService.insertEmployeeData(this.employeeDetails).subscribe(
-  //     (result: any) => {
-  //       let serviceResponse = result.Value
-  //       if (result.Value === ResponseCode.Success) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+    this.addbranchManagerService.insertBranchManagerData(this.branchManagerDetails).subscribe(
+      (result: any) => {
+        let serviceResponse = result.Value
+        if (result.Value === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
 
-  //       }
-  //       else if (serviceResponse == ResponseCode.Update) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-  //       }
-  //       else {
-  //         this.alertService.ShowErrorMessage(this.messageService.serviceError);
-  //       }
-  //     },
-  //     (error: any) => {
-  //       this.alertService.ShowErrorMessage("Enter all required fields");
-  //     }
-  //   )
-  //   this.router.navigateByUrl('tds/tds-return/employee');
-  // }
+        }
+        else if (serviceResponse == ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        }
+        else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage("Enter all required fields");
+      }
+    )
+    this.router.navigateByUrl('tds/hrd/add-branchManager');
+  }
 
 
 

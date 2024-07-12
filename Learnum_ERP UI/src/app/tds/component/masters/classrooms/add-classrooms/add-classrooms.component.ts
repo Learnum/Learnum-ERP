@@ -6,7 +6,8 @@ import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AddClassroomsService } from './add-classrooms.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { classroomDetails } from '../add-classroom.model';
+import { classroomDetailsModel } from '../add-classroom.model';
+
 
 @Component({
   selector: 'app-add-classrooms',
@@ -15,13 +16,12 @@ import { classroomDetails } from '../add-classroom.model';
 })
 export class AddClassroomsComponent implements OnInit {
 
-  classroomDetails: classroomDetails = new classroomDetails();
+  classroomDetails: classroomDetailsModel = new classroomDetailsModel();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
   form: any;
-  branchDetails: any;
+  
 
   constructor(
     private router: Router,
@@ -29,9 +29,7 @@ export class AddClassroomsComponent implements OnInit {
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
-    private fb: FormBuilder
-
-  ) { }
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.setParameter();
@@ -105,8 +103,10 @@ export class AddClassroomsComponent implements OnInit {
               placeholder: 'Classroom Status',
               type: 'text',
               label: "Classroom Status",
-              required: true,
-
+              required: true, options: [
+                { value: 1, label: 'Active' },
+                { value: 2, label: 'InActive' }
+              ],
             },
             validation: {
               messages: {

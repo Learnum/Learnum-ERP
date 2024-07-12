@@ -10,11 +10,12 @@ namespace Learnum.ERP.Shared.Entities.Models
     {
 
         public long BranchId { get; set; }
-
         public string ClassroomName { get; set; }
-
         public long StudentCapacity { get; set;}
-
         public Boolean IsActive { get; set; }
+        public long AddedBy { get; set; }
+        public DateTime AddedDate { get; set; }
+        public long UpdatedBy { get; set; }
+        public DateTime UpdatedDate { get; set; }
     }
 }

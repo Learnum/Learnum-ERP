@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
+import { CounsellorsPlaningModel } from './addcounsellor.model';
+import { AddcounsellorService } from './addcounsellor.service';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
 @Component({
   selector: 'app-add-counsellor',
@@ -12,19 +15,17 @@ import { MessageService } from 'src/app/core/services/message.service';
 })
 export class AddCounsellorComponent {
   form = new FormGroup({});
-  //employeeDetails: EmployeeDetails = new EmployeeDetails();
+  CounsellorDetails: CounsellorsPlaningModel = new CounsellorsPlaningModel();
   reasonList: any[] = [];
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
   GetEmployeeList: any;
   coOwners: any;
   NowDate: any = new Date();
-employeeDetails: any;
- 
+
   constructor(
-    //private addEmployeeService: AddEmployeeService,
+    private addcounsellorService: AddcounsellorService,
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -34,65 +35,44 @@ employeeDetails: any;
 
   ngOnInit(): void {
     this.setParameter();
-  //  this.getReason();
-    this.createForm();
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
-   //   this.getEmployeeDetails(this.editData.EmployeeDetailId);
-    }
-    
+   }
   }
-  createForm(): void {
-    this.form = this.fb.group({
-      CounsellorName: ['', Validators.required], 
-      BranchName: ['', Validators.required], 
-      Status: ['', Validators.required], 
-      
-    });
+ 
+
+
+ 
+  insertBranchManager() {
+    this.CounsellorDetails.addedBy = 1;
+    this.CounsellorDetails.addedDate = new Date();
+    this.CounsellorDetails.updatedBy = 1;
+    this.CounsellorDetails.updatedDate = new Date();
+    this.CounsellorDetails.isActive = true;
+
+    this.addcounsellorService.insertcounsellorData(this.CounsellorDetails).subscribe(
+      (result: any) => {
+        let serviceResponse = result.Value
+        if (result.Value === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+
+        }
+        else if (serviceResponse == ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        }
+        else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage("Enter all required fields");
+      }
+    )
+    this.router.navigateByUrl('tds/hrd/add-counsellor');
   }
 
 
-  // getReason() {
-  //   this.addEmployeeService.getReason().subscribe(
-  //     (result: any) => {
-  //       this.reasonList = result.Value;
-  //       this.setParameter();
-  //     },
-  //     (error) => {
-  //       // Handle error
-  //     }
-  //   );
-  // }
 
-  // getEmployeeDetails(EmployeeDetailId: number) {
-  //   this.addEmployeeService.getEmployeeDetails(EmployeeDetailId).subscribe(
-  //     (result: any) => {
-  //       if (result && result.Value && result.Value.Item1) {
-  //         this.employeeDetails = result.Value.Item1;
-          
-  //         //DateofPayment && DateOfDeduction
-  //         this.employeeDetails.DateOfPayment = this.addEmployeeService.formatDate(this.employeeDetails.DateOfPayment);
-  //         this.employeeDetails.DateOfDeduction = this.addEmployeeService.formatDate(this.employeeDetails.DateOfDeduction);
-
-  //         this.setParameter();
-  //       } else {
-  //         console.error('No data found for EmployeeDetailId: ' + EmployeeDetailId);
-
-  //       }
-  //     },
-  //     (error: any) => {
-  //       console.error('Error retrieving employee details:', error);
-
-  //       if (error && error.status === 404) {
-  //         console.error('Employee not found.');
-
-  //       } else {
-  //         console.error('An unexpected error occurred. Please try again later.');
-
-  //       }
-  //     }
-  //   );
-  // }
 
 
 setParameter() {
@@ -161,34 +141,7 @@ setParameter() {
     }
   }
 
-  // insertAddEmployee() {
-  //   this.employeeDetails.AddedBy = 1;
-  //   this.employeeDetails.AddedDate = new Date();
-  //   this.employeeDetails.UpdatedBy = 1;
-  //   this.employeeDetails.UpdatedDate = new Date();
-  //   this.employeeDetails.IsActive = true;
-
-  //   this.addEmployeeService.insertEmployeeData(this.employeeDetails).subscribe(
-  //     (result: any) => {
-  //       let serviceResponse = result.Value
-  //       if (result.Value === ResponseCode.Success) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-
-  //       }
-  //       else if (serviceResponse == ResponseCode.Update) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-  //       }
-  //       else {
-  //         this.alertService.ShowErrorMessage(this.messageService.serviceError);
-  //       }
-  //     },
-  //     (error: any) => {
-  //       this.alertService.ShowErrorMessage("Enter all required fields");
-  //     }
-  //   )
-  //   this.router.navigateByUrl('tds/tds-return/employee');
-  // }
-
+ 
 
 
 }

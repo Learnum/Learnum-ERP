@@ -1,10 +1,7 @@
 export class BranchDetailsModel {
-  branchId: number;
+  branchManagerId: number;
+  branchManagerName: string;
   branchName: string;
-  address: string;
-  city: string;
-  state: string;
-  postalCode: number;
   isActive: boolean;
   addedBy: number | null;
   addedDate: Date | null;
