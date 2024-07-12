@@ -101,7 +101,7 @@ export class AddClassroomsComponent implements OnInit {
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'ClassroomStatus',
+            key: 'isActive',
             props: {
               placeholder: 'Classroom Status',
               type: 'text',
@@ -128,14 +128,10 @@ export class AddClassroomsComponent implements OnInit {
     this.router.navigateByUrl('tds/masters/classrooms');
   }
 
-  onSubmit(): void {
-    this.form.markAllAsTouched();
-    if (this.form.valid) {
-      this.insertClassroom;
-    }
-    else {
-      this.alertService.ShowErrorMessage('Please fill in all required fields.');
-    }
+  onSubmit() {
+    // if (this.form.valid) {
+      this.insertClassroom();
+    // }
   }
 
   insertClassroom() {
@@ -160,7 +156,7 @@ export class AddClassroomsComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/masters/branches');
+    this.router.navigateByUrl('tds/masters/classrooms');
   }
 
 
