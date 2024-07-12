@@ -14,6 +14,7 @@ export class AddBranchService extends BaseService {
   private httpClientWithoutInterceptor: HttpClient;
 
   private urlInsertBranchDetails: string = "BranchDetails/InsertBranchDetails";
+  private urlgetBranchList: string = "BranchDetails/getAllBranchList";
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
@@ -25,5 +26,7 @@ export class AddBranchService extends BaseService {
     return this.apiService.postBlob(this.urlInsertBranchDetails,branchDetails);
   }
 
-  
+  getBranchList() {
+    return this.apiService.getData(this.urlgetBranchList);
+  }
 }

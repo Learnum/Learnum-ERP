@@ -1,18 +1,28 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { APIService } from 'src/app/core/services/apiService';
+import { BaseService } from 'src/app/core/services/baseService';
+import { HttpBackend} from '@angular/common/http';
+import { ClassroomModel } from './addclassroom.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AddClassroomsService 
+export class AddClassroomsService extends BaseService
 {
-  // insertIPData(IpDetails: IPDetails): Observable<any> {
-  //   return this.http.post(this.urlIPDetails, IpDetails);
 
-  // }
-  // insertIPData(branchDetails: any) {
-  //   throw new Error('Method not implemented.');
-  // }
+  private urlInsertClassroomDetails: string = "ClassroomDetails/InsertClassroomDetails";
+  private urlgetBranchList: string = "BranchDetails/getAllBranchList";
 
-  constructor(private http: HttpClient) { }
+  constructor(private apiService: APIService, private httpBackend: HttpBackend) {
+    super();
+  }
+
+  insertClassroomData(classroomDetails: ClassroomModel) {
+    return this.apiService.postBlob(this.urlInsertClassroomDetails, classroomDetails);
+  }
+
+ getBranchList() {
+    return this.apiService.getData(this.urlgetBranchList);
+  }
+
 }
