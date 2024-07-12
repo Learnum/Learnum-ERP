@@ -1,23 +1,26 @@
-export class EmployeeDetails
-{
-   
-    EmployeePhoto:File;
-    EmployeeDetailId: number;
-    EmployeeName:string;
-    EmployeeEmail:string;
-    EmployeePhone: number;
-    AADHAARNumber:string ;
-    DateofBirth:Date;
-    BloodGroup: string;
-    Gender: string;
-    Qualification: string;
-    Address:string ;
-    City: string;
-    District:string;
-    State: string;
-    PinCode:string;
-    UpdatedDate: Date;
-    UpdatedBy: number;
-    AddedDate: Date;
-    AddedBy: number;
+export class EmployeeDetailsModel {
+    employeeId: number;
+    employeeName: string;
+    employeePhone: number;
+    email: string;
+    aadharNumber: number;
+    dateOfBirth: string;
+    bloodGroup: string;
+    gender: string;
+    qualification: string;
+    filePath: string;
+    employeePhoto: string;
+    fileName: string;
+    mimeType: string;
+    address: string;
+    city: string;
+    state: string;
+    postalCode: number;
+    isActive: boolean;
+    role: string;
+    addedBy: number | null;
+    addedDate: Date | null;
+    updatedBy: number | null;
+    updatedDate: Date | null;
+    computerName: string;
 }

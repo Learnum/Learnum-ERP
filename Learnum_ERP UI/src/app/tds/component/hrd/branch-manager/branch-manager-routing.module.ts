@@ -16,7 +16,7 @@ const routes: Routes = [
   },
   {
     path:'add-branch',
-    loadChildren:()=>import('./add-branch/add-branch.module').then(m=>m.AddBranchModule)
+    loadChildren:()=>import('./add-branchManager/add-branch.module').then(m=>m.AddBranchModule)
   },
 ];
 

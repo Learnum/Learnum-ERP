@@ -55,7 +55,7 @@ export class AddBranchComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         // key: 'ITDPreEmploymentSalModel',
-        fieldGroup: [
+       fieldGroup: [
           
           {
             className: 'col-md-6',
