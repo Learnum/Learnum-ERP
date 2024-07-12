@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { APIService } from 'src/app/core/services/apiService';
 import { BaseService } from 'src/app/core/services/baseService';
 import { HttpBackend} from '@angular/common/http';
-import { ClassroomModel } from './addclassroom.model';
+import { ClassroomModel } from './classroomDetails.model';
+
 
 @Injectable({
   providedIn: 'root'

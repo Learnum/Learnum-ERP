@@ -8,4 +8,5 @@ export class BranchDetailsModel {
   updatedBy: number | null;
   updatedDate: Date | null;
   computerName: string;
+  branchId: number;
 }

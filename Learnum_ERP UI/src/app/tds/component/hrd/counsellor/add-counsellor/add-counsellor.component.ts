@@ -13,7 +13,7 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
   templateUrl: './add-counsellor.component.html',
   styleUrls: ['./add-counsellor.component.scss']
 })
-export class AddCounsellorComponent {
+export class AddCounsellorComponent implements OnInit{
   form = new FormGroup({});
   CounsellorDetails: CounsellorsPlaningModel = new CounsellorsPlaningModel();
   reasonList: any[] = [];
