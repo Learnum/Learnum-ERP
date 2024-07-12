@@ -3,7 +3,7 @@
     <b><span data-toggle="tooltip" title="Close"><i class="uil uil-multiply"></i> &nbsp;</span>Add Classrooms</b>
   </h5>
   <div>
-    <form id="MyForm" [formGroup]="form">
+    <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">
       <formly-form [model]="classroomDetails" [fields]="fields" [options]="options" [form]="form">
       </formly-form>
     </form>

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AddClassroomsService } from './add-classrooms.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { classroomDetails } from '../add-classroom.model';
+import { ClassroomModel } from './addclassroom.model';
 
 @Component({
   selector: 'app-add-classrooms',
@@ -15,12 +15,12 @@ import { classroomDetails } from '../add-classroom.model';
 })
 export class AddClassroomsComponent implements OnInit {
 
-  classroomDetails: classroomDetails = new classroomDetails();
+  classroomDetails: ClassroomModel = new ClassroomModel();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
   tdsReturnList: any;
-  form: any;
+  form: FormGroup;
   branchDetails: any;
 
   constructor(
@@ -35,6 +35,7 @@ export class AddClassroomsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
+    this.getBranchDetails();
   }
 
   reset() {
@@ -50,20 +51,20 @@ export class AddClassroomsComponent implements OnInit {
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'Branch Name',
+            key: 'BranchId',
             templateOptions: {
               placeholder: 'Branch Name',
               type: 'text',
               label: "Branch Name",
               required: true,
-
+              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
             },
 
           },
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'Classroom Name',
+            key: 'ClassroomName',
             props: {
               placeholder: 'Classroom Name',
               type: 'text',
@@ -81,7 +82,7 @@ export class AddClassroomsComponent implements OnInit {
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'Student Capacity',
+            key: 'StudentCapacity',
             props: {
               placeholder: 'Student Capacity',
               required: true,
@@ -100,13 +101,16 @@ export class AddClassroomsComponent implements OnInit {
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'Classroom Status',
+            key: 'ClassroomStatus',
             props: {
               placeholder: 'Classroom Status',
               type: 'text',
               label: "Classroom Status",
               required: true,
-
+              options: [
+                { value: 1, label: 'Active' },
+                { value: 2, label: 'InActive' }
+              ],
             },
             validation: {
               messages: {
@@ -124,20 +128,55 @@ export class AddClassroomsComponent implements OnInit {
     this.router.navigateByUrl('tds/masters/classrooms');
   }
 
-  get f() {
-    return this.form.controls;
-  }
-
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      // this.insertBranch();
-      //this.getBranchDetails();
+      this.insertClassroom;
     }
     else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
+
+  insertClassroom() {
+    this.classroomDetails.addedBy = 1;
+    this.classroomDetails.addedDate = new Date();
+    this.classroomDetails.updatedBy = 1;
+    this.classroomDetails.updatedDate = new Date();
+    this.classroomDetails.classroomId = 0;
+
+    this.addclassroomService.insertClassroomData(this.classroomDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+    this.router.navigateByUrl('tds/masters/branches');
+  }
+
+
+  getBranchDetails() {
+    this.addclassroomService.getBranchList().subscribe(
+      (data: any) => {
+        this.branchDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  
 }
 
 
