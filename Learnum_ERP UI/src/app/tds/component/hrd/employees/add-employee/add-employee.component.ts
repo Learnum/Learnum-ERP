@@ -6,7 +6,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
-import { EmployeeDetails } from './add-employee.model';
+import { EmployeeDetailsModel } from './add-employee.model';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { AddemployeeService } from './addemployee.service';
+
 
 @Component({
   selector: 'app-add-employee',
@@ -15,16 +18,16 @@ import { EmployeeDetails } from './add-employee.model';
 })
 export class AddEmployeeComponent implements OnInit {
   form = new FormGroup({});
-  employeeDetails: EmployeeDetails = new EmployeeDetails();
+  employeeDetails: EmployeeDetailsModel = new EmployeeDetailsModel();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
-  editData: any;
   GetEmployeeList: any;
   NowDate: any = new Date();
-  model = {};
-  addEmployeeService: any;
+  
+  
   
   constructor(
+    private addemployeeService: AddemployeeService,
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -37,9 +40,6 @@ export class AddEmployeeComponent implements OnInit {
     this.setParameter();
   }
 
-  
-
- 
   setParameter() {
     this.fields = [
       {
@@ -394,35 +394,35 @@ export class AddEmployeeComponent implements OnInit {
     }
     ];
   }
-  getEmployeeDetails(EmployeeDetailId: number) {
-    this.addEmployeeService.getEmployeeDetails(EmployeeDetailId).subscribe(
-      (result: any) => {
-        if (result && result.Value && result.Value.Item1) {
-          this.employeeDetails = result.Value.Item1;
+  // getEmployeeDetails(EmployeeDetailId: number) {
+  //   this.addEmployeeService.getEmployeeDetails(EmployeeDetailId).subscribe(
+  //     (result: any) => {
+  //       if (result && result.Value && result.Value.Item1) {
+  //         this.employeeDetails = result.Value.Item1;
           
-          //DateofPayment && DateOfDeduction
+  //         //DateofPayment && DateOfDeduction
 
       
           
-          this.setParameter();
-        } else {
-          console.error('No data found for EmployeeDetailId: ' + EmployeeDetailId);
+  //         this.setParameter();
+  //       } else {
+  //         console.error('No data found for EmployeeDetailId: ' + EmployeeDetailId);
 
-        }
-      },
-      (error: any) => {
-        console.error('Error retrieving employee details:', error);
+  //       }
+  //     },
+  //     (error: any) => {
+  //       console.error('Error retrieving employee details:', error);
 
-        if (error && error.status === 404) {
-          console.error('Employee not found.');
+  //       if (error && error.status === 404) {
+  //         console.error('Employee not found.');
 
-        } else {
-          console.error('An unexpected error occurred. Please try again later.');
+  //       } else {
+  //         console.error('An unexpected error occurred. Please try again later.');
 
-        }
-      }
-    );
-  }
+  //       }
+  //     }
+  //   );
+  // }
 
   onCancelClick() {
     this.router.navigateByUrl('tds/hrd/employees');
@@ -440,4 +440,29 @@ export class AddEmployeeComponent implements OnInit {
   get f() {
     return this.form.controls;
   }
+
+  insertEmployee() {
+    this.employeeDetails.addedBy = 1;
+    this.employeeDetails.addedDate = new Date();
+    this.employeeDetails.updatedBy = 1;
+    this.employeeDetails.updatedDate = new Date();
+    this.employeeDetails.employeeId = 0;
+
+    this.addemployeeService.insertEmployeeData(this.employeeDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+    this.router.navigateByUrl('tds/hrd/employee');
+}
 }

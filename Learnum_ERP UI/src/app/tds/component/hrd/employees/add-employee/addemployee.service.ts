@@ -1,32 +1,35 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from 'src/app/core/services/baseService';
-import { Observable } from 'rxjs-compat';
-import{EmployeeDetails} from './add-employee.model'
+import{ EmployeeDetailsModel} from './add-employee.model'
 import { APIService } from 'src/app/core/services/apiService';
+import { HttpBackend, HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs-compat';
+import { observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class addemployeeService extends BaseService {
+export class AddemployeeService extends BaseService {
 
 
-  private urlInsertEmployee: string = "EmployeeDetails/insertEmployeeDetails";
-  private urlGetEmployee: string = "EmployeeDetails/getEmployeeDetails";
-  private urlgetEmployeeList: string = "EmployeeDetails/getAllEmployeeList";
+  private httpClientWithoutInterceptor: HttpClient;
 
-  constructor(private apiService: APIService) {
+  private urlInsertEmployeeDetails: string = "BranchDetails/InsertBranchDetails";
+  private urlgetEmployeeList: string = "BranchDetails/getAllBranchList";
+
+  constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
-   }
-
-  insertEmployeeData(EmployeeDetails: EmployeeDetails) {
-    return this.apiService.postData(this.urlInsertEmployee, EmployeeDetails);
+    this.httpClientWithoutInterceptor = new HttpClient(httpBackend);
   }
 
-  getEmployeeDetails(EmployeeDetailId: number) {
-    return this.apiService.getData(this.urlGetEmployee + '/' + EmployeeDetailId);
+  insertEmployeeData(employeeDetails: EmployeeDetailsModel) {
+    //const URL = ConfigurationSettings.BASE_API_URL;
+    return this.apiService.postBlob(this.urlInsertEmployeeDetails,employeeDetails);
   }
 
   getEmployeeList() {
     return this.apiService.getData(this.urlgetEmployeeList);
+
   }
+  
 }

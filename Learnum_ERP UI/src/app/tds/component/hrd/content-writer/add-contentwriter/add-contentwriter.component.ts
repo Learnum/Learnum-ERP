@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
+import { ContentWriterDetailsModel } from '../addcontentWriter.model';
+import { AddcontentWriterService } from './addcontent-writer.service';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
 @Component({
   selector: 'app-add-contentwriter',
@@ -13,19 +16,15 @@ import { MessageService } from 'src/app/core/services/message.service';
 export class AddContentwriterComponent {
 
   form = new FormGroup({});
-  //employeeDetails: EmployeeDetails = new EmployeeDetails();
-  reasonList: any[] = [];
+  ContentWriterDetails: ContentWriterDetailsModel = new ContentWriterDetailsModel();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
-  GetEmployeeList: any;
-  coOwners: any;
   NowDate: any = new Date();
-  employeeDetails: any;
+
 
   constructor(
-    // private addEmployeeService: AddEmployeeService,
+    private addcontentWriterService: AddcontentWriterService,
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -35,27 +34,15 @@ export class AddContentwriterComponent {
 
   ngOnInit(): void {
     this.setParameter();
-    //this.getReason();
-    this.createForm();
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
-      // this.getEmployeeDetails(this.editData.EmployeeDetailId);
-    }
-
-  }
-  createForm(): void {
-    this.form = this.fb.group({
-      SelectCourse: ['', Validators.required],
-      SelectSubject: ['', Validators.required],
-      SelectContentWriter: ['', Validators.required],
-      Status: ['', Validators.required],
-   });
-  }
+ }
+}
+k
   setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
-        // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
 
           {
@@ -118,42 +105,38 @@ export class AddContentwriterComponent {
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      // this.insertAddEmployee();
-      this.GetEmployeeList();
-    }
-    else {
+      this.insertContentWriter();
+    } else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
 
-  // insertAddEmployee() {
-  //   this.employeeDetails.AddedBy = 1;
-  //   this.employeeDetails.AddedDate = new Date();
-  //   this.employeeDetails.UpdatedBy = 1;
-  //   this.employeeDetails.UpdatedDate = new Date();
-  //   this.employeeDetails.IsActive = true;
+  insertContentWriter() {
+    this.ContentWriterDetails.addedBy = 1;
+    this.ContentWriterDetails.addedDate = new Date();
+    this.ContentWriterDetails.updatedBy = 1;
+    this.ContentWriterDetails.updatedDate = new Date();
+    this.ContentWriterDetails.isActive = true;
 
-  //   this.addEmployeeService.insertEmployeeData(this.employeeDetails).subscribe(
-  //     (result: any) => {
-  //       let serviceResponse = result.Value
-  //       if (result.Value === ResponseCode.Success) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+    this.addcontentWriterService.insertContentWriterData(this.ContentWriterDetails).subscribe(
+      (result: any) => {
+        let serviceResponse = result.Value
+        if (result.Value === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
 
-  //       }
-  //       else if (serviceResponse == ResponseCode.Update) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-  //       }
-  //       else {
-  //         this.alertService.ShowErrorMessage(this.messageService.serviceError);
-  //       }
-  //     },
-  //     (error: any) => {
-  //       this.alertService.ShowErrorMessage("Enter all required fields");
-  //     }
-  //   )
-  //   this.router.navigateByUrl('tds/tds-return/employee');
-  // }
-
-
-
+        }
+        else if (serviceResponse == ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        }
+        else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage("Enter all required fields");
+      }
+    )
+    this.router.navigateByUrl('tds/hrd/content-writer');
+  }
 }
+

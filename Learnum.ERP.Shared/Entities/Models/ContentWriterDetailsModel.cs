@@ -13,7 +13,10 @@ namespace Learnum.ERP.Shared.Entities.Models
         public string ContentWriter { get; set; }
         public string Subject { get; set; }
         public string Status { get; set; }
-
+        public long AddedBy { get; set; }
+        public DateTime AddedDate { get; set; }
+        public long UpdatedBy { get; set; }
+        public DateTime UpdatedDate { get; set; }
 
     }
 }

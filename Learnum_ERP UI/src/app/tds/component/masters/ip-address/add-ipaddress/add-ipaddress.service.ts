@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IPDetails } from './add-ipadress.model';
+
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
@@ -13,13 +13,13 @@ export class AddIpaddressService {
 
   constructor(private http: HttpClient) { }
 
-  insertIPData(IpDetails: IPDetails): Observable<any> {
-    return this.http.post(this.urlIPDetails, IpDetails);
+  // insertIPData(IpDetails: IPDetails): Observable<any> {
+  //   return this.http.post(this.urlIPDetails, IpDetails);
 
-  }
-  getipDetails(): Observable<any> {
-    return this.http.get(this.urlGetipdetails);
-  }
+  // }
+  // getipDetails(): Observable<any> {
+  //   return this.http.get(this.urlGetipdetails);
+  // }
 
 
 }

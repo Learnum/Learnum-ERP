@@ -5,8 +5,8 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AddIpaddressService } from './add-ipaddress.service';
-import { IPDetails } from './add-ipadress.model';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { IPAddressDetailsModel } from './Ipaddress.model';
 
 @Component({
   selector: 'app-add-ipaddress',
@@ -15,14 +15,12 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
 })
 export class AddIpaddressComponent implements OnInit {
 
-  ipDetails: IPDetails = new IPDetails();
+  ipDetails: IPAddressDetailsModel = new IPAddressDetailsModel();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
   form: any;
-  branchDetails: any;
-
+  
   constructor(
     private router: Router,
     private addipaddressService: AddIpaddressService,
@@ -132,30 +130,28 @@ export class AddIpaddressComponent implements OnInit {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
-  insertIP() {
-    this.ipDetails.AddedBy = 1;
-    this.ipDetails.AddedDate = new Date();
-    this.ipDetails.UpdatedBy = 1;
-    this.ipDetails.UpdatedDate = new Date();
-    this.ipDetails.IsActive = true;
+  // insertIP() {
+    // this.ipDetails.AddedBy = 1;
+    // this.ipDetails.AddedDate = new Date();
+    // this.ipDetails.UpdatedBy = 1;
+    // this.ipDetails.UpdatedDate = new Date();
+    // this.ipDetails.IsActive = true;
 
-    this.addipaddressService.insertIPData(this.branchDetails).subscribe(
-      (result: any) => {
-        const serviceResponse = result.Value;
-        if (serviceResponse === ResponseCode.Success) {
-          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-        } else if (serviceResponse === ResponseCode.Update) {
-          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-        } else {
-          this.alertService.ShowErrorMessage(this.messageService.serviceError);
-        }
-      },
-      (error: any) => {
-        this.alertService.ShowErrorMessage("Enter all required fields");
-      }
-    );
-    this.router.navigateByUrl('tds/masters/branches');
-  }
+  //   this.addipaddressService.insertIPData(this.branchDetails).subscribe(
+  //     (result: any) => {
+  //       const serviceResponse = result.Value;
+  //       if (serviceResponse === ResponseCode.Success) {
+  //         this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+  //       } else if (serviceResponse === ResponseCode.Update) {
+  //         this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+  //       } else {
+  //         this.alertService.ShowErrorMessage(this.messageService.serviceError);
+  //       }
+  //     },
+  //     (error: any) => {
+  //       this.alertService.ShowErrorMessage("Enter all required fields");
+  //     }
+  //   );
+  //   this.router.navigateByUrl('tds/masters/branches');
+  // }
 }
-
-
