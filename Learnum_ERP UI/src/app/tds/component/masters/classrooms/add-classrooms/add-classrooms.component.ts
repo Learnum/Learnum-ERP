@@ -109,8 +109,8 @@ constructor(
               label: "Classroom Status",
               required: true,
               options: [
-                { value: 1, label: 'Active' },
-                { value: 2, label: 'InActive' }
+                { value: true, label: 'Active' },
+                { value: false, label: 'InActive' }
               ],
              
             },

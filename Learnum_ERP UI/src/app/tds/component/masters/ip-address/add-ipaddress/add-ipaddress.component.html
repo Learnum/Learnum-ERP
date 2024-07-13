@@ -3,7 +3,7 @@
     <b><span data-toggle="tooltip" title="Close"><i class="uil uil-multiply"></i> &nbsp;</span>Add IPAddress</b>
   </h5>
   <div>
-    <form id="MyForm" [formGroup]="form">
+    <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">
       <formly-form [model]="ipDetails" [fields]="fields" [options]="options" [form]="form">
       </formly-form>
     </form>
@@ -11,7 +11,7 @@
 </div>
 <div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
   <button class="btn btn-cloud me-2" (click)="onSubmit()">Save</button>
-  <button class="btn btn-cloud me-2" type="button" (click)="reset()">Reset</button>
+  <!-- <button class="btn btn-cloud me-2" type="button" (click)="reset()">Reset</button> -->
   <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
 
 </div>
