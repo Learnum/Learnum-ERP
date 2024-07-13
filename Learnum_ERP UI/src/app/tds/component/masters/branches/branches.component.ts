@@ -5,6 +5,7 @@ import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
 import { AddBranchService } from './add-branch/add-branch.service';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
 @Component({
   selector: 'app-branches',
@@ -18,8 +19,8 @@ export class BranchesComponent {
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'BranchID',
-      headerName: 'BranchID',
+      field: 'BranchId',
+      headerName: 'SR.No',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -28,7 +29,7 @@ export class BranchesComponent {
 
     },
     {
-      field: 'Branch Name',
+      field: 'BranchName',
       headerName: 'Branch Name',
       filter: 'agSetColumnFilter',
       filterParams: {
@@ -46,9 +47,71 @@ export class BranchesComponent {
       minWidth: 150
     },
     {
-      field: 'addedBy',
-      headerName: 'Added By',
+      field: 'City',
+      headerName: 'City',
       filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+    },
+    {
+      field: 'State',
+      headerName: 'State',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+    },
+    {
+      field: 'PostalCode',
+      headerName: 'PostalCode',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+    },
+    // {
+    //   field: 'IsActive',
+    //   headerName: 'IsActive',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 150
+    // },
+    {
+      field: 'IsActive',
+      headerName: 'IsActive',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
+    },
+    {
+      field: 'addedBy',
+      headerName: 'AddedBy',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -58,21 +121,13 @@ export class BranchesComponent {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    },
-    {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+    },{
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
   ];
   declaredActionColumns: ActionColumn[] = [
     {
@@ -95,7 +150,8 @@ export class BranchesComponent {
 
 
   ngOnInit(): void {
-    //this.GetbranchList();
+    this.getAllBranchDetails();
+    
   }
 
   constructor(private router: Router,
@@ -151,6 +207,13 @@ export class BranchesComponent {
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
+  }
+
+  getAllBranchDetails() {
+    this.addBranchService.getBranchList().subscribe((result: any) => {
+      this.tdsReturnList = result.Value;
+      let tdsReturnList = result.Value;
+    })
   }
 
 }

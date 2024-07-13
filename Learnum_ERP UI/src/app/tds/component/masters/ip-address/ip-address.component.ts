@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
-import { IpAddressService } from './ip-address.service';
+// import { IpAddressService } from './ip-address.service';
 
+import { AddIpaddressService } from './add-ipaddress/add-ipaddress.service';
 
 @Component({
   selector: 'app-ip-address',
@@ -13,14 +14,15 @@ import { IpAddressService } from './ip-address.service';
   styleUrls: ['./ip-address.component.scss']
 })
 export class IpAddressComponent {
+  
   tdsReturnList: any[] = [];
   form: FormGroup;
-
+  getEmployeeList: any;
   declaredTableColumns: TableColumn[] = [
 
     {
-      field: 'Location',
-      headerName: 'LocationID',
+      field: 'LocationId',
+      headerName: 'Sr.No',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -29,7 +31,17 @@ export class IpAddressComponent {
 
     },
     {
-      field: 'Location IP',
+    field: 'Location',
+      headerName: 'Location',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+
+    },
+    {
+      field: 'LocationIP',
       headerName: 'LocationIP',
       filter: 'agSetColumnFilter',
       filterParams: {
@@ -39,19 +51,35 @@ export class IpAddressComponent {
 
     },
     {
-      field: 'IP status',
-      headerName: 'IPStatus',
+      field: 'IsActive',
+      headerName: 'IsActive',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
-
+      minWidth: 150,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
     },
     {
       field: 'addedBy',
-      headerName: 'Added By',
+      headerName: 'AddedBy',
       filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -61,21 +89,13 @@ export class IpAddressComponent {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    },
-    {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+    },{
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
   ];
   declaredActionColumns: ActionColumn[] = [
     {
@@ -94,19 +114,21 @@ export class IpAddressComponent {
     }
 
   ];
-  getEmployeeList: any;
+  
 
 
 
   ngOnInit(): void {
     // this.GetbranchList();
+    this.getAllLocationDetails();
+
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    private ipadressService: IpAddressService,
+    private addIpaddressService : AddIpaddressService,
     private formBuilder: FormBuilder) {
     {
       this.form = this.formBuilder.group({
@@ -154,4 +176,12 @@ export class IpAddressComponent {
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
+  getAllLocationDetails() {
+    this.addIpaddressService.getLocationList().subscribe((result: any) => {
+      this.tdsReturnList = result.Value;
+      let tdsReturnList = result.Value;
+    })
+  }
+
+  
 }

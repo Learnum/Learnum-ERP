@@ -40,7 +40,7 @@ namespace Learnum.ERP.Repository.Master
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<LocationDetailsResponseModel>("PROC_GetIPAddressDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                var result = dbConnection.Query<LocationDetailsResponseModel>("PROC_GetIPAddressDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }

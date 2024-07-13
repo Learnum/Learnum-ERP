@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
@@ -15,11 +15,12 @@ import { IPAddressDetailsModel } from './Ipaddress.model';
 })
 export class AddIpaddressComponent implements OnInit {
 
+  form = new FormGroup({});
   ipDetails: IPAddressDetailsModel = new IPAddressDetailsModel();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  form: any;
+  formBuilder: any;
   
   constructor(
     private router: Router,
@@ -33,20 +34,8 @@ export class AddIpaddressComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-    this.createForm();
   }
 
-  createForm(): void {
-    this.form = this.fb.group({
-
-      Location: ['', Validators.required],
-      LocationIP: ['', Validators.required],
-      IPStatus: ['', Validators.required],
-
-
-    });
-
-  }
   reset() {
     throw new Error('Method not implemented.');
   }
@@ -92,18 +81,41 @@ export class AddIpaddressComponent implements OnInit {
               },
             },
           },
+          // {
+          //   className: 'col-md-4',
+          //   type: 'select',
+          //   key: 'IsActive',
+          //   props: {
+          //     placeholder: 'Select IP Status',
+          //     required: true,
+          //     label: 'IP Status',
+          //     options: [
+          //       { value: true, label: 'Active' },
+          //       { value: false, label: 'InActive' }
+          //     ],  
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'IP status is required',
+          //     },
+          //   },
+          // },
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'select',
-            key: 'IPstatus',
+            key: 'IsActive',
             props: {
-              placeholder: 'Select IP Status',
+              placeholder: 'Select IPStatus ',
               required: true,
-              label: 'IP Status',  
+              label: 'IPStatus',
+              options: [
+                { value: true, label: 'Active' },
+                { value: false, label: 'InActive' }
+              ],
             },
             validation: {
               messages: {
-                required: 'IP status is required',
+                required: 'Please select a branch status',
               },
             },
           },
@@ -116,42 +128,43 @@ export class AddIpaddressComponent implements OnInit {
     this.router.navigateByUrl('tds/masters/ip-address');
   }
 
-  get f() {
-    return this.form.controls;
-  }
 
   onSubmit(): void {
-    this.form.markAllAsTouched();
+   // this.form.markAllAsTouched();
     if (this.form.valid) {
-      // this.insertBranch();
-      //this.getBranchDetails();
-    }
-    else {
+      this.AddIPAddress();
+    } else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
-  // insertIP() {
-    // this.ipDetails.AddedBy = 1;
-    // this.ipDetails.AddedDate = new Date();
-    // this.ipDetails.UpdatedBy = 1;
-    // this.ipDetails.UpdatedDate = new Date();
-    // this.ipDetails.IsActive = true;
 
-  //   this.addipaddressService.insertIPData(this.branchDetails).subscribe(
-  //     (result: any) => {
-  //       const serviceResponse = result.Value;
-  //       if (serviceResponse === ResponseCode.Success) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-  //       } else if (serviceResponse === ResponseCode.Update) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-  //       } else {
-  //         this.alertService.ShowErrorMessage(this.messageService.serviceError);
-  //       }
-  //     },
-  //     (error: any) => {
-  //       this.alertService.ShowErrorMessage("Enter all required fields");
-  //     }
-  //   );
-  //   this.router.navigateByUrl('tds/masters/branches');
-  // }
+  AddIPAddress() {
+    this.ipDetails.addedBy = 1;
+    this.ipDetails.addedDate = new Date();
+    this.ipDetails.updatedBy = 1;
+    this.ipDetails.updatedDate = new Date();
+    this.ipDetails.locationId = 0;
+
+    this.addipaddressService.insertIPAddress(this.ipDetails).subscribe(
+      (result: any) => {
+        let serviceResponse = result.Value
+        if (result.Value === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+
+        }
+        else if (serviceResponse == ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        }
+        else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage("Enter all required fields");
+      }
+    )
+    this.router.navigateByUrl('tds/masters/ip-address');
+  }
+
+  
 }

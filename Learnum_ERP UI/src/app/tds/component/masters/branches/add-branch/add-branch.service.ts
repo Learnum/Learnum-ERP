@@ -22,7 +22,6 @@ export class AddBranchService extends BaseService {
   }
 
   insertBranchData(branchDetails: BranchDetailsModel) {
-    //const URL = ConfigurationSettings.BASE_API_URL;
     return this.apiService.postBlob(this.urlInsertBranchDetails,branchDetails);
   }
 

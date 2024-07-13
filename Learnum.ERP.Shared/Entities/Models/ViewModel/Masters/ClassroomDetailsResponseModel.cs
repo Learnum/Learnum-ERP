@@ -8,7 +8,10 @@ namespace Learnum.ERP.Shared.Entities.Models.ViewModel
 {
     public class ClassroomDetailsResponseModel
     {
+        public long ClassRoomId { get; set; }
         public long BranchId { get; set; }
+
+        public string BranchName { get; set; }
 
         public string ClassroomName { get; set; }
 
