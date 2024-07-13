@@ -5,6 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { formatDate } from '@angular/common';
+import { TrainerDetailsModel } from './trainerdetails.model';
+import { AddtrainerService } from './addtrainer.service';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
 @Component({
   selector: 'app-add-trainer',
@@ -14,18 +17,15 @@ import { formatDate } from '@angular/common';
 export class AddTrainerComponent implements OnInit {
 
   form = new FormGroup({});
- 
+  TrainerDetails: TrainerDetailsModel = new TrainerDetailsModel();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
-  GetEmployeeList: any;
-  coOwners: any;
   NowDate: any = new Date();
-employeeDetails: any;
+
  
   constructor(
-    //private addEmployeeService: AddEmployeeService,
+    private addtrainerService: AddtrainerService,
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -35,69 +35,10 @@ employeeDetails: any;
 
   ngOnInit(): void {
     this.setParameter();
-  //  this.getReason();
-    this.createForm();
     this.editData = this.activateRoute.snapshot.queryParams;
-    if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
-   //   this.getEmployeeDetails(this.editData.EmployeeDetailId);
-    }
-    
+    if (this.editData.source === 'edit' && this.editData.trainerId) {
   }
-  createForm(): void {
-    this.form = this.fb.group({
-      CourseName: ['', Validators.required], 
-      SubjectName: ['', Validators.required], 
-      BranchName: ['', Validators.required], 
-      BatchName: ['', Validators.required], 
-      TrainerName: ['', Validators.required], 
-      TrainerBatchStatus: ['', Validators.required], 
-      
-    });
   }
-
-
-  // getReason() {
-  //   this.addEmployeeService.getReason().subscribe(
-  //     (result: any) => {
-  //       this.reasonList = result.Value;
-  //       this.setParameter();
-  //     },
-  //     (error) => {
-  //       // Handle error
-  //     }
-  //   );
-  // }
-
-  // getEmployeeDetails(EmployeeDetailId: number) {
-  //   this.addEmployeeService.getEmployeeDetails(EmployeeDetailId).subscribe(
-  //     (result: any) => {
-  //       if (result && result.Value && result.Value.Item1) {
-  //         this.employeeDetails = result.Value.Item1;
-          
-  //         //DateofPayment && DateOfDeduction
-  //         this.employeeDetails.DateOfPayment = this.addEmployeeService.formatDate(this.employeeDetails.DateOfPayment);
-  //         this.employeeDetails.DateOfDeduction = this.addEmployeeService.formatDate(this.employeeDetails.DateOfDeduction);
-
-  //         this.setParameter();
-  //       } else {
-  //         console.error('No data found for EmployeeDetailId: ' + EmployeeDetailId);
-
-  //       }
-  //     },
-  //     (error: any) => {
-  //       console.error('Error retrieving employee details:', error);
-
-  //       if (error && error.status === 404) {
-  //         console.error('Employee not found.');
-
-  //       } else {
-  //         console.error('An unexpected error occurred. Please try again later.');
-
-  //       }
-  //     }
-  //   );
-  // }
-
 
 setParameter() {
     this.fields = [
@@ -236,40 +177,40 @@ setParameter() {
     this.form.markAllAsTouched();
     if (this.form.valid) {
     //  this.insertAddEmployee();
-      this.GetEmployeeList();
+      //this.GetEmployeeList();
     }
     else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
 
-  // insertAddEmployee() {
-  //   this.employeeDetails.AddedBy = 1;
-  //   this.employeeDetails.AddedDate = new Date();
-  //   this.employeeDetails.UpdatedBy = 1;
-  //   this.employeeDetails.UpdatedDate = new Date();
-  //   this.employeeDetails.IsActive = true;
+  insertTrainer() {
+    this.TrainerDetails.addedBy = 1;
+    this.TrainerDetails.addedDate = new Date();
+    this.TrainerDetails.updatedBy = 1;
+    this.TrainerDetails.updatedDate = new Date();
+    this.TrainerDetails.isActive = true;
 
-  //   this.addEmployeeService.insertEmployeeData(this.employeeDetails).subscribe(
-  //     (result: any) => {
-  //       let serviceResponse = result.Value
-  //       if (result.Value === ResponseCode.Success) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+    this.addtrainerService.insertTrainerData(this.TrainerDetails).subscribe(
+      (result: any) => {
+        let serviceResponse = result.Value
+        if (result.Value === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
 
-  //       }
-  //       else if (serviceResponse == ResponseCode.Update) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-  //       }
-  //       else {
-  //         this.alertService.ShowErrorMessage(this.messageService.serviceError);
-  //       }
-  //     },
-  //     (error: any) => {
-  //       this.alertService.ShowErrorMessage("Enter all required fields");
-  //     }
-  //   )
-  //   this.router.navigateByUrl('tds/tds-return/employee');
-  // }
+        }
+        else if (serviceResponse == ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        }
+        else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage("Enter all required fields");
+      }
+    )
+    this.router.navigateByUrl('tds/hrd/trainer');
+  }
 
 
 
