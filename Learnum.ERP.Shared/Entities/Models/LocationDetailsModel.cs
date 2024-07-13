@@ -14,6 +14,6 @@ namespace Learnum.ERP.Shared.Entities.Models
 
         public string LocationIP { get; set; }
 
-        public Boolean IsActive { get; set; }
+        public bool IsActive { get; set; }
     }
 }

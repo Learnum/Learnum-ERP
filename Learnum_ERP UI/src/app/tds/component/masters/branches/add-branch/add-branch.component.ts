@@ -36,6 +36,7 @@ export class AddBranchComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.setParameter();
   // this.createForm();
     this.editData = this.activateRoute.snapshot.queryParams;
@@ -150,8 +151,8 @@ export class AddBranchComponent implements OnInit {
               required: true,
               label: 'Branch Status',
               options: [
-                { value: 1, label: 'Active' },
-                { value: 2, label: 'InActive' }
+                { value: true, label: 'Active' },
+                { value: false, label: 'InActive' }
               ],
             },
             validation: {
@@ -169,13 +170,7 @@ export class AddBranchComponent implements OnInit {
   onCancleClick() {
     this.router.navigateByUrl('tds/masters/branches');
   }
-
-  // get f() {
-  //   return this.form.controls;
-  // }
-
   
-
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {

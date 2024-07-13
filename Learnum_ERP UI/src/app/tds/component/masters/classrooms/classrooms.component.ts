@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddClassroomsService } from './add-classrooms/add-classrooms.service';
 
 @Component({
   selector: 'app-classrooms',
@@ -18,10 +19,28 @@ export class ClassroomsComponent implements OnInit {
   tdsReturnList: any[] = [];
   form: FormGroup;
   getEmployeeList: any;
- declaredTableColumns: TableColumn[] = [
-
+ declaredTableColumns: TableColumn[] = 
+ [
+  {
+    field: 'ClassRoomId',
+    headerName: 'SR.No',
+    filter: 'agTextColumnFilter',
+    filterParams: {
+      buttons: ['reset', 'apply'],
+    },
+    minWidth: 200,
+  },
+  {
+    field: 'BranchName',
+    headerName: 'Branch Name',
+    filter: 'agTextColumnFilter',
+    filterParams: {
+      buttons: ['reset', 'apply'],
+    },
+    minWidth: 200,
+  },
     {
-      field: 'Classroom Name',
+      field: 'ClassroomName',
       headerName: 'Classroom Name',
       filter: 'agTextColumnFilter',
       filterParams: {
@@ -31,7 +50,7 @@ export class ClassroomsComponent implements OnInit {
 
     },
     {
-      field: 'Student Capacity',
+      field: 'StudentCapacity',
       headerName: 'Student Capacity',
       filter: 'agSetColumnFilter',
       filterParams: {
@@ -41,19 +60,35 @@ export class ClassroomsComponent implements OnInit {
 
     },
     {
-      field: 'Classroom Status',
+      field: 'IsActive',
       headerName: 'Classroom Status',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
-
+      minWidth: 150,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
     },
     {
       field: 'addedBy',
-      headerName: 'Added By',
+      headerName: 'AddedBy',
       filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -63,21 +98,13 @@ export class ClassroomsComponent implements OnInit {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    },
-    {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+    },{
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
   ];
   declaredActionColumns: ActionColumn[] = [
     {
@@ -97,13 +124,14 @@ export class ClassroomsComponent implements OnInit {
 
   ];
  ngOnInit(): void {
-
+    this.getClassroomDetails();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
+    private addClassroomsService : AddClassroomsService,
     private formBuilder: FormBuilder) {
     {
       this.form = this.formBuilder.group({
@@ -133,6 +161,13 @@ ActionColumn: any[] = [
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
+
+  getClassroomDetails() {
+    this.addClassroomsService.getClassroomList().subscribe((result: any) => {
+      this.tdsReturnList = result.Value;
+      let tdsReturnList = result.Value;
+    })
+  } 
 }
 
 

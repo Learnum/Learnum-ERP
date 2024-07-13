@@ -102,15 +102,15 @@ constructor(
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'ClassroomStatus',
+            key: 'isActive',
             props: {
               placeholder: 'Classroom Status',
               type: 'text',
               label: "Classroom Status",
               required: true,
               options: [
-                { value: 1, label: 'Active' },
-                { value: 2, label: 'InActive' }
+                { value: true, label: 'Active' },
+                { value: false, label: 'InActive' }
               ],
              
             },
@@ -130,14 +130,10 @@ constructor(
     this.router.navigateByUrl('tds/masters/classrooms');
   }
 
-  onSubmit(): void {
-    this.form.markAllAsTouched();
-    if (this.form.valid) {
-      this.insertClassroom;
-    }
-    else {
-      this.alertService.ShowErrorMessage('Please fill in all required fields.');
-    }
+  onSubmit() {
+    // if (this.form.valid) {
+      this.insertClassroom();
+    // }
   }
 
   insertClassroom() {
@@ -162,7 +158,7 @@ constructor(
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/masters/branches');
+    this.router.navigateByUrl('tds/masters/classrooms');
   }
 
 

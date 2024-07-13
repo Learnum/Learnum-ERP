@@ -2,24 +2,29 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { APIService } from 'src/app/core/services/apiService';
+import { BaseService } from 'src/app/core/services/baseService';
+import { IPAddressDetailsModel } from './Ipaddress.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AddIpaddressService {
+export class AddIpaddressService extends BaseService {
 
-  private urlIPDetails: string = "EmployeeDetails/insertEmployeeDetails";
-  private urlGetipdetails: string = "EmployeeDetails/insertEmployeeDetails";
+  private urlIPDetails: string = "LocationDetails/InsertLocationDetails";
+  private urlGetipdetails: string = "LocationDetails/getAllLocationList";
 
-  constructor(private http: HttpClient) { }
+  constructor(private apiService: APIService,private http: HttpClient) {
+    super();
+   }
 
-  // insertIPData(IpDetails: IPDetails): Observable<any> {
-  //   return this.http.post(this.urlIPDetails, IpDetails);
+  insertIPAddress(locationDetails: IPAddressDetailsModel) {
+    return this.apiService.postBlob(this.urlIPDetails,locationDetails);
+  }
 
-  // }
-  // getipDetails(): Observable<any> {
-  //   return this.http.get(this.urlGetipdetails);
-  // }
+  getLocationList() {
+    return this.apiService.getData(this.urlGetipdetails);
+  }
 
 
 }
