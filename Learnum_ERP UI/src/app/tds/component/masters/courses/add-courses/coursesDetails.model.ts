@@ -1,18 +1,18 @@
-export class coursesDetails
-  {
-  BranchName: string;
-  Address: string;
+export class coursesDetailsModel
+{
+  courseId: number;
+  courseName: string;
+  description: string;
+  isActive: boolean;
+  file: File;
+  // mimeType: string;
+  // documentName: string;
+  // fileName: string;
+  // filePath: string;
+  addedBy: number | null;
+  addedDate: Date | null;
+  updatedBy: number | null;
+  updatedDate: Date | null;
+  computerName: string;
 
-  city : string;
-  state: string;
-  PostalCode: Number
-  
-  BranchId:number;
-  AddedDate: Date;
-  IsActive: boolean;
-  UpdatedDate: Date;
-  UpdatedBy: number;
-  AddedBy: number;
-
-    
-}
+  }

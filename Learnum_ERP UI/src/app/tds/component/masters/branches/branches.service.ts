@@ -6,12 +6,12 @@ import { APIService } from 'src/app/core/services/apiService';
 })
 export class BranchesService {
 
-  private urlgetBranchList: string = "BranchDetails/getAllBranchList";
+  // private urlgetBranchList: string = "BranchDetails/getAllBranchList";
 
-  constructor(private apiService: APIService) {
-  }
+  // constructor(private apiService: APIService) {
+  // }
 
-  getBranchList() {
-    return this.apiService.getData(this.urlgetBranchList);
-  }
+  // getBranchList() {
+  //   return this.apiService.getData(this.urlgetBranchList);
+  // }
 }

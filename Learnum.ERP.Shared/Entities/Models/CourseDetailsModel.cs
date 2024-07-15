@@ -15,11 +15,16 @@ namespace Learnum.ERP.Shared.Entities.Models
 
         public string Description { get; set; }
 
-        public Boolean IsActive { get; set; }
-        //public string MimeType { get; set; }
-        //public string DocumentName { get; set; }
-        //public string FileName { get; set; }
-        //public string FilePath { get; set; }
+        public bool IsActive { get; set; }
+      
+       // public IFormFile File { get; set; }
+    }
+
+    public class CourseFormData
+    {
+        public string CourseDetailsModel { get; set; }
         public IFormFile File { get; set; }
+
+       
     }
 }
