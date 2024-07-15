@@ -14,6 +14,6 @@ namespace Learnum.ERP.Shared.Entities.Models.ViewModel
 
         public string Description { get; set; }
 
-        public string CourseStatus { get; set; }
+        public bool IsActive { get; set; }
     }
 }

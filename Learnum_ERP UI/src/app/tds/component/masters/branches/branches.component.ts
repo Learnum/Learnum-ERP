@@ -14,7 +14,7 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
 })
 export class BranchesComponent {
 
-  tdsReturnList: any[] = [];
+  branchList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
@@ -73,15 +73,6 @@ export class BranchesComponent {
       },
       minWidth: 150
     },
-    // {
-    //   field: 'IsActive',
-    //   headerName: 'IsActive',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: {
-    //     buttons: ['reset', 'apply'],
-    //   },
-    //   minWidth: 150
-    // },
     {
       field: 'IsActive',
       headerName: 'IsActive',
@@ -150,8 +141,7 @@ export class BranchesComponent {
 
 
   ngOnInit(): void {
-    this.getAllBranchDetails();
-    
+    this.getAllBranchDetails();    
   }
 
   constructor(private router: Router,
@@ -211,8 +201,8 @@ export class BranchesComponent {
 
   getAllBranchDetails() {
     this.addBranchService.getBranchList().subscribe((result: any) => {
-      this.tdsReturnList = result.Value;
-      let tdsReturnList = result.Value;
+      this.branchList = result.Value;
+      let branchList = result.Value;
     })
   }
 

@@ -218,16 +218,6 @@ export class AddBatchesComponent implements OnInit {
           label: "End Time",
         },
       },
-      {
-        className: 'col-md-4',
-        type: 'input',
-        key: 'ZbookID',
-        templateOptions: {
-          placeholder: 'Enter Zbook ID',
-          required: true,
-          label: "Zbook ID",
-        },
-      }
       ]
     }
     ];

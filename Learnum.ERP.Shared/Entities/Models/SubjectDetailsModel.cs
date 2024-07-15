@@ -9,11 +9,12 @@ namespace Learnum.ERP.Shared.Entities.Models
     public class SubjectDetailsModel :BaseModel
     {
         public long CourseId { get; set; }
+        public long SubjectId { get; set; }
         public string SubjectName { get; set; }
 
         public string SubjectDescription { get; set; }
 
-        public Boolean IsActive { get; set; }
+        public bool IsActive { get; set; }
 
     }
 }

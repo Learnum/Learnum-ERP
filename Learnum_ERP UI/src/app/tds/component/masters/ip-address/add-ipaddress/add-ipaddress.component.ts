@@ -81,25 +81,6 @@ export class AddIpaddressComponent implements OnInit {
               },
             },
           },
-          // {
-          //   className: 'col-md-4',
-          //   type: 'select',
-          //   key: 'IsActive',
-          //   props: {
-          //     placeholder: 'Select IP Status',
-          //     required: true,
-          //     label: 'IP Status',
-          //     options: [
-          //       { value: true, label: 'Active' },
-          //       { value: false, label: 'InActive' }
-          //     ],  
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'IP status is required',
-          //     },
-          //   },
-          // },
           {
             className: 'col-md-6',
             type: 'select',

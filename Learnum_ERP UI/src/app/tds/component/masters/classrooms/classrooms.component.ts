@@ -16,7 +16,7 @@ export class ClassroomsComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
 
-  tdsReturnList: any[] = [];
+  classroomDetailsList: any[] = [];
   form: FormGroup;
   getEmployeeList: any;
  declaredTableColumns: TableColumn[] = 
@@ -164,8 +164,8 @@ ActionColumn: any[] = [
 
   getClassroomDetails() {
     this.addClassroomsService.getClassroomList().subscribe((result: any) => {
-      this.tdsReturnList = result.Value;
-      let tdsReturnList = result.Value;
+      this.classroomDetailsList = result.Value;
+      let classroomDetailsList = result.Value;
     })
   } 
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddSubjectsService } from './add-subjects/add-subjects.service';
 
 @Component({
   selector: 'app-subjects',
@@ -11,12 +12,21 @@ import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-g
   styleUrls: ['./subjects.component.scss']
 })
 export class SubjectsComponent implements OnInit {
-  tdsReturnList: any[] = [];
+  subjectsList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'Subject Name',
+      field: 'SubjectId',
+      headerName: 'SR.NO',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+    },
+    {
+      field: 'SubjectName',
       headerName: 'Subject Name',
       filter: 'agTextColumnFilter',
       filterParams: {
@@ -25,7 +35,7 @@ export class SubjectsComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'Subject Description',
+      field: 'SubjectDescription',
       headerName: 'Subject Description',
       filter: 'agTextColumnFilter',
       filterParams: {
@@ -35,19 +45,35 @@ export class SubjectsComponent implements OnInit {
 
     },
     {
-      field: 'Subject Status',
+      field: 'IsActive',
       headerName: 'Subject Status',
       filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
-
+      minWidth: 150,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
     },
     {
       field: 'addedBy',
-      headerName: 'Added By',
+      headerName: 'AddedBy',
       filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -57,21 +83,13 @@ export class SubjectsComponent implements OnInit {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    },
-    {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+    },{
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
 
   ];
   getEmployeeList: any;
@@ -79,11 +97,12 @@ export class SubjectsComponent implements OnInit {
 
 
   ngOnInit(): void {
-   // this.GetbranchList();
+   this.getSubjectDetails();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
+    private addSubjectsService:AddSubjectsService,
     private messageService: MessageService,
     private alertService: AlertService,
     private formBuilder: FormBuilder) {
@@ -128,6 +147,13 @@ export class SubjectsComponent implements OnInit {
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
+
+  getSubjectDetails() {
+    this.addSubjectsService.getSubjectList().subscribe((result: any) => {
+      this.subjectsList = result.Value;
+      let subjectsList = result.Value;
+    })
+  } 
 
 }
 

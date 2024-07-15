@@ -5,7 +5,8 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
-import { subjectDetails } from './add-subject.model';
+import { AddSubjectsService } from './add-subjects.service';
+import { SubjectModel } from './add-subject.model';
 
 @Component({
   selector: 'app-add-subjects',
@@ -14,61 +15,30 @@ import { subjectDetails } from './add-subject.model';
 })
 export class AddSubjectsComponent implements OnInit {
 
-  //ipDetails: IPDetails = new IPDetails();
-  subjectDetails: subjectDetails = new subjectDetails();
+  subjectModel:SubjectModel=new SubjectModel();
+  
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
   tdsReturnList: any;
   form: any;
   branchDetails: any;
+  courseDetails: any;
 
   constructor(
     private router: Router,
-
-    //private addBranchService: AddBranchService,
-    //private addipaddressService: AddIpaddressService,
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private addSubjectsService: AddSubjectsService
 
   ) { }
 
   ngOnInit(): void {
     this.setParameter();
+   this.getCourseDetails();
   }
-
-
-  // getBranchDetails(BranchId: number) {
-  //   this.addipaddressService.getipDetails().subscribe(
-  //     (result: any) => {
-  //       if (result && result.Value && result.Value.Item1) {
-  //         this.branchDetails = result.Value.Item1;
-
-  //         // //DateofPayment && DateOfDeduction
-  //         // this.employeeDetails.DateOfPayment = this.addEmployeeService.formatDate(this.employeeDetails.DateOfPayment);
-  //         // this.employeeDetails.DateOfDeduction = this.addEmployeeService.formatDate(this.employeeDetails.DateOfDeduction);
-
-  //         this.setParameter();
-  //       } else {
-  //         console.error('No data found for EmployeeDetailId: ' + BranchId);
-
-  //       }
-  //     },
-  //     (error: any) => {
-  //       console.error('Error retrieving employee details:', error);
-
-  //       if (error && error.status === 404) {
-  //         console.error('Employee not found.');
-
-  //       } else {
-  //         console.error('An unexpected error occurred. Please try again later.');
-
-  //       }
-  //     }
-  //   );
-  // }
 
   reset() {
     throw new Error('Method not implemented.');
@@ -83,21 +53,20 @@ export class AddSubjectsComponent implements OnInit {
 
           {
             className: 'col-md-4',
-            type: 'input',
-            key: 'CourseName',
+            type: 'select',
+            key: 'CourseId',
             templateOptions: {
               placeholder: 'Select',
               type: 'text',
               label: "Course Name",
               required: true,
-
+              options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
             },
-
           },
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'SubjectName',
+            key: 'subjectName',
             props: {
               placeholder: 'Subject Name',
               type: 'text',
@@ -115,22 +84,22 @@ export class AddSubjectsComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'select',
-            key: 'SubjectStatus',
+            key: 'isActive',
             props: {
               placeholder: 'Select Subject',
               required: true,
               type: 'text',
               label: 'Subject Status',
               options: [
-                { value: 'Active', label: 'Active' },
-                { value: 'Inactive', label: 'Inactive' }
-              ]
+                { value: true, label: 'Active' },
+                { value: false, label: 'InActive' }
+              ],
             },
           },
           {
             className: 'col-md-',
             type: 'textarea',
-            key: 'SubjectDescription',
+            key: 'subjectDescription',
             templateOptions: {
               placeholder: 'Enter Subject Description',
               label: 'Subject Description',
@@ -154,23 +123,61 @@ export class AddSubjectsComponent implements OnInit {
     this.router.navigateByUrl('tds/masters/subjects');
   }
 
-  get f() {
-    return this.form.controls;
-  }
+  // get f() {
+  //   return this.form.controls;
+  // }
 
   onSubmit(): void {
-    this.form.markAllAsTouched();
-    if (this.form.valid) {
-      // this.insertBranch();
-      //this.getBranchDetails();
-    }
-    else {
-      this.alertService.ShowErrorMessage('Please fill in all required fields.');
-    }
+    // this.form.markAllAsTouched();
+    // if (this.form.valid) {
+    //   this.insertSubject();
+    // }
+    // else {
+    //   this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    // }
+
+    this.insertSubject();
   }
 
+  getCourseDetails() {
+    this.addSubjectsService.getClassroomList().subscribe(
+      (data: any) => {
+        this.courseDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
 
+  insertSubject() {
+    this.subjectModel.addedBy = 1;
+    this.subjectModel.addedDate = new Date();
+    this.subjectModel.updatedBy = 1;
+    this.subjectModel.updatedDate = new Date();
+    this.subjectModel.subjectId = 0;
+
+    this.addSubjectsService.insertSubjectDetails(this.subjectModel).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+    this.router.navigateByUrl('tds/masters/subjects');
+  }
 }
+  
+
 
 
 

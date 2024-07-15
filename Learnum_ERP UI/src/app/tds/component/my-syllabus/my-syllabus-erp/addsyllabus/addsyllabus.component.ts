@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
-import { subjectDetails } from '../../../masters/subjects/add-subjects/add-subject.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -13,7 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./addsyllabus.component.scss']
 })
 export class AddsyllabusComponent implements OnInit {
-  subjectDetails: subjectDetails = new subjectDetails(); 
+  //subjectDetails: subjectDetails = new subjectDetails(); 
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
