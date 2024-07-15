@@ -6,8 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormlyModule } from '@ngx-formly/core';
-
-import { IpAddressService } from '../ip-address.service';
 import { AddIpaddressComponent } from './add-ipaddress.component';
 
 @NgModule({
@@ -23,7 +21,7 @@ import { AddIpaddressComponent } from './add-ipaddress.component';
     FormlyModule.forRoot(),
   ],
   providers : [
-    IpAddressService
+  
   ]
 })
 export class AddIpaddressModule { }

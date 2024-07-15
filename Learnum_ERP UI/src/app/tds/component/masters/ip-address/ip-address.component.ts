@@ -15,7 +15,7 @@ import { AddIpaddressService } from './add-ipaddress/add-ipaddress.service';
 })
 export class IpAddressComponent {
   
-  tdsReturnList: any[] = [];
+ ipaddresList: any[] = [];
   form: FormGroup;
   getEmployeeList: any;
   declaredTableColumns: TableColumn[] = [
@@ -178,8 +178,8 @@ export class IpAddressComponent {
   }
   getAllLocationDetails() {
     this.addIpaddressService.getLocationList().subscribe((result: any) => {
-      this.tdsReturnList = result.Value;
-      let tdsReturnList = result.Value;
+      this.ipaddresList = result.Value;
+      let ipaddresList = result.Value;
     })
   }
 

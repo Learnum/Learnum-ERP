@@ -6,7 +6,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
-import { ClassroomsService } from '../classrooms.service';
 import { AddClassroomsComponent } from './add-classrooms.component';
 
 @NgModule({
@@ -21,7 +20,7 @@ import { AddClassroomsComponent } from './add-classrooms.component';
     FormlyModule
   ],
   providers : [
-   ClassroomsService
+  
   ]
 })
 export class AddClassroomsModule { }

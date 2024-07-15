@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { AddBranchComponent } from './add-branch.component';
-import { BranchesService } from '../branches.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormlyModule } from '@ngx-formly/core';
 
@@ -21,7 +20,7 @@ import { FormlyModule } from '@ngx-formly/core';
     FormlyModule.forRoot(),
   ],
   providers : [
-    BranchesService 
+    
   ]
 })
 export class AddBranchModule { }

@@ -17,7 +17,7 @@ selectCourse($event: any) {
 throw new Error('Method not implemented.');
 }
 
-  tdsReturnList: any[] = [];
+  branchList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
@@ -76,15 +76,6 @@ throw new Error('Method not implemented.');
       },
       minWidth: 150
     },
-    // {
-    //   field: 'IsActive',
-    //   headerName: 'IsActive',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: {
-    //     buttons: ['reset', 'apply'],
-    //   },
-    //   minWidth: 150
-    // },
     {
       field: 'IsActive',
       headerName: 'IsActive',
@@ -153,8 +144,7 @@ throw new Error('Method not implemented.');
 
 
   ngOnInit(): void {
-    this.getAllBranchDetails();
-    
+    this.getAllBranchDetails();    
   }
 
   constructor(private router: Router,
@@ -214,8 +204,8 @@ throw new Error('Method not implemented.');
 
   getAllBranchDetails() {
     this.addBranchService.getBranchList().subscribe((result: any) => {
-      this.tdsReturnList = result.Value;
-      let tdsReturnList = result.Value;
+      this.branchList = result.Value;
+      let branchList = result.Value;
     })
   }
 

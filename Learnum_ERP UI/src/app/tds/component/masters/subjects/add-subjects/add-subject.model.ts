@@ -1,19 +1,13 @@
-export class subjectDetails
-{
-  
-  BranchName: string;
-  Address: string;
 
-  city : string;
-  state: string;
-  PostalCode: Number
-  
-  BranchId:number;
-  AddedDate: Date;
-  IsActive: boolean;
-  UpdatedDate: Date;
-  UpdatedBy: number;
-  AddedBy: number;
-
-    
+export class SubjectModel {
+  courseId: number;
+  subjectId: number;
+  subjectName: string;
+  subjectDescription: string;
+  isActive: boolean;
+  addedBy: number | null;
+  addedDate: Date | null;
+  updatedBy: number | null;
+  updatedDate: Date | null;
+  computerName: string;
 }
