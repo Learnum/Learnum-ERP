@@ -5,6 +5,7 @@ using Learnum.ERP.Shared.Entities;
 using Learnum.ERP.Shared.Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Learnum.ERP.API.Controller
 {
@@ -25,11 +26,14 @@ namespace Learnum.ERP.API.Controller
 
 
         [HttpPost("InsertCourseDetails")]
-        public async Task<IActionResult> InsertCourseDetails([FromForm] CourseDetailsModel courseDetailsModel)
+        public async Task<IActionResult> InsertCourseDetails([FromForm] CourseFormData courseFormData)
         {
+
+            CourseDetailsModel? courseDetailsModel = JsonConvert.DeserializeObject<CourseDetailsModel>(courseFormData.CourseDetailsModel); ;
+
             var files = Request.Form.Files;
 
-            if (courseDetailsModel == null)
+            if (courseFormData == null)
             {
                 return BadRequest("Object is null");
             }
@@ -55,10 +59,10 @@ namespace Learnum.ERP.API.Controller
             //courseDetailsModel.FilePath = fullPath;
             //courseDetailsModel.MimeType = file.ContentType;
             //courseDetailsModel.FileName = file.FileName;
-            courseDetailsModel.AddedBy = base.User.Identity.GetUserId();
-            courseDetailsModel.UpdatedBy = base.User.Identity.GetUserId();
-            courseDetailsModel.AddedDate = DateTime.Now;
-            courseDetailsModel.UpdatedDate = DateTime.Now;
+            //courseDetailsModel.AddedBy = base.User.Identity.GetUserId();
+            //courseDetailsModel.UpdatedBy = base.User.Identity.GetUserId();
+            //courseDetailsModel.AddedDate = DateTime.Now;
+            //courseDetailsModel.UpdatedDate = DateTime.Now;
 
             FileUpload fileUpload = new FileUpload();
             fileUpload.FileName = file.FileName;
