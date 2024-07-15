@@ -3,7 +3,7 @@
     <b><span data-toggle="tooltip" title="Close"><i class="uil uil-multiply"></i> &nbsp;</span>Add Course</b>
   </h5>
   <div>
-    <form id="MyForm" [formGroup]="form">
+    <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">
       <formly-form [model]="coursesDetails" [fields]="fields" [options]="options" [form]="form">
       </formly-form>
     </form>
@@ -15,3 +15,4 @@
   <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
 
 </div>
+

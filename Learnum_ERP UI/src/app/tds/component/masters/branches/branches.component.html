@@ -18,5 +18,5 @@
 <app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="branchList" [tableColumns]="declaredTableColumns"
   [actionColumns]="declaredActionColumns" [isEditable]="false" [isSortable]="true" [isFilterable]="false"
   [isColumnFilterable]="false" [isResizable]="false" [isPageable]="true" [defaultPageSize]="12"
-  (selectedRows)="selectBranch($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">
+  (selectedRows)="selectCourse($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">
 </app-data-grid>

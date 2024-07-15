@@ -4,8 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
-import { coursesDetails } from './coursesDetails.model';
+import { coursesDetailsModel } from './coursesDetails.model';
 import { FormGroup } from '@angular/forms';
+import { AddCoursesService } from './add-courses.service';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
 @Component({
   selector: 'app-add-courses',
@@ -14,17 +16,17 @@ import { FormGroup } from '@angular/forms';
 })
 export class AddCoursesComponent implements OnInit {
 
-  coursesDetails: coursesDetails = new coursesDetails();
+  coursesDetails: coursesDetailsModel = new coursesDetailsModel();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
   tdsReturnList: any;
   branchDetails: any;
   form = new FormGroup({});
+
   constructor(
     private router: Router,
-
-    //private addclassroomService: AddClassroomsService,
+    private addCoursesService: AddCoursesService,
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
@@ -52,7 +54,7 @@ export class AddCoursesComponent implements OnInit {
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'Courses Name',
+            key: 'courseName',
             templateOptions: {
               placeholder: 'Enter Courses Name',
               type: 'text',
@@ -65,7 +67,7 @@ export class AddCoursesComponent implements OnInit {
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'Description',
+            key: 'description',
             props: {
               placeholder: 'Enter Description',
               type: 'text',
@@ -73,31 +75,34 @@ export class AddCoursesComponent implements OnInit {
               required: true,
 
             },
-            validation: {
-              messages: {
-                required: 'Description is required',
+            // validation: {
+            //   messages: {
+            //     required: 'Description is required',
 
-              },
-            },
+            //   },
+            // },
           },
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'CourseStatus',
+            key: 'isActive',
             props: {
               placeholder: 'Course Status',
               required: true,
               type: 'text',
               label: "Course Status",
-
+              options: [
+                { label: 'Active', value: 'true' },
+                { label: 'Inactive', value: 'false' }
+              ]
             },
 
-            validation: {
-              messages: {
-                required: 'Course Status is required',
+            // validation: {
+            //   messages: {
+            //     required: 'Course Status is required',
 
-              },
-            },
+            //   },
+            // },
           },
           {
             className: 'col-md-1',
@@ -110,12 +115,12 @@ export class AddCoursesComponent implements OnInit {
               required: true,
 
             },
-            validation: {
-              messages: {
-                required: 'Upload Brochure is required',
+            // validation: {
+            //   messages: {
+            //     required: 'Upload Brochure is required',
 
-              },
-            },
+            //   },
+            // },
           }
         ],
       },
@@ -126,18 +131,34 @@ export class AddCoursesComponent implements OnInit {
     this.router.navigateByUrl('tds/masters/courses');
   }
 
-  get f() {
-    return this.form.controls;
-  }
+  
 
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      
-    }
-    else {
+      this.insertCourse();
+    } else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
+   insertCourse() {
+    this.addCoursesService.insertCourseData(this.coursesDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+        this.router.navigateByUrl('tds/masters/courses');
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
 
 }

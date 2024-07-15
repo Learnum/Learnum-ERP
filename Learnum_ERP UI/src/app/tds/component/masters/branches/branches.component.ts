@@ -13,6 +13,9 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
   styleUrls: ['./branches.component.scss']
 })
 export class BranchesComponent {
+selectCourse($event: any) {
+throw new Error('Method not implemented.');
+}
 
   branchList: any[] = [];
   form: FormGroup;
