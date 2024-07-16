@@ -31,4 +31,20 @@ namespace Learnum.ERP.Shared.Entities.Models
 
         public DateTime EndTime { get; set; }
     }
+
+    public class BatchesDetailsReqModel
+    {
+        public BatchesDetailsModel batchesDetailsModel { get; set; }
+        public InstallMentModel installMentModel { get; set; }
+    }
+
+    public class InstallMentModel
+    {
+        public long InstallmentId { get; set; }
+        public int InstallmentNumber { get; set; }
+        public DateTime DueDate { get; set; }
+        public decimal InstallmentAmount { get; set; }
+
+    }
+
 }

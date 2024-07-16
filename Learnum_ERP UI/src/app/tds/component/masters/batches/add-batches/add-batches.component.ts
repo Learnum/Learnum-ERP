@@ -5,6 +5,10 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AddBranchService } from '../../branches/add-branch/add-branch.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
+import { tap } from 'rxjs/operators';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { AddBatchesService } from './add-batches.service';
+import { BatchesDetailsModel, BatchesDetailsReqModel } from './batchDetails.model';
 
 @Component({
   selector: 'app-add-batches',
@@ -21,10 +25,13 @@ export class AddBatchesComponent implements OnInit {
   branchDetails: any;
   CoOwnerDetailsModel: any;
   coOwnerFields: any;
+  batchDetails: BatchesDetailsModel = new BatchesDetailsModel();
+  batchesDetailsReq: BatchesDetailsReqModel = new BatchesDetailsReqModel();
+
 
   installmentForm = new FormGroup({});
   installmentModel: any = {
-    tasks: [null],
+    Installments: [],
   };
   installmentOptions: FormlyFormOptions = {};
   installmentFields: FormlyFieldConfig[];
@@ -32,7 +39,7 @@ export class AddBatchesComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private addBranchService: AddBranchService,
+    private addBatchService: AddBatchesService,
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
@@ -43,6 +50,195 @@ export class AddBatchesComponent implements OnInit {
     this.setParameter();
   }
 
+
+  // setParameter() {
+  //   this.fields = [
+  //     {
+  //       fieldGroupClassName: 'row card-body p-2',
+  //       fieldGroup: [
+  //         {
+  //           className: 'col-md-4',
+  //           type: 'input',
+  //           key: 'BatchName',
+  //           templateOptions: {
+  //             placeholder: 'Enter Batch',
+  //             type: 'text',
+  //             label: "Batch Name",
+  //             required: true,
+  //           },
+  //         },
+  //         {
+  //           className: 'col-md-4',
+  //           type: 'select',
+  //           key: 'BranchName',
+  //           templateOptions: {
+  //             placeholder: 'Enter Branch',
+  //             type: 'text',
+  //             label: "Branch Name",
+  //             required: true,
+  //           },
+  //         },
+  //         {
+  //           className: 'col-md-4',
+  //           type: 'select',
+  //           key: 'Classroom',
+  //           templateOptions: {
+  //             placeholder: 'Select Classroom',
+  //             type: 'text',
+  //             label: "Classroom",
+  //             required: true,
+  //           },
+  //         },
+  //         {
+  //           className: 'col-md-4',
+  //           type: 'select',
+  //           key: 'CourseName',
+  //           templateOptions: {
+  //             placeholder: 'Select',
+  //             required: true,
+  //             type: 'text',
+  //             label: "Course Name",
+  //           },
+  //         },
+  //         {
+  //           className: 'col-md-4',
+  //           type: 'input',
+  //           key: 'CourseFeesinInstallment',
+  //           templateOptions: {
+  //             placeholder: '###',
+  //             required: true,
+  //             label: "Course Fees in Installment",
+  //           },
+  //         },
+  //         {
+  //           className: 'col-md-4',
+  //           type: 'input',
+  //           key: 'OneTimeCourseFees',
+  //           templateOptions: {
+  //             placeholder: 'Enter One Time Course Fees',
+  //             required: true,
+  //             type: 'text',
+  //             label: "One Time Course Fees",
+  //           },
+  //           validation: {
+  //             messages: {
+  //               required: 'Please enter the course fees',
+  //             },
+  //           },
+  //         },
+  //       ],
+  //     },
+     
+  //     {
+  //       key: 'Installments',
+  //       type: 'repeat',
+  //       props: {
+  //         addText: '+ Add New',
+  //         label: 'Installments',
+  //       },
+  //       fieldArray: {
+  //         fieldGroupClassName: 'row',
+  //         fieldGroup: [
+  //           {
+  //             key: 'number',
+  //             className: 'col-4',
+  //             type: 'input',
+  //             templateOptions: {
+  //               placeholder: 'Installment Number',
+  //               type: 'number',
+  //               required: true,
+  //             },
+  //           },
+  //           {
+  //             key: 'installment',
+  //             className: 'col-4',
+  //             type: 'input',
+  //             templateOptions: {
+  //               placeholder: 'Due Date',
+  //               type: 'date',
+  //               required: true,
+  //             },
+  //           },
+  //           {
+  //             key: 'amount',
+  //             className: 'col-4',
+  //             type: 'input',
+  //             templateOptions: {
+  //               placeholder: 'Installment Amount',
+  //               type: 'number',
+  //               required: true,
+  //             },
+  //           }
+  //         ],
+  //       },
+  //     },
+  //     {
+  //     fieldGroupClassName: 'row card-body p-2',
+  //     fieldGroup: [
+  //     {
+  //       className: 'col-md-4',
+  //       type: 'input',
+  //       key: 'StartOn',
+  //       templateOptions: {
+  //         placeholder: 'YYYY-MM-DD',
+  //         required: true,
+  //         label: "Start On",
+  //       },
+  //     },
+  //     {
+  //       className: 'col-md-4',
+  //       type: 'input',
+  //       key: 'EndOn',
+  //       templateOptions: {
+  //         placeholder: 'YYYY-MM-DD',
+  //         required: true,
+  //         label: "End On",
+  //       },
+  //     },
+  //     {
+  //       className: 'col-md-4',
+  //       type: 'input',
+  //       key: 'BatchStatus',
+  //       templateOptions: {
+  //         placeholder: 'Enter Batch Status',
+  //         required: true,
+  //         label: "Batch Status",
+  //       },
+  //     },
+  //     {
+  //       className: 'col-md-4',
+  //       type: 'input',
+  //       key: 'StartTime',
+  //       templateOptions: {
+  //         placeholder: 'HH:MM AM/PM',
+  //         required: true,
+  //         label: "Start Time",
+  //       },
+  //     },
+  //     {
+  //       className: 'col-md-4',
+  //       type: 'input',
+  //       key: 'EndTime',
+  //       templateOptions: {
+  //         placeholder: 'HH:MM AM/PM',
+  //         required: true,
+  //         label: "End Time",
+  //       },
+  //     },
+  //     {
+  //       className: 'col-md-4',
+  //       type: 'input',
+  //       key: 'ZbookID',
+  //       templateOptions: {
+  //         placeholder: 'Enter Zbook ID',
+  //         required: true,
+  //         label: "Zbook ID",
+  //       },
+  //     }
+  //     ]
+  //   }
+  //   ];
+  // }
 
   setParameter() {
     this.fields = [
@@ -69,6 +265,10 @@ export class AddBatchesComponent implements OnInit {
               type: 'text',
               label: "Branch Name",
               required: true,
+              options: [
+                { value: 'cpat', label: 'Cpat' },
+                { value: 'tax', label: 'tax' },
+              ],
             },
           },
           {
@@ -80,6 +280,10 @@ export class AddBatchesComponent implements OnInit {
               type: 'text',
               label: "Classroom",
               required: true,
+              options: [
+                { value: 'Classroom-1', label: 'Classroom-1' },
+                { value: 'Classroom-2', label: 'Classroom-2' },
+              ],
             },
           },
           {
@@ -91,6 +295,10 @@ export class AddBatchesComponent implements OnInit {
               required: true,
               type: 'text',
               label: "Course Name",
+              options: [
+                { value: 'tax', label: 'tax' },
+                { value: 'tally', label: 'tally' },
+              ],
             },
           },
           {
@@ -121,7 +329,6 @@ export class AddBatchesComponent implements OnInit {
           },
         ],
       },
-     
       {
         key: 'Installments',
         type: 'repeat',
@@ -132,8 +339,18 @@ export class AddBatchesComponent implements OnInit {
         fieldArray: {
           fieldGroupClassName: 'row',
           fieldGroup: [
+            // {
+            //   key: 'InstallmentId',
+            //   className: 'col-4',
+            //   type: 'input',
+            //   templateOptions: {
+            //     placeholder: 'Installment ID',
+            //     type: 'number',
+            //     required: true,
+            //   },
+            // },
             {
-              key: 'number',
+              key: 'InstallmentNumber',
               className: 'col-4',
               type: 'input',
               templateOptions: {
@@ -143,7 +360,7 @@ export class AddBatchesComponent implements OnInit {
               },
             },
             {
-              key: 'installment',
+              key: 'DueDate',
               className: 'col-4',
               type: 'input',
               templateOptions: {
@@ -153,7 +370,7 @@ export class AddBatchesComponent implements OnInit {
               },
             },
             {
-              key: 'amount',
+              key: 'InstallmentAmount',
               className: 'col-4',
               type: 'input',
               templateOptions: {
@@ -161,65 +378,79 @@ export class AddBatchesComponent implements OnInit {
                 type: 'number',
                 required: true,
               },
+              hooks: {
+                onInit: (field) => {
+                  const form = field.parent.formControl;
+                  field.formControl.valueChanges.pipe(
+                    tap(() => {
+                      this.calculateInstallment();
+                    }),
+                  ).subscribe();
+                },
+              }
             }
           ],
         },
       },
       {
-      fieldGroupClassName: 'row card-body p-2',
-      fieldGroup: [
-      {
-        className: 'col-md-4',
-        type: 'input',
-        key: 'StartOn',
-        templateOptions: {
-          placeholder: 'YYYY-MM-DD',
-          required: true,
-          label: "Start On",
-        },
-      },
-      {
-        className: 'col-md-4',
-        type: 'input',
-        key: 'EndOn',
-        templateOptions: {
-          placeholder: 'YYYY-MM-DD',
-          required: true,
-          label: "End On",
-        },
-      },
-      {
-        className: 'col-md-4',
-        type: 'input',
-        key: 'BatchStatus',
-        templateOptions: {
-          placeholder: 'Enter Batch Status',
-          required: true,
-          label: "Batch Status",
-        },
-      },
-      {
-        className: 'col-md-4',
-        type: 'input',
-        key: 'StartTime',
-        templateOptions: {
-          placeholder: 'HH:MM AM/PM',
-          required: true,
-          label: "Start Time",
-        },
-      },
-      {
-        className: 'col-md-4',
-        type: 'input',
-        key: 'EndTime',
-        templateOptions: {
-          placeholder: 'HH:MM AM/PM',
-          required: true,
-          label: "End Time",
-        },
-      },
-      ]
-    }
+        fieldGroupClassName: 'row card-body p-2',
+        fieldGroup: [
+          {
+            className: 'col-md-4',
+            type: 'input',
+            key: 'StartOn',
+            templateOptions: {
+              placeholder: 'YYYY-MM-DD',
+              required: true,
+              label: "Start On",
+            },
+          },
+          {
+            className: 'col-md-4',
+            type: 'input',
+            key: 'EndOn',
+            templateOptions: {
+              placeholder: 'YYYY-MM-DD',
+              required: true,
+              label: "End On",
+            },
+          },
+          {
+            className: 'col-md-4',
+            type: 'select',
+            key: 'BatchStatus',
+            templateOptions: {
+              placeholder: 'Enter Batch Status',
+              required: true,
+              label: "Batch Status",
+              options: [
+                { value: 'true', label: 'active' },
+                { value: 'false', label: 'inactive' },
+              ],
+            },
+          },
+          // {
+          //   className: 'col-md-4',
+          //   type: 'input',
+          //   key: 'StartTime',
+          //   templateOptions: {
+          //     placeholder: 'HH:MM AM/PM',
+          //     required: true,
+          //     label: "Start Time",
+          //   },
+          // },
+          // {
+          //   className: 'col-md-4',
+          //   type: 'input',
+          //   key: 'EndTime',
+          //   templateOptions: {
+          //     placeholder: 'HH:MM AM/PM',
+          //     required: true,
+          //     label: "End Time",
+          //   },
+          // },
+        ]
+      }
     ];
   }
 
@@ -234,9 +465,42 @@ export class AddBatchesComponent implements OnInit {
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      // Add the form submission logic here
+      this.insertBatch();
     } else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
+  }
+  insertBatch() {
+
+    console.log(this.batchDetails);
+    console.log(this.installmentModel)
+    this.addBatchService.insertBatchData(this.batchDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+        this.router.navigateByUrl('tds/masters/batches');
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+
+  calculateInstallment() {
+    if (this.installmentModel.Installments.length > 0) {
+      let totalInstallments = 0;
+      this.installmentModel.Installments.forEach(element => {
+        totalInstallments += element.amount || 0;
+      });
+      this.batchDetails.courseFeesInstallment = totalInstallments;
+      this.form.get('CourseFeesinInstallment').setValue(totalInstallments);
     }
   }
 }

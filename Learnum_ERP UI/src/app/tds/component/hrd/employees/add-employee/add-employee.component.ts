@@ -35,9 +35,11 @@ export class AddEmployeeComponent implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient
   ) { }
+ 
 
   ngOnInit(): void {
     this.setParameter();
+    this.addSameAsCurrentAddressListener();
   }
 
   setParameter() {
@@ -48,7 +50,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'EmployeeName',
+            key: 'employeeName',
             templateOptions: {
               placeholder: 'Enter Employee Name',
               type: 'text',
@@ -59,7 +61,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'EmployeeEmail',
+            key: 'email',
             templateOptions: {
               placeholder: 'Enter Email',
               type: 'email',
@@ -77,7 +79,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'EmployeePhone',
+            key: 'employeePhone',
             templateOptions: {
               placeholder: 'Enter Employee Phone',
               required: true,
@@ -87,7 +89,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'AADHAARNumber',
+            key: 'aadharNumber',
             templateOptions: {
               placeholder: 'Enter AADHAAR Number',
               required: true,
@@ -97,7 +99,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'DateofBirth',
+            key: 'dateOfBirth',
             templateOptions: {
               label: 'Date of Birth',
               placeholder: 'Date',
@@ -116,7 +118,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'select',
-            key: 'BloodGroup',
+            key: 'bloodGroup',
             templateOptions: {
               label: 'Blood Group',
               placeholder: 'Select Blood Group',
@@ -137,7 +139,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'select',
-            key: 'Gender',
+            key: 'gender',
             templateOptions: {
               placeholder: 'Enter Gender',
               required: true,
@@ -157,7 +159,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'Qualification',
+            key: 'qualification',
             templateOptions: {
               placeholder: 'Qualification',
               required: true,
@@ -173,7 +175,7 @@ export class AddEmployeeComponent implements OnInit {
           },
           {
             className: 'col-md-2',
-            key: 'EmployeePhoto',
+            key: 'file',
             type: 'file',
             templateOptions: {
               placeholder: 'Select File',
@@ -200,7 +202,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'input',
-            key: 'Address',
+            key: 'address',
             templateOptions: {
               label: 'Address ',
               placeholder: 'Enter Address ',
@@ -215,7 +217,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'select',
-            key: 'City',
+            key: 'city',
             templateOptions: {
               label: 'City / District',
               placeholder: 'Enter City / District',
@@ -234,7 +236,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'select',
-            key: 'State',
+            key: 'state',
             templateOptions: {
               label: 'State / Province',
               placeholder: 'Enter State / Province',
@@ -253,7 +255,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'input',
-            key: 'PinCode',
+            key: 'postalCode',
             templateOptions: {
               label: 'Postal Code',
               placeholder: 'Enter Postal Code',
@@ -290,7 +292,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'input',
-            key: 'Address',
+            key: 'address',
             templateOptions: {
               label: 'Address Line',
               placeholder: 'Enter Address ',
@@ -305,7 +307,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'select',
-            key: 'City',
+            key: 'city',
             templateOptions: {
               label: 'City / District',
               placeholder: 'Enter City ',
@@ -324,14 +326,14 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'select',
-            key: 'State',
+            key: 'state',
             templateOptions: {
               label: 'State',
               placeholder: 'Enter State',
               required: true,
               options: [
-                { value: 'Nashik', label: 'Nashik' },
-                { value: 'Pune', label: 'Pune' }
+                { value: 'maharastra', label: 'maharastra' },
+                { value: 'asam', label: 'asam' }
               ]
             },
             validation: {
@@ -343,7 +345,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'input',
-            key: 'PinCode',
+            key: 'postalCode',
             templateOptions: {
               label: 'Postal Code',
               placeholder: 'Enter Postal Code',
@@ -363,7 +365,7 @@ export class AddEmployeeComponent implements OnInit {
         {
           className: 'col-md-2',
           type: 'select',
-          key: 'EmployeeRole',
+          key: 'role',
           templateOptions: {
             placeholder: 'select',
             type: 'text',
@@ -378,15 +380,15 @@ export class AddEmployeeComponent implements OnInit {
         {
           className: 'col-md-2',
           type: 'select',
-          key: 'EmployeeStatus',
+          key: 'isActive',
           templateOptions: {
             placeholder: 'select',
             type: 'text',
             label: 'Employee Status',
             required: true,
             options: [
-              { value: 'active', label: 'active' },
-              { value: 'Inactive', label: 'Inactive' }
+              { value: 'true', label: 'active' },
+              { value: 'false', label: 'Inactive' }
             ]
           },
         }
@@ -428,18 +430,32 @@ export class AddEmployeeComponent implements OnInit {
     this.router.navigateByUrl('tds/hrd/employees');
   }
 
-  onSubmit() {
+  addSameAsCurrentAddressListener() {
+    this.form.get('AddressDetails.SameAsCurrentAddress').valueChanges.subscribe((checked: boolean) => {
+      if (checked) {
+        const currentAddress = this.form.get('AddressDetails').value;
+        this.form.get('PermanentAddress').setValue({
+          address: currentAddress.Address,
+          city: currentAddress.City,
+          state: currentAddress.State,
+          postalCode: currentAddress.PinCode
+        });
+      } else {
+        this.form.get('PermanentAddress').reset();
+      }
+    });
+  }
+
+  onSubmit(): void {
+    this.form.markAllAsTouched();
     if (this.form.valid) {
-      // Handle the form submission
-      console.log(this.form.value);
+      this.insertEmployee();
     } else {
-      this.alertService.error('Please fill all required fields');
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
 
-  get f() {
-    return this.form.controls;
-  }
+
 
   insertEmployee() {
     this.employeeDetails.addedBy = 1;

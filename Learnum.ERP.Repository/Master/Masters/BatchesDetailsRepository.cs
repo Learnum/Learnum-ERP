@@ -15,17 +15,18 @@ namespace Learnum.ERP.Repository.Master
 
     public interface IBatchesDetailsRepository
     {
-        Task<ResponseCode> InsertBatchesDetails(BatchesDetailsModel batchesDetailsModel);
+      //  Task<ResponseCode> InsertBatchesDetails(BatchesDetailsModel batchesDetailsModel);
         Task<List<BatchesDetailsResponseModel>> GetBatchesDetailsList();
+        Task<ResponseCode> InsertBatchesDetails(BatchesDetailsReqModel batchesDetailsReqModel);
     }
     public class BatchesDetailsRepository : BaseRepository, IBatchesDetailsRepository
     {
 
-        public async Task<ResponseCode> InsertBatchesDetails(BatchesDetailsModel batchesDetailsModel)
+        public async Task<ResponseCode> InsertBatchesDetails(BatchesDetailsReqModel batchesDetailsReqModel)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
-                var dbparams = new DynamicParameters(batchesDetailsModel);
+                var dbparams = new DynamicParameters(batchesDetailsReqModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
                 dbConnection.Query<int>("PROC_InsertBatchesDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");

@@ -7,12 +7,22 @@
         </b>
     </h6>
     <div class="form-container">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
+        <!-- <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">
+            <formly-form [model]="batchDetails" [fields]="fields" [options]="options" [form]="form"></formly-form>
             <div class="col-12 px-4 py-2 border-top buttons-container">
                 <button class="btn btn-cloud me-2" type="submit">Save</button>
                 <button class="btn btn-fent-cloud" type="button" (click)="onCancelClick()">Cancel</button>
             </div>
-        </form>
+        </form> -->
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <formly-form [form]="form" [model]="batchDetails" [fields]="fields" [options]="options">
+            </formly-form>
+            <formly-form [form]="installmentForm" [model]="installmentModel" [fields]="installmentFields" [options]="installmentOptions">
+            </formly-form>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
     </div>
 </div>
+
+
