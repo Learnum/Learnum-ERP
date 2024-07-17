@@ -1,6 +1,7 @@
 ﻿using Learnum.ERP.Repository.Authentication;
 using Learnum.ERP.Repository.Master;
 using Learnum.ERP.Repository.Master.HRD_repo;
+using Learnum.ERP.Repository.Master.Masters;
 
 namespace Learnum.ERP.API.Helpers
 {
@@ -35,7 +36,7 @@ namespace Learnum.ERP.API.Helpers
             services.AddTransient<ISubjectDetailsRepository,SubjectDetailsRepository>();
             services.AddTransient<IBatchesDetailsRepository, BatchesDetailsRepository>();
             services.AddTransient<IBirthdayDetailsRepository, BirthdayDetailsRepository>();
-
+            services.AddTransient<ITrainerDetailsRepository,TrainerDetailsRepository>();
 
             services.AddTransient<IEmployeeDetailsRepository, EmployeeDetailsRepository>();
             services.AddTransient<IBranchManagerDetailsRepository,BranchManagerDetailsRepository>();

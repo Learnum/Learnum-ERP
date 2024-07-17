@@ -1,23 +1,21 @@
 ﻿using Learnum.ERP.API.Controller.Branch;
 using Learnum.ERP.Repository.Master;
+using Learnum.ERP.Repository.Master.Masters;
 using Learnum.ERP.Shared.Core;
 using Learnum.ERP.Shared.Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging; 
-using System.Threading.Tasks;
 
-
-namespace Learnum.ERP.API.Controller.HRD
+namespace Learnum.ERP.API.Controller.Masters
 {
     [Route("api/[controller]")]
     [ApiController]
-
-    public class TrainerDetailsController: ControllerBase
+    public class TrainerDetailsController : ControllerBase
     {
         private readonly ITrainerDetailsRepository trainerDetailsRepository;
         private readonly ILogger<TrainerDetailsController> logger;
-        
+
         public TrainerDetailsController(
             ILogger<TrainerDetailsController> _logger,
             ITrainerDetailsRepository _trainerDetailsRepository)
@@ -57,4 +55,5 @@ namespace Learnum.ERP.API.Controller.HRD
             return NotFound("No record found");
         }
     }
+
 }

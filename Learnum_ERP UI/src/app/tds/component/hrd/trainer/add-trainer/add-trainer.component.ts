@@ -50,14 +50,18 @@ setParameter() {
            {
             className: 'col-md-6',
             type: 'select',
-            key: 'Course Name',
+            key: 'courseId',
             props: { 
               placeholder: 'Enter Course Name',
              
-              label: "Name",
+              label: "Course Name",
               required: true,
               pattern: '^[A-Za-z]+$',
               title: 'Only characters are allowed',
+              options: [
+                { label: 'Tally', value: 'Tally' },
+                { label: 'Tax', value: 'Tax' }
+              ],
             },
             validation: {
               messages: {
@@ -69,12 +73,16 @@ setParameter() {
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'Subject Name',
+            key: 'subjectName',
             props: {
               placeholder: 'Enter Subject Name',
               required: true,
               type: 'text',
               label: "Subject Name",
+              options: [
+                { label: 'Account', value: 'Account' },
+                { label: 'tax', value: 'Tax' }
+              ],
             },
             validation: {
               messages: {
@@ -88,7 +96,7 @@ setParameter() {
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'Branch Name',
+            key: 'branchId',
             props: {
               placeholder: 'Select Branch Name',
               required: true,
@@ -96,6 +104,10 @@ setParameter() {
               labelProp: 'label',
               label: "Branch Name",
               type:'text',
+              options: [
+                { label: 'cpat', value: 'cpat' },
+                { label: 'taxblock', value: 'taxblock' }
+              ],
             },
             validation: {
               messages: {
@@ -106,12 +118,16 @@ setParameter() {
          {
             className: 'col-md-6',
             type: 'select',
-            key: 'Batch Name',
+            key: 'batchId',
             props: {
               placeholder: 'Enter batch Name',
               required: true,
               type: 'number',
               label: "Batch Name",
+              options: [
+                { label: 'Batch-1', value: 'Batch-1' },
+                { label: 'Batch-2', value: 'Batch-2' }
+              ],
               },
             validation: {
               messages: {
@@ -122,12 +138,16 @@ setParameter() {
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'Trainer Name',
+            key: 'trainerName',
             props: {
               placeholder: 'Trainer Name',
               required: true,
               type: 'text',
               label: "Trainer Name",
+              options: [
+                { label: 'Trainer-1', value: 'Trainer-1' },
+                { label: 'Trainer-2', value: 'Trainer-2' }
+              ],
              },
             
             validation: {
@@ -141,16 +161,16 @@ setParameter() {
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'TrainerBatchStatus',
+            key: 'isActive',
             props: {
               placeholder: ' select status',
               required: true,
               type: 'text',
               label: "Trainer Batch Status",
               options: [
-                { value: 'active', label: 'active' },
-                { value: 'Inactive', label: 'Inactive' }
-              ]
+                { value: true, label: 'Active' },
+                { value: false, label: 'InActive' }
+              ],
             },
             validation: {
               messages: {
@@ -176,8 +196,8 @@ setParameter() {
   onSubmit():void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-    //  this.insertAddEmployee();
-      //this.GetEmployeeList();
+    
+      this. insertTrainer();
     }
     else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
