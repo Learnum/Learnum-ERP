@@ -10,24 +10,26 @@ using Learnum.ERP.Shared.Entities.Models.ViewModel.Add_Practical_Problems_Subfor
 using Dapper;
 using System.Data;
 using Learnum.ERP.Repository.Core;
+using Learnum.ERP.Shared.Entities;
 
 namespace Learnum.ERP.Repository.Master.Add_Practical_Problems_Subform
 {
     public interface IPracticalProblemsSubformRepository
     {
-        Task<ResponseCode> AddPracticalProblemDetails(PracticalProblemsSubform practicalProblemsSubform);
+        Task<ResponseCode> AddPracticalProblem(AddPracticalFileUpload addPracticalFileUpload);
         Task<List<PracticalProblemsSubformResponseModel>> GetPracticalProblemList();
     }
 
     public class PracticalProblemsSubformRepository : BaseRepository, IPracticalProblemsSubformRepository
     {
-        public async Task<ResponseCode> AddPracticalProblemDetails(PracticalProblemsSubform practicalProblemsSubform)
+        public async Task<ResponseCode> AddPracticalProblem(AddPracticalFileUpload addPracticalFileUpload)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
-                var dbparams = new DynamicParameters(practicalProblemsSubform);
+                var dbparams = new DynamicParameters(addPracticalFileUpload);
+                dbparams.Add("@Action", "SaveServiceRequestDocs");
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query("PROC_AddPracticalProblem", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
@@ -38,7 +40,7 @@ namespace Learnum.ERP.Repository.Master.Add_Practical_Problems_Subform
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<PracticalProblemsSubformResponseModel>("", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                var result = dbConnection.Query<PracticalProblemsSubformResponseModel>("PROC_GetPracticalProblemList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }

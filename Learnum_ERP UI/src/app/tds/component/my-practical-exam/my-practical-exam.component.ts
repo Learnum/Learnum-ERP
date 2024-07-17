@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { PracticalProblemAnswerSheetService } from './practical-problem-answer-sheet/practical-problem-answer-sheet.service';
 
 
 @Component({
@@ -13,49 +14,67 @@ import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-g
 })
 export class MyPracticalExamComponent implements OnInit {
 
+  PracticalReturnList: any[] = [];
+
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'studentid',
-      headerName: 'Student ID',
+      field: 'StudentId',
+      headerName: 'ID',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 80
     },
     {
-      field: 'practical_problem_id',
-      headerName: 'Practical Problem ID',
+      field: 'Answer',
+      headerName: 'Student Answer',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 100
     },
     {
-      field: 'submit_answer',
-      headerName: 'Submit Answer',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'teachers_remark',
-      headerName: "Teacher's Remark",
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'mark_received',
-      headerName: 'Mark Received',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    },
-    {
-      field: 'status',
+      field: 'IsActive',
       headerName: 'Status',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    }
+      minWidth: 100,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
+    },
+    {
+      field: 'addedBy',
+      headerName: 'AddedBy',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'Added Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },{
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
   ];
 
   declaredActionColumns: ActionColumn[] = [
@@ -79,23 +98,12 @@ export class MyPracticalExamComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private practicalProblemAnswerSheetService:PracticalProblemAnswerSheetService
   ) {}
 
   ngOnInit(): void {
-    this.getPracticalExamList();
-  }
-
-  getPracticalExamList() {
-    // this.practicalExamService.getPracticalExamList().subscribe(
-    //   (result: any) => {
-    //     this.practicalExamList = result.Value;
-    //   },
-    //   (error: any) => {
-    //     console.error("Error occurred while fetching practical exam data:", error);
-    //     this.alertService.ShowErrorMessage("An error occurred while fetching practical exam data. Please try again later.");
-    //   }
-    // );
+    this.getAllPracticalDetails();
   }
 
   AddPracticalProblem() {
@@ -116,6 +124,13 @@ export class MyPracticalExamComponent implements OnInit {
 
   selectBusinessLead(leads: any) {
     // Handle row selection logic
+  }
+
+  getAllPracticalDetails() {
+    this.practicalProblemAnswerSheetService.getPracticalList().subscribe((result: any) => {
+      this. PracticalReturnList = result.Value;
+      let  PracticalReturnList = result.Value;
+    })
   }
 
 }

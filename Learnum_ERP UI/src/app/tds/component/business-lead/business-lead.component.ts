@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
-import { BusinessLeadService } from './business-lead.service';
+import { AddBusinessLeadService } from './add-business-lead/add-business-lead.service';
 
 
 @Component({
@@ -18,7 +18,7 @@ export class BusinessLeadComponent {
   
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'LeadId',
+      field: 'BusinessId',
       headerName: 'ID',
       filter: 'agTextColumnFilter',
       filterParams: {
@@ -27,54 +27,73 @@ export class BusinessLeadComponent {
       minWidth: 80
     },
     {
-      field: 'name',
+      field: 'Name',
       headerName: 'Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 100
     },
     {
-      field: 'phone number',
+      field: 'PhoneNumber',
       headerName: 'Phone Number',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 100
     },
     {
-      field: 'address',
+      field: 'Address',
       headerName: 'Address',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 100
     },
-    // {
-    //   field: 'district',
-    //   headerName: 'District',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: { buttons: ['reset', 'apply'] },
-    //   minWidth: 100
-    // },
-    // {
-    //   field: 'state',
-    //   headerName: 'State',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: { buttons: ['reset', 'apply'] },
-    //   minWidth: 100
-    // },
-    // {
-    //   field: 'postal code',
-    //   headerName: 'Postal Code',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: { buttons: ['reset', 'apply'] },
-    //   minWidth: 100
-    // },
-    // {
-    //   field: 'country',
-    //   headerName: 'Country',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: { buttons: ['reset', 'apply'] },
-    //   minWidth: 100
-    // },
+    {
+      field: 'IsActive',
+      headerName: 'IsActive',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
+    },
+    {
+      field: 'addedBy',
+      headerName: 'AddedBy',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'Added Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },{
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    
   ];
 
   declaredActionColumns: ActionColumn[] = [
@@ -99,26 +118,14 @@ export class BusinessLeadComponent {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    private businessLeadService: BusinessLeadService,
+    private addBusinessLeadService: AddBusinessLeadService,
   ) {
 
 
   }
 
   ngOnInit(): void {
-    this.getBusinessLeadList();
-  }
-
-  getBusinessLeadList() {
-    // this.businessLeadService.getBusinessLeadList().subscribe(
-    //   (result: any) => {
-    //     this.businessLeadList = result.Value;
-    //   },
-    //   (error: any) => {
-    //     console.error("Error occurred while fetching business leads:", error);
-    //     this.alertService.ShowErrorMessage("An error occurred while fetching business leads. Please try again later.");
-    //   }
-    // );
+    this.getAllBusinessDetails();
   }
 
   onAddBusinessLead() {
@@ -139,5 +146,12 @@ export class BusinessLeadComponent {
 
   selectBusinessLead(leads: any) {
     // Handle row selection logic
+  }
+
+  getAllBusinessDetails() {
+    this.addBusinessLeadService.getBusinessList().subscribe((result: any) => {
+      this.businessLeadList = result.Value;
+      let businessLeadList = result.Value;
+    })
   }
 }

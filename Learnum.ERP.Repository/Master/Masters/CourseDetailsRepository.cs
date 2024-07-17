@@ -15,13 +15,13 @@ namespace Learnum.ERP.Repository.Master
 {
     public interface ICourseDetailsRepository
     {
-        Task<ResponseCode> InsertCourseDetails(FileUpload fileUpload);
+        Task<ResponseCode> InsertCourseDetails(CourseDetailFileUpload fileUpload);
         Task<List<CourseDetailsResponseModel>> GetCourseDetailsList();
     }
 
     public class CourseDetailsRepository : BaseRepository, ICourseDetailsRepository
     {
-        public async Task<ResponseCode> InsertCourseDetails(FileUpload fileUpload)
+        public async Task<ResponseCode> InsertCourseDetails(CourseDetailFileUpload fileUpload)
         {
             try
             {

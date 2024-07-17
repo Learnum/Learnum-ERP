@@ -9,13 +9,16 @@ namespace Learnum.ERP.Shared.Entities.Models
 {
     public class BuisnessLeadDetailsModel: BaseModel
     {
-        public long userID {  get; set; }
+        public long BusinessId { get; set; }
         public string Name { get; set; }
-        public string Phone { get; set; }
+        public long PhoneNumber { get; set; }
         public string Address { get; set; }
-        public string CityOrDistrict { get; set; }
-        public string StateOrProvince { get; set; }
-        public string PostalCode { get; set; }
+        public string City { get; set; }
+        public string District { get; set; }
+        public string State { get; set; }
+        public long PostalCode { get; set; }
         public string Country { get; set; }
+        public bool IsActive { get; set; }
+
     }
 }
