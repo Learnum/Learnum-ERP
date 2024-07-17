@@ -1,8 +1,11 @@
-﻿using Learnum.ERP.API.Controller.Counsellor_Dashboard;
+﻿using Learnum.ERP.API.Controller.Branch;
+using Learnum.ERP.API.Controller.Counsellor_Dashboard;
+using Learnum.ERP.Repository.Master;
 using Learnum.ERP.Repository.Master.Business_Lead_repo;
 using Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo;
 using Learnum.ERP.Shared.Core;
 using Learnum.ERP.Shared.Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,10 +26,12 @@ namespace Learnum.ERP.API.Controller.Business_Lead
             businessLeadDetailsRepository = _businessLeadDetailsRepository;
         }
 
+        [AllowAnonymous]
+
         [HttpPost("InsertBusinessLeadDetails")]
-        public async Task<IActionResult> InsertBusinessLeadDetails(BuisnessLeadDetailsModel businessLeadDetailsModel)
+        public async Task<IActionResult> InsertBusinessLeadDetails(BuisnessLeadDetailsModel buisnessLeadDetailsModel)
         {
-            if (businessLeadDetailsModel == null)
+            if (buisnessLeadDetailsModel == null)
             {
                 return BadRequest("Object is null");
             }
@@ -35,7 +40,7 @@ namespace Learnum.ERP.API.Controller.Business_Lead
                 return BadRequest("Invalid model object");
             }
 
-            var result = await businessLeadDetailsRepository.InsertBusinessLeadDetails(businessLeadDetailsModel);
+            var result = await businessLeadDetailsRepository.InsertBusinessLeadDetails(buisnessLeadDetailsModel);
             if (result == ResponseCode.Success || result == ResponseCode.Updated)
             {
                 return Ok(result);
@@ -43,10 +48,10 @@ namespace Learnum.ERP.API.Controller.Business_Lead
             return BadRequest("Failed to Save");
         }
 
-        [HttpGet("getAllBusinessLeadList")]
-        public async Task<IActionResult> GetScheduleMeetingDetailsList()
+        [HttpGet("getAllBusinessList")]
+        public async Task<IActionResult> GetBuisnessDetailsList()
         {
-            var data = await businessLeadDetailsRepository.GetBuisnessLeadDetailsList();
+            var data = await businessLeadDetailsRepository.GetBuisnessDetailsList();
             if (data != null)
             {
                 return Ok(data);

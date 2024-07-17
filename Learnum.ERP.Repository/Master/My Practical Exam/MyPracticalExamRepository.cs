@@ -26,7 +26,7 @@ namespace Learnum.ERP.Repository.Master.My_Practical_Exam
             {
                 var dbparams = new DynamicParameters(myPracticalExamModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_InsertProblemAnswerDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
@@ -37,7 +37,7 @@ namespace Learnum.ERP.Repository.Master.My_Practical_Exam
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<MyPracticalExamResposeModel>("", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                var result = dbConnection.Query<MyPracticalExamResposeModel>("PROC_GetProblemAnswerDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }

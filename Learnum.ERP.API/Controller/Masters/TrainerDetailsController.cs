@@ -17,11 +17,11 @@ namespace Learnum.ERP.API.Controller.Masters
         private readonly ILogger<TrainerDetailsController> logger;
 
         public TrainerDetailsController(
-            ILogger<TrainerDetailsController> _logger,
-            ITrainerDetailsRepository _trainerDetailsRepository)
+         ILogger<TrainerDetailsController> _logger,
+         ITrainerDetailsRepository _trainerDetailsRepository)
         {
             logger = _logger;
-            trainerDetailsRepository = _trainerDetailsRepository;
+            trainerDetailsRepository = _trainerDetailsRepository;  
         }
 
         [HttpPost("InsertTrainerDetails")]

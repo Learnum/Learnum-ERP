@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
+import { PracticalProblemsStudentsService } from './practical-problems-students.service';
+import { problemDetailsModel } from './ProblemDetails.model';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
 
 @Component({
@@ -13,6 +16,7 @@ import { MessageService } from 'src/app/core/services/message.service';
 })
 export class PracticalProblemsStudentsComponent implements OnInit {
 
+  problemDetails: problemDetailsModel = new problemDetailsModel();
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
@@ -26,7 +30,8 @@ export class PracticalProblemsStudentsComponent implements OnInit {
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private practicalProblemsStudentsService:PracticalProblemsStudentsService
   ) { }
 
   ngOnInit(): void {
@@ -103,16 +108,17 @@ export class PracticalProblemsStudentsComponent implements OnInit {
           },
           {
             className: 'col-md-5',
-            key: 'practicalProblemStatus',
+            key: 'isActive',
             type: 'select',
             props: {
               label: 'Practical Problem Status',
               placeholder: 'Select Status',
-              options: [
-                { label: 'Active', value: 'active' },
-                { label: 'Inactive', value: 'inactive' },
-              ],
               required: true,
+              options: [
+                { label: 'Active', value: 'true' },
+                { label: 'Inactive', value: 'false' }
+              ],
+              
             },
             validation: {
               messages: {
@@ -135,21 +141,42 @@ export class PracticalProblemsStudentsComponent implements OnInit {
               },
             },
           },
+          
         ],
       },
     ];
   }
 
   onSubmit(): void {
-    this.form.markAllAsTouched();
-    if (this.form.valid) {
-      // Perform submission logic here
-    } else {
-      this.alertService.ShowErrorMessage('Please fill in all required fields.');
-    }
+    this.InsertProblemDetails();
+    // this.form.markAllAsTouched();
+    // if (this.form.valid) {
+    //   // Perform submission logic here
+    // } else {
+    //   this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    // }
   }
 
   onCancleClick() {
     this.router.navigateByUrl('tds/add-practical-problem-solution');
+  }
+
+  InsertProblemDetails() {
+    this.practicalProblemsStudentsService.insertProblemDetails(this.problemDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+        this.router.navigateByUrl('tds/add-practical-problem-solution');
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
   }
 }

@@ -6,6 +6,7 @@ import { MessageService } from 'src/app/core/services/message.service';
 import { AddBranchService } from '../branches/add-branch/add-branch.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddBatchesService } from './add-batches/add-batches.service';
 
 @Component({
   selector: 'app-batches',
@@ -96,13 +97,14 @@ export class BatchesComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getAllBatchDetails();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    private addBranchService: AddBranchService,
+    private addBatchesService : AddBatchesService ,
     private formBuilder: FormBuilder) {
     {
       this.form = this.formBuilder.group({
@@ -150,6 +152,11 @@ export class BatchesComponent implements OnInit {
   }
 
 
-
+  getAllBatchDetails() {
+    this.addBatchesService.getBatchList().subscribe((result: any) => {
+      this.tdsReturnList = result.Value;
+      let tdsReturnList = result.Value;
+    })
+  }
 
 }

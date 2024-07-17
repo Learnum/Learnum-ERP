@@ -4,6 +4,9 @@ import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
+import { PracticalProblemAnswerSheetService } from './practical-problem-answer-sheet.service';
+import { PracticalProblemDetails } from './practicalproblem.model';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
 
 @Component({
@@ -12,6 +15,8 @@ import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/for
   styleUrls: ['./practical-problem-answer-sheet.component.scss']
 })
 export class PracticalProblemAnswerSheetComponent implements OnInit {
+
+  PracticalDetails: PracticalProblemDetails = new PracticalProblemDetails();
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
@@ -20,12 +25,13 @@ export class PracticalProblemAnswerSheetComponent implements OnInit {
   constructor(
     private router: Router,
     private alertService: AlertService,
-    private formBuilder: FormBuilder
+    private messageService: MessageService,
+    private formBuilder: FormBuilder,
+    private practicalProblemAnswerSheetService:PracticalProblemAnswerSheetService
   ) {}
 
   ngOnInit(): void {
     this.setFields();
-    this.createForm();
   }
 
   createForm(): void {
@@ -37,24 +43,8 @@ export class PracticalProblemAnswerSheetComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
-          
-          // {
-          //   className: 'col-12',
-          //   key: 'studentAnswer',
-          //   type: 'textarea',
-          //   props: {
-          //     label: 'Student Answer',
-          //     placeholder: 'Enter your answer here...',
-          //     required: true,
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'Answer is required',
-          //     },
-          //   },
-          // },
           {
-            key: 'textarea',
+            key: 'Answer',
             type: 'textarea',
             props: {
               label: 'StudentAnswer',
@@ -63,35 +53,49 @@ export class PracticalProblemAnswerSheetComponent implements OnInit {
               rows:10,
             },
           },
-          // {
-          //   key: 'studentAnswer',
-          //   type: 'input',
-          //   props: {
-          //     label: 'StudentAnswer',
-          //     placeholder: 'Placeholder',
-          //     description: 'Description',
-          //     required: true,
-          //     rows: 5, // Adjust the number of rows to increase height
-          //    cols: 50, // Adjust the number of columns to increase width
-          //    style: { width: '100%', height: '200px' }
-          //   },
-          // },
         ],
       },
     ];
   }
 
   onSubmit(): void {
-    this.form.markAllAsTouched();
-    if (this.form.valid) {
-      // Handle valid form submission
-      console.log(this.model);
-    } else {
-      this.alertService.ShowErrorMessage('Please fill in all required fields.');
-    }
+    this.InsertProblemAnswer();
+    // this.form.markAllAsTouched();
+    // if (this.form.valid) {
+    //   // Handle valid form submission
+    //   console.log(this.model);
+    // } else {
+    //   this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    // }
   }
 
   onCancelClick(): void {
     this.router.navigateByUrl('tds/my-practical-exam');  // Adjust the URL as necessary
   }
+
+  InsertProblemAnswer() {
+    this.PracticalDetails.addedBy = 1;
+    this.PracticalDetails.addedDate = new Date();
+    this.PracticalDetails.updatedBy = 1;
+    this.PracticalDetails.updatedDate = new Date();
+    this.PracticalDetails.studentId = 0;
+
+    this.practicalProblemAnswerSheetService.insertProblemAnswer(this.PracticalDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+    this.router.navigateByUrl('tds/my-practical-exam');
+  }
+
 }

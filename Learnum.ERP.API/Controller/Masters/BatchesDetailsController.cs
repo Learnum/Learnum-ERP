@@ -21,11 +21,10 @@ namespace Learnum.ERP.API.Controller
             logger = _logger;
             batchesDetailsRepository = _batchesDetailsRepository;
         }
-
         [HttpPost("InsertBatchesDetails")]
-        public async Task<IActionResult> InsertBatchesDetails(BatchesDetailsModel batchesDetailsModel)
+        public async Task<IActionResult> InsertBatchesDetails([FromBody] BatchesDetailsReqModel batchesDetailsReqModel)
         {
-            if (batchesDetailsModel == null)
+            if (batchesDetailsReqModel == null)
             {
                 return BadRequest("Object is null");
             }
@@ -34,13 +33,14 @@ namespace Learnum.ERP.API.Controller
                 return BadRequest("Invalid model object");
             }
 
-            var result = await batchesDetailsRepository.InsertBatchesDetails(batchesDetailsModel);
+            var result = await batchesDetailsRepository.InsertBatchesDetails(batchesDetailsReqModel);
             if (result == ResponseCode.Success || result == ResponseCode.Updated)
             {
                 return Ok(result);
             }
             return BadRequest("Failed to Save");
         }
+
 
         [HttpGet("getAllBatchesList")]
         public async Task<IActionResult> GetBatchesDetailsList()

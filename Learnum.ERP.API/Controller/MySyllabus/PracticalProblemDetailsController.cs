@@ -24,7 +24,7 @@ namespace Learnum.ERP.API.Controller.MySyllabus
         }
 
         [HttpPost("InsertPracticalProblemDetails")]
-        public async Task<IActionResult> InsertPracticalProblemDetails(PracticalProblemDetailsModel practicalproblemDetailsModel)
+        public async Task<IActionResult> InsertPracticalProblemDetails(PracticalProblemModel practicalproblemDetailsModel)
         {
             if (practicalproblemDetailsModel == null)
             {

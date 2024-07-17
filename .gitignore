@@ -62,3 +62,8 @@
 /Learnum.ERP.Shared/obj/Debug/net8.0/Learnum.ERP.Shared.csproj.CoreCompileInputs.cache
 /Learnum.ERP.Shared/obj/Debug/net8.0/Learnum.ERP.Shared.csproj.CoreCompileInputs.cache
 /Learnum.ERP.Shared/obj/Debug/net8.0/Learnum.ERP.Shared.csproj.FileListAbsolute.txt
+/Learnum.ERP.API/bin/Release/net8.0
+/Learnum.ERP.Repository/bin/Release/net8.0
+/Learnum.ERP.Shared/bin/Release/net8.0
+/Learnum.ERP.API/Properties/PublishProfiles
+/Learnum.ERP.API/Learnum.ERP.API.csproj.user

@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using System.Text.Json;
+using Learnum.ERP.Repository.Master.HRD_repo;
 
 namespace Learnum.ERP.API
 {

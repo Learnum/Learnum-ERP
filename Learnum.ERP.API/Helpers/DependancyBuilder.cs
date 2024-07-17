@@ -1,7 +1,11 @@
 ﻿using Learnum.ERP.Repository.Authentication;
 using Learnum.ERP.Repository.Master;
+using Learnum.ERP.Repository.Master.Add_Practical_Problems_Subform;
+using Learnum.ERP.Repository.Master.Business_Lead_repo;
 using Learnum.ERP.Repository.Master.HRD_repo;
 using Learnum.ERP.Repository.Master.Masters;
+using Learnum.ERP.Repository.Master.My_Practical_Exam;
+
 
 namespace Learnum.ERP.API.Helpers
 {
@@ -15,20 +19,17 @@ namespace Learnum.ERP.API.Helpers
 
         public static void AddRepositories(this IServiceCollection services)
         {
-            services.AddTransient<IAccountRepository, AccountRepository>();
-            services.AddTransient<IRegistrationRepository, RegistrationRepository>();
+            
             //services.AddTransient<IUserCredentialsRepository, UserCredentialsRepository>();
            // services.AddTransient<IBulkEmailRepository, BulkEmailRepository>();
-
             //services.AddTransient<IClientDetailsRepository, ClientDetailsRepository>();
             //services.AddTransient<IUserProfileManagementRepository, UserProfileManagementRepository>();
+            // services.AddTransient<ITransactionHistoryRepository, TransactionHistoryRepository>();
+            //  services.AddTransient<IProductDashboardRepository, ProductDashboardRepository>();
+
+            services.AddTransient<IAccountRepository, AccountRepository>();
+            services.AddTransient<IRegistrationRepository, RegistrationRepository>();
             services.AddTransient<IUserCredentialsRepository, UserCredentialsRepository>();
-           // services.AddTransient<ITransactionHistoryRepository, TransactionHistoryRepository>();
-
-
-          //  services.AddTransient<IProductDashboardRepository, ProductDashboardRepository>();
-
-
             services.AddTransient<IBranchDetailsRepository, BranchDetailsRepository>();
             services.AddTransient<ILocationDetailsRepository, LocationDetailsRepository>();
             services.AddTransient<IClassroomDetailsRepository, ClassroomDetailsRepository>();
@@ -40,7 +41,9 @@ namespace Learnum.ERP.API.Helpers
 
             services.AddTransient<IEmployeeDetailsRepository, EmployeeDetailsRepository>();
             services.AddTransient<IBranchManagerDetailsRepository,BranchManagerDetailsRepository>();
-
+            services.AddTransient<IBusinessLeadDetailsRepository, BusinessLeadDetailsRepository>();
+            services.AddTransient<IPracticalProblemsSubformRepository,PracticalProblemsSubformRepository>();
+            services.AddTransient<IMyPracticalExamRepository, MyPracticalExamRepository>();
         }
     }
 }
