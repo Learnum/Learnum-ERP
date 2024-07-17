@@ -12,7 +12,7 @@ using Dapper;
 using Learnum.ERP.Shared.Entities.Models.ViewModel.HRDModel;
 
 
-namespace Learnum.ERP.Repository.Master
+namespace Learnum.ERP.Repository.Master.HRD_repo
 {
     public interface ITrainerDetailsRepository
     {
@@ -27,7 +27,7 @@ namespace Learnum.ERP.Repository.Master
             {
                 var dbparams = new DynamicParameters(TrainerDetailsModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_InsertTrainerDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
