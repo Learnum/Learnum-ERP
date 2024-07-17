@@ -11,6 +11,7 @@ import { ConfigurationSettings } from 'src/app/core/models/configuration';
   providedIn: 'root'
 })
 export class AddBranchService extends BaseService {
+ 
   private httpClientWithoutInterceptor: HttpClient;
 
   private urlInsertBranchDetails: string = "BranchDetails/InsertBranchDetails";

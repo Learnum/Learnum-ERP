@@ -11,8 +11,8 @@ export class AddtrainerService extends BaseService {
 
   private httpClientWithoutInterceptor: HttpClient;
 
-  private urlInsertTrainerDetails: string = "BranchDetails/InsertBranchDetails";
-  private urlgetTrainerList: string = "BranchDetails/getAllBranchList";
+  private urlInsertTrainerDetails: string = "TrainerDetails/InsertTrainerDetails";
+  private urlgetTrainerList: string = "TrainerDetails/getAllTrainerList";
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();

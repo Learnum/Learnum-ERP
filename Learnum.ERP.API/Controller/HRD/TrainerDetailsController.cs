@@ -1,12 +1,12 @@
 ﻿using Learnum.ERP.API.Controller.Branch;
 using Learnum.ERP.Repository.Master;
+using Learnum.ERP.Repository.Master.HRD_repo;
 using Learnum.ERP.Shared.Core;
 using Learnum.ERP.Shared.Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging; 
 using System.Threading.Tasks;
-
 
 namespace Learnum.ERP.API.Controller.HRD
 {
@@ -17,13 +17,13 @@ namespace Learnum.ERP.API.Controller.HRD
     {
         private readonly ITrainerDetailsRepository trainerDetailsRepository;
         private readonly ILogger<TrainerDetailsController> logger;
-        
+
         public TrainerDetailsController(
-            ILogger<TrainerDetailsController> _logger,
-            ITrainerDetailsRepository _trainerDetailsRepository)
+         ILogger<TrainerDetailsController> _logger,
+         ITrainerDetailsRepository _trainerDetailsRepository)
         {
             logger = _logger;
-            trainerDetailsRepository = _trainerDetailsRepository;
+            trainerDetailsRepository = _trainerDetailsRepository;  
         }
 
         [HttpPost("InsertTrainerDetails")]

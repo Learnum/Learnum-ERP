@@ -15,7 +15,7 @@ namespace Learnum.ERP.Repository.Master
 
     public interface IBranchDetailsRepository
     {
-        Task<ResponseCode>InsertBranchDetails(BranchDetailsModel branchDetailsModel);
+        Task<ResponseCode>InsertBranchDetails(BatchesDetailsReqModel batchesDetailsReqModel);
         Task<List<BranchDetailsResponseModel>> GetBranchDetailsList();
     }
 
@@ -23,11 +23,11 @@ namespace Learnum.ERP.Repository.Master
     public class BranchDetailsRepository : BaseRepository, IBranchDetailsRepository
     {
 
-        public async Task<ResponseCode>InsertBranchDetails(BranchDetailsModel branchDetailsModel)
+        public async Task<ResponseCode>InsertBranchDetails(BatchesDetailsReqModel batchesDetailsReqModel)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
-                var dbparams = new DynamicParameters(branchDetailsModel);
+                var dbparams = new DynamicParameters(batchesDetailsReqModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
                 dbConnection.Query<int>("PROC_InsertBranchDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");

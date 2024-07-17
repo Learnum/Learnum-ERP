@@ -14,22 +14,20 @@ export class AddemployeeService extends BaseService {
 
   private httpClientWithoutInterceptor: HttpClient;
 
-  private urlInsertEmployeeDetails: string = "BranchDetails/InsertBranchDetails";
-  private urlgetEmployeeList: string = "BranchDetails/getAllBranchList";
+  private urlInsertEmployeeDetails: string = "EmployeeDetails/InsertEmployeeDetails";
+  private urlgetEmployeeList: string = "EmployeeDetails/getAllEmployeeList";
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
     this.httpClientWithoutInterceptor = new HttpClient(httpBackend);
   }
 
-  insertEmployeeData(employeeDetails: EmployeeDetailsModel) {
-    //const URL = ConfigurationSettings.BASE_API_URL;
-    return this.apiService.postBlob(this.urlInsertEmployeeDetails,employeeDetails);
+  insertEmployeeData(employeeDetails: EmployeeDetailsModel): Observable<any> {
+    return this.apiService.postBlob(this.urlInsertEmployeeDetails, employeeDetails);
   }
 
-  getEmployeeList() {
+  getEmployeeList(): Observable<any> {
     return this.apiService.getData(this.urlgetEmployeeList);
-
   }
   
 }
