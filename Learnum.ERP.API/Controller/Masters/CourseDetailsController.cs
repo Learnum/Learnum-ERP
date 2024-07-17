@@ -64,7 +64,7 @@ namespace Learnum.ERP.API.Controller
             //courseDetailsModel.AddedDate = DateTime.Now;
             //courseDetailsModel.UpdatedDate = DateTime.Now;
 
-            FileUpload fileUpload = new FileUpload();
+            CourseDetailFileUpload fileUpload = new CourseDetailFileUpload();
             fileUpload.FileName = file.FileName;
             fileUpload.MimeType = file.ContentType;
             fileUpload.FilePath = fullPath;

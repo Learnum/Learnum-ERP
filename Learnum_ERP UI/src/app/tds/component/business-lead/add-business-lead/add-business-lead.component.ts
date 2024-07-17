@@ -3,8 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
-import { BusinessDetails } from './business-details.model';
 import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
+import { BusinessDetails } from './businessdetails.model';
+import { AddBusinessLeadService } from './add-business-lead.service';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
 
 @Component({
@@ -22,6 +24,7 @@ export class AddBusinessLeadComponent implements OnInit {
   businessDetails:BusinessDetails =new BusinessDetails();
 
   constructor(
+    private addBusinessLeadService : AddBusinessLeadService,
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -30,21 +33,7 @@ export class AddBusinessLeadComponent implements OnInit {
      }
 
   ngOnInit(): void {
-    this.setParameter();
-    this.createForm();
-  }
-  createForm(): void {
-    this.form = this.formBuilder.group({
-      name: ['', Validators.required],
-      // lname: ['', Validators.required],
-      address: ['', Validators.required],
-      city: ['', Validators.required],
-      district: ['', Validators.required],
-      state: ['', Validators.required],
-      postalCode: ['', Validators.required],
-      country: ['', Validators.required],
-      phone: ['', Validators.required],
-    });
+    this.setParameter(); 
   }
 
   
@@ -70,7 +59,7 @@ export class AddBusinessLeadComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'phone',
+            key: 'phoneNumber',
             type: 'input',
             templateOptions: {
               label: 'Phone Number',
@@ -180,19 +169,47 @@ export class AddBusinessLeadComponent implements OnInit {
       },
     ];
   }
+
   onSubmit():void {
-    this.form.markAllAsTouched();
-    if (this.form.valid) {
-      //this.insertAddEmployee();
-      //this.GetEmployeeList();
-    }
-    else {
-      this.alertService.ShowErrorMessage('Please fill in all required fields.');
-    }
+    // this.form.markAllAsTouched();
+    // if (this.form.valid) {
+    //   this.insertBusinessDetails();
+    // }
+    // else {
+    //   this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    // }
+
+    this.insertBusinessDetails();
   }
 
   onCancleClick() {
     this.router.navigateByUrl('tds/business-lead');
   }
+
+  insertBusinessDetails() {
+    this.businessDetails.addedBy = 1;
+    this.businessDetails.addedDate = new Date();
+    this.businessDetails.updatedBy = 1;
+    this.businessDetails.updatedDate = new Date();
+    this.businessDetails.businessId = 0;
+
+    this.addBusinessLeadService.InsertBusinessDetails(this.businessDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+    this.router.navigateByUrl('tds/business-lead');
+  }
+
 
 }

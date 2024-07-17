@@ -13,12 +13,14 @@ using Dapper;
 
 namespace Learnum.ERP.Repository.Master.Business_Lead_repo
 {
+    
     public interface IBusinessLeadDetailsRepository
     {
         Task<ResponseCode> InsertBusinessLeadDetails(BuisnessLeadDetailsModel buisnessLeadDetailsModel);
-        Task<List<BuisnessLeadDetailsResponseModel>> GetBuisnessLeadDetailsList();
+        Task<List<BuisnessLeadDetailsResponseModel>> GetBuisnessDetailsList();
     }
-    public class BusinessLeadDetailsRepository : BaseRepository, IBuisnessLeadDetailsRepository
+
+    public class BusinessLeadDetailsRepository : BaseRepository, IBusinessLeadDetailsRepository
     {
         public async Task<ResponseCode> InsertBusinessLeadDetails(BuisnessLeadDetailsModel buisnessLeadDetailsModel)
         {
@@ -26,20 +28,23 @@ namespace Learnum.ERP.Repository.Master.Business_Lead_repo
             {
                 var dbparams = new DynamicParameters(buisnessLeadDetailsModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_InsertBusinessLeadDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
         }
 
-        public async Task<List<BuisnessLeadDetailsResponseModel>> GetBusinessLeadDetailsList()
+        public async Task<List<BuisnessLeadDetailsResponseModel>> GetBuisnessDetailsList()
         {
-            using (IDbConnection dbConnection = base.GetCoreConnection())
+             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<BuisnessLeadDetailsResponseModel>("PROC_GetBuisnessLeadDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                var result = dbConnection.Query<BuisnessLeadDetailsResponseModel>("PROC_GetBusinessLeadDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }
+
     }
+       
+    
 }

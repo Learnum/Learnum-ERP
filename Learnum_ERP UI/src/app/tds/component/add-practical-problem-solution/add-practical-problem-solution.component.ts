@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn, ActionColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { PracticalProblemsStudentsService } from './practical-problems-students/practical-problems-students.service';
 
 
 @Component({
@@ -15,46 +16,76 @@ export class AddPracticalProblemSolutionComponent implements OnInit {
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'ProblemId',
+      field: 'QuestionId',
       headerName: 'ID',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 80
     },
     {
-      field: 'question',
+      field: 'Question',
       headerName: 'Question',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 300
     },
     {
-      field: 'attachment',
-      headerName: 'Attachment',
+      field: 'ModelAnswer',
+      headerName: 'Model Answer',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 300
     },
     {
-      field: 'marks',
+      field: 'Marks',
       headerName: 'Marks',
       filter: 'agNumberColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 100
     },
     {
-      field: 'status',
+      field: 'IsActive',
       headerName: 'Practical Problem Status',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 100,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
     },
     {
-      field: 'answer',
-      headerName: 'Answer',
+      field: 'addedBy',
+      headerName: 'AddedBy',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'Added Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },{
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
     },
   ];
 
@@ -78,24 +109,15 @@ export class AddPracticalProblemSolutionComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private alertService: AlertService,) { }
+    private alertService: AlertService,
+    private practicalProblemsStudentsService:PracticalProblemsStudentsService
+  ) { }
 
     ngOnInit(): void {
-      this.getPracticalProblemList();
+     this.getAllBranchDetails();
     }
   
-    getPracticalProblemList() {
-      // Fetch the list of practical problems from the service
-      // this.practicalProblemService.getPracticalProblemList().subscribe(
-      //   (result: any) => {
-      //     this.practicalProblemList = result.Value;
-      //   },
-      //   (error: any) => {
-      //     console.error("Error occurred while fetching practical problems:", error);
-      //     this.alertService.ShowErrorMessage("An error occurred while fetching practical problems. Please try again later.");
-      //   }
-      // );
-    }
+
 
 
   onAddPracticalProblems() {
@@ -116,5 +138,12 @@ export class AddPracticalProblemSolutionComponent implements OnInit {
   selectPracticalProblem(event: any) {
     // handle selected rows
     console.log('Selected practical problem:', event);
+  }
+
+  getAllBranchDetails() {
+    this.practicalProblemsStudentsService.getPracticalProblemList().subscribe((result: any) => {
+      this.practicalProblemList = result.Value;
+      let practicalProblemList = result.Value;
+    })
   }
 }

@@ -6,7 +6,7 @@
 
     namespace Learnum.ERP.Shared.Entities
     {
-        public class FileUpload : BaseModel
+        public class CourseDetailFileUpload : BaseModel
         {
         public long CourseId { get; set; }
         public string CourseName { get; set; }
@@ -17,5 +17,5 @@
         public string FileName { get; set; }
         public string FilePath { get; set; }
         
-    }
+        }
     }

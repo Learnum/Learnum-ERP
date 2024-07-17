@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models
 {
-    public class MyPracticalExamModel:BaseModel
+    public class PracticalProblemModel : BaseModel
     {
-        public long StudentId { get; set; }
-
-        public string Answer { get; set; }
-
-        public bool IsActive { get; set; }
+       
     }
 }
