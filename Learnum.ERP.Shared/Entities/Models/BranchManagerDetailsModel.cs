@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models
 {
-    public class BranchManagerDetailsModel
+    public class BranchManagerDetailsModel:BaseModel
     {
         public long BranchManagerId { get; set; }
         public string BranchManagerName { get; set; }
@@ -14,10 +14,6 @@ namespace Learnum.ERP.Shared.Entities.Models
         public long BranchID {  get; set; }
        
         public bool IsActive { get; set; }
-        public long AddedBy { get; set; }
-        public DateTime AddedDate { get; set; }
-        public long UpdatedBy { get; set; }
-        public DateTime UpdatedDate { get; set; }
-
+       
     }
 }
