@@ -13,7 +13,7 @@ import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-g
   styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent implements OnInit {
-  
+
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
@@ -128,12 +128,12 @@ export class EmployeesComponent implements OnInit {
 
   getEmployeeList: any;
   addEmployeeService: any;
- employeeList: any;
+   employeeList: any;
 
 
 
   ngOnInit(): void {
-    this.GetEmployeeList();
+    //this.GetEmployeeList();
   }
 
   constructor(private router: Router,
@@ -153,17 +153,7 @@ export class EmployeesComponent implements OnInit {
   }
  
   
-  onRowAction(data: any) {
-    let data1 = {
-      'source': 'edit',
-      'branchID': data.row.branchID
-    }
-    this.router.navigate(['/tds/masters/add-employee'], { queryParams: data1 });
-  }
-
-  selectEmployee(employees: any) {
-
-  }
+ 
   editEmployee(employeeData: any) {
 
   //   const employeeId = employeeData.EmpID;
@@ -198,21 +188,14 @@ export class EmployeesComponent implements OnInit {
     this.router.navigateByUrl('tds/hrd/employees/add-employee')
   }
  
+  selectemployee($event: any) {
+    throw new Error('Method not implemented.');
+    }
+      
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
-  GetEmployeeList() {
-    this.addEmployeeService.getEmployeeList().subscribe(
-      (result: any) => {
-        // this.tdsReturnList = result.Value;
-        // let tdsReturnList = result.Value;
-      },
-      (error: any) => {
-        console.error("Error occurred while fetching employee details:", error); 
-        this.alertService.ShowErrorMessage("An error occurred while fetching employee details. Please try again later."); 
-  }
-);
-  }
+
 
 }
