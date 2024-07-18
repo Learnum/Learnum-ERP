@@ -30,7 +30,7 @@ public class BranchAccountantDetailsRepository : BaseRepository, IBranchAccounta
         {
             var dbparams = new DynamicParameters(branchaccountantDetailsModel);
             dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-            dbConnection.Query<int>("", dbparams, commandType: CommandType.StoredProcedure);
+            dbConnection.Query<int>("PROC_InsertBranchAccountant", dbparams, commandType: CommandType.StoredProcedure);
             ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
             return await Task.FromResult(result);
         }
@@ -41,7 +41,7 @@ public class BranchAccountantDetailsRepository : BaseRepository, IBranchAccounta
         using (IDbConnection dbConnection = base.GetCoreConnection())
         {
             var dbparams = new DynamicParameters();
-            var result = dbConnection.Query<BranchAccountantDetailsResponseModel>("PROC_GetBranchAccountantDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+            var result = dbConnection.Query<BranchAccountantDetailsResponseModel>("PROC_GetBranchAccountant", dbparams, commandType: CommandType.StoredProcedure).ToList();
             return await Task.FromResult(result);
         }
     }

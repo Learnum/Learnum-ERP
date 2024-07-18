@@ -1,4 +1,5 @@
-﻿using Learnum.ERP.Repository.Master.HRD_repo;
+﻿using Learnum.ERP.Repository.Master;
+using Learnum.ERP.Repository.Master.HRD_repo;
 using Learnum.ERP.Shared.Core;
 using Learnum.ERP.Shared.Entities.Models;
 using Microsoft.AspNetCore.Http;
@@ -12,13 +13,13 @@ namespace Learnum.ERP.API.Controller.HRD
     public class WorksheetDetailsController : ControllerBase
     {
         private readonly IWorksheetDetailsRepository worksheetDetailsRepository;
-        private readonly ILogger<BranchCounsellorDetailsController> logger;
+        private readonly ILogger<WorksheetDetailsController> logger;
 
         public WorksheetDetailsController(
-           ILogger<WorksheetDetailsController> _logger,
-          IWorksheetDetailsRepository _worksheetDetailsRepository)
+          ILogger<WorksheetDetailsController> _logger,
+         IWorksheetDetailsRepository _worksheetDetailsRepository)
         {
-            logger = (ILogger<BranchCounsellorDetailsController>?)_logger;
+            logger = _logger;
             worksheetDetailsRepository = _worksheetDetailsRepository;
         }
 

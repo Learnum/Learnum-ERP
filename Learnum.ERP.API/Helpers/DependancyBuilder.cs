@@ -38,8 +38,8 @@ namespace Learnum.ERP.API.Helpers
             services.AddTransient<IBatchesDetailsRepository, BatchesDetailsRepository>();
             services.AddTransient<IBirthdayDetailsRepository, BirthdayDetailsRepository>();
             services.AddTransient<ITrainerDetailsRepository,TrainerDetailsRepository>();
-
-            services.AddTransient<IEmployeeDetailsRepository, EmployeeDetailsRepository>();
+            services.AddTransient<IWorksheetDetailsRepository, WorksheetDetailsRepository>();
+           // services.AddTransient<IEmployeeDetailsRepository, EmployeeDetailsRepository>();
             services.AddTransient<IBranchManagerDetailsRepository,BranchManagerDetailsRepository>();
             services.AddTransient<IBusinessLeadDetailsRepository, BusinessLeadDetailsRepository>();
             services.AddTransient<IPracticalProblemsSubformRepository,PracticalProblemsSubformRepository>();
