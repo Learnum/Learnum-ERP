@@ -4,13 +4,14 @@ import { MessageService } from 'src/app/core/services/message.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/services/alertService';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
-
+import { AddtrainerService } from './add-trainer/addtrainer.service';
 @Component({
   selector: 'app-trainer',
   templateUrl:'./trainer.component.html',
   styleUrls: ['./trainer.component.scss']
 })
 export class TrainerComponent implements OnInit {
+
   tdsReturnList: any[] = [];
   form: FormGroup;
 
@@ -118,52 +119,23 @@ export class TrainerComponent implements OnInit {
 
 
   ngOnInit(): void {
-    //this.GetbranchList();
+    this.getAllTrainerDetails();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    //private addEmployeeService: AddEmployeeService,
-   // private addBranchService: AddBranchService,
+    private addtrainerService: AddtrainerService,
     private formBuilder: FormBuilder) {
-    {
-      this.form = this.formBuilder.group({
-        // Define form controls with validators as needed
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        // Add more form controls as needed
-      });
+  
+  }
+
+  selecttrainer($event: any) {
+    throw new Error('Method not implemented.');
     }
-  }
-  selectBranch(branch: any) {
-
-  }
-  // editEmploy(employeeData: any) {
-
-  //   const employeeId = employeeData.EmpID;
-  //   const index = this.tdsReturnList.findIndex(emp => emp.EmpID === employeeId);
-  //   if (index !== -1) {
-  //   this.openEditForm(employeeData).then((editedEmployeeData: any) => {
-  //   this.tdsReturnList[index] = editedEmployeeData;
-  //   console.log('Edited Employee:', editedEmployeeData);
-  // });
-  //   }
-  // }
-
-  // openEditForm(employeeData: any): Promise<any> {
-
-  //   return new Promise((resolve, reject) => {
-
-  //     setTimeout(() => {
-  //       const editedEmployeeData = { ...employeeData };
-
-  //       editedEmployeeData.Status = 'Edited';
-  //       resolve(editedEmployeeData);
-  //     }, 1000);
-  //   });
-  // }
+  
+  
 
   onRowAction(data: any) {
     let data1 = {
@@ -196,36 +168,19 @@ export class TrainerComponent implements OnInit {
     // }
     this.router.navigateByUrl('tds/hrd/trainer/add-trainer')
   }
-  // onAddBranch(branch?:any)
-  // {
-  //   let navigationExtras: NavigationExtras = {};
-  //   if (branch) {
-  //     navigationExtras = {
-  //       state: {
-  //         branchData: branch
-  //       }
-  //     };
-  //   }
-  //   this.router.navigate(['tds/masters/branches/add-branch']);
-  // }
+  
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
 
 
-  // GetbranchList() {
-  //   this.addBranchService.getBranchDetails().subscribe(
-  //     (result: any) => {
-  //       this.tdsReturnList = result.Value;
-  //       let tdsReturnList = result.Value;
-  //     },
-  //     (error: any) => {
-  //       console.error("Error occurred while fetching employee details:", error);
-  //       this.alertService.ShowErrorMessage("An error occurred while fetching employee details. Please try again later.");
-  //     }
-  //   );
-  // }
+  getAllTrainerDetails() {
+    this.addtrainerService.getTrainerList().subscribe((result: any) => {
+      this.tdsReturnList = result.Value;
+      let tdsReturnList = result.Value;
+    })
+  }
+  }
 
 
-}

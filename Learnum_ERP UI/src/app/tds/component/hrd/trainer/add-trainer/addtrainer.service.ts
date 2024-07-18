@@ -24,7 +24,7 @@ export class AddtrainerService extends BaseService {
     return this.apiService.postBlob(this.urlInsertTrainerDetails,TrainerDetails);
   }
 
-  // getBranchList() {
-  //   return this.apiService.getData(this.urlgetBranchList);
-  // }
+  getTrainerList() {
+    return this.apiService.getData(this.urlgetTrainerList);
+  }
 }
