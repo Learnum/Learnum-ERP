@@ -18,7 +18,7 @@ namespace Learnum.ERP.API.Controller.HRD
 
     public class EmployeeDetailsController : ControllerBase
     {
-        private readonly IEmployeeDetailsRepository employeeDetailsRepository;
+       /* private readonly IEmployeeDetailsRepository employeeDetailsRepository;
         private readonly ILogger<EmployeeDetailsController> logger;
 
         public EmployeeDetailsController(
@@ -99,6 +99,6 @@ namespace Learnum.ERP.API.Controller.HRD
                 return Ok(data);
             }
             return NotFound("No record found");
-        }
+        }*/
     }
 }

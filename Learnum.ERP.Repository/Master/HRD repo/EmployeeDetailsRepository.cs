@@ -15,12 +15,12 @@ namespace Learnum.ERP.Repository.Master
 {
     public interface IEmployeeDetailsRepository
     {
-        Task<ResponseCode> InsertEmployeeDetails(EmployeeDetailsModel employeeDetailsModel);
-        Task<List<EmployeeDetailsResponseModel>> GetEmployeeDetailsList();
+       // Task<ResponseCode> InsertEmployeeDetails(EmployeeDetailsModel employeeDetailsModel);
+        //Task<List<EmployeeDetailsResponseModel>> GetEmployeeDetailsList();
     }
     public class EmployeeDetailsRepository : BaseRepository, IEmployeeDetailsRepository
     {
-        public async Task<ResponseCode> InsertEmployeeDetails(EmployeeDetailsModel courseDetailsModel)
+        /*public async Task<ResponseCode> InsertEmployeeDetails(EmployeeDetailsModel courseDetailsModel)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
@@ -30,9 +30,9 @@ namespace Learnum.ERP.Repository.Master
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
-        }
+        }*/
 
-        public async Task<List<EmployeeDetailsResponseModel>> GetEmployeeDetailsList()
+       /* public async Task<List<EmployeeDetailsResponseModel>> GetEmployeeDetailsList()
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
@@ -40,6 +40,6 @@ namespace Learnum.ERP.Repository.Master
                 var result = dbConnection.Query<EmployeeDetailsResponseModel>("PROC_GetEmployeeDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
-        }
+        }*/
     }
 }
