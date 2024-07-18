@@ -82,7 +82,7 @@ export class AddIpaddressComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
             type: 'select',
             key: 'IsActive',
             props: {
