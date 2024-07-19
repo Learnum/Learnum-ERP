@@ -6,6 +6,8 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
+import { WorksheetDetailsModel } from './worksheetdetails.model';
+import { AddWorksheetservices } from './add-worksheetservices.service';
 
 @Component({
   selector: 'app-add-worksheet',
@@ -16,27 +18,24 @@ export class AddWorksheetComponent implements OnInit {
   form = new FormGroup({});
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
-  editData: any;
   tdsReturnList: any;
-  coOwners: any;
   NowDate: any = new Date();
-  worksheetDetails: any;
-  addWorksheetService: any;
+  worksheetDetails: WorksheetDetailsModel = new WorksheetDetailsModel();
+
+ 
  
   constructor(
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
+    private addWorksheetservices: AddWorksheetservices,
     private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.setParameter();
     
-    this.editData = this.activateRoute.snapshot.queryParams;
-    if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
-    }
     
   }
  
@@ -50,7 +49,7 @@ setParameter() {
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'Name',
+            key: 'name',
             templateOptions: {
               placeholder: 'Enter  Name',
               type: 'text',
@@ -61,7 +60,7 @@ setParameter() {
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'Email',
+            key: 'email',
             props: {
               placeholder: 'Email',
               type: 'text',
@@ -78,7 +77,7 @@ setParameter() {
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'DateofBirth',
+            key: 'date',
             templateOptions: {
               label: 'Date of Birth',
               placeholder: 'Date',
@@ -97,12 +96,16 @@ setParameter() {
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'Role',
+            key: 'role',
             props: {
               placeholder: 'select',
               type: 'text',
               label: "Role",
               required: true,
+              options: [
+                { value: 'developer', label: 'Developer' },
+                { value: 'manager', label: 'Manager' }
+              ]
             },
             validation: {
               messages: {
@@ -113,7 +116,7 @@ setParameter() {
           {
             className: 'col-md-6',
             type: 'textarea',
-            key: 'TodayWork',
+            key: 'TodaysWork',
             props: {
               placeholder: 'Type here',
               type: 'text',
@@ -148,7 +151,7 @@ setParameter() {
   onSubmit():void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-    //  this.insertAddEmployee();
+     this.insertAddWorksheet();
       
     }
     else {
@@ -158,13 +161,13 @@ setParameter() {
 
   insertAddWorksheet() {
     // Assuming worksheetDetails is a property in your component that holds the worksheet data
-    this.worksheetDetails.AddedBy = 1;
-    this.worksheetDetails.AddedDate = new Date();
-    this.worksheetDetails.UpdatedBy = 1;
-    this.worksheetDetails.UpdatedDate = new Date();
-    this.worksheetDetails.IsActive = true;
+    this.worksheetDetails.addedBy = 1;
+    this.worksheetDetails.addedDate = new Date();
+    this.worksheetDetails.updatedBy = 1;
+    this.worksheetDetails.updatedDate = new Date();
+    this.worksheetDetails.isActive = true;
   
-    this.addWorksheetService.insertWorksheetData(this.worksheetDetails).subscribe(
+    this.addWorksheetservices.insertWorksheetData(this.worksheetDetails).subscribe(
       (result: any) => {
         let serviceResponse = result.Value;
         if (result.Value === ResponseCode.Success) {
