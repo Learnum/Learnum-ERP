@@ -56,20 +56,24 @@ export class CoursesComponent implements OnInit {
         return params.value ? 'Active' : 'Inactive';
       }
     },
-    // {
-    //   field: 'Upload Brochure',
-    //   headerName: 'Upload Brochure',
-    //   filter: 'agSetColumnFilter',
-    //   filterParams: {
-    //     buttons: ['reset', 'apply'],
-    //   },
-    //   minWidth: 200
-
-    // },
     {
       field: 'addedBy',
-      headerName: 'Added By',
+      headerName: 'AddedBy',
       filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -79,21 +83,13 @@ export class CoursesComponent implements OnInit {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    },
-    {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+    },{
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
   ];
  
 
@@ -106,16 +102,7 @@ export class CoursesComponent implements OnInit {
     private messageService: MessageService,
     private addCoursesService: AddCoursesService,
     private alertService: AlertService,
-    private formBuilder: FormBuilder) {
-    {
-      this.form = this.formBuilder.group({
-       
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        
-      });
-    }
-  }
+    private formBuilder: FormBuilder) {}
  
   onRowAction(data: any) {
     let data1 = {
@@ -124,8 +111,6 @@ export class CoursesComponent implements OnInit {
     }
     this.router.navigate(['/tds/masters/add-classrooms'], { queryParams: data1 });
   }
-
-
 
   declaredActionColumns: ActionColumn[] = [
     {

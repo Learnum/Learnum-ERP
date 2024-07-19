@@ -5,6 +5,8 @@ import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddcollegesService } from './addcolleges.service';
+import { AddcollegesDetails } from './addcolleges.model';
 
 @Component({
   selector: 'app-add-collegs',
@@ -13,14 +15,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AddCollegsComponent implements OnInit {
 
+  addcollegesDetails:AddcollegesDetails=new AddcollegesDetails();
+
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
-  collegeDetails: any = {};
   contactForm: FormGroup;
   departmentForm:FormGroup
-
+  collegeDetails:any;
   contactDetails: any[] = [];
   departmentDetails: any[] = [];
 
@@ -29,6 +32,7 @@ export class AddCollegsComponent implements OnInit {
     private alertService: AlertService,
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
+    private addcollegesService:AddcollegesService
   ) { }
 
   ngOnInit(): void {
@@ -36,6 +40,7 @@ export class AddCollegsComponent implements OnInit {
     this.createContactForm();
     this.createDepartmentForm();
     this.setParameter();
+    this.getBranchDetails();
 
   }
 
@@ -46,6 +51,18 @@ export class AddCollegsComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
+          {
+            className: 'col-md-4',
+            type: 'select',
+            key: 'BranchId',
+            templateOptions: {
+              placeholder: 'Branch Name',
+              type: 'text',
+              label: "Branch Name",
+              required: true,
+              options: this.collegeDetails? this.collegeDetails.map(college => ({ label: college.BranchName, value: college.BranchId })) : [],
+            },
+          },
           {
             className: 'col-md-4',
             key: 'collegeName',
@@ -78,64 +95,50 @@ export class AddCollegsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'branchName',
+            key: 'city',
             type: 'input',
             props: {
-              label: 'Branch Name',
-              placeholder: 'Branch Name',
+              label: 'City',
+              placeholder: 'City',
               required: true,
             },
             validation: {
               messages: {
-                required: 'Branch Name is required',
+                required: 'City is required',
               },
             },
           },
-          // {
-          //   className: 'col-md-4',
-          //   key: 'city',
-          //   type: 'input',
-          //   props: {
-          //     label: 'City',
-          //     placeholder: 'City',
-          //     required: true,
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'City is required',
-          //     },
-          //   },
-          // },
-          // {
-          //   className: 'col-md-4',
-          //   key: 'state',
-          //   type: 'input',
-          //   props: {
-          //     label: 'State',
-          //     placeholder: 'State',
-          //     required: true,
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'State is required',
-          //     },
-          //   },
-          // },
-          // {
-          //   className: 'col-md-4',
-          //   key: 'pincode',
-          //   type: 'input',
-          //   props: {
-          //     label: 'Pincode',
-          //     placeholder: 'Pincode',
-          //     required: true,
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'Pincode is required',
-          //     },
-          //   },
-          // },
+          {
+            className: 'col-md-4',
+            key: 'state',
+            type: 'input',
+            props: {
+              label: 'State',
+              placeholder: 'State',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'State is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-4',
+            key: 'pincode',
+            type: 'input',
+            props: {
+              label: 'Pincode',
+              placeholder: 'Pincode',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'Pincode is required',
+              },
+            },
+          },
+           
           {
             className: 'col-md-4',
             key: 'collegeWebsite',
@@ -237,6 +240,16 @@ export class AddCollegsComponent implements OnInit {
     this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
   }
 
-  
+  getBranchDetails() {
+    this.addcollegesService.getBranchList().subscribe(
+      (data: any) => {
+        this.collegeDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
   
 }
