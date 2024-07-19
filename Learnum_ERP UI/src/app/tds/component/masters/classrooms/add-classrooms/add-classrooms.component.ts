@@ -21,7 +21,6 @@ export class AddClassroomsComponent implements OnInit {
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
   form = new FormGroup({});
   branchDetails: any;
   
@@ -173,7 +172,6 @@ constructor(
       }
     );
   }
-
   
 }
 
