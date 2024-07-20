@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { BirthdayDetailsService } from './add-birthday/birthday-details.service';
 
 @Component({
   selector: 'app-birthdays',
@@ -12,8 +13,9 @@ import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-g
 })
 export class BirthdaysComponent implements OnInit {
 
-  tdsReturnList: any[] = [];
+
   form: FormGroup;
+  BirthdayList: any[] = [];
 
   declaredTableColumns: TableColumn[] = [
     {
@@ -36,8 +38,8 @@ export class BirthdaysComponent implements OnInit {
 
     },
     {
-      field: 'DateofBirth',
-      headerName: 'Date Of Birth',
+      field: 'DateOfBirth',
+      headerName: 'date',
       filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -45,11 +47,37 @@ export class BirthdaysComponent implements OnInit {
       minWidth: 150
 
     },
-   
+
+    {
+      field: 'IsActive',
+      headerName: 'Status',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 200,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
+    },
     {
       field: 'addedBy',
-      headerName: 'Added By',
+      headerName: 'AddedBy',
       filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -61,72 +89,40 @@ export class BirthdaysComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
   ];
 
-  getEmployeeList: any;
+
 
 
 
   ngOnInit(): void {
-    //this.GetbranchList();
+    this.GetbirthdayList();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    //private addEmployeeService: AddEmployeeService,
-   // private addBranchService: AddBranchService,
+    private birthdayDetailsService: BirthdayDetailsService,
+
+
     private formBuilder: FormBuilder) {
     {
       this.form = this.formBuilder.group({
-        // Define form controls with validators as needed
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        // Add more form controls as needed
+
       });
     }
   }
   selectBranch(branch: any) {
 
   }
-  // editEmploy(employeeData: any) {
-
-  //   const employeeId = employeeData.EmpID;
-  //   const index = this.tdsReturnList.findIndex(emp => emp.EmpID === employeeId);
-  //   if (index !== -1) {
-  //   this.openEditForm(employeeData).then((editedEmployeeData: any) => {
-  //   this.tdsReturnList[index] = editedEmployeeData;
-  //   console.log('Edited Employee:', editedEmployeeData);
-  // });
-  //   }
-  // }
-
-  // openEditForm(employeeData: any): Promise<any> {
-
-  //   return new Promise((resolve, reject) => {
-
-  //     setTimeout(() => {
-  //       const editedEmployeeData = { ...employeeData };
-
-  //       editedEmployeeData.Status = 'Edited';
-  //       resolve(editedEmployeeData);
-  //     }, 1000);
-  //   });
-  // }
+  
 
   onRowAction(data: any) {
     let data1 = {
@@ -159,36 +155,23 @@ export class BirthdaysComponent implements OnInit {
     // }
     this.router.navigateByUrl('tds/hrd/birthdays/add-birthday')
   }
-  // onAddBranch(branch?:any)
-  // {
-  //   let navigationExtras: NavigationExtras = {};
-  //   if (branch) {
-  //     navigationExtras = {
-  //       state: {
-  //         branchData: branch
-  //       }
-  //     };
-  //   }
-  //   this.router.navigate(['tds/masters/branches/add-branch']);
-  // }
+ 
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
 
 
-  // GetbranchList() {
-  //   this.addBranchService.getBranchDetails().subscribe(
-  //     (result: any) => {
-  //       this.tdsReturnList = result.Value;
-  //       let tdsReturnList = result.Value;
-  //     },
-  //     (error: any) => {
-  //       console.error("Error occurred while fetching employee details:", error);
-  //       this.alertService.ShowErrorMessage("An error occurred while fetching employee details. Please try again later.");
-  //     }
-  //   );
-  // }
+  GetbirthdayList() {
+    this.birthdayDetailsService.getBirthdayList().subscribe(
+      (result: any) => {
+        this.BirthdayList = result.Value;
+        let BirthdayList = result.Value;
+      },
+
+    );
+
+  }
 
 
 

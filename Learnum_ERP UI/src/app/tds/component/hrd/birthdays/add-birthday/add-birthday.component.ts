@@ -6,6 +6,8 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
+import { BirthdayDetailsService } from './birthday-details.service';
+import { BirthdayDetailsModel } from './BirthDayDetails.model';
 
 @Component({
   selector: 'app-add-birthday',
@@ -15,21 +17,16 @@ import { MessageService } from 'src/app/core/services/message.service';
 export class AddBirthdayComponent implements OnInit {
 
   form = new FormGroup({});
-  //employeeDetails: EmployeeDetails = new EmployeeDetails();
-  reasonList: any[] = [];
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
   tdsReturnList: any;
-  GetEmployeeList: any;
-  coOwners: any;
   NowDate: any = new Date();
- employeeDetails: any;
-  birthdayDetails: any;
-  addBirthdayService: any;
+  birthdayDetails: BirthdayDetailsModel = new BirthdayDetailsModel();
+
  
   constructor(
-    //private addEmployeeService: AddEmployeeService,
+    private birthdayDetailsService: BirthdayDetailsService,
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -39,53 +36,17 @@ export class AddBirthdayComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-  //  this.getReason();
-    // this.createForm();
-    this.editData = this.activateRoute.snapshot.queryParams;
-    if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
-   //   this.getEmployeeDetails(this.editData.EmployeeDetailId);
     }
-    
-  }
   
 
 
-  // getEmployeeDetails(EmployeeDetailId: number) {
-  //   this.addEmployeeService.getEmployeeDetails(EmployeeDetailId).subscribe(
-  //     (result: any) => {
-  //       if (result && result.Value && result.Value.Item1) {
-  //         this.employeeDetails = result.Value.Item1;
-          
-  //         //DateofPayment && DateOfDeduction
-  //         this.employeeDetails.DateOfPayment = this.addEmployeeService.formatDate(this.employeeDetails.DateOfPayment);
-  //         this.employeeDetails.DateOfDeduction = this.addEmployeeService.formatDate(this.employeeDetails.DateOfDeduction);
-
-  //         this.setParameter();
-  //       } else {
-  //         console.error('No data found for EmployeeDetailId: ' + EmployeeDetailId);
-
-  //       }
-  //     },
-  //     (error: any) => {
-  //       console.error('Error retrieving employee details:', error);
-
-  //       if (error && error.status === 404) {
-  //         console.error('Employee not found.');
-
-  //       } else {
-  //         console.error('An unexpected error occurred. Please try again later.');
-
-  //       }
-  //     }
-  //   );
-  // }
 
 
 setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
-        // key: 'ITDPreEmploymentSalModel',
+
         fieldGroup: [
             {
             className: 'col-md-4',
@@ -115,19 +76,41 @@ setParameter() {
               },
             },
           },
+
           {
             className: 'col-md-4',
+            type: 'select',
+            key: 'Role',
+            props: {
+              placeholder: 'Enter Role',
+              type: 'text',
+              label: "Role",
+              required: true,
+              options: [
+                { label: 'Developer', value: '1' },
+                { label: 'Manager', value: '2' }
+              ]
+            },
+            validation: {
+              messages: {
+                required: 'Role is required',
+                pattern: 'Please enter a valid Role',
+              },
+            },
+          }
+          ,
+          {
+            className: 'col-md-6',
             type: 'input',
-            key: 'DateofBirth',
+            key: 'date',
             templateOptions: {
               label: 'Date of Birth',
-              placeholder: 'Enter Date',
+              placeholder: 'Date',
               type: 'date',
               required: true,
               attributes: {
                 max: formatDate(this.NowDate, 'YYYY-MM-dd', 'en-IN'),
               },
-
             },
             validation: {
               messages: {
@@ -168,8 +151,8 @@ setParameter() {
               label: "Status",
               required: true,
               options: [
-                { value: 'Active', label: 'Active' },
-                { value: 'Inactive', label: 'Inactive' }
+                { value: 'true', label: 'Active' },
+                { value: 'false', label: 'Inactive' }
               ]
             },
            
@@ -180,7 +163,7 @@ setParameter() {
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/hrd/counsellor');
+    this.router.navigateByUrl('tds/hrd/birthdays');
   }
 
   get f()
@@ -191,8 +174,7 @@ setParameter() {
   onSubmit():void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-    //  this.insertAddEmployee();
-      this.GetEmployeeList();
+    this.insertAddBirthday();
     }
     else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
@@ -200,13 +182,13 @@ setParameter() {
   }
 
   insertAddBirthday() {
-    this.birthdayDetails.AddedBy = 1;
-    this.birthdayDetails.AddedDate = new Date();
-    this.birthdayDetails.UpdatedBy = 1;
-    this.birthdayDetails.UpdatedDate = new Date();
-    this.birthdayDetails.IsActive = true;
+    this.birthdayDetails.addedBy = 1;
+    this.birthdayDetails.addedDate = new Date();
+    this.birthdayDetails.updatedBy = 1;
+    this.birthdayDetails.updatedDate = new Date();
+    this.birthdayDetails.birthId = 0;
 
-    this.addBirthdayService.insertBirthdayData(this.birthdayDetails).subscribe(
+    this.birthdayDetailsService.insertBirthdayData(this.birthdayDetails).subscribe(
       (result: any) => {
         let serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
@@ -221,7 +203,7 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     );
-    this.router.navigateByUrl('tds/tds-return/employee');
+    this.router.navigateByUrl('tds/hrd/birthdays');
   }
 
 }

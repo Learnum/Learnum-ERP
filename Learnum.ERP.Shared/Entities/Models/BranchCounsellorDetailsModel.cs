@@ -8,9 +8,9 @@ namespace Learnum.ERP.Shared.Entities.Models
 {
     public class BranchCounsellorDetailsModel : BaseModel
     {
-        public long BranchID {  get; set; }
+        public long? CounsellorId { get; set; }
+        public long? BranchId { get; set; }
         public string CounsellorName { get; set; }
-        public string BranchName { get; set; }
-        public string Status { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

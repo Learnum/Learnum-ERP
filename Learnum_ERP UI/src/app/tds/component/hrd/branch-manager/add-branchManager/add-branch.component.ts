@@ -144,7 +144,7 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    this.router.navigateByUrl('tds/hrd/daily-work');
+    this.router.navigateByUrl('tds/hrd/branch-manager');
   }
 
 

@@ -19,93 +19,93 @@ export class ClassroomsComponent implements OnInit {
   classroomDetailsList: any[] = [];
   form: FormGroup;
   getEmployeeList: any;
- declaredTableColumns: TableColumn[] = 
- [
-  {
-    field: 'ClassRoomId',
-    headerName: 'SR.No',
-    filter: 'agTextColumnFilter',
-    filterParams: {
-      buttons: ['reset', 'apply'],
-    },
-    minWidth: 200,
-  },
-  {
-    field: 'BranchName',
-    headerName: 'Branch Name',
-    filter: 'agTextColumnFilter',
-    filterParams: {
-      buttons: ['reset', 'apply'],
-    },
-    minWidth: 200,
-  },
-    {
-      field: 'ClassroomName',
-      headerName: 'Classroom Name',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
+  declaredTableColumns: TableColumn[] =
+    [
+      {
+        field: 'ClassRoomId',
+        headerName: 'SR.No',
+        filter: 'agTextColumnFilter',
+        filterParams: {
+          buttons: ['reset', 'apply'],
+        },
+        minWidth: 200,
       },
-      minWidth: 200
+      {
+        field: 'BranchName',
+        headerName: 'Branch Name',
+        filter: 'agTextColumnFilter',
+        filterParams: {
+          buttons: ['reset', 'apply'],
+        },
+        minWidth: 200,
+      },
+      {
+        field: 'ClassroomName',
+        headerName: 'Classroom Name',
+        filter: 'agTextColumnFilter',
+        filterParams: {
+          buttons: ['reset', 'apply'],
+        },
+        minWidth: 200
 
-    },
-    {
-      field: 'StudentCapacity',
-      headerName: 'Student Capacity',
-      filter: 'agSetColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      {
+        field: 'StudentCapacity',
+        headerName: 'Student Capacity',
+        filter: 'agSetColumnFilter',
+        filterParams: {
+          buttons: ['reset', 'apply'],
+        },
+        minWidth: 200
 
-    },
-    {
-      field: 'IsActive',
-      headerName: 'Classroom Status',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
       },
-      minWidth: 150,
-      valueFormatter: params => {
-        return params.value ? 'Active' : 'Inactive';
-      }
-    },
-    {
-      field: 'addedBy',
-      headerName: 'AddedBy',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'addedTime',
-      headerName: 'AddedTime',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'updatedBy',
-      headerName: 'UpdatedBy',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'addedTime',
-      headerName: 'Added Time',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },{
-      field: 'updatedDate',
-      headerName: 'UpdatedDate',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-  ];
+      {
+        field: 'IsActive',
+        headerName: 'Classroom Status',
+        filter: 'agTextColumnFilter',
+        filterParams: {
+          buttons: ['reset', 'apply'],
+        },
+        minWidth: 150,
+        valueFormatter: params => {
+          return params.value ? 'Active' : 'Inactive';
+        }
+      },
+      {
+        field: 'addedBy',
+        headerName: 'AddedBy',
+        filter: 'agTextColumnFilter',
+        filterParams: { buttons: ['reset', 'apply'] },
+        minWidth: 150
+      },
+      {
+        field: 'addedTime',
+        headerName: 'AddedTime',
+        filter: 'agDateColumnFilter',
+        filterParams: { buttons: ['reset', 'apply'] },
+        minWidth: 150
+      },
+      {
+        field: 'updatedBy',
+        headerName: 'UpdatedBy',
+        filter: 'agDateColumnFilter',
+        filterParams: { buttons: ['reset', 'apply'] },
+        minWidth: 150
+      },
+      {
+        field: 'addedTime',
+        headerName: 'Added Time',
+        filter: 'agDateColumnFilter',
+        filterParams: { buttons: ['reset', 'apply'] },
+        minWidth: 150
+      }, {
+        field: 'updatedDate',
+        headerName: 'UpdatedDate',
+        filter: 'agDateColumnFilter',
+        filterParams: { buttons: ['reset', 'apply'] },
+        minWidth: 150
+      },
+    ];
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
@@ -123,7 +123,7 @@ export class ClassroomsComponent implements OnInit {
     }
 
   ];
- ngOnInit(): void {
+  ngOnInit(): void {
     this.getClassroomDetails();
   }
 
@@ -131,7 +131,7 @@ export class ClassroomsComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    private addClassroomsService : AddClassroomsService,
+    private addClassroomsService: AddClassroomsService,
     private formBuilder: FormBuilder) {
     {
       this.form = this.formBuilder.group({
@@ -144,7 +144,7 @@ export class ClassroomsComponent implements OnInit {
 
   }
 
-ActionColumn: any[] = [
+  ActionColumn: any[] = [
     {
       action: 'view',
       actionPage: 'ViewBranch',
@@ -167,7 +167,7 @@ ActionColumn: any[] = [
       this.classroomDetailsList = result.Value;
       let classroomDetailsList = result.Value;
     })
-  } 
+  }
 }
 
 

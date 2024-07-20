@@ -11,7 +11,10 @@ export class AddcounsellorService extends BaseService{
 
   private httpClientWithoutInterceptor: HttpClient;
 
-  private urlInsertBranchManagerDetails: string = "BranchManagerDetails/InsertBranchManagerDetails";
+  private urlInsertBranchManagerDetails: string = "BranchCounsellorDetails/InsertBranchCounsellorDetails";
+  private urlgetcounsellorList: string = "BranchCounsellorDetails/getAllBranchCounsellorList";
+  private urlgetBranchList: string = "BranchDetails/getAllBranchList";
+
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
@@ -21,5 +24,13 @@ export class AddcounsellorService extends BaseService{
   insertcounsellorData(branchCounsellorDetails: CounsellorsPlaningModel) {
     //const URL = ConfigurationSettings.BASE_API_URL;
     return this.apiService.postBlob(this.urlInsertBranchManagerDetails,branchCounsellorDetails);
+  }
+
+  getcounsellorList(){
+    return this.apiService.getData(this.urlgetcounsellorList);
+  }
+
+  getBranchList() {
+    return this.apiService.getData(this.urlgetBranchList);
   }
 }

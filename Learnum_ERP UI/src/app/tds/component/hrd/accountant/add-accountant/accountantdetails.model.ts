@@ -1,7 +1,8 @@
-export class CounsellorsPlaningModel {
-    counsellorId: number | null;
-    branchId: number | null;
-    counsellorName: string;
+export class BranchAccountantDetailsModel {
+    branchAccountantId: number;
+    branchId: number;
+    accountantName: string;
+    BranchName: string;
     isActive: boolean | null;
     addedBy: number | null;
     addedDate: Date | null;
@@ -9,5 +10,4 @@ export class CounsellorsPlaningModel {
     updatedDate: Date | null;
     computerName: string;
 }
-
 
