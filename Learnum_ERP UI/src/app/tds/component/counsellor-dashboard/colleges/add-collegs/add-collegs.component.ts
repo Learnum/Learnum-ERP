@@ -6,7 +6,10 @@ import { MessageService } from 'src/app/core/services/message.service';
 import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddcollegesService } from './addcolleges.service';
-import { AddcollegesDetails } from './addcolleges.model';
+import { AddcollegesDetails, CollegeContactDetails } from './addcolleges.model';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { ContactDetails } from './contactdetails.model';
+import { DepartmentDetails } from './departmentdetails.model';
 
 @Component({
   selector: 'app-add-collegs',
@@ -15,7 +18,11 @@ import { AddcollegesDetails } from './addcolleges.model';
 })
 export class AddCollegsComponent implements OnInit {
 
+  //collegeContactDetails : CollegeContactDetails = new CollegeContactDetails();
+  
   addcollegesDetails:AddcollegesDetails=new AddcollegesDetails();
+  departmentDetails: DepartmentDetails[] = [];
+  contactDetails : ContactDetails[] = []
 
   form = new FormGroup({});
   model: any = {};
@@ -24,8 +31,10 @@ export class AddCollegsComponent implements OnInit {
   contactForm: FormGroup;
   departmentForm:FormGroup
   collegeDetails:any;
-  contactDetails: any[] = [];
-  departmentDetails: any[] = [];
+  //contactDetails: any[] = [];
+  messageService: any;
+
+
 
   constructor(
     private router: Router,
@@ -229,11 +238,43 @@ export class AddCollegsComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.form.markAllAsTouched();
-    if (this.form.valid) {
-    } else {
-      this.alertService.ShowErrorMessage('Please fill in all required fields.');
-    }
+
+    console.log(this.contactDetails);
+    console.log(this.departmentDetails);
+    console.log(this.collegeDetails);
+    // const CollegeContactDetails: CollegeDetailsRequestModel = {
+    //   addCollegesModel: this.collegeDetails,
+    //   contactDetailsModel: this.contactDetails,
+    //   departmentDetails: this.departmentDetails
+    // };
+
+    const collegeContactDetails = new CollegeContactDetails(
+      this.addcollegesDetails,
+      this.contactDetails,
+      this.departmentDetails
+    );
+
+
+    this.addcollegesService.insertCollegesData(collegeContactDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+    this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
+  }
+
+  requestData(requestData: any) {
+    throw new Error('Method not implemented.');
   }
 
   onCancelClick() {

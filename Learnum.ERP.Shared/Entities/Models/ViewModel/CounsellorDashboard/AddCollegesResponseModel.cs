@@ -19,4 +19,5 @@ namespace Learnum.ERP.Shared.Entities.Models.ViewModel.CounsellorDashboard
         public string BranchName { get; set; }
         public string AboutCollege { get; set; }
     }
+
 }
