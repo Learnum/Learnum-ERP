@@ -2,6 +2,7 @@
 using Learnum.ERP.Repository.Master;
 using Learnum.ERP.Repository.Master.CounsellorDashboard;
 using Learnum.ERP.Shared.Core;
+using Learnum.ERP.Shared.Entities;
 using Learnum.ERP.Shared.Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +25,9 @@ namespace Learnum.ERP.API.Controller.CounsellorDashboard
         }
 
         [HttpPost("InsertCollegesDetails")]
-        public async Task<IActionResult> InsertCollegesDetails(AddCollegesModel addCollegesModel)
+        public async Task<IActionResult> InsertCollegesDetails(CollegeContactDetails collegeContactDetails)
         {
-            if (addCollegesModel == null)
+            if (collegeContactDetails == null)
             {
                 return BadRequest("Object is null");
             }
@@ -35,7 +36,7 @@ namespace Learnum.ERP.API.Controller.CounsellorDashboard
                 return BadRequest("Invalid model object");
             }
 
-            var result = await addCollegesRepository.InsertCollegesDetails(addCollegesModel);
+            var result = await addCollegesRepository.InsertCollegesDetails(collegeContactDetails);
             if (result == ResponseCode.Success || result == ResponseCode.Updated)
             {
                 return Ok(result);
