@@ -26,7 +26,7 @@ namespace Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo
             {
                 var dbparams = new DynamicParameters(studentleadDetailsModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_InsertStudentLeads", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
@@ -37,7 +37,7 @@ namespace Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<StudentLeadDetailsResponseModel>("PROC_GetStudentLeadDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                var result = dbConnection.Query<StudentLeadDetailsResponseModel>("PROC_GetStudentLeadsDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }

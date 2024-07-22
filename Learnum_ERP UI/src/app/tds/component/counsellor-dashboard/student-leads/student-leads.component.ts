@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { StudentleadsService } from './add-student-leads/studentleads.service';
 @Component({
   selector: 'app-student-leads',
   templateUrl: './student-leads.component.html',
@@ -15,56 +16,63 @@ export class StudentLeadsComponent implements OnInit {
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'studentName',
+      field: 'StudentId',
+      headerName: 'SR.NO',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'StudentName',
       headerName: 'Student Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'studentPhone',
+      field: 'StudentPhone',
       headerName: 'Student Phone',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'parentsPhone',
+      field: 'ParentPhone',
       headerName: "Parent's Phone",
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'studentEmail',
+      field: 'StudentEmail',
       headerName: 'Student Email',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'collegeName',
+      field: 'CollegeName',
       headerName: 'College Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'education',
+      field: 'Education',
       headerName: 'Education',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'address',
+      field: 'Address',
       headerName: 'Address',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'leadSource',
+      field: 'LeadSource',
       headerName: 'Lead Source',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -72,10 +80,24 @@ export class StudentLeadsComponent implements OnInit {
     },
     {
       field: 'addedBy',
-      headerName: 'Added By',
+      headerName: 'AddedBy',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
     },
     {
       field: 'addedTime',
@@ -83,21 +105,13 @@ export class StudentLeadsComponent implements OnInit {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    },
-    {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+    }, {
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
   ];
 
   declaredActionColumns: ActionColumn[] = [
@@ -122,23 +136,13 @@ export class StudentLeadsComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
+    private studentleadsService:StudentleadsService
   ) { }
 
   ngOnInit(): void {
-    this.getStudentLeadList();
+    this.getStudentLeadsDetails();
   }
 
-  getStudentLeadList() {
-    // this.studentLeadService.getStudentLeadList().subscribe(
-    //   (result: any) => {
-    //     this.studentLeadList = result.Value;
-    //   },
-    //   (error: any) => {
-    //     console.error("Error occurred while fetching student leads:", error);
-    //     this.alertService.ShowErrorMessage("An error occurred while fetching student leads. Please try again later.");
-    //   }
-    // );
-  }
 
   AddStudentLeads() {
     this.router.navigate(['tds/counsellor-dashboard/student-leads/add-student-leads']);
@@ -158,5 +162,11 @@ export class StudentLeadsComponent implements OnInit {
 
   selectStudentLead(studentLeads: any) {
     // Handle row selection logic
+  }
+  getStudentLeadsDetails() {
+    this.studentleadsService.getStudentLeads().subscribe((result: any) => {
+      this.studentLeadList = result.Value;
+      let studentLeadList = result.Value;
+    })
   }
 }

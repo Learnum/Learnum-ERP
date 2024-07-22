@@ -15,15 +15,16 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
 
   meetingDetailsList: any[] = [];
   form: FormGroup;
-  
+
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'CollegeId',
+      field: 'MeetingId',
       headerName: 'SR>NO',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }, {
+    },
+    {
       field: 'CollegeName',
       headerName: 'College Name',
       filter: 'agTextColumnFilter',
