@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators} from '@angular/forms';
-import { MessageService } from 'src/app/core/services/message.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
-import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { MessageService } from 'src/app/core/services/message.service';
+import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { CollegemeetingService } from './add-meeting/collegemeeting.service';
+
 @Component({
   selector: 'app-schedule-meeting-with-college',
   templateUrl: './schedule-meeting-with-college.component.html',
@@ -11,46 +13,54 @@ import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-g
 })
 export class ScheduleMeetingWithCollegeComponent implements OnInit {
 
-  meetingList: any[] = [];
+  meetingDetailsList: any[] = [];
+  form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'collegeName',
+      field: 'MeetingId',
+      headerName: 'SR>NO',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'CollegeName',
       headerName: 'College Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'meetingWith',
+      field: 'Meetingwith',
       headerName: 'Meeting With',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'meetingDate',
+      field: 'MeetingDate',
       headerName: 'Meeting Date',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'meetingTime',
+      field: 'MeetingTime',
       headerName: 'Meeting Time',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'meetingLocation',
+      field: 'MeetingLocation',
       headerName: 'Meeting Location',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'meetingAgenda',
+      field: 'MeetingAgenda',
       headerName: 'Meeting Agenda',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -61,7 +71,7 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
     {
       field: 'addedTime',
@@ -71,19 +81,19 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
+      field: 'updatedBy',
+      headerName: 'Updated By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
     {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedDate',
+      headerName: 'Updated Date',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
   ];
 
   declaredActionColumns: ActionColumn[] = [
@@ -108,41 +118,41 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-  ) { }
-
-  ngOnInit(): void {
-    this.getMeetingList();
+    private collegemeetingService: CollegemeetingService,
+    private formBuilder: FormBuilder
+  ) {
+    this.form = this.formBuilder.group({
+      // Apply validators here if needed
+    });
   }
 
-  getMeetingList() {
-    // this.meetingService.getMeetingList().subscribe(
-    //   (result: any) => {
-    //     this.meetingList = result.Value;
-    //   },
-    //   (error: any) => {
-    //     console.error("Error occurred while fetching meetings:", error);
-    //     this.alertService.ShowErrorMessage("An error occurred while fetching meetings. Please try again later.");
-    //   }
-    // );
+  ngOnInit(): void {
+    this.getMeetingDetails();
   }
 
   onAddMeeting() {
-    this.router.navigate(['tds/counsellor-dashboard/schedule-meeting-with-college/add-meeting']);
+    this.router.navigate(['/tds/counsellor-dashboard/schedule-meeting-with-college/add-meeting']);
+  }
+
+  selectCourse(event: any) {
+    console.log('Selected course:', event);
   }
 
   onRowAction(data: any) {
     let data1 = {
-      'source': data.action,
-      'MeetingId': data.row.MeetingId
-    };
+      'source': 'edit',
+      'meetingId': data.row.branchID
+    }
     this.router.navigate(['/tds/counsellor-dashboard/schedule-meeting-with-college/add-meeting'], { queryParams: data1 });
   }
 
   onActionButton(action: string) {
-    alert(action + ' action button clicked.');
+    alert(action + ' ' + 'action button clicked.');
   }
 
-  selectMeeting(meetings: any) {
-    // Handle row selection logic
+  getMeetingDetails() {
+    this.collegemeetingService.getCollegeMeetingList().subscribe((result: any) => {
+      this.meetingDetailsList = result.Value;
+    });
   }
 }

@@ -4,6 +4,9 @@ import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
+import { StudentleadsService } from './studentleads.service';
+import { StudentLeadDetails } from './studentleads.model';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 @Component({
   selector: 'app-add-student-leads',
   templateUrl: './add-student-leads.component.html',
@@ -11,43 +14,34 @@ import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/for
 })
 export class AddStudentLeadsComponent implements OnInit {
 
-  
+  studentLeadDetails:StudentLeadDetails = new StudentLeadDetails();
   form = new FormGroup({});
-  model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
+  branchDetails: any;
+  collegeDetails: any;
+
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder) { }
+    private alertService: AlertService,
+    private messageService: MessageService,
+    private activateRoute: ActivatedRoute,
+    private studentleadsService:StudentleadsService) { }
 
   ngOnInit(): void {
-    this.setFields();
-    this.createForm();
+    this.setParameter();
+    this.getBranchDetails();
+    this.getCollegeDetails();
   }
 
-  createForm(): void {
-    this.form = this.formBuilder.group({
-      studentName: ['', Validators.required],
-      collegeName: ['', Validators.required],
-      branchName: ['', Validators.required],
-      studentPhone: ['', Validators.required],
-      parentsPhone: ['', Validators.required],
-      address: ['', Validators.required],
-      leadSource: ['', Validators.required],
-      studentEmail: ['', Validators.required],
-      education: ['', Validators.required],
-      gender: ['', Validators.required],
-    });
-  }
-
-  setFields() {
+  setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
             key: 'studentName',
             type: 'input',
             props: {
@@ -62,47 +56,32 @@ export class AddStudentLeadsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'collegeName',
+            className: 'col-md-4',
             type: 'select',
-            props: {
-              label: 'College Name',
-              placeholder: 'Select College Name',
+            key: 'collegeId',
+            templateOptions: {
+              placeholder: 'College Name',
+              type: 'text',
+              label: "College Name",
               required: true,
-              options: [
-                { value: 'college1', label: 'College 1' },
-                { value: 'college2', label: 'College 2' },
-                { value: 'college3', label: 'College 3' },
-              ],
-            },
-            validation: {
-              messages: {
-                required: 'College Name is required',
-              },
+              options: this.collegeDetails ? this.collegeDetails.map(college => ({ label: college.CollegeName, value: college.CollegeId })) : [],
             },
           },
           {
-            className: 'col-md-6',
-            key: 'branchName',
+            className: 'col-md-4',
             type: 'select',
-            props: {
-              label: 'Branch Name',
-              placeholder: 'Select Branch Name',
+            key: 'BranchId',
+            templateOptions: {
+              placeholder: 'Branch Name',
+              type: 'text',
+              label: "Branch Name",
               required: true,
-              options: [
-                { value: 'branch1', label: 'Branch 1' },
-                { value: 'branch2', label: 'Branch 2' },
-                { value: 'branch3', label: 'Branch 3' },
-              ],
+              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
             },
-            validation: {
-              messages: {
-                required: 'Branch Name is required',
-              },
-            },
+
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
             key: 'studentPhone',
             type: 'input',
             props: {
@@ -117,8 +96,8 @@ export class AddStudentLeadsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'parentsPhone',
+            className: 'col-md-4',
+            key: 'parentPhone',
             type: 'input',
             props: {
               label: "Parent's Phone",
@@ -132,7 +111,7 @@ export class AddStudentLeadsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
             key: 'address',
             type: 'input',
             props: {
@@ -147,7 +126,52 @@ export class AddStudentLeadsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
+            key: 'city',
+            type: 'input',
+            props: {
+              label: 'City / District',
+              placeholder: 'Enter City',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'City is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-4',
+            key: 'state',
+            type: 'input',
+            props: {
+              label: 'State',
+              placeholder: 'Enter State',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'State is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-4',
+            key: 'postalCode',
+            type: 'input',
+            props: {
+              label: 'PostalCode',
+              placeholder: 'Enter PostalCode',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'PostalCode is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-4',
             key: 'leadSource',
             type: 'select',
             props: {
@@ -171,7 +195,7 @@ export class AddStudentLeadsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
             key: 'studentEmail',
             type: 'input',
             props: {
@@ -186,7 +210,7 @@ export class AddStudentLeadsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
             key: 'education',
             type: 'select',
             props: {
@@ -216,7 +240,7 @@ export class AddStudentLeadsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
             key: 'gender',
             type: 'select',
             props: {
@@ -239,18 +263,63 @@ export class AddStudentLeadsComponent implements OnInit {
       },
     ];
   }
-
-  onSubmit(): void {
-    this.form.markAllAsTouched();
-    if (this.form.valid) {
-      // Handle form submission
-    } else {
-      // Handle form errors
-    }
-  }
-
   onCancelClick() {
     this.router.navigateByUrl('tds/counsellor-dashboard/student-leads');
   }
+  onSubmit(): void {
+    this.InsertStudentLeads();
+    // this.form.markAllAsTouched();
+    // if (this.form.valid) {
+    //   // Handle form submission
+    // } else {
+    //   // Handle form errors
+    // }
+  }
+  InsertStudentLeads() {
+    this.studentLeadDetails.addedBy = 1;
+    this.studentLeadDetails.addedDate = new Date();
+    this.studentLeadDetails.updatedBy = 1;
+    this.studentLeadDetails.updatedDate = new Date();
+    this.studentLeadDetails.studentId = 0;
 
+    this.studentleadsService.insertStudentLeads(this.studentLeadDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+    this.router.navigateByUrl('tds/counsellor-dashboard/student-leads');
+  }
+
+  getBranchDetails() {
+    this.studentleadsService.getBranchList().subscribe(
+      (data: any) => {
+        this.branchDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getCollegeDetails() {
+    this.studentleadsService.getCollegeList().subscribe(
+      (data: any) => {
+        this.collegeDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
 }

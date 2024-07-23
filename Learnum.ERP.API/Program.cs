@@ -25,7 +25,7 @@ namespace Learnum.ERP.API
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
             Configuration = builder.Build();
 
-            ApplicationSettings.CoreConnectionString = Configuration.GetConnectionString("CoreConnection");
+           ApplicationSettings.CoreConnectionString = Configuration.GetConnectionString("CoreConnection");
 
             //ApplicationSettings.CRMConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("CRMConnection"));
            // ApplicationSettings.CoreConnectionString = Configuration.GetConnectionString("CoreConnection");

@@ -17,7 +17,6 @@ export class IpAddressComponent {
   
  ipaddresList: any[] = [];
   form: FormGroup;
-  getEmployeeList: any;
   declaredTableColumns: TableColumn[] = [
 
     {

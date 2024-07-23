@@ -2,8 +2,8 @@
   <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip"
         title="Close"><i class="uil uil-multiply"></i> &nbsp;</span>Add College</b></h6>
   <div>
-    <form id="MyForm" [formGroup]="form">
-      <formly-form [model]="collegeDetails" [fields]="fields" [options]="options" [form]="form">
+    <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <formly-form [model]="addcollegesDetails" [fields]="fields" [options]="options" [form]="form">
       </formly-form>
     </form>
   </div>
@@ -151,14 +151,9 @@
   </div>
 </div>
 
-
-
 <div class="form-container">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-<!-- <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form> -->
       <div class="col-12 px-4 py-2 border-top buttons-container">
-          <button class="btn btn-cloud me-2" type="submit">Add</button>
+          <button class="btn btn-cloud me-2" type="submit" (click)="onSubmit()">Save</button>
           <button class="btn btn-fent-cloud" type="button" (click)="onCancelClick()">Cancel</button>
       </div>
-  </form>
 </div>
