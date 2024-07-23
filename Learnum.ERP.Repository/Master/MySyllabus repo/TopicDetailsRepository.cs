@@ -14,31 +14,31 @@ using Learnum.ERP.Shared.Entities.Models.ViewModel.MySyllabusModel;
 
 namespace Learnum.ERP.Repository.Master.MySyllabus_repo
 {
-    public interface ISyllabusDetailsRepository
+    public interface ITopicDetailsRepository
     {
-        Task<ResponseCode> InsertSyllabusDetails(SyllabusDetailsModel syllabusDetailsModel);
-        Task<List<SyllabusDetailsResponseModel>> GetSyllabusDetailsList();
+        Task<ResponseCode> InsertTopicDetails(TopicDetailsModel topicDetailsModel);
+        Task<List<TopicDetailsResponseModel>> GetTopicDetailsList();
     }
-    public class SyllabusDetailsRepository : BaseRepository, ISyllabusDetailsRepository
+    public class TopicDetailsRepository : BaseRepository, ITopicDetailsRepository
     {
-        public async Task<ResponseCode> InsertSyllabusDetails(SyllabusDetailsModel syllabusDetailsModel)
+        public async Task<ResponseCode> InsertTopicDetails(TopicDetailsModel topicDetailsModel)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
-                var dbparams = new DynamicParameters(syllabusDetailsModel);
+                var dbparams = new DynamicParameters(topicDetailsModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("PROC_InsertSyllabusDetails", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_InsertTopicDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
         }
 
-        public async Task<List<SyllabusDetailsResponseModel>> GetSyllabusDetailsList()
+        public async Task<List<TopicDetailsResponseModel>> GetTopicDetailsList()
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<SyllabusDetailsResponseModel>("PROC_GetsyllabusDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                var result = dbConnection.Query<TopicDetailsResponseModel>("PROC_GetTopicDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }

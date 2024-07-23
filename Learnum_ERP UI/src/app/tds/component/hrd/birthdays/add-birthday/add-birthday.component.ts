@@ -100,7 +100,7 @@ setParameter() {
           }
           ,
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
             type: 'input',
             key: 'date',
             templateOptions: {
