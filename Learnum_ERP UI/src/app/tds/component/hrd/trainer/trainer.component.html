@@ -15,8 +15,18 @@
     </div>
   </div>
   <!-- ag-grid -->
-  <app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="tdsReturnList" [tableColumns]="declaredTableColumns"
-    [actionColumns]="declaredActionColumns" [isEditable]="false" [isSortable]="true" [isFilterable]="false"
-    [isColumnFilterable]="false" [isResizable]="false" [isPageable]="true" [defaultPageSize]="12"
-    (selectedRows)="selecttrainer($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">
-  </app-data-grid>
+<app-data-grid class="ag-theme-alpine" #declaredGrid 
+  [tableData]="trainerList" 
+  [tableColumns]="declaredTableColumns"
+  [actionColumns]="declaredActionColumns" 
+  [isEditable]="false" 
+  [isSortable]="true" 
+  [isFilterable]="false"
+  [isColumnFilterable]="false" 
+  [isResizable]="false" 
+  [isPageable]="true" 
+  [defaultPageSize]="12"
+  (selectedRows)="selectTrainer($event)" 
+  (rowAction)="onRowAction($event)" 
+  (actionButton)="onActionButton($event)">
+</app-data-grid>

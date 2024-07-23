@@ -38,7 +38,8 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<BranchManagerDetailsResponseModel>("PROC_GetBranchManagerDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<BranchManagerDetailsResponseModel>("PROC_GetBranchManagerDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }

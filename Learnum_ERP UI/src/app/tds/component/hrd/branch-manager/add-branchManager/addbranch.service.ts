@@ -12,6 +12,8 @@ export class AddbranchManagerService extends BaseService{
   private httpClientWithoutInterceptor: HttpClient;
 
   private urlInsertBranchManagerDetails: string = "BranchManagerDetails/InsertBranchManagerDetails";
+  private urlgetBranchManagerList: string = "BranchManagerDetails/getAllBranchManagerList";
+  private urlgetBranchList: string = "BranchDetails/getAllBranchList";
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
@@ -21,5 +23,13 @@ export class AddbranchManagerService extends BaseService{
   insertBranchManagerData(branchManagerDetails: branchManagerDetailsModel) {
     //const URL = ConfigurationSettings.BASE_API_URL;
     return this.apiService.postBlob(this.urlInsertBranchManagerDetails,branchManagerDetails);
+  }
+
+  getBranchManagerList(){
+    return this.apiService.getData(this.urlgetBranchManagerList);
+  }
+
+  getBranchList() {
+    return this.apiService.getData(this.urlgetBranchList);
   }
 }

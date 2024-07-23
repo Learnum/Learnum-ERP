@@ -12,6 +12,9 @@ export class AddcontentWriterService extends BaseService{
   private httpClientWithoutInterceptor: HttpClient;
 
   private urlInsertContentWriterDetails: string = "ContentWriterDetails/InsertContentWriterDetails";
+  private urlContentWriterList: string = "ContentWriterDetails/getAllContentWriterList";
+  private urlgetCourseList: string = "CourseDetails/getAllCourseList";
+  private urlgetSubjectList: string = "SubjectDetails/getAllSubjectList";
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
@@ -21,5 +24,15 @@ export class AddcontentWriterService extends BaseService{
   insertContentWriterData(branchContentWriterDetails: ContentWriterDetailsModel) {
     //const URL = ConfigurationSettings.BASE_API_URL;
     return this.apiService.postBlob(this.urlInsertContentWriterDetails,branchContentWriterDetails);
+  }
+  getContentWriterList(){
+    return this.apiService.getData(this.urlContentWriterList);
+  }
+  getcourseList() {
+    return this.apiService.getData(this.urlgetCourseList);
+  }
+
+  getsubjectList() {
+    return this.apiService.getData(this.urlgetSubjectList);
   }
 }

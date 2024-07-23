@@ -1,10 +1,14 @@
 export class TrainerDetailsModel {
-    trainerId: number;
-    courseId: number;
-    branchId: number;
-    batchId: number;
-    subjectName: string;
-    trainerName: string;
+    TrainerId: number;
+    CourseId: number;
+    BranchId: number;
+    BatchId: number;
+    SubjectId: number;
+    SubjectName: string;
+    BranchName: string;
+    BatchName: string;
+    CourseName: string;
+    TrainerName: string;
     isActive: boolean;
     addedBy: number | null;
     addedDate: Date | null;

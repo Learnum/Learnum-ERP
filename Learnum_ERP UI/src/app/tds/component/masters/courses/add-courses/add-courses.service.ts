@@ -37,4 +37,6 @@ export class AddCoursesService extends BaseService{
   getCourseList() {
     return this.apiService.getData(this.urlgetCourseList);
   }
+
+  
 }

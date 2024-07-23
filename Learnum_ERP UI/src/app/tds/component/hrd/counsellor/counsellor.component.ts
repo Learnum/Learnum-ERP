@@ -150,12 +150,8 @@ export class CounsellorComponent implements OnInit {
       (result: any) => {
         this.CounsellorList = result.Value;
         let CounsellorList = result.Value;
-      },
-
-    );
-
+      },);
+    }
   }
-
-}
 
 

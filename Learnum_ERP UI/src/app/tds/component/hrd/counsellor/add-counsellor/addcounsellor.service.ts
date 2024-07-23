@@ -22,7 +22,6 @@ export class AddcounsellorService extends BaseService{
   }
 
   insertcounsellorData(branchCounsellorDetails: CounsellorsPlaningModel) {
-    //const URL = ConfigurationSettings.BASE_API_URL;
     return this.apiService.postBlob(this.urlInsertBranchManagerDetails,branchCounsellorDetails);
   }
 
