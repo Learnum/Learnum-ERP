@@ -9,11 +9,14 @@ namespace Learnum.ERP.Shared.Entities.Models.ViewModel.CounsellorDashboardModel
 {
     public class WebsiteLeadDetailsResponseModel
     {
-        public long Studentid { get; set; } 
+        public long StudentId { get; set; }
         public string StudentName { get; set; }
+        public long CourseId { get; set; }
         public string CourseName { get; set; }
-        public int Phone { get; set; }
+        public long Phone { get; set; }
         public string Email { get; set; }
-        public string Location { get; set; }
+        public string YourLocation { get; set; }
+        public bool IsActive { get; set; }
+        
     }
 }

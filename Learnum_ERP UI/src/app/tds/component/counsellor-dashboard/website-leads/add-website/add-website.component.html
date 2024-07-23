@@ -8,8 +8,8 @@
       </b>
     </h6>
     <div>
-      <form id="MyForm" [formGroup]="form">
-        <formly-form [model]="model" [fields]="fields" [options]="options">
+      <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <formly-form [model]="websiteLeadDetails" [fields]="fields" [options]="options">
         </formly-form>
       </form>
     </div>

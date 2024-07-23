@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { StudentcounsellingService } from './counselling-student/studentcounselling.service';
 @Component({
   selector: 'app-counselling-with-student',
   templateUrl: './counselling-with-student.component.html',
@@ -11,50 +12,64 @@ import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-g
 })
 export class CounsellingWithStudentComponent implements OnInit {
 
-  counsellingList: any[] = [];
+  StudentCounsellingList: any[] = [];
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'studentName',
+      field: 'CounsellingId',
+      headerName: 'SR.NO',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'StudentName',
       headerName: 'Student Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'phone',
+      field: 'Phone',
       headerName: 'Phone',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'counsellingConversation',
+      field: 'CounsellingConversation',
       headerName: 'Counselling Conversation',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'counsellingTime',
+      field: 'CounsellingTime',
       headerName: 'Counselling Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'counsellingStatus',
+      field: 'CounsellingStatus',
       headerName: 'Counselling Status',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'addedBy',
-      headerName: 'Added By',
-      filter: 'agTextColumnFilter',
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
     },
     {
       field: 'addedTime',
@@ -62,21 +77,14 @@ export class CounsellingWithStudentComponent implements OnInit {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    },
+    }, 
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
   ];
 
   declaredActionColumns: ActionColumn[] = [
@@ -98,27 +106,15 @@ export class CounsellingWithStudentComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    private messageService: MessageService,
     private alertService: AlertService,
+    private messageService: MessageService,
+    private activateRoute: ActivatedRoute,
+    private studentcounsellingService:StudentcounsellingService
   ) { }
 
   ngOnInit(): void {
-    this.getCounsellingList();
+    this.getStudentCounsellingDetails();
   }
-
-  getCounsellingList() {
-    // this.counsellingService.getCounsellingList().subscribe(
-    //   (result: any) => {
-    //     this.counsellingList = result.Value;
-    //   },
-    //   (error: any) => {
-    //     console.error("Error occurred while fetching counselling sessions:", error);
-    //     this.alertService.ShowErrorMessage("An error occurred while fetching counselling sessions. Please try again later.");
-    //   }
-    // );
-  }
-
   onAddCounselling() {
     this.router.navigate(['tds/counsellor-dashboard/counselling-with-student/counselling-student']);
   }
@@ -137,6 +133,12 @@ export class CounsellingWithStudentComponent implements OnInit {
 
   selectCounselling(counsellings: any) {
     // Handle row selection logic
+  }
+  getStudentCounsellingDetails() {
+    this.studentcounsellingService.getStudentCounsellingDetails().subscribe((result: any) => {
+      this.StudentCounsellingList = result.Value;
+      let StudentCounsellingList = result.Value;
+    })
   }
 
 }

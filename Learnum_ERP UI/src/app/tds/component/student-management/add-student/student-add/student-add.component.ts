@@ -492,7 +492,7 @@ export class StudentAddComponent implements OnInit {
                 props: {
                   label: 'Student Role',
                   placeholder: 'Select Role',
-                  required: true,
+                  //required: true,
                 },
                 validation: {
                   messages: {
@@ -532,6 +532,7 @@ export class StudentAddComponent implements OnInit {
 
 
   onSubmit(): void {
+   // console.log(this.model);
     this.form.markAllAsTouched();
     if (this.form.valid) {
       // Handle form submission
