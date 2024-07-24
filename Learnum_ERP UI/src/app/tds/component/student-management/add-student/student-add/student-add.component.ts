@@ -5,6 +5,9 @@ import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
+import { AddstudentService } from './addstudent.service';
+import { studentDetailsModel } from './addstudent.model';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
 @Component({
   selector: 'app-student-add',
@@ -13,14 +16,18 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 })
 export class StudentAddComponent implements OnInit {
 
+  studentDetails:studentDetailsModel = new studentDetailsModel();
   form = new FormGroup({});
-  model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder
+    private addstudentService: AddstudentService,
+    private alertService: AlertService,
+    private messageService: MessageService,
+    private activateRoute: ActivatedRoute,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -64,19 +71,22 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-2',
-            key: 'file',
+            className: 'col-md-1',
             type: 'file',
+            key: 'file',
             props: {
-              label: 'Student Photo',
-              placeholder: 'Upload or Choose Photo',
+              placeholder: 'Student Photo',
+             // type: 'text',
+              label: "Upload Brochure",
               required: true,
+
             },
-            validation: {
-              messages: {
-                required: 'Student Photo is required',
-              },
-            },
+            // validation: {
+            //   messages: {
+            //     required: 'Upload Brochure is required',
+
+            //   },
+            // },
           },
           {
             className: 'col-md-4',
@@ -110,7 +120,7 @@ export class StudentAddComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'dateOfBirth',
+            key: 'dateofBirth',
             type: 'input',
             props: {
               label: 'Date of Birth',
@@ -233,7 +243,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'Town',
+                key: 'town',
                 templateOptions: {
                   label: 'Town',
                   placeholder: 'Enter Address',
@@ -248,7 +258,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'City',
+                key: 'city',
                 templateOptions: {
                   label: 'City / District',
                   placeholder: 'Enter Your City',
@@ -263,7 +273,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'City',
+                key: 'state',
                 templateOptions: {
                   label: 'State / Province',
                   placeholder: 'Enter Your State',
@@ -278,7 +288,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'PostalCode',
+                key: 'postalCode',
                 templateOptions: {
                   label: 'Postal Code',
                   placeholder: 'Enter Your State',
@@ -318,7 +328,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'Town',
+                key: 'town',
                 templateOptions: {
                   label: 'Town',
                   placeholder: 'Enter Address',
@@ -333,7 +343,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'City',
+                key: 'city',
                 templateOptions: {
                   label: 'City / District',
                   placeholder: 'Enter Your City',
@@ -348,7 +358,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'City',
+                key: 'state',
                 templateOptions: {
                   label: 'State / Province',
                   placeholder: 'Enter Your State',
@@ -363,7 +373,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'PostalCode',
+                key: 'postalCode',
                 templateOptions: {
                   label: 'Postal Code',
                   placeholder: 'Enter Your State',
@@ -398,7 +408,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-4',
                 type: 'input',
-                key: 'FatherName',
+                key: 'fatherName',
                 templateOptions: {
                   label: 'Father Name',
                   placeholder: 'Enter Your Full Name',
@@ -413,7 +423,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-4',
                 type: 'input',
-                key: 'FatherOccupation',
+                key: 'fatherOccupation',
                 templateOptions: {
                   label: 'Father Occupation',
                   placeholder: 'Enter Your Occupation',
@@ -428,7 +438,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-4',
                 type: 'input',
-                key: 'FatherPhone',
+                key: 'fatherPhone',
                 templateOptions: {
                   label: 'Father Phone',
                   placeholder: 'Enter Your Phone Number',
@@ -443,7 +453,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-4',
                 type: 'input',
-                key: 'MotherName',
+                key: 'motherName',
                 templateOptions: {
                   label: 'Mother Name',
                   placeholder: 'Enter Your Full Name',
@@ -458,7 +468,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-4',
                 type: 'input',
-                key: 'MotherOccupation',
+                key: 'motherOccupation',
                 templateOptions: {
                   label: 'Mother Occupation',
                   placeholder: 'Enter Your Occupation',
@@ -473,7 +483,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-4',
                 type: 'input',
-                key: 'MotherPhone',
+                key: 'motherPhone',
                 templateOptions: {
                   label: 'Mother Phone',
                   placeholder: 'Enter Your Phone Number',
@@ -487,12 +497,15 @@ export class StudentAddComponent implements OnInit {
               },
               {
                 className: 'col-md-4',
-                key: 'StudentRole',
+                key: 'studentRole',
                 type: 'select',
                 props: {
                   label: 'Student Role',
                   placeholder: 'Select Role',
                   //required: true,
+                  options: [
+                    { value: 'Student', label: 'Student' },
+                  ],
                 },
                 validation: {
                   messages: {
@@ -500,24 +513,19 @@ export class StudentAddComponent implements OnInit {
                   },
                 },
               },
-
               {
-                className: 'col-md-4',
-                key: 'StudentStatus',
+                className: 'col-md-6',
                 type: 'select',
+                key: 'isActive',
                 props: {
-                  label: 'Student Status',
-                  placeholder: 'Select Status',
+                  placeholder: 'Student Status',
                   required: true,
+                  type: 'text',
+                  label: "Course Status",
                   options: [
-                    { value: 'active', label: 'Active' },
-                    { value: 'inactive', label: 'Inactive' },
-                  ],
-                },
-                validation: {
-                  messages: {
-                    required: 'Status is required',
-                  },
+                    { label: 'Active', value: 'true' },
+                    { label: 'Inactive', value: 'false' }
+                  ]
                 },
               },
 
@@ -528,21 +536,36 @@ export class StudentAddComponent implements OnInit {
       },
     ];
   }
-
-
-
-  onSubmit(): void {
-   // console.log(this.model);
-    this.form.markAllAsTouched();
-    if (this.form.valid) {
-      // Handle form submission
-    } else {
-      // Handle form errors
-    }
-  }
-
   onCancelClick() {
     this.router.navigateByUrl('tds/student-management/add-student');
+  }
+  onSubmit(): void {
+   // console.log(this.model);
+    // this.form.markAllAsTouched();
+    // if (this.form.valid) {
+    //   // Handle form submission
+    // } else {
+    //   // Handle form errors
+    // }
+    this.insertStudentDetails();
+  }
+  insertStudentDetails() {
+    this.addstudentService.insertStudentDetails(this.studentDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+        this.router.navigateByUrl('tds/student-management/add-student');
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
   }
 
 }
