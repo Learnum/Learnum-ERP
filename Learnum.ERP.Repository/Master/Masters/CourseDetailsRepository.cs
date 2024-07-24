@@ -25,6 +25,7 @@ namespace Learnum.ERP.Repository.Master
         {
             try
             {
+
                 using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters(fileUpload);
