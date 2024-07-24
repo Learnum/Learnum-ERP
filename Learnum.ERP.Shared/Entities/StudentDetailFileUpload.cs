@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Learnum.ERP.Shared.Entities.Models
+namespace Learnum.ERP.Shared.Entities
 {
-    public class StudentDetailsModel : BaseModel
+    public class StudentDetailFileUpload : BaseModel
     {
         public long StudentId { get; set; }
         public string StudentName { get; set; }
@@ -30,13 +29,9 @@ namespace Learnum.ERP.Shared.Entities.Models
         public long MotherPhone { get; set; }
         public string StudentRole { get; set; }
         public bool IsActive { get; set; }
-
-    }
-
-    public class studentFormData
-    {
-        public string StudentDetailsModel { get; set; }
-        public IFormFile File { get; set; }
-
+        public string MimeType { get; set; }
+        public string DocumentName { get; set; }
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
     }
 }

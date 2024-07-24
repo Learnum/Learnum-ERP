@@ -96,13 +96,6 @@ export class AddCoursesComponent implements OnInit {
                 { label: 'Inactive', value: 'false' }
               ]
             },
-
-            // validation: {
-            //   messages: {
-            //     required: 'Course Status is required',
-
-            //   },
-            // },
           },
           {
             className: 'col-md-1',
@@ -130,9 +123,6 @@ export class AddCoursesComponent implements OnInit {
   onCancleClick() {
     this.router.navigateByUrl('tds/masters/courses');
   }
-
-  
-
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {

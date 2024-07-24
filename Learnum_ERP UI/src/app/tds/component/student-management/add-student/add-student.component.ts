@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddstudentService } from './student-add/addstudent.service';
 @Component({
   selector: 'app-add-student',
   templateUrl: './add-student.component.html',
@@ -11,50 +12,111 @@ import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-g
 })
 export class AddStudentComponent implements OnInit {
 
-  studentList: any[] = [];
+  addStudentList: any[] = [];
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'studentName',
+      field: 'StudentId',
+      headerName: 'SR.NO',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'StudentName',
       headerName: 'Student Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'studentEmail',
+      field: 'StudentEmail',
       headerName: 'Student Email',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'studentPhoto',
-      headerName: 'Student\'s Photo',
-      cellRenderer: (params: any) => `<img src="${params.value}" alt="Student Photo" style="width: 50px; height: 50px;"/>`,
+      field: 'StudentPhone',
+      headerName: 'StudentPhone',
+      //cellRenderer: (params: any) => `<img src="${params.value}" alt="Student Photo" style="width: 50px; height: 50px;"/>`,
       minWidth: 150
     },
     {
-      field: 'studentPhone',
-      headerName: 'Student Phone',
+      field: 'AadharNumber',
+      headerName: 'AadharNumber',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    // {
+    //   field: 'FilePath',
+    //   headerName: 'FilePath',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: { buttons: ['reset', 'apply'] },
+    //   minWidth: 150
+    // },
+    {
+      field: 'DateofBirth',
+      headerName: 'DateofBirth',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'aadharNumber',
-      headerName: 'AAdhar Number',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'education',
+      field: 'Education',
       headerName: 'Education',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
+    {
+      field: 'IsActive',
+      headerName: 'Student Status',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
+    },
+    {
+      field: 'addedBy',
+      headerName: 'AddedBy',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'Added Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
   ];
 
   declaredActionColumns: ActionColumn[] = [
@@ -79,24 +141,12 @@ export class AddStudentComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-  ) { }
+    private formBuilder: FormBuilder,
+  private addstudentService:AddstudentService) {}
 
   ngOnInit(): void {
-    this.getStudentList();
+    this.getAddStudentList();
   }
-
-  getStudentList() {
-    // this.studentService.getStudentList().subscribe(
-    //   (result: any) => {
-    //     this.studentList = result.Value;
-    //   },
-    //   (error: any) => {
-    //     console.error("Error occurred while fetching student list:", error);
-    //     this.alertService.ShowErrorMessage("An error occurred while fetching student list. Please try again later.");
-    //   }
-    // );
-  }
-
   AddStudent() {
     this.router.navigate(['tds/student-management/student-add']);
   }
@@ -115,6 +165,12 @@ export class AddStudentComponent implements OnInit {
 
   selectStudent(students: any) {
     // Handle row selection logic
+  }
+  getAddStudentList() {
+    this.addstudentService.getAddStudentList().subscribe((result: any) => {
+      this.addStudentList = result.Value;
+      let addStudentList = result.Value;
+    })
   }
 }
 
