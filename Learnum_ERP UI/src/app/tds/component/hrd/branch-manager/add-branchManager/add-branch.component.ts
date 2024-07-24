@@ -22,6 +22,7 @@ export class AddBranchComponent implements OnInit {
   options: FormlyFormOptions = {};
   editData: any;
   NowDate: any = new Date();
+  branchDetails: any;
   
  
   constructor(
@@ -35,11 +36,7 @@ export class AddBranchComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-    //this.createForm();
-    this.editData = this.activateRoute.snapshot.queryParams;
-    if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
-     
-    }
+    this.getBranchDetails();
     
   }
 
@@ -65,44 +62,43 @@ setParameter() {
           
             },
             },
-          {
-            className: 'col-md-3',
-            type: 'select',
-            key: 'BranchName',
-            props: { 
-              placeholder: 'select',
-              type: 'text',
-              label: "BranchName",
-              required: true,
-              options: [
-                { value: 'cpat', label: 'cpat' },
-                { value: 'taxblock', label: 'taxblock' }
-              ],
+            {
+              className: 'col-md-6',
+              type: 'select',
+              key: 'BranchId',
+              templateOptions: {
+                placeholder: 'Branch Name',
+                type: 'text',
+                label: "Branch Name",
+                //required: true,
+                options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName
+                  , value: branch.BranchId
+                })) : [],
+              },
+  
             },
-          },
-         {
-            className: 'col-md-3',
-            type: 'select',
-            key: 'status',
-            props: {
-              placeholder: 'Select',
-              required: true,
-              valueProp: 'value',
-              labelProp: 'label',
-              label: "status",
-              options: [
-                { value: 'active', label: 'Active' },
-                { value: 'inactive', label: 'InActive' }
-              ],
-            },
-          }, 
+            {
+              className: 'col-md-4',
+              type: 'select',
+              key: 'isActive',
+              templateOptions: {
+                placeholder: 'Enter Status',
+                type: 'text',
+                label: "Status",
+                required: true,
+                options: [
+                  { value: 'true', label: 'active' },
+                  { value: 'false', label: 'inacative' }
+                ]
+               },
+              }, 
          ],
       },
     ]
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/tds-return/employee');
+    this.router.navigateByUrl('tds/tds-return/branch-manager');
   }
 
   get f()
@@ -124,7 +120,7 @@ setParameter() {
     this.branchManagerDetails.addedDate = new Date();
     this.branchManagerDetails.updatedBy = 1;
     this.branchManagerDetails.updatedDate = new Date();
-    this.branchManagerDetails.isActive = true;
+    this.branchManagerDetails.branchManagerId = 0;
 
     this.addbranchManagerService.insertBranchManagerData(this.branchManagerDetails).subscribe(
       (result: any) => {
@@ -144,10 +140,20 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    this.router.navigateByUrl('tds/hrd/daily-work');
+    this.router.navigateByUrl('tds/hrd/branch-manager');
   }
 
 
-
+  getBranchDetails() {
+    this.addbranchManagerService.getBranchList().subscribe(
+      (data: any) => {
+        this.branchDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
 
 }

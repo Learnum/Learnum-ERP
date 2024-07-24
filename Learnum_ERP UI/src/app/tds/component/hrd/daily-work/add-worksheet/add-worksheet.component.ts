@@ -140,7 +140,7 @@ setParameter() {
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/hrd/counsellor');
+    this.router.navigateByUrl('tds/hrd/worksheet');
   }
 
   get f()
@@ -148,24 +148,24 @@ setParameter() {
     return this.form.controls;
   }
 
-  onSubmit():void {
-    this.form.markAllAsTouched();
-    if (this.form.valid) {
-     this.insertAddWorksheet();
-      
-    }
-    else {
-      this.alertService.ShowErrorMessage('Please fill in all required fields.');
-    }
+ 
+  onSubmit(): void {
+    // this.form.markAllAsTouched();
+    // if (this.form.valid) {
+    //   this.insertAddWorksheet();
+    // } else {
+    //   this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    // }
+    this.insertAddWorksheet();
   }
 
   insertAddWorksheet() {
-    // Assuming worksheetDetails is a property in your component that holds the worksheet data
+   // Assuming worksheetDetails is a property in your component that holds the worksheet data
     this.worksheetDetails.addedBy = 1;
     this.worksheetDetails.addedDate = new Date();
     this.worksheetDetails.updatedBy = 1;
     this.worksheetDetails.updatedDate = new Date();
-    this.worksheetDetails.isActive = true;
+    this.worksheetDetails.workId = 0;
   
     this.addWorksheetservices.insertWorksheetData(this.worksheetDetails).subscribe(
       (result: any) => {
@@ -184,12 +184,8 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     );
-    this.router.navigateByUrl('tds/worksheet/employee'); 
+    this.router.navigateByUrl("tds/hrd/daily-work"); 
   }
-  
- 
- 
-
 
 }
 

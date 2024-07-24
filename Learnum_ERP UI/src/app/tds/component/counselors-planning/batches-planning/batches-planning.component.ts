@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddbatchService } from './add-batch/addbatch.service';
 @Component({
   selector: 'app-batches-planning',
   templateUrl: './batches-planning.component.html',
@@ -11,102 +12,148 @@ import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-g
 })
 export class BatchesPlanningComponent implements OnInit {
 
-  batchList: any[] = [];
+  BatchDetails: any[] = [];
+  form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'BatchName',
-      headerName: 'Batch Name',
+      field: 'BatchId',
+      headerName: 'BatchID',
       filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 120
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+
     },
     {
-      field: 'BranchName',
-      headerName: 'Branch Name',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 120
+      field: 'BatchName',
+      headerName: 'BatchName',
+      filter: 'agSetColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+
     },
     {
       field: 'Classroom',
       headerName: 'Classroom',
       filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 120
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
     },
     {
-      field: 'CourseName',
-      headerName: 'Course Name',
+      field: 'addedBy',
+      headerName: 'Added By',
       filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 120
-    },
-    {
-      field: 'CourseFeesInstallment',
-      headerName: 'Course Fees in Installment',
-      filter: 'agNumberColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'OneTimeCourseFees',
-      headerName: 'One Time Course Fees',
-      filter: 'agNumberColumnFilter',
+      field: 'addedTime',
+      headerName: 'Added Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'modifiedBy',
+      headerName: 'Modified By',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'modifiedTime',
+      headerName: 'Modified Time',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     }
   ];
-
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewBatch',
+      actionPage: 'ViewCall',
       actionIcon: 'uil uil-eye rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
     {
       action: 'edit',
-      actionPage: 'EditBatch',
+      actionPage: 'EditCall',
       actionIcon: 'uil uil-edit rounded text-primary mb-0',
       buttonClass: 'btn btn-sm btn-primary',
       colorClass: 'text-primary h4'
     }
   ];
+  getEmployeeList: any;
 
-  constructor(
-    private router: Router,
+
+
+  ngOnInit(): void {
+    this.getAllBatchDetails();
+  }
+
+  constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-  ) { }
-
-  ngOnInit(): void {
-    this.getBatchList();
+    private addbatchservices : AddbatchService ,
+    private formBuilder: FormBuilder) {
+    {
+      this.form = this.formBuilder.group({
+      // Add more form controls as needed
+      });
+    }
   }
+  selectBranch(branch: any) {
 
-  getBatchList() {
-    // Fetch batch list from service
   }
-
-  AddBatch() {
-    this.router.navigate(['tds/counselors-planning/add-batch']);
-  }
-
   onRowAction(data: any) {
     let data1 = {
-      'source': data.action,
-      'BatchId': data.row.BatchId // Assuming BatchId is the unique identifier for batches
-    };
-    this.router.navigate(['/tds/counselors-planning/add-batch'], { queryParams: data1 });
+      'source': 'edit',
+      'branchID': data.row.branchID
+    }
+    this.router.navigate(['/tds/masters/add-branch'], { queryParams: data1 });
+  }
+
+
+
+  ActionColumn: any[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewBranch',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
+  
+  onAddBatch(branch?: any) {
+    // let navigationExtras: NavigationExtras = {};
+    // if (branch) {
+    //   navigationExtras = {
+    //     state: {
+    //       branchData: branch
+    //     }
+    //   };
+    // }
+    this.router.navigate(['tds/masters/batches/add-batches']);
   }
 
   onActionButton(action: string) {
-    alert(action + ' action button clicked.');
+    alert(action + ' ' + 'action button clicked.');
   }
 
-  selectBatch(batches: any) {
-    // Handle row selection logic
+
+  getAllBatchDetails() {
+    this.addbatchservices.getBatchList().subscribe((result: any) => {
+      this.BatchDetails = result.Value;
+      let BatchDetails = result.Value;
+    })
   }
 }

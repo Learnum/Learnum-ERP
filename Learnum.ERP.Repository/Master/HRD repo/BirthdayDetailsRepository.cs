@@ -25,7 +25,7 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
             {
                 var dbparams = new DynamicParameters(birthdayDetailsModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("PROC_InsertBirthdayDetails", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_InsertBirthDayDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
@@ -36,7 +36,7 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<BirthdayDetailsResponseModel>("PROC_GetBirthdayDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                var result = dbConnection.Query<BirthdayDetailsResponseModel>("PROC_GetBirthdayDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }

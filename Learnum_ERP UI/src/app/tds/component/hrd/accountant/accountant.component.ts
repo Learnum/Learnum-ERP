@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddaccountantService } from './add-accountant/addaccountant.service';
 
 @Component({
   selector: 'app-accountant',
@@ -12,10 +13,21 @@ import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-g
 })
 export class AccountantComponent implements OnInit {
 
-  tdsReturnList: any[] = [];
+  accountantDetailsList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
+
+    {
+      field: 'BranchAccountantId',
+      headerName: 'SR.NO',
+      filter: 'agSetColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 200
+
+    },
     
     {
       field: 'AccountantName',
@@ -37,9 +49,35 @@ export class AccountantComponent implements OnInit {
       minWidth: 200
     },
     {
-      field: 'addedBy',
-      headerName: 'Added By',
+      field: 'IsActive',
+      headerName: 'Status',
       filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 200,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
+    },
+    {
+      field: 'addedBy',
+      headerName: 'AddedBy',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -51,33 +89,25 @@ export class AccountantComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
   ];
- getEmployeeList: any;
-
-
 
   ngOnInit(): void {
-    //this.GetbranchList();
-  }
+    this.getBranchAccountantDetails();
+    }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private addaccountantService:AddaccountantService
+  ) {
     {
       this.form = this.formBuilder.group({
     
@@ -110,18 +140,16 @@ export class AccountantComponent implements OnInit {
   ];
   onAddAccountant() {
 
-    // let navigationExtras: NavigationExtras = {};
-    // if (employee) {
-    //   navigationExtras = {
-    //     state: {
-    //       employeeData: employee
-    //     }
-    //   };
-    // }
     this.router.navigateByUrl('tds/hrd/accountant/add-accountant')
   }
    onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
-
+  
+  getBranchAccountantDetails() {
+    this.addaccountantService.getbranchaccountantList().subscribe((result: any) => {
+      this.accountantDetailsList = result.Value;
+      let accountantDetailsList = result.Value;
+    })
+  }
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddWorksheetservices } from './add-worksheet/add-worksheetservices.service';
 
 @Component({
   selector: 'app-daily-work',
@@ -11,14 +12,17 @@ import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-g
   styleUrls: ['./daily-work.component.scss']
 })
 export class DailyWorkComponent implements OnInit {
+onRowAction($event: any) {
+throw new Error('Method not implemented.');
+}
 
   tdsReturnList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'Name ',
-      headerName: 'Name',
+      field: 'Name',
+      headerName: 'name',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -26,8 +30,8 @@ export class DailyWorkComponent implements OnInit {
       minWidth: 100
     },
     {
-      field: 'Email ',
-      headerName: 'Email ',
+      field: 'Email',
+      headerName: 'email',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -36,8 +40,8 @@ export class DailyWorkComponent implements OnInit {
 
     },
     {
-      field: 'DateofBirth ',
-      headerName: 'Date of Birth ',
+      field: 'Date',
+      headerName: 'date',
       filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -89,14 +93,15 @@ export class DailyWorkComponent implements OnInit {
 
 
   ngOnInit(): void {
-    //this.GetbranchList();
+    this.getWorksheetDetails();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    
+    private addWorksheetservices: AddWorksheetservices,
+
     private formBuilder: FormBuilder) {
     {
       this.form = this.formBuilder.group({
@@ -111,13 +116,13 @@ export class DailyWorkComponent implements OnInit {
   
 
 
-  onRowAction(data: any) {
-    let data1 = {
-      'source': 'edit',
-      'branchID': data.row.branchID
-    }
-    this.router.navigate(['/tds/hrd/add-trainer'], { queryParams: data1 });
-  }
+  // onRowAction(data: any) {
+  //   let data1 = {
+  //     'source': 'edit',
+  //     'branchID': data.row.branchID
+  //   }
+  //   this.router.navigate(['/tds/hrd/add-trainer'], { queryParams: data1 });
+  // }
 
 
 
@@ -146,5 +151,12 @@ export class DailyWorkComponent implements OnInit {
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
+  }
+  
+  getWorksheetDetails() {
+    this.addWorksheetservices.getworksheetList().subscribe((result: any) => {
+      this.tdsReturnList = result.Value;
+      let tdsReturnList = result.Value;
+    })
   }
 }

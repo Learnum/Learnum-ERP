@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddcounsellorService } from './add-counsellor/addcounsellor.service';
 
 @Component({
   selector: 'app-counsellor',
@@ -12,15 +13,13 @@ import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-g
 })
 export class CounsellorComponent implements OnInit {
 
-  tdsReturnList: any[] = [];
+  CounsellorList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
-
-
     {
       field: 'CounsellorName',
-      headerName: 'Counsellor Name',
+      headerName: 'CounsellorName',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -38,9 +37,35 @@ export class CounsellorComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'addedBy',
-      headerName: 'Added By',
+      field: 'IsActive',
+      headerName: 'Status',
       filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 200,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
+    },
+    {
+      field: 'addedBy',
+      headerName: 'AddedBy',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -52,32 +77,24 @@ export class CounsellorComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
+
   ];
-
-  getEmployeeList: any;
-
 
 
   ngOnInit(): void {
-    //this.GetbranchList();
+    this.GetcounsellorList();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
+    private addcounsellorService: AddcounsellorService,
     private alertService: AlertService,
     private formBuilder: FormBuilder) {
     {
@@ -127,7 +144,14 @@ export class CounsellorComponent implements OnInit {
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
-
-}
+  
+  GetcounsellorList() {
+    this.addcounsellorService.getcounsellorList().subscribe(
+      (result: any) => {
+        this.CounsellorList = result.Value;
+        let CounsellorList = result.Value;
+      },);
+    }
+  }
 
 

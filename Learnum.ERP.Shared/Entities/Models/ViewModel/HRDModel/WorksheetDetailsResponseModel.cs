@@ -11,8 +11,9 @@ namespace Learnum.ERP.Shared.Entities.Models.ViewModel.HRDModel
         public long? WorkId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public string Date { get; set; }
+        public DateTime? Date { get; set; }
         public string Role { get; set; }
+        public string TodaysWork { get; set; }
         public bool? IsActive { get; set; }
     }
 }

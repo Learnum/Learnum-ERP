@@ -86,7 +86,7 @@ export class AddSubjectsComponent implements OnInit {
             type: 'select',
             key: 'isActive',
             props: {
-              placeholder: 'Select Subject',
+              placeholder: 'Select Status',
               required: true,
               type: 'text',
               label: 'Subject Status',

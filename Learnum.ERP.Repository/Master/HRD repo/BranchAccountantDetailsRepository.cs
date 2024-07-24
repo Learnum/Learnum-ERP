@@ -17,33 +17,33 @@ using Learnum.ERP.Shared.Entities.Models.ViewModel.HRDModel;
 namespace Learnum.ERP.Repository.Master.HRD_repo
 {
     public interface IBranchAccountantDetailsRepository
-    { 
-     Task<ResponseCode> InsertBranchAccountantDetails(BranchAccountantDetailsModel branchaccountDetailsModel);
-    Task<List<BranchAccountantDetailsResponseModel>> GetBranchAccountantDetailsList();
+    {
+        Task<ResponseCode> InsertBranchAccountantDetails(BranchAccountantDetailsModel branchaccountDetailsModel);
+        Task<List<BranchAccountantDetailsResponseModel>> GetBranchAccountantDetailsList();
 
-  }
-public class BranchAccountantDetailsRepository : BaseRepository, IBranchAccountantDetailsRepository
+    }
+    public class BranchAccountantDetailsRepository : BaseRepository, IBranchAccountantDetailsRepository
     {
-    public async Task<ResponseCode> InsertBranchAccountantDetails(BranchAccountantDetailsModel branchaccountantDetailsModel)
-    {
-        using (IDbConnection dbConnection = base.GetCoreConnection())
+        public async Task<ResponseCode> InsertBranchAccountantDetails(BranchAccountantDetailsModel branchaccountantDetailsModel)
         {
-            var dbparams = new DynamicParameters(branchaccountantDetailsModel);
-            dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-            dbConnection.Query<int>("", dbparams, commandType: CommandType.StoredProcedure);
-            ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
-            return await Task.FromResult(result);
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters(branchaccountantDetailsModel);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                dbConnection.Query<int>("PROC_InsertBranchAccountant", dbparams, commandType: CommandType.StoredProcedure);
+                ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<List<BranchAccountantDetailsResponseModel>> GetBranchAccountantDetailsList()
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                var result = dbConnection.Query<BranchAccountantDetailsResponseModel>("PROC_GetBranchAccountant", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                return await Task.FromResult(result);
+            }
         }
     }
-
-    public async Task<List<BranchAccountantDetailsResponseModel>> GetBranchAccountantDetailsList()
-    {
-        using (IDbConnection dbConnection = base.GetCoreConnection())
-        {
-            var dbparams = new DynamicParameters();
-            var result = dbConnection.Query<BranchAccountantDetailsResponseModel>("PROC_GetBranchAccountantDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
-            return await Task.FromResult(result);
-        }
-    }
-}
 }

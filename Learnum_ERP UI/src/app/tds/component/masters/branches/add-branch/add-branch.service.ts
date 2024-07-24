@@ -26,6 +26,8 @@ export class AddBranchService extends BaseService {
     return this.apiService.postBlob(this.urlInsertBranchDetails,branchDetails);
   }
 
+  
+
   getBranchList() {
     return this.apiService.getData(this.urlgetBranchList);
   }

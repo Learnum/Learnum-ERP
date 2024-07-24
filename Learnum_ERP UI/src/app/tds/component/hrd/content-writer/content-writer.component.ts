@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddcontentWriterService } from './add-contentwriter/addcontent-writer.service';
 
 @Component({
   selector: 'app-content-writer',
@@ -12,14 +13,14 @@ import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-g
 })
 export class ContentWriterComponent implements OnInit {
 
-  tdsReturnList: any[] = [];
+  ContentWriterList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
-    
+  
     {
-      field: 'Course',
-      headerName: 'Course',
+      field: 'CourseName',
+      headerName: 'Course Name',
       filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -28,8 +29,8 @@ export class ContentWriterComponent implements OnInit {
 
     },
     {
-      field: 'Subject',
-      headerName: 'Subject',
+      field: 'SubjectName',
+      headerName: 'Subject Name',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -38,8 +39,8 @@ export class ContentWriterComponent implements OnInit {
 
     },
     {
-      field: 'ContentWriter',
-      headerName: 'Content Writer',
+      field: 'contactwriterName',
+      headerName: 'contactwriter Name',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -48,19 +49,35 @@ export class ContentWriterComponent implements OnInit {
 
     },
     {
-      field: 'Status ',
+      field: 'IsActive',
       headerName: 'Status',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
-
+      minWidth: 200,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
     },
-     {
+    {
       field: 'addedBy',
-      headerName: 'Added By',
+      headerName: 'AddedBy',
       filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -72,73 +89,39 @@ export class ContentWriterComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 200
-    }
+      minWidth: 150
+    },
   ];
-  
-  getEmployeeList: any;
+
 
 
 
   ngOnInit(): void {
-    //this.GetbranchList();
+    this.getContentWriterDetails();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    //private addEmployeeService: AddEmployeeService,
-   // private addBranchService: AddBranchService,
+    private addcontentWriterService: AddcontentWriterService,
+  
     private formBuilder: FormBuilder) {
-    {
-      this.form = this.formBuilder.group({
-        // Define form controls with validators as needed
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        // Add more form controls as needed
-      });
-    }
+      {
+        this.form = this.formBuilder.group({
+          
+          
+        });
+      }
   }
   selectBranch(branch: any) {
 
   }
-  // editEmploy(employeeData: any) {
-
-  //   const employeeId = employeeData.EmpID;
-  //   const index = this.tdsReturnList.findIndex(emp => emp.EmpID === employeeId);
-  //   if (index !== -1) {
-  //   this.openEditForm(employeeData).then((editedEmployeeData: any) => {
-  //   this.tdsReturnList[index] = editedEmployeeData;
-  //   console.log('Edited Employee:', editedEmployeeData);
-  // });
-  //   }
-  // }
-
-  // openEditForm(employeeData: any): Promise<any> {
-
-  //   return new Promise((resolve, reject) => {
-
-  //     setTimeout(() => {
-  //       const editedEmployeeData = { ...employeeData };
-
-  //       editedEmployeeData.Status = 'Edited';
-  //       resolve(editedEmployeeData);
-  //     }, 1000);
-  //   });
-  // }
-
+ 
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
@@ -160,46 +143,21 @@ export class ContentWriterComponent implements OnInit {
   ];
   onAddContentWriter() {
 
-    // let navigationExtras: NavigationExtras = {};
-    // if (employee) {
-    //   navigationExtras = {
-    //     state: {
-    //       employeeData: employee
-    //     }
-    //   };
-    // }
+ 
     this.router.navigateByUrl('tds/hrd/content-writer/add-contentwriter')
   }
-  // onAddBranch(branch?:any)
-  // {
-  //   let navigationExtras: NavigationExtras = {};
-  //   if (branch) {
-  //     navigationExtras = {
-  //       state: {
-  //         branchData: branch
-  //       }
-  //     };
-  //   }
-  //   this.router.navigate(['tds/masters/branches/add-branch']);
-  // }
+ 
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
 
 
-  // GetbranchList() {
-  //   this.addBranchService.getBranchDetails().subscribe(
-  //     (result: any) => {
-  //       this.tdsReturnList = result.Value;
-  //       let tdsReturnList = result.Value;
-  //     },
-  //     (error: any) => {
-  //       console.error("Error occurred while fetching employee details:", error);
-  //       this.alertService.ShowErrorMessage("An error occurred while fetching employee details. Please try again later.");
-  //     }
-  //   );
-  // }
 
-
+  getContentWriterDetails() {
+    this.addcontentWriterService.getContentWriterList().subscribe((result: any) => {
+      this.ContentWriterList = result.Value;
+      let ContentWriterList = result.Value;
+    })
+  } 
 }

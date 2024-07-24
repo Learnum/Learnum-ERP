@@ -17,12 +17,12 @@ namespace Learnum.ERP.Repository.Master
     {
       //  Task<ResponseCode> InsertBatchesDetails(BatchesDetailsModel batchesDetailsModel);
         Task<List<BatchesDetailsResponseModel>> GetBatchesDetailsList();
-        Task<ResponseCode> InsertBatchesDetails(BatchesDetailsReqModel batchesDetailsReqModel);
+        Task<ResponseCode> InsertBatchesDetails(BatchDetailsPayload batchesDetailsReqModel);
     }
     public class BatchesDetailsRepository : BaseRepository, IBatchesDetailsRepository
     {
 
-        public async Task<ResponseCode> InsertBatchesDetails(BatchesDetailsReqModel batchesDetailsReqModel)
+        public async Task<ResponseCode> InsertBatchesDetails(BatchDetailsPayload batchesDetailsReqModel)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {

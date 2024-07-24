@@ -4,6 +4,7 @@ using Learnum.ERP.Repository.Master.Add_Practical_Problems_Subform;
 using Learnum.ERP.Repository.Master.Business_Lead_repo;
 using Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo;
 using Learnum.ERP.Repository.Master.CounsellorDashboard;
+using Learnum.ERP.Repository.Master.CounselorsPlaning;
 using Learnum.ERP.Repository.Master.HRD_repo;
 using Learnum.ERP.Repository.Master.Masters;
 using Learnum.ERP.Repository.Master.My_Practical_Exam;
@@ -41,6 +42,7 @@ namespace Learnum.ERP.API.Helpers
             services.AddTransient<ICourseDetailsRepository, CourseDetailsRepository>();
             services.AddTransient<ISubjectDetailsRepository,SubjectDetailsRepository>();
             services.AddTransient<IBatchesDetailsRepository, BatchesDetailsRepository>();
+            services.AddTransient<IAddBatchDetailsRepository, AddBatchDetailsRepository>();
             services.AddTransient<IBirthdayDetailsRepository, BirthdayDetailsRepository>();
             services.AddTransient<ITrainerDetailsRepository,TrainerDetailsRepository>();
             services.AddTransient<IAddCollegesRepository, AddCollegesRepository>(); 
@@ -52,12 +54,20 @@ namespace Learnum.ERP.API.Helpers
             services.AddTransient<IStudentCounsellingDetailsRepository, StudentCounsellingDetailsRepository>();
             services.AddTransient<IStudentDetailsRepository, StudentDetailsRepository>();
 
+            services.AddTransient<IStudentLeadDetailsRepository, StudentLeadDetailsRepository>();   
+            services.AddTransient<ITopicDetailsRepository, TopicDetailsRepository>();
             services.AddTransient<IEmployeeDetailsRepository, EmployeeDetailsRepository>();
+            services.AddTransient<IWorksheetDetailsRepository, WorksheetDetailsRepository>();
+            services.AddTransient<IBranchCounsellorDetailsRepository, BranchCounsellorDetailsRepository>();
+           // services.AddTransient<IEmployeeDetailsRepository, EmployeeDetailsRepository>();
             services.AddTransient<IBranchManagerDetailsRepository,BranchManagerDetailsRepository>();
             services.AddTransient<IBusinessLeadDetailsRepository, BusinessLeadDetailsRepository>();
             services.AddTransient<IPracticalProblemsSubformRepository,PracticalProblemsSubformRepository>();
             services.AddTransient<IMyPracticalExamRepository, MyPracticalExamRepository>();
             services.AddTransient<ISyllabusStatusRepository, SyllabusStatusesRepository>();
+            services.AddTransient<IBranchAccountantDetailsRepository, BranchAccountantDetailsRepository>();
+            services.AddTransient<IContentWriterDetailsRepository, ContentWriterDetailsRepository>();
+           
         }
     }
 }

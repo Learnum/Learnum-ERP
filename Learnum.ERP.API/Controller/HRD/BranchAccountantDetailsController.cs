@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.API.Controller.HRD
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class BranchAccountantDetailsController : ControllerBase
     {
         private readonly IBranchAccountantDetailsRepository branchaccountantDetailsRepository;

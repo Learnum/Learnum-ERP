@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddbranchManagerService } from './add-branchManager/addbranch.service';
 
 @Component({
   selector: 'app-branch-manager',
@@ -12,7 +13,7 @@ import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-g
 })
 export class BranchManagerComponent implements OnInit {
 
-  tdsReturnList: any[] = [];
+  BranchManagerList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
@@ -36,20 +37,35 @@ export class BranchManagerComponent implements OnInit {
 
     },
     {
-      field: 'Status',
+      field: 'IsActive',
       headerName: 'Status',
-      filter: 'agSetColumnFilter',
+      filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
-
+      minWidth: 200,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
     },
-
     {
       field: 'addedBy',
-      headerName: 'Added By',
+      headerName: 'AddedBy',
       filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -61,19 +77,12 @@ export class BranchManagerComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 200
-    }
   ];
 
   getEmployeeList: any;
@@ -81,23 +90,19 @@ export class BranchManagerComponent implements OnInit {
 
 
   ngOnInit(): void {
-    //this.GetbranchList();
+    this.GetBranchManagerList();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    //private addEmployeeService: AddEmployeeService,
-    // private addBranchService: AddBranchService,
+    private addbranchManagerService: AddbranchManagerService,
+
+    
     private formBuilder: FormBuilder) {
     {
-      this.form = this.formBuilder.group({
-        // Define form controls with validators as needed
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        // Add more form controls as needed
-      });
+     
     }
   }
   selectBranch(branch: any) {
@@ -125,14 +130,7 @@ export class BranchManagerComponent implements OnInit {
   ];
   onAddBranchManager() {
 
-    // let navigationExtras: NavigationExtras = {};
-    // if (employee) {
-    //   navigationExtras = {
-    //     state: {
-    //       employeeData: employee
-    //     }
-    //   };
-    // }
+   
     this.router.navigateByUrl('tds/hrd/branch-manager/add-branch');
   }
 
@@ -142,6 +140,15 @@ export class BranchManagerComponent implements OnInit {
   }
 
 
+  GetBranchManagerList() {
+    this.addbranchManagerService.getBranchManagerList().subscribe(
+      (result: any) => {
+        this.BranchManagerList = result.Value;
+        let BranchManagerList= result.Value;
+      },
 
+    );
+
+  }
 
 }

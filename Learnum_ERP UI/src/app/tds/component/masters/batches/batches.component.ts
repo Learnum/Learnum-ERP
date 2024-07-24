@@ -14,13 +14,13 @@ import { AddBatchesService } from './add-batches/add-batches.service';
   styleUrls: ['./batches.component.scss']
 })
 export class BatchesComponent implements OnInit {
-  tdsReturnList: any[] = [];
+  BatchDetails: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'Batch ID',
-      headerName: 'Batch ID',
+      field: 'BatchId',
+      headerName: 'BatchID',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -29,8 +29,8 @@ export class BatchesComponent implements OnInit {
 
     },
     {
-      field: 'batch Name',
-      headerName: 'Batch Name',
+      field: 'BatchName',
+      headerName: 'BatchName',
       filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -154,8 +154,8 @@ export class BatchesComponent implements OnInit {
 
   getAllBatchDetails() {
     this.addBatchesService.getBatchList().subscribe((result: any) => {
-      this.tdsReturnList = result.Value;
-      let tdsReturnList = result.Value;
+      this.BatchDetails = result.Value;
+      let BatchDetails = result.Value;
     })
   }
 

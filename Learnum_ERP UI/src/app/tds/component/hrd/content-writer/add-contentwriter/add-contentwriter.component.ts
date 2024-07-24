@@ -21,6 +21,8 @@ export class AddContentwriterComponent {
   options: FormlyFormOptions = {};
   editData: any;
   NowDate: any = new Date();
+  courseDetails: any;
+  subjectDetails: any;
 
 
   constructor(
@@ -34,11 +36,10 @@ export class AddContentwriterComponent {
 
   ngOnInit(): void {
     this.setParameter();
-    this.editData = this.activateRoute.snapshot.queryParams;
-    if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
- }
+    this.getCourseDetails();
+    this.getSubjectDetails();
 }
-k
+
   setParameter() {
     this.fields = [
       {
@@ -48,47 +49,68 @@ k
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'SelectCourse',
+            key: 'CourseId',
             templateOptions: {
-              placeholder: 'select',
+              placeholder: 'Course Name',
               type: 'text',
-              label: "Select Course",
+              label: "course Name",
               required: true,
+              options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName
+                , value: course.CourseId })) : [],
+              // options: [
+              //   { value: 'tally', label: 'tally' },
+              //   { value: 'cpat', label: 'cpat' }
+              //
             },
+            },
+
+          
+          {
+            className: 'col-md-6',
+            type: 'select',
+            key: 'SubjectId',
+            templateOptions: {
+              placeholder: 'subject Name',
+              type: 'subject Name',
+              label: "Subject Name",
+              required: true,
+              options: this.subjectDetails ? this.subjectDetails.map(subject => ({ label: subject.SubjectName
+                , value: subject.SubjectId
+              })) : [],
+              
+            },
+
           },
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'SelectSubject',
-            templateOptions: {
-              placeholder: 'select',
-              type: 'text',
-              label: "Select Subject",
-              required: true,
-            },
-          },
-          {
-            className: 'col-md-6',
-            type: 'select',
-            key: 'SelectContentWriter',
+            key: 'contactwriterName',
             templateOptions: {
               placeholder: 'select',
               type: 'text',
               label: "Select Content Writer",
               required: true,
+              options: [
+                { value: 'john', label: 'John' },
+                { value: 'Tom', label: 'Tom' }
+              ]
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
             type: 'select',
-            key: 'Status',
+            key: 'isActive',
             templateOptions: {
-              placeholder: 'select',
+              placeholder: 'Enter Status',
               type: 'text',
               label: "Status",
               required: true,
+              options: [
+                { value: 'true', label: 'active' },
+                { value: 'false', label: 'inacative' }
+              ]
+             },
             },
-          },
         ],
       },
     ]
@@ -138,5 +160,31 @@ k
     )
     this.router.navigateByUrl('tds/hrd/content-writer');
   }
+
+  getCourseDetails() {
+    this.addcontentWriterService.getcourseList().subscribe(
+      (data: any) => {
+        this.courseDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  getSubjectDetails() {
+    this.addcontentWriterService.getsubjectList().subscribe(
+      (data: any) => {
+        this.subjectDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+
 }
 

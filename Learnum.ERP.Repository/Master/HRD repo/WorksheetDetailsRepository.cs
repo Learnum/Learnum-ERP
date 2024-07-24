@@ -19,7 +19,19 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
     }
     public class WorksheetDetailsRepository : BaseRepository, IWorksheetDetailsRepository
     {
-        public async Task<ResponseCode> InsertIWorksheetDetails(WorksheetDetailsModel worksheetDetailsModel)
+        
+
+        public async Task<List<WorksheetDetailsResponseModel>> GetWorksheetDetailsList()
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                var result = dbConnection.Query<WorksheetDetailsResponseModel>("PROC_GetDailyWorkSheetList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<ResponseCode> InsertWorksheetDetails(WorksheetDetailsModel worksheetDetailsModel)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
@@ -29,21 +41,6 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
-        }
-
-        public async Task<List<WorksheetDetailsResponseModel>> GetWorksheetDetailsList()
-        {
-            using (IDbConnection dbConnection = base.GetCoreConnection())
-            {
-                var dbparams = new DynamicParameters();
-                var result = dbConnection.Query <WorksheetDetailsResponseModel > ("PROC_GetDailyWorkSheetList", dbparams, commandType: CommandType.StoredProcedure).ToList();
-                return await Task.FromResult(result);
-            }
-        }
-
-        public Task<ResponseCode> InsertWorksheetDetails(WorksheetDetailsModel worksheetDetailsModel)
-        {
-            throw new NotImplementedException();
         }
     }
 }

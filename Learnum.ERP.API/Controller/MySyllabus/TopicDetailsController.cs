@@ -10,23 +10,23 @@ namespace Learnum.ERP.API.Controller.MySyllabus
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SyllabusDetailsController : ControllerBase
+    public class TopicDetailsController : ControllerBase
     {
-        private readonly ISyllabusDetailsRepository syllabusDetailsRepository;
-        private readonly ILogger<SyllabusDetailsController> logger;
+        private readonly ITopicDetailsRepository topicDetailsRepository;
+        private readonly ILogger<TopicDetailsController> logger;
 
-        public SyllabusDetailsController(
-            ILogger<SyllabusDetailsController> _logger,
-            ISyllabusDetailsRepository _syllabusDetailsRepository)
+        public TopicDetailsController(
+            ILogger<TopicDetailsController> _logger,
+            ITopicDetailsRepository _topicDetailsRepository)
         {
             logger = _logger;
-            syllabusDetailsRepository = _syllabusDetailsRepository;
+            topicDetailsRepository = _topicDetailsRepository;
         }
 
-        [HttpPost("InsertSyllabusDetails")]
-        public async Task<IActionResult> InsertSyllabusDetails(SyllabusDetailsModel syllabusDetailsModel)
+        [HttpPost("InsertTopicDetails")]
+        public async Task<IActionResult> InsertTopicDetails(TopicDetailsModel topicDetailsModel)
         {
-            if (syllabusDetailsModel == null)
+            if (topicDetailsModel == null)
             {
                 return BadRequest("Object is null");
             }
@@ -35,7 +35,7 @@ namespace Learnum.ERP.API.Controller.MySyllabus
                 return BadRequest("Invalid model object");
             }
 
-            var result = await syllabusDetailsRepository.InsertSyllabusDetails(syllabusDetailsModel);
+            var result = await topicDetailsRepository.InsertTopicDetails(topicDetailsModel);
             if (result == ResponseCode.Success || result == ResponseCode.Updated)
             {
                 return Ok(result);
@@ -43,10 +43,10 @@ namespace Learnum.ERP.API.Controller.MySyllabus
             return BadRequest("Failed to Save");
         }
 
-        [HttpGet("getAllSyllabusList")]
-        public async Task<IActionResult> GetAllSyllabusDetailsList()
+        [HttpGet("getAllTopicList")]
+        public async Task<IActionResult> GetAllTopicDetailsList()
         {
-            var data = await syllabusDetailsRepository.GetSyllabusDetailsList();
+            var data = await topicDetailsRepository.GetTopicDetailsList();
             if (data != null)
             {
                 return Ok(data);
