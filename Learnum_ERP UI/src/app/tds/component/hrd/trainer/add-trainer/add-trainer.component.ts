@@ -102,16 +102,19 @@ setParameter() {
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'BatchId',
+            key: 'BatchName',
             templateOptions: {
               placeholder: 'Enter batch Name',
               required: true,
               type: ' Batch Name',
               label: "Batch Name",
-              options: this.batchDetails ? this.batchDetails.map(batch => ({ label: batch.BatchName
-                , value: batch.BatchId
-              })) : [],
-            
+              // options: this.batchDetails ? this.batchDetails.map(batch => ({ label: batch.BatchName
+              //   , value: batch.BatchId
+              // })) : [],
+              options: [
+                { label: 'Batch-1', value: 'Batch-1' },
+                { label: 'Batch-2', value: 'Batch-2' }
+              ],
               },
             validation: {
               messages: {
