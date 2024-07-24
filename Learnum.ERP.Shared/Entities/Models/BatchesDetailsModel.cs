@@ -17,25 +17,25 @@ namespace Learnum.ERP.Shared.Entities.Models
 
         public string BatchName { get; set; }
 
-        public string CourseFeesInstallment {  get; set; }
+        public long CourseFeesInstallment {  get; set; }
 
         public string OneTimeCourseFees {  get; set; }
 
-        public DateTime StartOn { get; set; }
+        public string StartOn { get; set; }
 
-        public DateTime EndOn { get; set; }
+        public string EndOn { get; set; }
 
         public Boolean IsActive { get; set; }
 
-        public DateTime StartTime { get; set; }
+        //public DateTime StartTime { get; set; }
 
-        public DateTime EndTime { get; set; }
+        //public DateTime EndTime { get; set; }
     }
 
-    public class BatchesDetailsReqModel
+    public class BatchDetailsPayload
     {
-        public BatchesDetailsModel batchesDetailsModel { get; set; }
-        public InstallMentModel installMentModel { get; set; }
+        public BatchesDetailsModel BatchDetails { get; set; }
+        public List<InstallMentModel> InstallmentDetails { get; set; }
     }
 
     public class InstallMentModel

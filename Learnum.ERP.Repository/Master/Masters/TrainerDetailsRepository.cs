@@ -42,6 +42,6 @@ namespace Learnum.ERP.Repository.Master.Masters
                 return await Task.FromResult(result);
             }
         }
-
+        
     }
 }
