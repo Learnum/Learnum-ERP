@@ -15,38 +15,33 @@ namespace Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo
 {
     public interface IStudentLeadCallDetailsRepository
     {
-        Task<ResponseCode> InsertStudentLeadDetails(StudentLeadDetailsModel studentleadDetailsModel);
-        Task<List<StudentLeadDetailsResponseModel>> GetStudentLeadDetailsList();
-        Task<ResponseCode> InsertStudentLeadDetails(StudentLeadCalldetailsModel studentleadcallDetailsModel);
+        Task<ResponseCode> InsertStudentLeadDetails(StudentLeadCalldetailsModel studentLeadCalldetailsModel);
+        Task<List<StudentLeadCallDetailsResponseModel>> GetStudentLeadDetailsList();
     }
     public class StudentLeadCallDetailsRepository : BaseRepository, IStudentLeadCallDetailsRepository
     {
-        public async Task<ResponseCode> InsertStudentLeadDetails(StudentLeadDetailsModel studentleadDetailsModel)
+        public async Task<ResponseCode> InsertStudentLeadDetails(StudentLeadCalldetailsModel studentLeadCalldetailsModel)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
-                var dbparams = new DynamicParameters(studentleadDetailsModel);
+                var dbparams = new DynamicParameters(studentLeadCalldetailsModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_InsertStudentCallDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
         }
 
-        public async Task<List<StudentLeadDetailsResponseModel>> GetStudentLeadDetailsList()
+        public async Task<List<StudentLeadCallDetailsResponseModel>> GetStudentLeadDetailsList()
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<StudentLeadDetailsResponseModel>("PROC_GetStudentLeadDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                var result = dbConnection.Query<StudentLeadCallDetailsResponseModel>("PROC_GetStudentCallDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }
 
-        public Task<ResponseCode> InsertStudentLeadDetails(StudentLeadCalldetailsModel studentleadcallDetailsModel)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
 

@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { StudentcallsService } from './call-with-student/studentcalls.service';
 @Component({
   selector: 'app-call-with-student-lead',
   templateUrl: './call-with-student-lead.component.html',
@@ -11,39 +12,46 @@ import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-g
 })
 export class CallWithStudentLeadComponent implements OnInit {
 
-  callList: any[] = [];
+  studentCallList: any[] = [];
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'studentName',
+      field: 'CallId',
+      headerName: 'SR.NO',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'StudentName',
       headerName: 'Student Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'phoneCallTime',
-      headerName: 'Phone Call Time',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'phone',
+      field: 'Phone',
       headerName: 'Phone',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'callConversation',
+      field: 'PhoneCallTime',
+      headerName: 'Phone Call Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'CallConversation',
       headerName: 'Call Conversation',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'leadStatus',
+      field: 'LeadStatus',
       headerName: 'Lead Status',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -51,10 +59,24 @@ export class CallWithStudentLeadComponent implements OnInit {
     },
     {
       field: 'addedBy',
-      headerName: 'Added By',
+      headerName: 'AddedBy',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
     },
     {
       field: 'addedTime',
@@ -62,21 +84,14 @@ export class CallWithStudentLeadComponent implements OnInit {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    },
+    }, 
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
   ];
 
   declaredActionColumns: ActionColumn[] = [
@@ -101,22 +116,11 @@ export class CallWithStudentLeadComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
+    private studentcallsService:StudentcallsService
   ) { }
 
   ngOnInit(): void {
-    this.getCallList();
-  }
-
-  getCallList() {
-    // this.callService.getCallList().subscribe(
-    //   (result: any) => {
-    //     this.callList = result.Value;
-    //   },
-    //   (error: any) => {
-    //     console.error("Error occurred while fetching calls:", error);
-    //     this.alertService.ShowErrorMessage("An error occurred while fetching calls. Please try again later.");
-    //   }
-    // );
+    this.getStudentCallDetails();
   }
 
   CallWithStudent() {
@@ -137,5 +141,11 @@ export class CallWithStudentLeadComponent implements OnInit {
 
   selectCall(calls: any) {
     // Handle row selection logic
+  }
+  getStudentCallDetails() {
+    this.studentcallsService.getStudentCallDetails().subscribe((result: any) => {
+      this.studentCallList = result.Value;
+      let studentCallList = result.Value;
+    })
   }
 }

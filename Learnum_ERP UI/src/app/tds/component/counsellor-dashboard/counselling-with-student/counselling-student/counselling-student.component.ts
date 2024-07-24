@@ -4,6 +4,9 @@ import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
+import { StudentcounsellingService } from './studentcounselling.service';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { StudentCounsellingDetails } from './studentcounselling.model';
 @Component({
   selector: 'app-counselling-student',
   templateUrl: './counselling-student.component.html',
@@ -11,50 +14,43 @@ import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/for
 })
 export class CounsellingStudentComponent implements OnInit {
 
+  studentCounsellingDetails:StudentCounsellingDetails = new StudentCounsellingDetails();
   form = new FormGroup({});
-  model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
+  studentDetails:any;
+  branchDetails: any;
+
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder) { }
+    private alertService: AlertService,
+    private messageService: MessageService,
+    private activateRoute: ActivatedRoute,
+    private studentcounsellingService:StudentcounsellingService
+  ) { }
 
   ngOnInit(): void {
-    this.setFields();
-    this.createForm();
+    this.setParameter();
+    this.getStudentCallDetails();
+    this.getBranchDetails();
   }
 
-  createForm(): void {
-    this.form = this.formBuilder.group({
-      studentName: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern(/^(\+\d{1,3}[- ]?)?\d{10}$/)]],
-      counsellingDate: ['', Validators.required],
-      counsellingTime: ['', Validators.required],
-      counsellingStatus: ['', Validators.required],
-      branchName: ['', Validators.required],
-      counsellingConversation: ['', Validators.required],
-    });
-  }
-
-  setFields() {
+  setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
             className: 'col-md-6',
-            key: 'studentName',
-            type: 'input',
-            props: {
-              label: 'Student Name',
-              placeholder: 'Enter Student Name',
+            type: 'select',
+            key: 'StudentId',
+            templateOptions: {
+              placeholder: 'Student Name',
+              type: 'text',
+              label: "Student Name",
               required: true,
-            },
-            validation: {
-              messages: {
-                required: 'Student Name is required',
-              },
+              options: this.studentDetails ? this.studentDetails.map(college => ({ label: college.StudentName, value: college.StudentId })) : [],
             },
           },
           {
@@ -64,13 +60,12 @@ export class CounsellingStudentComponent implements OnInit {
             props: {
               label: 'Phone',
               placeholder: 'Enter Phone Number',
+              type: 'tel',
               required: true,
-              pattern: '^(\+\d{1,3}[- ]?)?\d{10}$',
             },
             validation: {
               messages: {
                 required: 'Phone is required',
-                pattern: 'Enter a valid phone number',
               },
             },
           },
@@ -131,17 +126,14 @@ export class CounsellingStudentComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'branchName',
-            type: 'input',
-            props: {
-              label: 'Branch Name',
-              placeholder: 'Enter Branch Name',
+            type: 'select',
+            key: 'BranchId',
+            templateOptions: {
+              placeholder: 'Branch Name',
+              type: 'text',
+              label: "Branch Name",
               required: true,
-            },
-            validation: {
-              messages: {
-                required: 'Branch Name is required',
-              },
+              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
             },
           },
           {
@@ -164,17 +156,63 @@ export class CounsellingStudentComponent implements OnInit {
       },
     ];
   }
-
-  onSubmit(): void {
-    this.form.markAllAsTouched();
-    if (this.form.valid) {
-      // Handle form submission
-    } else {
-      // Handle form errors
-    }
-  }
   onCancelClick() {
     this.router.navigateByUrl('tds/counsellor-dashboard/counselling-with-student');
+  }
+  onSubmit(): void {
+    this.InsertstudentcounsellingData();
+    // this.form.markAllAsTouched();
+    // if (this.form.valid) {
+    //   // Handle form submission
+    // } else {
+    //   // Handle form errors
+    // }
+  }
+  InsertstudentcounsellingData() {
+    this.studentCounsellingDetails.addedBy = 1;
+    this.studentCounsellingDetails.addedDate = new Date();
+    this.studentCounsellingDetails.updatedBy = 1;
+    this.studentCounsellingDetails.updatedDate = new Date();
+    this.studentCounsellingDetails.counsellingId = 0;
+
+    this.studentcounsellingService.insertStudentCounsellingDetails(this.studentCounsellingDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+    this.router.navigateByUrl('tds/counsellor-dashboard/counselling-with-student');
+  }
+  getStudentCallDetails() {
+    this.studentcounsellingService.getStudentLeads().subscribe(
+      (data: any) => {
+        this.studentDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getBranchDetails() {
+    this.studentcounsellingService.getBranchList().subscribe(
+      (data: any) => {
+        this.branchDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
   }
 
 

@@ -9,6 +9,7 @@ using Learnum.ERP.Repository.Master.HRD_repo;
 using Learnum.ERP.Repository.Master.Masters;
 using Learnum.ERP.Repository.Master.My_Practical_Exam;
 using Learnum.ERP.Repository.Master.MySyllabus_repo;
+using Learnum.ERP.Repository.Master.Student_Management;
 using Learnum.ERP.Repository.Master.Trainers;
 
 
@@ -47,6 +48,12 @@ namespace Learnum.ERP.API.Helpers
             services.AddTransient<IAddCollegesRepository, AddCollegesRepository>(); 
             services.AddTransient<IScheduleMeetingDetailsRepository, ScheduleMeetingDetailsRepository>();  
             services.AddTransient<IScheduleSeminarDetailsRepository, ScheduleSeminarDetailsRepository>();
+            services.AddTransient<IStudentLeadDetailsRepository, StudentLeadDetailsRepository>(); 
+            services.AddTransient<IWebsiteLeadDetailsRepository, WebsiteLeadDetailsRepository>();
+            services.AddTransient<IStudentLeadCallDetailsRepository, StudentLeadCallDetailsRepository>();
+            services.AddTransient<IStudentCounsellingDetailsRepository, StudentCounsellingDetailsRepository>();
+            services.AddTransient<IStudentDetailsRepository, StudentDetailsRepository>();
+
             services.AddTransient<IStudentLeadDetailsRepository, StudentLeadDetailsRepository>();   
             services.AddTransient<ITopicDetailsRepository, TopicDetailsRepository>();
             services.AddTransient<IEmployeeDetailsRepository, EmployeeDetailsRepository>();

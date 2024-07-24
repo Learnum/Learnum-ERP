@@ -4,6 +4,9 @@ import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
+import { WebsiteleadsService } from './websiteleads.service';
+import { WebsiteLeadDetails } from './websiteleads.model';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
 @Component({
   selector: 'app-add-website',
@@ -12,31 +15,27 @@ import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/for
 })
 export class AddWebsiteComponent implements OnInit {
 
+  websiteLeadDetails:WebsiteLeadDetails = new WebsiteLeadDetails();
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
+  courseDetails: any;
+
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder) { }
+    private alertService: AlertService,
+    private messageService: MessageService,
+    private activateRoute: ActivatedRoute,
+    private websiteleadsService:WebsiteleadsService) { }
 
   ngOnInit(): void {
-    this.setFields();
-    this.createForm();
+    this.setParameter();
+    this.getCourseDetails();
   }
 
-  createForm(): void {
-    this.form = this.formBuilder.group({
-      studentName: ['', Validators.required],
-      courseName: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
-      email: ['', [Validators.required, Validators.email]],
-      yourLocation: ['', Validators.required],
-    });
-  }
-
-  setFields() {
+  setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
@@ -57,23 +56,15 @@ export class AddWebsiteComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'courseName',
+            className: 'col-md-4',
             type: 'select',
-            props: {
-              label: 'Course Name',
-              placeholder: 'Select Course Name',
+            key: 'CourseId',
+            templateOptions: {
+              placeholder: 'Select',
+              type: 'text',
+              label: "Course Name",
               required: true,
-              options: [
-                { value: 'course1', label: 'Course 1' },
-                { value: 'course2', label: 'Course 2' },
-                { value: 'course3', label: 'Course 3' },
-              ],
-            },
-            validation: {
-              messages: {
-                required: 'Course Name is required',
-              },
+              options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
             },
           },
           {
@@ -89,7 +80,6 @@ export class AddWebsiteComponent implements OnInit {
             validation: {
               messages: {
                 required: 'Phone is required',
-                pattern: 'Phone must be a valid 10-digit number',
               },
             },
           },
@@ -106,7 +96,6 @@ export class AddWebsiteComponent implements OnInit {
             validation: {
               messages: {
                 required: 'Email is required',
-                email: 'Email must be a valid email address',
               },
             },
           },
@@ -129,17 +118,53 @@ export class AddWebsiteComponent implements OnInit {
       },
     ];
   }
-
-  onSubmit(): void {
-    this.form.markAllAsTouched();
-    if (this.form.valid) {
-      // Handle form submission
-    } else {
-      // Handle form errors
-    }
+  onCancelClick() {
+    this.router.navigateByUrl('tds/counsellor-dashboard/website-leads');
   }
 
-  onCancelClick() {
+  onSubmit(): void {
+    this.insertWebsiteLeads();
+    // this.form.markAllAsTouched();
+    // if (this.form.valid) {
+    //   // Handle form submission
+    // } else {
+    //   // Handle form errors
+    // }
+  }
+  getCourseDetails() {
+    this.websiteleadsService.getClassroomList().subscribe(
+      (data: any) => {
+        this.courseDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  insertWebsiteLeads() {
+    this.websiteLeadDetails.addedBy = 1;
+    this.websiteLeadDetails.addedDate = new Date();
+    this.websiteLeadDetails.updatedBy = 1;
+    this.websiteLeadDetails.updatedDate = new Date();
+    this.websiteLeadDetails.studentId = 0;
+
+    this.websiteleadsService.insertWebsiteDetails(this.websiteLeadDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
     this.router.navigateByUrl('tds/counsellor-dashboard/website-leads');
   }
 

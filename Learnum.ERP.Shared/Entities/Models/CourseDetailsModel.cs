@@ -24,7 +24,6 @@ namespace Learnum.ERP.Shared.Entities.Models
     {
         public string CourseDetailsModel { get; set; }
         public IFormFile File { get; set; }
-
        
     }
 }

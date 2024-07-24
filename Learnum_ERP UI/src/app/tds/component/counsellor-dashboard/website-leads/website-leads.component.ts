@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { WebsiteleadsService } from './add-website/websiteleads.service';
 @Component({
   selector: 'app-website-leads',
   templateUrl: './website-leads.component.html',
@@ -11,44 +12,85 @@ import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-g
 })
 export class WebsiteLeadsComponent implements OnInit {
 
-  leadList: any[] = [];
+  websiteLeadList: any[] = [];
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'studentName',
+      field: 'StudentId',
+      headerName: 'SR.NO',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'StudentName',
       headerName: 'Student Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'email',
+      field: 'Email',
       headerName: 'Email',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'phone',
+      field: 'Phone',
       headerName: 'Phone',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'courseName',
+      field: 'CourseName',
       headerName: 'Course Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'leadLocation',
-      headerName: 'Lead Location',
+      field: 'YourLocation',
+      headerName: 'Your Location',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
+    {
+      field: 'addedBy',
+      headerName: 'AddedBy',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'AddedTime',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'addedTime',
+      headerName: 'Added Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },{
+      field: 'updatedDate',
+      headerName: 'UpdatedDate',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
   ];
 
   declaredActionColumns: ActionColumn[] = [
@@ -73,24 +115,12 @@ export class WebsiteLeadsComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
+    private websiteleadsService:WebsiteleadsService
   ) { }
 
   ngOnInit(): void {
-    this.getLeadList();
+    this.getWebsiteLeadDetails();
   }
-
-  getLeadList() {
-    // this.leadService.getLeadList().subscribe(
-    //   (result: any) => {
-    //     this.leadList = result.Value;
-    //   },
-    //   (error: any) => {
-    //     console.error("Error occurred while fetching leads:", error);
-    //     this.alertService.ShowErrorMessage("An error occurred while fetching leads. Please try again later.");
-    //   }
-    // );
-  }
-
   AddWebsiteLead() {
     this.router.navigate(['/tds/counsellor-dashboard/website-leads/add-website']);
   }
@@ -110,5 +140,11 @@ export class WebsiteLeadsComponent implements OnInit {
   selectLead(leads: any) {
     // Handle row selection logic
   }
+  getWebsiteLeadDetails() {
+    this.websiteleadsService.getWebsiteList().subscribe((result: any) => {
+      this.websiteLeadList = result.Value;
+      let websiteLeadList = result.Value;
+    })
+  } 
 
 }

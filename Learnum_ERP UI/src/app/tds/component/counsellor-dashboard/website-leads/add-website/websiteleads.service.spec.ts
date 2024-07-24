@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { WebsiteLeadsService } from './website-leads.service';
+import { WebsiteleadsService } from './websiteleads.service';
 
-describe('WebsiteLeadsService', () => {
-  let service: WebsiteLeadsService;
+describe('WebsiteleadsService', () => {
+  let service: WebsiteleadsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(WebsiteLeadsService);
+    service = TestBed.inject(WebsiteleadsService);
   });
 
   it('should be created', () => {
