@@ -67,6 +67,7 @@ export class AddBranchComponent implements OnInit {
               type: 'text',
               label: "Branch Name",
               required: true,
+              
             },
             validation: {
               messages: {

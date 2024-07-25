@@ -171,15 +171,12 @@ export class AddBusinessLeadComponent implements OnInit {
   }
 
   onSubmit():void {
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   this.insertBusinessDetails();
-    // }
-    // else {
-    //   this.alertService.ShowErrorMessage('Please fill in all required fields.');
-    // }
-
-    this.insertBusinessDetails();
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this.insertBusinessDetails();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
   }
 
   onCancleClick() {
