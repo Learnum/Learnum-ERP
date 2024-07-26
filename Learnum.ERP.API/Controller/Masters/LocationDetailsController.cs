@@ -53,5 +53,21 @@ namespace Learnum.ERP.API.Controller
             }
             return NotFound("No record found");
         }
+
+        [HttpGet("getLocationDetails/{LocationId}")]
+        public async Task<IActionResult> GetLocationDetails(long? LocationId)
+        {
+            if (LocationId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await locationDetailsRepository.GetLocationDetails(LocationId);
+            return Ok(result);
+        }
     }
 }

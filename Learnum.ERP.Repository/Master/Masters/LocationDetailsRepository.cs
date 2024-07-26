@@ -18,6 +18,7 @@ namespace Learnum.ERP.Repository.Master
     {
         Task<ResponseCode> InsertLocationDetails(LocationDetailsModel locationDetailsModel);
         Task<List<LocationDetailsResponseModel>> GetLocationDetailsList();
+        Task<Tuple<LocationDetailsModel?, ResponseCode>> GetLocationDetails(long? LocationId);
     }
 
     public class LocationDetailsRepository : BaseRepository, ILocationDetailsRepository
@@ -42,6 +43,19 @@ namespace Learnum.ERP.Repository.Master
                 var dbparams = new DynamicParameters();
                 var result = dbConnection.Query<LocationDetailsResponseModel>("PROC_GetIPAddressDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<Tuple<LocationDetailsModel?, ResponseCode>> GetLocationDetails(long? LocationId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@LocationId", LocationId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<LocationDetailsModel?>("PROC_GetIPAddressDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<LocationDetailsModel?, ResponseCode>(result, responseCode));
             }
         }
     }
