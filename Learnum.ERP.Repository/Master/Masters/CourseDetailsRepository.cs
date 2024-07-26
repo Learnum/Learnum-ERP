@@ -17,6 +17,8 @@ namespace Learnum.ERP.Repository.Master
     {
         Task<ResponseCode> InsertCourseDetails(CourseDetailFileUpload fileUpload);
         Task<List<CourseDetailsResponseModel>> GetCourseDetailsList();
+
+        Task<Tuple<CourseDetailFileUpload?, ResponseCode>> GetCourseDetails(long? CourseId);
     }
 
     public class CourseDetailsRepository : BaseRepository, ICourseDetailsRepository
@@ -54,6 +56,19 @@ namespace Learnum.ERP.Repository.Master
                 return await Task.FromResult(result);
             }
 
+        }
+
+        public async Task<Tuple<CourseDetailFileUpload?, ResponseCode>> GetCourseDetails(long? CourseId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@CourseId", CourseId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<CourseDetailFileUpload?>("PROC_GetCourseDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<CourseDetailFileUpload?, ResponseCode>(result, responseCode));
+            }
         }
     }
 }

@@ -14,10 +14,10 @@ export class AddCoursesService extends BaseService{
 
   private urlInsertCourseDetails: string = "CourseDetails/InsertCourseDetails";
   private urlgetCourseList: string = "CourseDetails/getAllCourseList";
+  private urlGetCourseDetails: string = "CourseDetails/getCourseDetails";
 
-  constructor(private apiService: APIService, private httpBackend: HttpBackend) {
+  constructor(private apiService: APIService) {
     super();
-    this.httpClientWithoutInterceptor = new HttpClient(httpBackend);
   }
 
   insertCourseData(coursesDetails: coursesDetailsModel) : Observable<any> {
@@ -33,10 +33,11 @@ export class AddCoursesService extends BaseService{
     console.log(formData);
     return this.apiService.postBlob(this.urlInsertCourseDetails,formData);
   } 
-
   getCourseList() {
     return this.apiService.getData(this.urlgetCourseList);
   }
-
+  getCourseDetails(courseId: number) {
+    return this.apiService.getData(this.urlGetCourseDetails + '/' + courseId);
+  }
   
 }

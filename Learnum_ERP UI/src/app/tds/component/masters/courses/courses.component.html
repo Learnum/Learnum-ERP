@@ -7,14 +7,14 @@
 <div class="col-md-12">
   <div class="row" align="right">
     <div class="col-md-12" style="display: flex; justify-content: flex-end;">
-      <button class="btn btn-fent-cloud" (click)="onAddcourses()">
+      <button class="btn btn-fent-cloud" (click)="onAddCourse()">
         <i class="uil uil-plus"></i> Add Course
       </button>
     </div>
   </div>
 </div>
 <!-- ag-grid -->
-<app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="tdsReturnList" [tableColumns]="declaredTableColumns"
+<app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="courseList" [tableColumns]="declaredTableColumns"
   [actionColumns]="declaredActionColumns" [isEditable]="false" [isSortable]="true" [isFilterable]="false"
   [isColumnFilterable]="false" [isResizable]="false" [isPageable]="true" [defaultPageSize]="12"
   (selectedRows)="selectCourse($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">

@@ -20,8 +20,6 @@ export class AddCoursesComponent implements OnInit {
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
-  branchDetails: any;
   form = new FormGroup({});
 
   constructor(
@@ -36,12 +34,10 @@ export class AddCoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-   
-  }
-
-  
-  reset() {
-    throw new Error('Method not implemented.');
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.CourseId) {
+      this.getCourseDetails(this.editData.CourseId);
+    }
   }
 
   setParameter() {
@@ -50,11 +46,13 @@ export class AddCoursesComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
-
+          {
+            key: 'CourseId',
+          },
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'courseName',
+            key: 'CourseName',
             templateOptions: {
               placeholder: 'Enter Courses Name',
               type: 'text',
@@ -67,7 +65,7 @@ export class AddCoursesComponent implements OnInit {
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'description',
+            key: 'Description',
             props: {
               placeholder: 'Enter Description',
               type: 'text',
@@ -75,26 +73,24 @@ export class AddCoursesComponent implements OnInit {
               required: true,
 
             },
-            // validation: {
-            //   messages: {
-            //     required: 'Description is required',
-
-            //   },
-            // },
           },
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'isActive',
+            key: 'IsActive',
             props: {
               placeholder: 'Course Status',
               required: true,
-              type: 'text',
-              label: "Course Status",
+              label: 'Course Status',
               options: [
-                { label: 'Active', value: 'true' },
-                { label: 'Inactive', value: 'false' }
-              ]
+                { value: true, label: 'Active' },
+                { value: false, label: 'InActive' }
+              ],
+            },
+            validation: {
+              messages: {
+                required: 'Please select a course status',
+              },
             },
           },
           {
@@ -103,17 +99,11 @@ export class AddCoursesComponent implements OnInit {
             key: 'file',
             props: {
               placeholder: 'select File',
-             // type: 'text',
+              // type: 'text',
               label: "Upload Brochure",
-              required: true,
+              //required: true,
 
             },
-            // validation: {
-            //   messages: {
-            //     required: 'Upload Brochure is required',
-
-            //   },
-            // },
           }
         ],
       },
@@ -123,6 +113,9 @@ export class AddCoursesComponent implements OnInit {
   onCancleClick() {
     this.router.navigateByUrl('tds/masters/courses');
   }
+  onResetClick() {
+    this.form.reset();
+  }
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
@@ -131,7 +124,7 @@ export class AddCoursesComponent implements OnInit {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
-   insertCourse() {
+  insertCourse() {
     this.addCoursesService.insertCourseData(this.coursesDetails).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;
@@ -149,6 +142,19 @@ export class AddCoursesComponent implements OnInit {
       }
     );
   }
+  getCourseDetails(CourseId: number) {
+    this.addCoursesService.getCourseDetails(CourseId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.coursesDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for CourseId: ' + CourseId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving Course details:', error);
 
-
+      }
+    );
+  }
 }
