@@ -40,7 +40,7 @@ export class ClassroomsComponent implements OnInit {
         minWidth: 200,
       },
       {
-        field: 'ClassroomName',
+        field: 'classroomName',
         headerName: 'Classroom Name',
         filter: 'agTextColumnFilter',
         filterParams: {
@@ -61,7 +61,7 @@ export class ClassroomsComponent implements OnInit {
       },
       {
         field: 'IsActive',
-        headerName: 'Classroom Status',
+        headerName: 'Course Status',
         filter: 'agTextColumnFilter',
         filterParams: {
           buttons: ['reset', 'apply'],
@@ -98,13 +98,15 @@ export class ClassroomsComponent implements OnInit {
         filter: 'agDateColumnFilter',
         filterParams: { buttons: ['reset', 'apply'] },
         minWidth: 150
-      }, {
+      },{
         field: 'updatedDate',
         headerName: 'UpdatedDate',
         filter: 'agDateColumnFilter',
         filterParams: { buttons: ['reset', 'apply'] },
         minWidth: 150
       },
+
+
     ];
   declaredActionColumns: ActionColumn[] = [
     {

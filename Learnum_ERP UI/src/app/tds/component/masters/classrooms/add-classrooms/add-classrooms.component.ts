@@ -7,6 +7,7 @@ import { MessageService } from 'src/app/core/services/message.service';
 import { AddClassroomsService } from './add-classrooms.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { ClassroomModel } from './classroomDetails.model';
+import { tap } from 'rxjs/operators';
 
 
 @Component({
@@ -64,13 +65,14 @@ constructor(
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'ClassroomName',
+            key: 'classroomName',
             props: {
               placeholder: 'Classroom Name',
               type: 'text',
               label: "Classroom Name",
               required: true,
-
+              // options: this.classroomDetails ? this.classroomDetails.map(classroom => ({ label: classroom.classroomName, value: classroom.classroomId })) : [],
+            
             },
             validation: {
               messages: {
@@ -140,7 +142,7 @@ constructor(
     this.classroomDetails.addedDate = new Date();
     this.classroomDetails.updatedBy = 1;
     this.classroomDetails.updatedDate = new Date();
-    this.classroomDetails.classroomId = 0;
+   // this.classroomDetails.classroomId = 0;
 
     this.addclassroomService.insertClassroomData(this.classroomDetails).subscribe(
       (result: any) => {

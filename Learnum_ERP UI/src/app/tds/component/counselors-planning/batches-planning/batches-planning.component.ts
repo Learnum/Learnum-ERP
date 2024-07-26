@@ -16,16 +16,7 @@ export class BatchesPlanningComponent implements OnInit {
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
-    {
-      field: 'BatchId',
-      headerName: 'BatchID',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 150
-
-    },
+   
     {
       field: 'BatchName',
       headerName: 'BatchName',
@@ -37,14 +28,36 @@ export class BatchesPlanningComponent implements OnInit {
 
     },
     {
-      field: 'Classroom',
-      headerName: 'Classroom',
+      field: 'BranchName',
+      headerName: 'BranchName',
+      filter: 'agSetColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+
+    },
+    
+    {
+      field: 'ClassroomName',
+      headerName: 'ClassroomName',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
       minWidth: 150
     },
+    {
+      field: 'OneTimeCourseFees',
+      headerName: 'OneTimeCourseFees',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+    },
+
+
     {
       field: 'addedBy',
       headerName: 'Added By',
@@ -102,7 +115,7 @@ export class BatchesPlanningComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    private addbatchservices : AddbatchService ,
+    private addbatchService:AddbatchService,
     private formBuilder: FormBuilder) {
     {
       this.form = this.formBuilder.group({
@@ -151,9 +164,11 @@ export class BatchesPlanningComponent implements OnInit {
 
 
   getAllBatchDetails() {
-    this.addbatchservices.getBatchList().subscribe((result: any) => {
+    this.addbatchService.getBatchList().subscribe((result: any) => {
       this.BatchDetails = result.Value;
       let BatchDetails = result.Value;
     })
   }
+
+
 }

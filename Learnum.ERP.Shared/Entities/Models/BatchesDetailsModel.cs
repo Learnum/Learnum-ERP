@@ -13,7 +13,7 @@ namespace Learnum.ERP.Shared.Entities.Models
 
         public long CourseId { get; set; }
 
-        public long ClassroomId { get; set; }   
+        public long classroomId { get; set; }   
 
         public string BatchName { get; set; }
 
@@ -21,15 +21,13 @@ namespace Learnum.ERP.Shared.Entities.Models
 
         public string OneTimeCourseFees {  get; set; }
 
-        public string StartOn { get; set; }
+        public DateTime StartOn { get; set; }
 
-        public string EndOn { get; set; }
+        public DateTime EndOn { get; set; }
 
-        public Boolean IsActive { get; set; }
+        public bool IsActive { get; set; }
 
-        //public DateTime StartTime { get; set; }
-
-        //public DateTime EndTime { get; set; }
+       
     }
 
     public class BatchDetailsPayload
@@ -38,7 +36,7 @@ namespace Learnum.ERP.Shared.Entities.Models
         public List<InstallMentModel> InstallmentDetails { get; set; }
     }
 
-    public class InstallMentModel
+    public class InstallMentModel 
     {
         public long InstallmentId { get; set; }
         public int InstallmentNumber { get; set; }

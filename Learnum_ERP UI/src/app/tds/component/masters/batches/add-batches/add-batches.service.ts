@@ -12,7 +12,11 @@ export class AddBatchesService extends BaseService {
   private httpClientWithoutInterceptor: HttpClient;
 
   private urlInsertbatchDetails: string = "BatchesDetails/InsertBatchesDetails";
-  private urlgetbatchList: string = "AddBatch/getAllAddBatchList";
+  private urlgetbatchList: string = "BatchesDetails/getAllBatchesList";
+  private urlgetBranchList: string = "BranchDetails/getAllBranchList";
+  private urlgetClassroomList: string = "ClassroomDetails/getAllClassroomList";
+  private urlgetCourseList: string = "CourseDetails/getAllCourseList";
+
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
@@ -36,5 +40,18 @@ export class AddBatchesService extends BaseService {
 
   getBatchList() {
     return this.apiService.getData(this.urlgetbatchList);
+  }
+  getBranchList() {
+    return this.apiService.getData(this.urlgetBranchList);
+  }
+
+  getClassroomList()
+  {
+    return this.apiService.getData(this.urlgetClassroomList);
+  }
+
+  getCourseList()
+  {
+    return this.apiService.getData(this.urlgetCourseList); 
   }
 }
