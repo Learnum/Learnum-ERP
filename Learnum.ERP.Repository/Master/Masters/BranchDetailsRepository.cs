@@ -17,6 +17,8 @@ namespace Learnum.ERP.Repository.Master
     {
         Task<ResponseCode>InsertBranchDetails(BranchDetailsModel branchDetailsModel);
         Task<List<BranchDetailsResponseModel>> GetBranchDetailsList();
+        Task<Tuple<BranchDetailsModel?, ResponseCode>> GetBranchDetails(long? BranchId);
+
     }
 
 
@@ -42,6 +44,19 @@ namespace Learnum.ERP.Repository.Master
                 var dbparams = new DynamicParameters();
                 var result = dbConnection.Query<BranchDetailsResponseModel>("PROC_GetBranchDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<Tuple<BranchDetailsModel?, ResponseCode>> GetBranchDetails(long? BranchId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@BranchId", BranchId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<BranchDetailsModel?>("PROC_GetBranchDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<BranchDetailsModel?, ResponseCode>(result, responseCode));
             }
         }
     }

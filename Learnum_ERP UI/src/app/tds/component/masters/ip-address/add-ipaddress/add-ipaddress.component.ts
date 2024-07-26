@@ -34,10 +34,10 @@ export class AddIpaddressComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-  }
-
-  reset() {
-    throw new Error('Method not implemented.');
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.LocationId) {
+      this.getLocationDetails(this.editData.LocationId);
+    }
   }
 
   setParameter() {
@@ -45,7 +45,9 @@ export class AddIpaddressComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
-
+          {
+            key: 'LocationId'
+          },
           {
             className: 'col-md-4',
             type: 'input',
@@ -96,7 +98,7 @@ export class AddIpaddressComponent implements OnInit {
             },
             validation: {
               messages: {
-                required: 'Please select a branch status',
+                required: 'Please select a Location status',
               },
             },
           },
@@ -108,10 +110,11 @@ export class AddIpaddressComponent implements OnInit {
   onCancleClick() {
     this.router.navigateByUrl('tds/masters/ip-address');
   }
-
-
+  onResetClick() {
+    this.form.reset();
+  }
   onSubmit(): void {
-   // this.form.markAllAsTouched();
+   this.form.markAllAsTouched();
     if (this.form.valid) {
       this.AddIPAddress();
     } else {
@@ -124,7 +127,6 @@ export class AddIpaddressComponent implements OnInit {
     this.ipDetails.addedDate = new Date();
     this.ipDetails.updatedBy = 1;
     this.ipDetails.updatedDate = new Date();
-    this.ipDetails.locationId = 0;
 
     this.addipaddressService.insertIPAddress(this.ipDetails).subscribe(
       (result: any) => {
@@ -146,6 +148,20 @@ export class AddIpaddressComponent implements OnInit {
     )
     this.router.navigateByUrl('tds/masters/ip-address');
   }
+  getLocationDetails(LocationId: number) {
+    this.addipaddressService.getLocationDetails(LocationId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.ipDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for LocationId: ' + LocationId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving location details:', error);
 
+      }
+    );
+  }
   
 }
