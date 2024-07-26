@@ -27,7 +27,10 @@ export class AddBatchesComponent implements OnInit {
   coOwnerFields: any;
   batchDetails: BatchesDetailsModel = new BatchesDetailsModel();
   batchesDetailsReq: BatchesDetailsReqModel = new BatchesDetailsReqModel();
+  classroomDetails:any;
+  courseDetails: any;
 
+  
 
   installmentForm = new FormGroup({});
   // installmentModel: any = {
@@ -52,6 +55,9 @@ export class AddBatchesComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
+    this.getBranchDetails();
+    this.getClassroomDetails();
+    this.getCourseDetails();
   }
 
 
@@ -72,48 +78,48 @@ export class AddBatchesComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'select',
-            key: 'BranchName',
+            key: 'BranchId',
             templateOptions: {
-              placeholder: 'Enter Branch',
+              placeholder: 'Branch Name',
               type: 'text',
               label: "Branch Name",
               required: true,
-              options: [
-                { value: 'cpat', label: 'Cpat' },
-                { value: 'tax', label: 'tax' },
-              ],
+              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
             },
+
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'select',
-            key: 'Classroom',
-            templateOptions: {
-              placeholder: 'Select Classroom',
+            key: 'classroomId',
+            props: {
+              placeholder: 'Classroom Name',
               type: 'text',
-              label: "Classroom",
+              label: "Classroom Name",
               required: true,
-              options: [
-                { value: 'Classroom-1', label: 'Classroom-1' },
-                { value: 'Classroom-2', label: 'Classroom-2' },
-              ],
+              options: this.classroomDetails ? this.classroomDetails.map(classroom => ({ label: classroom.ClassroomName, value: classroom.ClassRoomId
+              })) : [],
+            
+            },
+            validation: {
+              messages: {
+                required: 'Classroom Name is required',
+
+              },
             },
           },
           {
             className: 'col-md-4',
             type: 'select',
-            key: 'CourseName',
+            key: 'CourseId',
             templateOptions: {
               placeholder: 'Select',
-              required: true,
               type: 'text',
               label: "Course Name",
-              options: [
-                { value: 'tax', label: 'tax' },
-                { value: 'tally', label: 'tally' },
-              ],
+              required: true,
+              options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
             },
           },
           {
@@ -148,6 +154,7 @@ export class AddBatchesComponent implements OnInit {
             key: 'StartOn',
             templateOptions: {
               placeholder: 'YYYY-MM-DD',
+              type: 'date',
               required: true,
               label: "Start On",
             },
@@ -158,6 +165,7 @@ export class AddBatchesComponent implements OnInit {
             key: 'EndOn',
             templateOptions: {
               placeholder: 'YYYY-MM-DD',
+              type: 'date',
               required: true,
               label: "End On",
             },
@@ -499,7 +507,44 @@ export class AddBatchesComponent implements OnInit {
         totalInstallments += element.installmentAmount || 0;
       });
       this.batchDetails.courseFeesInstallment = totalInstallments;
-      this.form.get('CourseFeesinInstallment').setValue(totalInstallments);
+      this.form.get('CourseFeesInstallment').setValue(totalInstallments);
     }
+  }
+
+  
+  getBranchDetails() {
+    this.addBatchService.getBranchList().subscribe(
+      (data: any) => {
+        this.branchDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  getClassroomDetails() {
+    this.addBatchService.getClassroomList().subscribe(
+      (data: any) => {
+        this.classroomDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  getCourseDetails() {
+    this.addBatchService.getCourseList().subscribe(
+      (data: any) => {
+        this.courseDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
   }
 }

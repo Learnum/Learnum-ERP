@@ -107,7 +107,7 @@ export class AddContentwriterComponent {
               required: true,
               options: [
                 { value: 'true', label: 'active' },
-                { value: 'false', label: 'inacative' }
+                { value: 'false', label: 'inactive' }
               ]
              },
             },

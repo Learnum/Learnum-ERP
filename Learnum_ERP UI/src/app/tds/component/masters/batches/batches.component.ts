@@ -18,16 +18,7 @@ export class BatchesComponent implements OnInit {
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
-    {
-      field: 'BatchId',
-      headerName: 'BatchID',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 150
-
-    },
+   
     {
       field: 'BatchName',
       headerName: 'BatchName',
@@ -39,14 +30,36 @@ export class BatchesComponent implements OnInit {
 
     },
     {
-      field: 'Classroom',
-      headerName: 'Classroom',
+      field: 'BranchName',
+      headerName: 'BranchName',
+      filter: 'agSetColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+
+    },
+    
+    {
+      field: 'ClassroomName',
+      headerName: 'ClassroomName',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
       minWidth: 150
     },
+    {
+      field: 'OneTimeCourseFees',
+      headerName: 'OneTimeCourseFees',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+    },
+
+
     {
       field: 'addedBy',
       headerName: 'Added By',

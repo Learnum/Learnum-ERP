@@ -17,6 +17,11 @@ namespace Learnum.ERP.Shared.Entities.Models.ViewModel
 
         public string BatchName { get; set; }
 
+        public string CourseName { get; set;}
+
+        public string ClassroomName { get; set;}
+
+        public string BranchName { get; set; }
         public string CourseFeesInstallment { get; set; }
 
         public string OneTimeCourseFees { get; set; }
