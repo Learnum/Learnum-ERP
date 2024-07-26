@@ -118,7 +118,7 @@ export class IpAddressComponent {
 
 
   ngOnInit(): void {
-    // this.GetbranchList();
+    
     this.getAllLocationDetails();
 
   }
