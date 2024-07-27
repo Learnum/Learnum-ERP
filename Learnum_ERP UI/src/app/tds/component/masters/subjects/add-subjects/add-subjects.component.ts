@@ -123,19 +123,13 @@ export class AddSubjectsComponent implements OnInit {
     this.router.navigateByUrl('tds/masters/subjects');
   }
 
-  // get f() {
-  //   return this.form.controls;
-  // }
-
   onSubmit(): void {
     // this.form.markAllAsTouched();
     // if (this.form.valid) {
     //   this.insertSubject();
-    // }
-    // else {
+    // } else {
     //   this.alertService.ShowErrorMessage('Please fill in all required fields.');
     // }
-
     this.insertSubject();
   }
 

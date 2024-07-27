@@ -50,7 +50,7 @@ constructor(
         fieldGroup: [
 
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
@@ -63,7 +63,7 @@ constructor(
 
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
             key: 'classroomName',
             props: {
@@ -82,7 +82,7 @@ constructor(
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
             key: 'StudentCapacity',
             props: {
@@ -101,7 +101,7 @@ constructor(
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'isActive',
             props: {
@@ -142,7 +142,7 @@ constructor(
     this.classroomDetails.addedDate = new Date();
     this.classroomDetails.updatedBy = 1;
     this.classroomDetails.updatedDate = new Date();
-   // this.classroomDetails.classroomId = 0;
+    this.classroomDetails.classroomId = 0;
 
     this.addclassroomService.insertClassroomData(this.classroomDetails).subscribe(
       (result: any) => {
