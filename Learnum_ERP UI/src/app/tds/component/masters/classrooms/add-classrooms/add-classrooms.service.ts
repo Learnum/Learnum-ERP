@@ -23,11 +23,9 @@ export class AddClassroomsService extends BaseService
   insertClassroomData(classroomDetails: ClassroomModel) {
     return this.apiService.postBlob(this.urlInsertClassroomDetails,classroomDetails);
   }
-
   getBranchList() {
     return this.apiService.getData(this.urlgetBranchList);
   }
-
   getClassroomList() {
     return this.apiService.getData(this.urlClassroomdetails);
   }

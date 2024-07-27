@@ -51,7 +51,7 @@ export class AddBranchComponent implements OnInit {
             key: 'BranchId'
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'BranchName',
             props: {
@@ -67,7 +67,7 @@ export class AddBranchComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'Address',
             props: {
@@ -85,7 +85,7 @@ export class AddBranchComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'City',
             props: {
@@ -101,7 +101,7 @@ export class AddBranchComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'State',
             props: {
@@ -118,7 +118,7 @@ export class AddBranchComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'PostalCode',
             props: {
@@ -134,7 +134,7 @@ export class AddBranchComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'select',
             key: 'IsActive',
             props: {
