@@ -39,13 +39,13 @@ export class ContentWriterComponent implements OnInit {
 
     },
     {
-      field: 'contactwriterName',
-      headerName: 'contactwriter Name',
+      field: 'ContentWriterName',
+      headerName: 'ContentWriter Name',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 200
 
     },
     {

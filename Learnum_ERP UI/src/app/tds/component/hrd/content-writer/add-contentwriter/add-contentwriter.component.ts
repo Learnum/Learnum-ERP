@@ -48,19 +48,36 @@ export class AddContentwriterComponent {
 
           {
             className: 'col-md-6',
+            type: 'input',
+            key: 'ContentWriterName',
+            templateOptions: {
+              placeholder: 'Content Writer',
+              type: 'text',
+              label: "Content Writer",
+              required: true,
+              pattern: '^[A-Za-z]+$',
+              title: 'Only characters are allowed',
+             
+            },
+            validation: {
+              messages: {
+                required: 'Name is required',
+                pattern: 'Please enter a valid name ',
+              },
+            },
+          },
+
+          {
+            className: 'col-md-6',
             type: 'select',
             key: 'CourseId',
             templateOptions: {
               placeholder: 'Course Name',
               type: 'text',
-              label: "course Name",
+              label: "Course Name",
               required: true,
               options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName
                 , value: course.CourseId })) : [],
-              // options: [
-              //   { value: 'tally', label: 'tally' },
-              //   { value: 'cpat', label: 'cpat' }
-              //
             },
             },
 
@@ -70,7 +87,7 @@ export class AddContentwriterComponent {
             type: 'select',
             key: 'SubjectId',
             templateOptions: {
-              placeholder: 'subject Name',
+              placeholder: 'Subject Name',
               type: 'subject Name',
               label: "Subject Name",
               required: true,
@@ -82,21 +99,6 @@ export class AddContentwriterComponent {
 
           },
           {
-            className: 'col-md-6',
-            type: 'select',
-            key: 'contactwriterName',
-            templateOptions: {
-              placeholder: 'select',
-              type: 'text',
-              label: "Select Content Writer",
-              required: true,
-              options: [
-                { value: 'john', label: 'John' },
-                { value: 'Tom', label: 'Tom' }
-              ]
-            },
-          },
-          {
             className: 'col-md-4',
             type: 'select',
             key: 'isActive',
@@ -106,8 +108,8 @@ export class AddContentwriterComponent {
               label: "Status",
               required: true,
               options: [
-                { value: 'true', label: 'active' },
-                { value: 'false', label: 'inactive' }
+                { value: 'true', label: 'Active' },
+                { value: 'false', label: 'Inactive' }
               ]
              },
             },
@@ -145,10 +147,12 @@ export class AddContentwriterComponent {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/hrd/content-writer');
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/hrd/content-writer');
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);

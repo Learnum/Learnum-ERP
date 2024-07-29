@@ -17,6 +17,7 @@ export class AddtrainerService extends BaseService {
   private urlgetCourseList: string = "CourseDetails/getAllCourseList";
   private urlgetSubjectList: string = "SubjectDetails/getAllSubjectList";
   private urlgetBatchList: string = "BatchesDetails/getAllBatchesList";
+  private urlGetTrainer: string = "TrainerDetails/getTrainerDetails";
 
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
@@ -48,5 +49,9 @@ export class AddtrainerService extends BaseService {
 
   getBatchList(){
     return this.apiService.getData(this.urlgetBatchList);
+  }
+
+  getTrainerDetails(TrainerId: number) {
+    return this.apiService.getData(this.urlGetTrainer+ '/' + TrainerId);
   }
 }

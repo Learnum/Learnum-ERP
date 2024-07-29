@@ -2,7 +2,7 @@ export class ContentWriterDetailsModel {
   CourseId: number;
   SubjectId: number;
   contentWriterId: number;
-  contactwriterName: string;
+  ContentWriterName: string;
   CourseName: string;
   SubjectName: string;
   isActive: boolean;

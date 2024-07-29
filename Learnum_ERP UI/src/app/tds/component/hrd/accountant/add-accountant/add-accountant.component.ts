@@ -47,27 +47,29 @@ setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
-        // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
 
           {
-            className: 'col-md-4',
-            type: 'select',
+            className: 'col-md-3',
+            type: 'input',
             key: 'accountantName',
             templateOptions: {
               placeholder: 'Enter Accountant Name',
               type: 'text',
               label: "Accountant Name",
               required: true,
-              options: [
-                { value: 'mr', label: 'Mr' },
-                { value: 'ms', label: 'Ms' }
-              ]
-
+              pattern: '^[A-Za-z]+$',
+              title: 'Only characters are allowed',
+            },
+            validation: {
+              messages: {
+                required: 'Name is required',
+                pattern: 'Please enter a valid name ',
+              },
             },
             },
             {
-              className: 'col-md-6',
+              className: 'col-md-3',
               type: 'select',
               key: 'BranchId',
               templateOptions: {
@@ -80,17 +82,17 @@ setParameter() {
   
             },
              {
-                className: 'col-md-4',
+                className: 'col-md-3',
                 type: 'select',
                 key: 'isActive',
                 templateOptions: {
-                  placeholder: 'Enter Status',
+                  placeholder: 'Select Status',
                   type: 'text',
                   label: "Status",
                   required: true,
                   options: [
-                    { value: 'true', label: 'active' },
-                    { value: 'false', label: 'inacative' }
+                    { value: 'true', label: 'Active' },
+                    { value: 'false', label: 'Inactive' }
                   ]
                  },
                 },
@@ -129,10 +131,14 @@ setParameter() {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/hrd/accountant');
+
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/hrd/accountant');
+
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
@@ -142,7 +148,6 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    this.router.navigateByUrl('tds/hrd/accountant');
   }
 
 

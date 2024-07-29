@@ -51,10 +51,18 @@ setParameter() {
             type: 'input',
             key: 'name',
             templateOptions: {
-              placeholder: 'Enter  Name',
+              placeholder: 'Enter Name',
               type: 'text',
               label: "Name",
               required: true,
+              pattern: '^[A-Za-z]+$',
+              title: 'Only characters are allowed',
+            },
+            validation: {
+              messages: {
+                required: 'Name is required',
+                pattern: 'Please enter a valid name ',
+              },
             },
           },
           {
@@ -70,8 +78,9 @@ setParameter() {
             validation: {
               messages: {
                 required: 'Email is required',
-                pattern: 'Please enter a valid Email ',
+                pattern: 'Please enter a valid Email',
               },
+              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
             },
           },
           {
@@ -140,7 +149,7 @@ setParameter() {
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/hrd/worksheet');
+    this.router.navigateByUrl("tds/hrd/daily-work"); 
   }
 
   get f()
@@ -150,13 +159,13 @@ setParameter() {
 
  
   onSubmit(): void {
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   this.insertAddWorksheet();
-    // } else {
-    //   this.alertService.ShowErrorMessage('Please fill in all required fields.');
-    // }
-    this.insertAddWorksheet();
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this.insertAddWorksheet();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
+    
   }
 
   insertAddWorksheet() {
@@ -172,9 +181,11 @@ setParameter() {
         let serviceResponse = result.Value;
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl("tds/hrd/daily-work"); 
         }
         else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl("tds/hrd/daily-work"); 
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
@@ -184,7 +195,7 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     );
-    this.router.navigateByUrl("tds/hrd/daily-work"); 
+    
   }
 
 }

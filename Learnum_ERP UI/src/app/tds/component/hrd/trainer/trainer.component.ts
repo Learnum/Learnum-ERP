@@ -17,25 +17,15 @@ export class TrainerComponent implements OnInit {
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
-    {
-      field: 'TrainerId',
-      headerName: 'SR.NO',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 100
-    },
-    
-    {
-      field: 'BranchName',
-      headerName: 'Branch Name',
-      filter: 'agSetColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 150
-    },
+    // {
+    //   field: 'TrainerId',
+    //   headerName: 'SR.NO',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 100
+    // },
     {
       field: 'TrainerName',
       headerName: 'Trainer name',
@@ -45,6 +35,16 @@ export class TrainerComponent implements OnInit {
       },
       minWidth: 200
     },
+    {
+      field: 'BranchName',
+      headerName: 'Branch Name',
+      filter: 'agSetColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+    },
+    
     {
       field: 'CourseName',
       headerName: ' Course Name',
@@ -99,18 +99,11 @@ export class TrainerComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewCall',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
+      actionPage: 'ViewBranch',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
-    {
-      action: 'edit',
-      actionPage: 'EditCall',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
   ];
 
   constructor(
@@ -148,12 +141,34 @@ export class TrainerComponent implements OnInit {
   }
 
   onActionButton(action: string) {
-    alert(action + ' action button clicked.');
+    alert(action + ' ' + 'action button clicked.');
   }
 
   getAllTrainerDetails() {
     this.addtrainerService.getTrainerList().subscribe((result: any) => {
       this.trainerList = result.Value;
+    });
+  }
+
+  editTrainer(trainerData: any) {
+    const trainerID = trainerData.TrainerId;
+    const index = this.trainerList.findIndex(trainer => trainer.trainerID === trainerID);
+
+    if (index !== -1) {
+      this.openEditForm(trainerData).then((editedTrainerData: any) => {
+        this.trainerList[index] = editedTrainerData;
+        console.log('Edited Trainer:', editedTrainerData);
+      });
+    }
+  }
+
+  openEditForm(trainerData: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const editedTrainerData = { ...trainerData };
+        editedTrainerData.Status = 'Edited';
+        resolve(editedTrainerData);
+      }, 1000);
     });
   }
 }

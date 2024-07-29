@@ -45,21 +45,25 @@ export class AddCounsellorComponent implements OnInit {
         fieldGroup: [
 
           {
-            className: 'col-md-4',
-            type: 'select',
+            className: 'col-md-3',
+            type: 'input',
             key: 'CounsellorName',
             templateOptions: {
-              placeholder: 'Select',
+              placeholder: 'Counsellor Name',
               label: "Counsellor Name",
               required: true,
-              options: [
-                { label: 'Amit', value: 'Amit' },
-                { label: 'Aman', value: 'Aman' }
-              ]
-            }
+              pattern: '^[A-Za-z]+$',
+              title: 'Only characters are allowed',
+              },
+              validation: {
+                messages: {
+                  required: 'Name is required',
+                  pattern: 'Please enter a valid name ',
+                },
+              },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
@@ -72,17 +76,17 @@ export class AddCounsellorComponent implements OnInit {
 
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'isActive',
             templateOptions: {
-              placeholder: 'Enter Status',
+              placeholder: 'Select Status',
               type: 'text',
               label: "Status",
               required: true,
               options: [
-                { value: 'true', label: 'active' },
-                { value: 'false', label: 'inacative' }
+                { value: 'true', label: 'Active' },
+                { value: 'false', label: 'Inactive' }
               ]
              },
             },
@@ -100,15 +104,15 @@ export class AddCounsellorComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.insertBranchCounsellor();
+   // this.insertBranchCounsellor();
 
-  //   this.form.markAllAsTouched();
-  //   if (this.form.valid) {
-  //  this.insertBranchCounsellor();
-  //   }
-  //   else {
-  //     this.alertService.ShowErrorMessage('Please fill in all required fields.');
-  //   }
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+   this.insertBranchCounsellor();
+    }
+    else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
   }
 
   getBranchDetails() {
@@ -135,10 +139,12 @@ export class AddCounsellorComponent implements OnInit {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/hrd/counsellor');
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/hrd/counsellor');
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
@@ -148,6 +154,6 @@ export class AddCounsellorComponent implements OnInit {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    this.router.navigateByUrl('tds/hrd/counsellor');
+    
   }
 }

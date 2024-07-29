@@ -3,7 +3,7 @@ export class BirthdayDetailsModel  {
     name: string;
     email: string;
     role: string;
-    date: string | null;
+    date: string;
     day: string;
     month: string;
     isActive: boolean;

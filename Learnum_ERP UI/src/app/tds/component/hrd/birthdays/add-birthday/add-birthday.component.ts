@@ -49,7 +49,7 @@ setParameter() {
 
         fieldGroup: [
             {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'Name',
             templateOptions: {
@@ -57,32 +57,41 @@ setParameter() {
               type: 'text',
               label: "Name",
               required: true,
+              pattern: '^[A-Za-z]+$',
+              title: 'Only characters are allowed',
+            },
+            validation: {
+              messages: {
+                required: 'Name is required',
+                pattern: 'Please enter a valid name ',
+              },
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
-            key: 'Email',
+            key: 'email',
             props: {
-              placeholder: 'Enter Email',
+              placeholder: 'Email',
               type: 'text',
-              label: "Email",
+              label: 'Email',
               required: true,
             },
             validation: {
               messages: {
                 required: 'Email is required',
-                pattern: 'Please enter a valid Email ',
+                pattern: 'Please enter a valid Email',
               },
+              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
             },
           },
 
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'Role',
             props: {
-              placeholder: 'Enter Role',
+              placeholder: 'Select Role',
               type: 'text',
               label: "Role",
               required: true,
@@ -97,10 +106,10 @@ setParameter() {
                 pattern: 'Please enter a valid Role',
               },
             },
-          }
-          ,
+          },
+          
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'date',
             templateOptions: {
@@ -119,7 +128,7 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key:'Day',
             props: {
@@ -130,7 +139,7 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'Month',
             props: {
@@ -141,14 +150,13 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'Status',
             props: {
-              placeholder: 'status',
-              
+              placeholder: 'Select Status',
               type: 'text',
-              label: "Status",
+              label: "Select Status",
               required: true,
               options: [
                 { value: 'true', label: 'Active' },
@@ -193,9 +201,13 @@ setParameter() {
         let serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-        } else if (serviceResponse == ResponseCode.Update) {
+          this.router.navigateByUrl('tds/hrd/birthdays');
+        }
+         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-        } else {
+          this.router.navigateByUrl('tds/hrd/birthdays');
+        } 
+        else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
       },
@@ -203,7 +215,7 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     );
-    this.router.navigateByUrl('tds/hrd/birthdays');
+    
   }
 
 }
