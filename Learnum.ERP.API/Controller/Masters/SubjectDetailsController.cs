@@ -52,5 +52,21 @@ namespace Learnum.ERP.API.Controller
             }
             return NotFound("No record found");
         }
+
+        [HttpGet("getSubjectDetails/{SubjectId}")]
+        public async Task<IActionResult> GetSubjectDetails(long? SubjectId)
+        {
+            if (SubjectId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await subjectDetailsRepository.GetSubjectDetails(SubjectId);
+            return Ok(result);
+        }
     }
 }

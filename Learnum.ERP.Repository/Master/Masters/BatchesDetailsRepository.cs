@@ -20,6 +20,7 @@ namespace Learnum.ERP.Repository.Master
       //  Task<ResponseCode> InsertBatchesDetails(BatchesDetailsModel batchesDetailsModel);
         Task<List<BatchesDetailsResponseModel>> GetBatchesDetailsList();
         Task<ResponseCode> InsertBatchesDetails(BatchDetailsPayload batchesDetailsReqModel);
+        Task<Tuple<BatchesDetailsModel?, ResponseCode>> GetBatchDetails(long? BatchId);
     }
     public class BatchesDetailsRepository : BaseRepository, IBatchesDetailsRepository
     {
@@ -51,5 +52,18 @@ namespace Learnum.ERP.Repository.Master
             }
         }
 
+
+        public async Task<Tuple<BatchesDetailsModel?, ResponseCode>> GetBatchDetails(long? BatchId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@BatchId", BatchId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<BatchesDetailsModel?>("PROC_GetBatchesDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<BatchesDetailsModel?, ResponseCode>(result, responseCode));
+            }
+        }
     }
 }

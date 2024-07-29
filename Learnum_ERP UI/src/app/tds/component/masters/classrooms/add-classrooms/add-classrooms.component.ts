@@ -36,19 +36,20 @@ constructor(
 
   ngOnInit(): void {
     this.setParameter();
-    this.getBranchDetails();
+   this.getBranchDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.ClassroomId) {
+      this.getClassroomDetails(this.editData.ClassroomId);
+    }
   }
-
-  reset() {
-    throw new Error('Method not implemented.');
-  }
-
   setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
-
+          {
+            key: 'classroomId',
+          },
           {
             className: 'col-md-3',
             type: 'select',
@@ -60,17 +61,23 @@ constructor(
               required: true,
               options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
             },
+            validation: {
+              messages: {
+                required: 'Branch Name is required',
 
+              },
+            },
           },
           {
             className: 'col-md-3',
             type: 'input',
-            key: 'classroomName',
+            key: 'ClassroomName',
             props: {
               placeholder: 'Classroom Name',
               type: 'text',
               label: "Classroom Name",
               required: true,
+               pattern: '^[A-Za-z]+$',
               // options: this.classroomDetails ? this.classroomDetails.map(classroom => ({ label: classroom.classroomName, value: classroom.classroomId })) : [],
             
             },
@@ -89,13 +96,13 @@ constructor(
               placeholder: 'Student Capacity',
               required: true,
               type: 'text',
+              pattern: '^[0-9]+$',
               label: "Student Capacity",
-
             },
 
             validation: {
               messages: {
-                required: 'Student Capacity* is required',
+                required: 'Student Capacity is required',
 
               },
             },
@@ -103,7 +110,7 @@ constructor(
           {
             className: 'col-md-3',
             type: 'select',
-            key: 'isActive',
+            key: 'IsActive',
             props: {
               placeholder: 'Classroom Status',
               type: 'text',
@@ -130,11 +137,16 @@ constructor(
   onCancleClick() {
     this.router.navigateByUrl('tds/masters/classrooms');
   }
-
+  onResetClick() {
+    this.form.reset();
+  }
   onSubmit() {
-    // if (this.form.valid) {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
       this.insertClassroom();
-    // }
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
   }
 
   insertClassroom() {
@@ -142,7 +154,7 @@ constructor(
     this.classroomDetails.addedDate = new Date();
     this.classroomDetails.updatedBy = 1;
     this.classroomDetails.updatedDate = new Date();
-    this.classroomDetails.classroomId = 0;
+    //this.classroomDetails.classroomId = 0;
 
     this.addclassroomService.insertClassroomData(this.classroomDetails).subscribe(
       (result: any) => {
@@ -161,8 +173,6 @@ constructor(
     );
     this.router.navigateByUrl('tds/masters/classrooms');
   }
-
-
   getBranchDetails() {
     this.addclassroomService.getBranchList().subscribe(
       (data: any) => {
@@ -171,6 +181,21 @@ constructor(
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getClassroomDetails(ClassroomId: number) {
+    this.addclassroomService.getClassroomDetails(ClassroomId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.classroomDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for ClassroomId: ' + ClassroomId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving classroom details:', error);
+
       }
     );
   }

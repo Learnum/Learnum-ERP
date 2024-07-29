@@ -50,7 +50,7 @@ export class AddCoursesComponent implements OnInit {
             key: 'CourseId',
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'CourseName',
             templateOptions: {
@@ -58,12 +58,12 @@ export class AddCoursesComponent implements OnInit {
               type: 'text',
               label: "CoursesName",
               required: true,
-
+              pattern: '^[A-Za-z]+$',
             },
 
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'Description',
             props: {
@@ -71,11 +71,11 @@ export class AddCoursesComponent implements OnInit {
               type: 'text',
               label: "Description",
               required: true,
-
+              pattern: '^[A-Za-z]+$',
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'IsActive',
             props: {
@@ -94,7 +94,7 @@ export class AddCoursesComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-1',
+            className: 'col-md-3',
             type: 'file',
             key: 'file',
             props: {

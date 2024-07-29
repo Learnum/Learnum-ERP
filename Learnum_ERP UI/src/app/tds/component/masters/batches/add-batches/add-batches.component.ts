@@ -27,10 +27,10 @@ export class AddBatchesComponent implements OnInit {
   coOwnerFields: any;
   batchDetails: BatchesDetailsModel = new BatchesDetailsModel();
   batchesDetailsReq: BatchesDetailsReqModel = new BatchesDetailsReqModel();
-  classroomDetails:any;
+  classroomDetails: any;
   courseDetails: any;
 
-  
+
 
   installmentForm = new FormGroup({});
   // installmentModel: any = {
@@ -58,6 +58,10 @@ export class AddBatchesComponent implements OnInit {
     this.getBranchDetails();
     this.getClassroomDetails();
     this.getCourseDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.BatchId) {
+      this.getBatchDetails(this.editData.BatchId);
+    }
   }
 
 
@@ -67,7 +71,10 @@ export class AddBatchesComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-4',
+            key: 'BatchId',
+          },
+          {
+            className: 'col-md-3',
             type: 'input',
             key: 'BatchName',
             templateOptions: {
@@ -78,7 +85,7 @@ export class AddBatchesComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
@@ -91,17 +98,18 @@ export class AddBatchesComponent implements OnInit {
 
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
-            key: 'classroomId',
+            key: 'ClassroomId',
             props: {
               placeholder: 'Classroom Name',
               type: 'text',
               label: "Classroom Name",
               required: true,
-              options: this.classroomDetails ? this.classroomDetails.map(classroom => ({ label: classroom.ClassroomName, value: classroom.ClassRoomId
+              options: this.classroomDetails ? this.classroomDetails.map(classroom => ({
+                label: classroom.ClassroomName, value: classroom.ClassroomId
               })) : [],
-            
+
             },
             validation: {
               messages: {
@@ -111,7 +119,7 @@ export class AddBatchesComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'CourseId',
             templateOptions: {
@@ -123,7 +131,7 @@ export class AddBatchesComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'CourseFeesInstallment',
             templateOptions: {
@@ -133,7 +141,7 @@ export class AddBatchesComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'OneTimeCourseFees',
             templateOptions: {
@@ -141,6 +149,7 @@ export class AddBatchesComponent implements OnInit {
               required: true,
               type: 'text',
               label: "One Time Course Fees",
+              pattern: '^[0-9]+$',
             },
             validation: {
               messages: {
@@ -149,7 +158,7 @@ export class AddBatchesComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'StartOn',
             templateOptions: {
@@ -160,7 +169,7 @@ export class AddBatchesComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'EndOn',
             templateOptions: {
@@ -171,9 +180,9 @@ export class AddBatchesComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
-            key: 'BatchStatus',
+            key: 'IsActive',
             templateOptions: {
               placeholder: 'Enter Batch Status',
               required: true,
@@ -187,7 +196,7 @@ export class AddBatchesComponent implements OnInit {
         ],
       },
     ];
-  
+
     this.installmentFields = [
       {
         key: 'Installments',
@@ -248,6 +257,9 @@ export class AddBatchesComponent implements OnInit {
   onCancelClick() {
     this.router.navigateByUrl('tds/masters/batches');
   }
+  onResetClick() {
+    this.form.reset();
+  }
 
   get f() {
     return this.form.controls;
@@ -284,8 +296,6 @@ export class AddBatchesComponent implements OnInit {
       }
     );
   }
-
-
   calculateInstallment() {
     if (this.installmentModel.Installments.length > 0) {
       let totalInstallments = 0;
@@ -296,13 +306,11 @@ export class AddBatchesComponent implements OnInit {
       this.form.get('CourseFeesInstallment').setValue(totalInstallments);
     }
   }
-
-  
   getBranchDetails() {
     this.addBatchService.getBranchList().subscribe(
       (data: any) => {
         this.branchDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -314,7 +322,7 @@ export class AddBatchesComponent implements OnInit {
     this.addBatchService.getClassroomList().subscribe(
       (data: any) => {
         this.classroomDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -326,10 +334,25 @@ export class AddBatchesComponent implements OnInit {
     this.addBatchService.getCourseList().subscribe(
       (data: any) => {
         this.courseDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getBatchDetails(BatchId: number) {
+    this.addBatchService.getBatchDetails(BatchId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.batchDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for BatchId: ' + BatchId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving batch details:', error);
+
       }
     );
   }

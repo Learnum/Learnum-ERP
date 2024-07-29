@@ -8,15 +8,11 @@ namespace Learnum.ERP.Shared.Entities.Models.ViewModel
 {
     public class ClassroomDetailsResponseModel : BaseModel
     {
-        public long ClassRoomId { get; set; }
+        public long ClassroomId { get; set; }
         public long BranchId { get; set; }
-
         public string BranchName { get; set; }
-
         public string ClassroomName { get; set; }
-
-        public string StudentCapacity { get; set; }
-
+        public long StudentCapacity { get; set; }
         public bool IsActive { get; set; }
     }
 }
