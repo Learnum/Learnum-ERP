@@ -22,7 +22,7 @@ throw new Error('Method not implemented.');
   declaredTableColumns: TableColumn[] = [
     {
       field: 'Name',
-      headerName: 'name',
+      headerName: 'Name',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -31,7 +31,7 @@ throw new Error('Method not implemented.');
     },
     {
       field: 'Email',
-      headerName: 'email',
+      headerName: 'Email',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -41,7 +41,7 @@ throw new Error('Method not implemented.');
     },
     {
       field: 'Date',
-      headerName: 'date',
+      headerName: 'Date',
       filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -64,7 +64,7 @@ throw new Error('Method not implemented.');
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
     {
       field: 'addedTime',
@@ -78,7 +78,7 @@ throw new Error('Method not implemented.');
       headerName: 'Modified By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
     {
       field: 'modifiedTime',

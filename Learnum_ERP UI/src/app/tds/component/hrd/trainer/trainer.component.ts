@@ -17,14 +17,23 @@ export class TrainerComponent implements OnInit {
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
+    // {
+    //   field: 'TrainerId',
+    //   headerName: 'SR.NO',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 100
+    // },
     {
-      field: 'TrainerId',
-      headerName: 'SR.NO',
+      field: 'TrainerName',
+      headerName: 'Trainer name',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 100
+      minWidth: 200
     },
     {
       field: 'BranchName',
@@ -35,15 +44,7 @@ export class TrainerComponent implements OnInit {
       },
       minWidth: 150
     },
-    {
-      field: 'TrainerName',
-      headerName: 'Trainer name',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 200
-    },
+    
     {
       field: 'CourseName',
       headerName: ' Course Name',
@@ -140,7 +141,7 @@ export class TrainerComponent implements OnInit {
   }
 
   onActionButton(action: string) {
-    alert(action + ' action button clicked.');
+    alert(action + ' ' + 'action button clicked.');
   }
 
   getAllTrainerDetails() {

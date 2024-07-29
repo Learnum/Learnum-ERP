@@ -13,7 +13,7 @@ namespace Learnum.ERP.Shared.Entities.Models.ViewModel.HRDModel
 
         public long ContentWriterId { get; set; }
 
-        public string contactwriterName { get; set; }
+        public string ContentWriterName { get; set; }
         public string CourseName { get; set; }
         public string SubjectName { get; set; }
 

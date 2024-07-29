@@ -13,7 +13,7 @@ namespace Learnum.ERP.Shared.Entities.Models
 
         public long ContentWriterId { get; set; }
 
-        public string contactwriterName { get; set; }
+        public string ContentWriterName { get; set; }
        
         public bool? IsActive { get; set; }
     }

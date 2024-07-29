@@ -19,12 +19,12 @@ export class CounsellorComponent implements OnInit {
   declaredTableColumns: TableColumn[] = [
     {
       field: 'CounsellorName',
-      headerName: 'CounsellorName',
+      headerName: 'Counsellor Name',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 200
 
     },
     {

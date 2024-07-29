@@ -48,29 +48,32 @@ setParameter() {
 
           {
             className: 'col-md-3',
-            type: 'select',
+            type: 'input',
             key: 'BranchManagerName',
             templateOptions: {
-              placeholder: 'select',
+              placeholder: 'Enter Branch Manager',
               type: 'text',
               label: "Branch Manager Name",
               required: true,
-              options: [
-                { value: 'mr ganesh Agre', label: 'mr ganesh agre' },
-                { value: 'raj', label: 'raj' }
-              ],
-          
+              pattern: '^[A-Za-z]+$',
+              title: 'Only characters are allowed',
+            },
+            validation: {
+              messages: {
+                required: 'Name is required',
+                pattern: 'Please enter a valid name ',
+              },
             },
             },
             {
-              className: 'col-md-6',
+              className: 'col-md-3',
               type: 'select',
               key: 'BranchId',
               templateOptions: {
                 placeholder: 'Branch Name',
                 type: 'text',
                 label: "Branch Name",
-                //required: true,
+                required: true,
                 options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName
                   , value: branch.BranchId
                 })) : [],
@@ -78,17 +81,17 @@ setParameter() {
   
             },
             {
-              className: 'col-md-4',
+              className: 'col-md-3',
               type: 'select',
               key: 'isActive',
               templateOptions: {
-                placeholder: 'Enter Status',
+                placeholder: 'Select Status',
                 type: 'text',
                 label: "Status",
                 required: true,
                 options: [
-                  { value: 'true', label: 'active' },
-                  { value: 'false', label: 'inacative' }
+                  { value: 'true', label: 'Active' },
+                  { value: 'false', label: 'Inactive' }
                 ]
                },
               }, 
@@ -98,7 +101,7 @@ setParameter() {
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/tds-return/branch-manager');
+    this.router.navigateByUrl('tds/hrd/branch-manager');
   }
 
   get f()
@@ -127,10 +130,12 @@ setParameter() {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/hrd/branch-manager');
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/hrd/branch-manager');
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
@@ -140,7 +145,7 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    this.router.navigateByUrl('tds/hrd/branch-manager');
+    
   }
 
 

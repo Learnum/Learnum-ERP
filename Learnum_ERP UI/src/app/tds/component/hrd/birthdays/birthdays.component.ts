@@ -38,7 +38,7 @@ export class BirthdaysComponent implements OnInit {
 
     },
     {
-      field: 'DateOfBirth',
+      field: 'date',
       headerName: 'date',
       filter: 'agSetColumnFilter',
       filterParams: {

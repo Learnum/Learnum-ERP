@@ -26,9 +26,9 @@ export class AddTrainerComponent implements OnInit {
   branchDetails: any;
   courseDetails: any;
   subjectDetails: any;
-  batchDetails:any;
+  batchDetails: any;
 
- 
+
   constructor(
     private addtrainerService: AddtrainerService,
     private router: Router,
@@ -45,19 +45,39 @@ export class AddTrainerComponent implements OnInit {
     this.getBranchDetails();
     this.getBatchDetails();
     this.setParameter();
-   
+
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.TrainerId) {
-      this. getTrainerDetails(this.editData.TrainerId);
+      this.getTrainerDetails(this.editData.TrainerId);
     }
   }
 
-setParameter() {
+  setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
         // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
+
+          {
+            className: 'col-md-3',
+            type: 'input',
+            key: 'trainerName',
+            props: {
+              placeholder: 'Trainer Name',
+              required: true,
+              type: 'text',
+              label: "Trainer Name",
+              pattern: '^[A-Za-z]+$',
+              title: 'Only characters are allowed',
+            },
+            validation: {
+              messages: {
+                required: 'Name is required',
+                pattern: 'Please enter a valid name ',
+              },
+            },
+          },
 
           {
             className: 'col-md-3',
@@ -68,11 +88,13 @@ setParameter() {
               type: 'text',
               label: "Course Name",
               required: true,
-              options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName
-                , value: course.CourseId })) : [],
-             
+              options: this.courseDetails ? this.courseDetails.map(course => ({
+                label: course.CourseName
+                , value: course.CourseId
+              })) : [],
+
             },
-            },
+          },
           {
             className: 'col-md-3',
             type: 'select',
@@ -82,10 +104,11 @@ setParameter() {
               type: 'Text',
               label: "Subject Name",
               required: true,
-              options: this.subjectDetails ? this.subjectDetails.map(subject => ({ label: subject.SubjectName
+              options: this.subjectDetails ? this.subjectDetails.map(subject => ({
+                label: subject.SubjectName
                 , value: subject.SubjectId
               })) : [],
-              
+
             },
 
           },
@@ -103,47 +126,29 @@ setParameter() {
               options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
             },
 
-          }, 
+          },
           {
             className: 'col-md-3',
             type: 'select',
-            key: 'BatchTd',
+            key: 'BatchId',
             templateOptions: {
               placeholder: 'Select Batch',
-              //required: true,
+              required: true,
               type: 'text',
               label: "Batch Name",
-              options: this.batchDetails ? this.batchDetails.map(batch => ({ label: batch.BatchName
-                , value: batch.BatchTd
-              })) : [],
-             
-              },
+              options: this.batchDetails ? this.batchDetails.map(batch => ({
+                label: batch.BatchName
+                , value: batch.BatchId })) : [],
+
+            },
             validation: {
               messages: {
                 required: 'This field is required',
               },
             },
           },
-          {
-            className: 'col-md-3',
-            type: 'input',
-            key: 'trainerName',
-            props: {
-              placeholder: 'Trainer Name',
-              required: true,
-              type: 'text',
-              label: "Trainer Name",
-              pattern: '^[A-Za-z]+$',
-              title: 'Only characters are allowed',
-          },
-          validation: {
-            messages: {
-              required: 'Name is required',
-              pattern: 'Please enter a valid name ',
-            },
-          },
-          },
-          
+         ,
+
           {
             className: 'col-md-3',
             type: 'select',
@@ -157,28 +162,27 @@ setParameter() {
                 { value: 'true', label: 'Active' },
                 { value: 'false', label: 'Inactive' }
               ]
-             },
             },
-         
+          },
+
         ],
       },
     ]
   }
 
-  
+
   onCancel() {
     this.router.navigateByUrl('tds/hrd/trainer')
-    }
+  }
 
-  get f()
-  {
+  get f() {
     return this.form.controls;
   }
 
-  onSubmit():void {
+  onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-    
+
       this.insertTrainer();
     }
     else {
@@ -198,28 +202,31 @@ setParameter() {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/hrd/trainer');
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/hrd/trainer');
+
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
+
       },
       (error: any) => {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    this.router.navigateByUrl('tds/hrd/trainer');
   }
 
- 
+
   getCourseDetails() {
     this.addtrainerService.getcourseList().subscribe(
       (data: any) => {
         this.courseDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -231,7 +238,7 @@ setParameter() {
     this.addtrainerService.getsubjectList().subscribe(
       (data: any) => {
         this.subjectDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -243,7 +250,7 @@ setParameter() {
     this.addtrainerService.getBranchList().subscribe(
       (data: any) => {
         this.branchDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -255,7 +262,7 @@ setParameter() {
     this.addtrainerService.getBatchList().subscribe(
       (data: any) => {
         this.batchDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -268,7 +275,7 @@ setParameter() {
       (result: any) => {
         if (result && result.Value) {
           this.branchDetails = result.Value.Item1;
-          
+
           this.setParameter();
           console.error('No data found for BranchId: ' + TrainerId);
         }

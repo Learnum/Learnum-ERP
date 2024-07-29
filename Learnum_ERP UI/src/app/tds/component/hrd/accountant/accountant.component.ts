@@ -18,16 +18,16 @@ export class AccountantComponent implements OnInit {
 
   declaredTableColumns: TableColumn[] = [
 
-    {
-      field: 'BranchAccountantId',
-      headerName: 'SR.NO',
-      filter: 'agSetColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 200
+    // {
+    //   field: 'BranchAccountantId',
+    //   headerName: 'SR.NO',
+    //   filter: 'agSetColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 200
 
-    },
+    // },
     
     {
       field: 'AccountantName',
