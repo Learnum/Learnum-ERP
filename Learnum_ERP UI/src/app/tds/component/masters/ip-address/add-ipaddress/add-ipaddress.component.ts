@@ -21,7 +21,7 @@ export class AddIpaddressComponent implements OnInit {
   options: FormlyFormOptions = {};
   editData: any;
   formBuilder: any;
-  
+
   constructor(
     private router: Router,
     private addipaddressService: AddIpaddressService,
@@ -49,24 +49,24 @@ export class AddIpaddressComponent implements OnInit {
             key: 'LocationId'
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'Location',
             templateOptions: {
-              placeholder: 'Enter Location',
+              placeholder: 'Enter Your Location',
               type: 'text',
               label: "Location",
               required: true,
-
+              pattern: '^[A-Za-z]+$'
             },
             validation: {
               messages: {
-                required: 'Location  is required',
+                required: 'location is required',
               },
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'LocationIP',
             props: {
@@ -74,17 +74,17 @@ export class AddIpaddressComponent implements OnInit {
               type: 'text',
               label: "Location IP",
               required: true,
-
+              // pattern: '^[0-9]+$',
             },
             validation: {
               messages: {
-                required: 'Location IP is required',
+                required: 'location IP is required',
 
               },
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'IsActive',
             props: {
@@ -114,7 +114,7 @@ export class AddIpaddressComponent implements OnInit {
     this.form.reset();
   }
   onSubmit(): void {
-   this.form.markAllAsTouched();
+    this.form.markAllAsTouched();
     if (this.form.valid) {
       this.AddIPAddress();
     } else {
@@ -163,5 +163,5 @@ export class AddIpaddressComponent implements OnInit {
       }
     );
   }
-  
+
 }

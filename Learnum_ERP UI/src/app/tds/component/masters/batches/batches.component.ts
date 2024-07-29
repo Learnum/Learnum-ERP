@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AddBranchService } from '../branches/add-branch/add-branch.service';
@@ -15,7 +15,7 @@ import { AddBatchesService } from './add-batches/add-batches.service';
 })
 export class BatchesComponent implements OnInit {
   BatchDetails: any[] = [];
-  form: FormGroup;
+  
 
   declaredTableColumns: TableColumn[] = [
    
@@ -92,18 +92,11 @@ export class BatchesComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewCall',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
+      actionPage: 'ViewBranch',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
-    {
-      action: 'edit',
-      actionPage: 'EditCall',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
   ];
   getEmployeeList: any;
 
@@ -118,58 +111,77 @@ export class BatchesComponent implements OnInit {
     private messageService: MessageService,
     private alertService: AlertService,
     private addBatchesService : AddBatchesService ,
-    private formBuilder: FormBuilder) {
-    {
-      this.form = this.formBuilder.group({
-      // Add more form controls as needed
-      });
-    }
-  }
-  selectBranch(branch: any) {
-
+    ) {
+   
   }
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'branchID': data.row.branchID
+      'BatchId': data.row.BatchId
     }
-    this.router.navigate(['/tds/masters/add-branch'], { queryParams: data1 });
+    this.router.navigate(['tds/masters/batches/add-batches'], { queryParams: data1 });
   }
-
-
-
+  selectBatch($event: any) 
+  { 
+    throw new Error('Method not implemented.'); 
+  }
   ActionColumn: any[] = [
     {
       action: 'view',
-      actionPage: 'ViewBranch',
+      actionPage: 'ViewBatch',
       actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
   ];
   
-  onAddBatch(branch?: any) {
-    // let navigationExtras: NavigationExtras = {};
-    // if (branch) {
-    //   navigationExtras = {
-    //     state: {
-    //       branchData: branch
-    //     }
-    //   };
-    // }
-    this.router.navigate(['tds/masters/batches/add-batches']);
-  }
+  onAddBatch(batch?: any) {
 
+    let navigationExtras: NavigationExtras = {};
+    if (batch) {
+      navigationExtras = {
+        state: {
+          batchData: batch
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/masters/batches/add-batches')
+  }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
-
-
   getAllBatchDetails() {
     this.addBatchesService.getBatchList().subscribe((result: any) => {
       this.BatchDetails = result.Value;
       let BatchDetails = result.Value;
     })
+  }
+  editBatch(BatchData: any) {
+    const batchId = BatchData.batchId;
+    const index = this.BatchDetails.findIndex(batch => batch.batchId === batchId);
+
+    if (index !== -1) {
+
+
+      this.openEditForm(BatchData).then((editedBatchData: any) => {
+
+        this.BatchDetails[index] = editedBatchData;
+        console.log('Edited Branch:', editedBatchData);
+
+      });
+    }
+  }
+  openEditForm(batchData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedBatchData = { ...batchData };
+
+        editedBatchData.Status = 'Edited';
+        resolve(editedBatchData);
+      }, 1000);
+    });
   }
 
 }

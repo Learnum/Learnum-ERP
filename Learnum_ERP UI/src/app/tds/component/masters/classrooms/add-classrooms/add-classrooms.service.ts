@@ -14,7 +14,7 @@ export class AddClassroomsService extends BaseService
   private urlInsertClassroomDetails: string = "ClassroomDetails/InsertClassroomDetails";
   private urlClassroomdetails: string = "ClassroomDetails/getAllClassroomList";
   private urlgetBranchList: string = "BranchDetails/getAllBranchList";
-
+  private urlGetClassroomList: string = "ClassroomDetails/getClassroomDetails";
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
@@ -29,5 +29,9 @@ export class AddClassroomsService extends BaseService
   getClassroomList() {
     return this.apiService.getData(this.urlClassroomdetails);
   }
+  getClassroomDetails(classroomId: number) {
+    return this.apiService.getData(this.urlGetClassroomList + '/' + classroomId);
+  }
+
 
 }

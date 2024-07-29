@@ -51,23 +51,25 @@ export class AddBranchComponent implements OnInit {
             key: 'BranchId'
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-2',
             type: 'input',
             key: 'BranchName',
             props: {
               placeholder: 'Enter Branch Name',
               type: 'text',
-              label: "Branch Name",
+              label: 'Branch Name',
               required: true,
+              pattern: '^[A-Za-z]+$', 
             },
             validation: {
               messages: {
                 required: 'Branch Name is required',
+                // pattern: 'Branch Name should only contain letters',
               },
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-2',
             type: 'input',
             key: 'Address',
             props: {
@@ -75,7 +77,7 @@ export class AddBranchComponent implements OnInit {
               type: 'text',
               label: "Address",
               required: true,
-
+              pattern: '^[A-Za-z]+$'
             },
             validation: {
               messages: {
@@ -85,7 +87,7 @@ export class AddBranchComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-2',
             type: 'input',
             key: 'City',
             props: {
@@ -93,6 +95,7 @@ export class AddBranchComponent implements OnInit {
               required: true,
               type: 'text',
               label: "City",
+              pattern: '^[A-Za-z]+$'
             },
             validation: {
               messages: {
@@ -101,7 +104,7 @@ export class AddBranchComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-2',
             type: 'input',
             key: 'State',
             props: {
@@ -110,6 +113,7 @@ export class AddBranchComponent implements OnInit {
               valueProp: 'value',
               labelProp: 'label',
               label: "State",
+              pattern: '^[A-Za-z]+$'
             },
             validation: {
               messages: {
@@ -118,7 +122,7 @@ export class AddBranchComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-2',
             type: 'input',
             key: 'PostalCode',
             props: {
@@ -126,6 +130,7 @@ export class AddBranchComponent implements OnInit {
               required: true,
               type: 'text',
               label: "Postal Code",
+               pattern: '^[0-9]+$'
             },
             validation: {
               messages: {
@@ -134,7 +139,7 @@ export class AddBranchComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-2',
             type: 'select',
             key: 'IsActive',
             props: {
