@@ -26,7 +26,6 @@ export class TrainerComponent implements OnInit {
       },
       minWidth: 100
     },
-    
     {
       field: 'BranchName',
       headerName: 'Branch Name',
@@ -99,18 +98,11 @@ export class TrainerComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewCall',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
+      actionPage: 'ViewBranch',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
-    {
-      action: 'edit',
-      actionPage: 'EditCall',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
   ];
 
   constructor(
@@ -154,6 +146,28 @@ export class TrainerComponent implements OnInit {
   getAllTrainerDetails() {
     this.addtrainerService.getTrainerList().subscribe((result: any) => {
       this.trainerList = result.Value;
+    });
+  }
+
+  editTrainer(trainerData: any) {
+    const trainerID = trainerData.TrainerId;
+    const index = this.trainerList.findIndex(trainer => trainer.trainerID === trainerID);
+
+    if (index !== -1) {
+      this.openEditForm(trainerData).then((editedTrainerData: any) => {
+        this.trainerList[index] = editedTrainerData;
+        console.log('Edited Trainer:', editedTrainerData);
+      });
+    }
+  }
+
+  openEditForm(trainerData: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const editedTrainerData = { ...trainerData };
+        editedTrainerData.Status = 'Edited';
+        resolve(editedTrainerData);
+      }, 1000);
     });
   }
 }

@@ -39,12 +39,17 @@ export class AddTrainerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.setParameter();
+
     this.getCourseDetails();
     this.getSubjectDetails();
     this.getBranchDetails();
     this.getBatchDetails();
-
+    this.setParameter();
+   
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.TrainerId) {
+      this. getTrainerDetails(this.editData.TrainerId);
+    }
   }
 
 setParameter() {
@@ -55,13 +60,13 @@ setParameter() {
         fieldGroup: [
 
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'CourseId',
             templateOptions: {
-              placeholder: 'Course Name',
+              placeholder: 'Select Course',
               type: 'text',
-              label: "course Name",
+              label: "Course Name",
               required: true,
               options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName
                 , value: course.CourseId })) : [],
@@ -69,12 +74,12 @@ setParameter() {
             },
             },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'SubjectId',
             templateOptions: {
-              placeholder: 'subject Name',
-              type: 'subject Name',
+              placeholder: ' Select Subject',
+              type: 'Text',
               label: "Subject Name",
               required: true,
               options: this.subjectDetails ? this.subjectDetails.map(subject => ({ label: subject.SubjectName
@@ -87,11 +92,11 @@ setParameter() {
 
 
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
-              placeholder: 'Branch Name',
+              placeholder: 'Select Branch ',
               type: 'text',
               label: "Branch Name",
               required: true,
@@ -100,21 +105,18 @@ setParameter() {
 
           }, 
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
-            key: 'BatchName',
+            key: 'BatchTd',
             templateOptions: {
-              placeholder: 'Enter batch Name',
-              required: true,
-              type: ' Batch Name',
+              placeholder: 'Select Batch',
+              //required: true,
+              type: 'text',
               label: "Batch Name",
-              // options: this.batchDetails ? this.batchDetails.map(batch => ({ label: batch.BatchName
-              //   , value: batch.BatchId
-              // })) : [],
-              options: [
-                { label: 'Batch-1', value: 'Batch-1' },
-                { label: 'Batch-2', value: 'Batch-2' }
-              ],
+              options: this.batchDetails ? this.batchDetails.map(batch => ({ label: batch.BatchName
+                , value: batch.BatchTd
+              })) : [],
+             
               },
             validation: {
               messages: {
@@ -123,40 +125,37 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-6',
-            type: 'select',
+            className: 'col-md-3',
+            type: 'input',
             key: 'trainerName',
             props: {
               placeholder: 'Trainer Name',
               required: true,
               type: 'text',
               label: "Trainer Name",
-              options: [
-                { label: 'Trainer-1', value: 'Trainer-1' },
-                { label: 'Trainer-2', value: 'Trainer-2' }
-              ],
-             },
-            
-            validation: {
-              messages: {
-                required: 'This field is required',
-                tds: 'Please enter a Trainer Name',
-              },
+              pattern: '^[A-Za-z]+$',
+              title: 'Only characters are allowed',
+          },
+          validation: {
+            messages: {
+              required: 'Name is required',
+              pattern: 'Please enter a valid name ',
             },
+          },
           },
           
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'isActive',
             templateOptions: {
-              placeholder: 'Enter Status',
+              placeholder: 'Select Status',
               type: 'text',
               label: "Status",
               required: true,
               options: [
-                { value: 'true', label: 'active' },
-                { value: 'false', label: 'inacative' }
+                { value: 'true', label: 'Active' },
+                { value: 'false', label: 'Inactive' }
               ]
              },
             },
@@ -260,6 +259,23 @@ setParameter() {
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  getTrainerDetails(TrainerId: number) {
+    this.addtrainerService.getTrainerDetails(TrainerId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.branchDetails = result.Value.Item1;
+          
+          this.setParameter();
+          console.error('No data found for BranchId: ' + TrainerId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving employee details:', error);
+
       }
     );
   }

@@ -54,6 +54,23 @@ namespace Learnum.ERP.API.Controller.Masters
             }
             return NotFound("No record found");
         }
+
+
+        [HttpGet("getTrainerDetails/{TrainerId}")]
+        public async Task<IActionResult> GetBranchDetails(long? TrainerId)
+        {
+            if (TrainerId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await trainerDetailsRepository.GetTrainerDetails(TrainerId);
+            return Ok(result);
+        }
     }
 
 }
