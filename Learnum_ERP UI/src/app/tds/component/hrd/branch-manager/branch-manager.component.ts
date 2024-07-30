@@ -16,16 +16,7 @@ export class BranchManagerComponent implements OnInit {
   BranchManagerList: any[] = [];
   form: FormGroup;
 
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewCall',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-   
-  ];
+ 
 
   declaredTableColumns: TableColumn[] = [
     {
@@ -96,6 +87,17 @@ export class BranchManagerComponent implements OnInit {
     },
   ];
 
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewBranchManager',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+   
+  ];
+
   getEmployeeList: any;
 
 
@@ -116,16 +118,17 @@ export class BranchManagerComponent implements OnInit {
      
     }
   }
-  selectBranch(branch: any) {
+  selectBranchManager(branch: any) {
 
   }
 
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'branchID': data.row.branchID
+      'BranchManagerId': data.row.BranchManagerId
+
     }
-    this.router.navigate(['/tds/masters/add-employee'], { queryParams: data1 });
+    this.router.navigate(['tds/hrd/branch-manager/add-branch'], { queryParams: data1 });
   }
 
 
@@ -151,6 +154,28 @@ export class BranchManagerComponent implements OnInit {
 
     );
 
+  }
+
+  editBranchManager(BranchManagerData: any) {
+    const BranchManagerId = BranchManagerData.BranchManagerId;
+    const index = this.BranchManagerList.findIndex(BranchManager => BranchManager.BranchManagerId === BranchManagerId);
+
+    if (index !== -1) {
+      this.openEditForm(BranchManagerData).then((editedBranchManagerData: any) => {
+        this.BranchManagerList[index] = editedBranchManagerData;
+        console.log('Edited Branch Manager:', editedBranchManagerData);
+      });
+    }
+  }
+
+  openEditForm(BranchManagerData: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const editedBranchManagerData = { ...BranchManagerData };
+        editedBranchManagerData.Status = 'Edited';
+        resolve(editedBranchManagerData);
+      }, 1000);
+    });
   }
 
 }

@@ -17,6 +17,9 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
     {
         Task<ResponseCode> InsertBranchCounsellorDetails(BranchCounsellorDetailsModel branchcounsellorDetailsModel);
         Task<List<BranchCounsellorDetailsResponseModel>> GetBranchCounsellorDetailsList();
+
+        Task<Tuple<BranchCounsellorDetailsModel?, ResponseCode>> GetBranchCounsellorDetails(long? CounsellorId);
+
     }
     public class BranchCounsellorDetailsRepository : BaseRepository, IBranchCounsellorDetailsRepository
     {
@@ -40,6 +43,19 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
                  var result = dbConnection.Query<BranchCounsellorDetailsResponseModel>("PROC_GetBranchCounsellor", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<Tuple<BranchCounsellorDetailsModel?, ResponseCode>>GetBranchCounsellorDetails(long? CounsellorId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@CounsellorId", CounsellorId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<BranchCounsellorDetailsModel?>("PROC_EditBranchCounsellor", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<BranchCounsellorDetailsModel?, ResponseCode>(result, responseCode));
             }
         }
     }

@@ -53,5 +53,22 @@ namespace Learnum.ERP.API.Controller.HRD
             }
             return NotFound("No record found");
         }
+
+        [HttpGet("getBranchAccountantDetails/{BranchAccountantId}")]
+        public async Task<IActionResult> GetBranchAccountantDetails(long? BranchAccountantId)
+        {
+            if (BranchAccountantId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await branchaccountantDetailsRepository.GetBranchAccountantDetails(BranchAccountantId);
+            return Ok(result);
+        }
     }
 }
+

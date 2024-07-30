@@ -15,6 +15,8 @@ export class AddaccountantService extends BaseService{
   private urlBranchAccountantDetails: string = "BranchAccountantDetails/InsertBranchAccountantDetails";
   private urlgetBranchAccountantList: string = "BranchAccountantDetails/getAllBranchAccountantList";
   private urlgetBranchList: string = "BranchDetails/getAllBranchList";
+  private urlGetBranchAccountant: string = "BranchAccountantDetails/getBranchAccountantDetails";
+
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
@@ -33,4 +35,8 @@ export class AddaccountantService extends BaseService{
     return this.apiService.getData(this.urlgetBranchList);
   }
 
+  
+  getBranchAccountantDetails(BranchAccountantId: number) {
+    return this.apiService.getData(this.urlGetBranchAccountant+ '/' + BranchAccountantId);
+  }
 }

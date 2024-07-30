@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Learnum.ERP.Repository.Master.HRD_repo;
 
 namespace Learnum.ERP.API.Controller.HRD
 {
@@ -58,6 +59,23 @@ namespace Learnum.ERP.API.Controller.HRD
                 return Ok(data);
             }
             return NotFound("No record found");
+        }
+
+
+        [HttpGet("getContentWriterDetails/{ContentWriterId}")]
+        public async Task<IActionResult> GetContentWriterDetails(long? ContentWriterId)
+        {
+            if (ContentWriterId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await contentwriterDetailsRepository.GetContentWriterDetails(ContentWriterId);
+            return Ok(result);
         }
     }
     }
