@@ -58,5 +58,22 @@ namespace Learnum.ERP.API.Controller.Business_Lead
             }
             return NotFound("No record found");
         }
+
+        [HttpGet("getBuisnessDetails/{BusinessId}")]
+        public async Task<IActionResult> GetBuisnessDetails(long? BusinessId)
+        {
+            if (BusinessId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await businessLeadDetailsRepository.GetBuisnessDetails(BusinessId);
+            return Ok(result);
+        }
+
     }
 }

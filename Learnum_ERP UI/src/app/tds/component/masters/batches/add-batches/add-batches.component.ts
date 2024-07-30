@@ -253,8 +253,7 @@ export class AddBatchesComponent implements OnInit {
       },
     ];
   }
-
-  onCancelClick() {
+  onCancleClick() {
     this.router.navigateByUrl('tds/masters/batches');
   }
   onResetClick() {

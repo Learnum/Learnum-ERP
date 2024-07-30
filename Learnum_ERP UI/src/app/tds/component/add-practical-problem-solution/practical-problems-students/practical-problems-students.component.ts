@@ -55,7 +55,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            //className: 'col-md-6',
+            className: 'col-md-6',
             key: 'question',
             type: 'textarea',
             props: {
@@ -71,7 +71,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
             },
           },
           {
-            //className: 'col-md-6',
+            className: 'col-md-6',
             key: 'modelAnswer',
             type: 'textarea',
             props: {
@@ -86,10 +86,8 @@ export class PracticalProblemsStudentsComponent implements OnInit {
               },
             },
           },
-        
-        
           {
-            className: 'col-md-5',
+            className: 'col-md-3',
             key: 'marks',
             type: 'input',
             props: {
@@ -97,6 +95,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
               placeholder: 'Enter Marks',
               type: 'number',
               required: true,
+              pattern: '^[0-9]+$'
             },
             validation: {
               messages: {
@@ -107,7 +106,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-5',
+            className: 'col-md-3',
             key: 'isActive',
             type: 'select',
             props: {
@@ -127,7 +126,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-2',
+            className: 'col-md-3',
             key: 'file',
             type: 'file',
             props: {
