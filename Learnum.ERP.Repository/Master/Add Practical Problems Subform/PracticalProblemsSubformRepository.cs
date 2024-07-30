@@ -18,6 +18,8 @@ namespace Learnum.ERP.Repository.Master.Add_Practical_Problems_Subform
     {
         Task<ResponseCode> AddPracticalProblem(AddPracticalFileUpload addPracticalFileUpload);
         Task<List<PracticalProblemsSubformResponseModel>> GetPracticalProblemList();
+
+        Task<Tuple<AddPracticalFileUpload?, ResponseCode>> GetPracticalDetails(long? QuestionId);
     }
 
     public class PracticalProblemsSubformRepository : BaseRepository, IPracticalProblemsSubformRepository
@@ -44,5 +46,19 @@ namespace Learnum.ERP.Repository.Master.Add_Practical_Problems_Subform
                 return await Task.FromResult(result);
             }
         }
+
+        public async Task<Tuple<AddPracticalFileUpload?, ResponseCode>> GetPracticalDetails(long? QuestionId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@QuestionId", QuestionId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<AddPracticalFileUpload?>("PROC_AddPracticalDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<AddPracticalFileUpload?, ResponseCode>(result, responseCode));
+            }
+        }
+
     }
 }

@@ -7,7 +7,7 @@
 <div class="col-md-12">
     <div class="row" align="right">
         <div class="col-md-12" style="display: flex; justify-content: flex-end;">
-            <button class="btn btn-fent-cloud" (click)="AddPracticalProblem()">
+            <button class="btn btn-fent-cloud" (click)="onAddPracticalAnswer()">
                 <i class="uil uil-plus"></i> Practical Problem Answer
             </button>
         </div>
@@ -17,7 +17,7 @@
 <app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="PracticalReturnList" [tableColumns]="declaredTableColumns"
     [actionColumns]="declaredActionColumns" [isEditable]="false" [isSortable]="true" [isFilterable]="false"
     [isColumnFilterable]="false" [isResizable]="false" [isPageable]="true" [defaultPageSize]="12"
-    (selectedRows)="selectBusinessLead($event)" (rowAction)="onRowAction($event)"
+    (selectedRows)="selectPracticalAnswer($event)" (rowAction)="onRowAction($event)"
     (actionButton)="onActionButton($event)">
 </app-data-grid>
 <!-- end of ag-grid -->
