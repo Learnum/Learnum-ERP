@@ -177,9 +177,9 @@ setParameter() {
    
   getBranchAccountantDetails(BranchAccountantId: number) {
     this.addaccountantService.getBranchAccountantDetails(BranchAccountantId).subscribe(
-      (result: any) => {
+      (result: any) => {    
         if (result && result.Value) {
-          this.accountantDetails = result.Value.Item1;
+          this.BranchAccountantDetails = result.Value.Item1;
 
           this.setParameter();
           console.error('No data found for BranchAccountantId: ' + BranchAccountantId);

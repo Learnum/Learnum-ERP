@@ -16,6 +16,9 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
     {
         Task<ResponseCode>InsertWorksheetDetails(WorksheetDetailsModel worksheetDetailsModel);
         Task<List<WorksheetDetailsResponseModel>> GetWorksheetDetailsList();
+
+        Task<Tuple<WorksheetDetailsModel?, ResponseCode>> GetWorkSheetDetails(long? WorkId);
+
     }
     public class WorksheetDetailsRepository : BaseRepository, IWorksheetDetailsRepository
     {
@@ -40,6 +43,19 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
                 dbConnection.Query<int>("PROC_InsertDailyWorkSheet", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<Tuple<WorksheetDetailsModel?, ResponseCode>> GetWorkSheetDetails(long? WorkId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@WorkId", WorkId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<WorksheetDetailsModel?>("PROC_EditDailyWork", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<WorksheetDetailsModel?, ResponseCode>(result, responseCode));
             }
         }
     }

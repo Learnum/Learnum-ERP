@@ -14,6 +14,7 @@ import { BirthdayDetailsService } from './add-birthday/birthday-details.service'
 export class BirthdaysComponent implements OnInit {
 
 
+
   form: FormGroup;
   BirthdayList: any[] = [];
 
@@ -127,9 +128,9 @@ export class BirthdaysComponent implements OnInit {
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'branchID': data.row.branchID
+      'BirthId': data.row.BirthId
     }
-    this.router.navigate(['/tds/hrd/add-trainer'], { queryParams: data1 });
+    this.router.navigate(['tds/hrd/birthdays/add-birthday'], { queryParams: data1 });
   }
 
 
@@ -137,7 +138,7 @@ export class BirthdaysComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewBranch',
+      actionPage: 'ViewContentWriter',
       actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
@@ -156,6 +157,9 @@ export class BirthdaysComponent implements OnInit {
     this.router.navigateByUrl('tds/hrd/birthdays/add-birthday')
   }
  
+  selectBirthday($event: any) {
+    throw new Error('Method not implemented.');
+    }
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
@@ -171,6 +175,28 @@ export class BirthdaysComponent implements OnInit {
 
     );
 
+  }
+
+  editBirthday(BirthdayData: any) {
+    const BirthId = BirthdayData.BirthId;
+    const index = this.BirthdayList.findIndex(Birthday => Birthday.BirthId === BirthId);
+
+    if (index !== -1) {
+      this.openEditForm(BirthdayData).then((editedBirthdayData: any) => {
+        this.BirthdayList[index] = editedBirthdayData;
+        console.log('Edited Birthday:', editedBirthdayData);
+      });
+    }
+  }
+
+  openEditForm(BirthdayData: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const editedBirthdayData = { ...BirthdayData };
+        editedBirthdayData.Status = 'Edited';
+        resolve(editedBirthdayData);
+      }, 1000);
+    });
   }
 
 
