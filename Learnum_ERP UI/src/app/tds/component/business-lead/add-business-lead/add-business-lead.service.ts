@@ -15,6 +15,7 @@ export class AddBusinessLeadService {
 
   private urlInsertBusinessDetails: string = "BusinessLeadDetails/InsertBusinessLeadDetails";
   private urlgeBusinesstList: string = "BusinessLeadDetails/getAllBusinessList";
+  private urlGetBusinessDetails: string = "BusinessLeadDetails/getBuisnessDetails";
 
   constructor(private apiService: APIService) {
 
@@ -27,4 +28,8 @@ export class AddBusinessLeadService {
   getBusinessList() {
     return this.apiService.getData(this.urlgeBusinesstList);
   }
+  getBusinessDetails(BusinessId: number) {
+    return this.apiService.getData(this.urlGetBusinessDetails + '/' + BusinessId);
+  }
+
 }
