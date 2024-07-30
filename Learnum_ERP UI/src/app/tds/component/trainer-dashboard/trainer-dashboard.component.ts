@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
@@ -66,25 +66,6 @@ export class TrainerDashboardComponent implements OnInit {
       minWidth: 150
     },
   ];
-
-  // declaredActionColumns: ActionColumn[] = [
-  //   {
-  //     action: 'view',
-  //     actionPage: 'ViewSyllabusCompletion',
-  //     actionIcon: 'uil uil-eye rounded text-secondary mb-0',
-  //     buttonClass: 'btn btn-sm btn-secondary',
-  //     colorClass: 'text-secondary h4'
-  //   },
-  //   {
-  //     action: 'edit',
-  //     actionPage: 'EditSyllabusCompletion',
-  //     actionIcon: 'uil uil-edit rounded text-primary mb-0',
-  //     buttonClass: 'btn btn-sm btn-primary',
-  //     colorClass: 'text-primary h4'
-  //   }
-  // ];
- 
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -96,14 +77,6 @@ export class TrainerDashboardComponent implements OnInit {
   ngOnInit(): void {
     this. getSyllabusDetails();
   }
-
-  onRowAction(data: any) {
-    let data1 = {
-      'source': data.action,
-      'SyllabusCompletionId': data.row.SyllabusCompletionId
-    };
-    this.router.navigate(['/tds/trainer-dashboard/syllabus-completion'], { queryParams: data1 });
-  }
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
@@ -113,17 +86,67 @@ export class TrainerDashboardComponent implements OnInit {
       colorClass: 'text-secondary h4'
     },
   ];
-
-  onAddSyllabus() {
-    this.router.navigate(['tds/trainer-dashboard/syllabus-completion']);
+  ActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewEmployee',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
+  onRowAction(data: any) {
+    let data1 = {
+      'source': 'edit',
+      'TrainerId': data.row.TrainerId
+    }
+    this.router.navigate(['tds/trainer-dashboard/syllabus-completion'], { queryParams: data1 });
   }
+  selectSyllabus($event: any)
+   {
+    throw new Error('Method not implemented.');
+  }
+  onAddSyallbus(syllabus?: any) {
 
+    let navigationExtras: NavigationExtras = {};
+    if (syllabus) {
+      navigationExtras = {
+        state: {
+          syllabusData: syllabus
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/trainer-dashboard/syllabus-completion')
+  }
   onActionButton(action: string) {
-    alert(action + ' ' +'action button clicked.');
+    alert(action + ' ' + 'action button clicked.');
   }
-  
-  selectSyllabusCompletion($event: any) {
-     throw new Error('Method not implemented.');
+  editSyllabus(SyllabusData: any) {
+    const trainerId = SyllabusData.trainerId;
+    const index = this.syllabusDetailsList.findIndex(trainer => trainer.trainerId === trainerId);
+
+    if (index !== -1) {
+
+
+      this.openEditForm(SyllabusData).then((editedSyllabusData: any) => {
+
+        this.syllabusDetailsList[index] = editedSyllabusData;
+        console.log('Edited Syllabus:', editedSyllabusData);
+
+      });
+    }
+  }
+  openEditForm(trainerData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedSyllabusData = { ...trainerData };
+
+        editedSyllabusData.Status = 'Edited';
+        resolve(editedSyllabusData);
+      }, 1000);
+    });
   }
 
   getSyllabusDetails() {
