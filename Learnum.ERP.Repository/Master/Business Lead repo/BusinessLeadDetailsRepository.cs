@@ -18,6 +18,8 @@ namespace Learnum.ERP.Repository.Master.Business_Lead_repo
     {
         Task<ResponseCode> InsertBusinessLeadDetails(BuisnessLeadDetailsModel buisnessLeadDetailsModel);
         Task<List<BuisnessLeadDetailsResponseModel>> GetBuisnessDetailsList();
+
+        Task<Tuple<BuisnessLeadDetailsModel?, ResponseCode>> GetBuisnessDetails(long? BusinessId);
     }
 
     public class BusinessLeadDetailsRepository : BaseRepository, IBusinessLeadDetailsRepository
@@ -43,6 +45,21 @@ namespace Learnum.ERP.Repository.Master.Business_Lead_repo
                 return await Task.FromResult(result);
             }
         }
+
+
+        public async Task<Tuple<BuisnessLeadDetailsModel?, ResponseCode>> GetBuisnessDetails(long? BusinessId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@BusinessId", BusinessId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<BuisnessLeadDetailsModel?>("PROC_GetBusinessLeadList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<BuisnessLeadDetailsModel?, ResponseCode>(result, responseCode));
+            }
+        }
+
 
     }
        

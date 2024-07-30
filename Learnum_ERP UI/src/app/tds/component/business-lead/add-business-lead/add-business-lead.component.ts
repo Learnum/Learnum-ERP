@@ -16,12 +16,12 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
 })
 export class AddBusinessLeadComponent implements OnInit {
   form = new FormGroup({});
-  model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   coOwners: any;
   NowDate: any = new Date();
   businessDetails:BusinessDetails =new BusinessDetails();
+  editData: any;
 
   constructor(
     private addBusinessLeadService : AddBusinessLeadService,
@@ -34,6 +34,10 @@ export class AddBusinessLeadComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter(); 
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.BusinessId) {
+      this.getBusinessDetails(this.editData.BusinessId);
+    }
   }
 
   
@@ -43,12 +47,16 @@ export class AddBusinessLeadComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
+            key:'businessId'
+          },
+          {
             className: 'col-md-6',
-            key: 'name',
+            key: 'Name',
             type: 'input',
             props: {
               label: 'Name',
               placeholder: 'Name',
+              pattern: '^[A-Za-z]+$', 
               required: true,
             },
             validation: {
@@ -59,24 +67,23 @@ export class AddBusinessLeadComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'phoneNumber',
+            key: 'PhoneNumber',
             type: 'input',
             templateOptions: {
               label: 'Phone Number',
               placeholder: 'Enter Phone Number',
               required: true,
-              pattern: '^\\+?[1-9]\\d{1,14}$',
+               pattern: '^[0-9]+$'
             },
             validation: {
               messages: {
                 required: 'Phone Number is required',
-                pattern: 'Phone Number must be a valid E.164 number',
               },
             },
           },
           {
             className: 'col-md-6',
-            key: 'address',
+            key: 'Address',
             type: 'input',
             templateOptions: {
               label: 'Address',
@@ -91,12 +98,13 @@ export class AddBusinessLeadComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'city',
+            key: 'City',
             type: 'input',
             templateOptions: {
               label: 'City',
               placeholder: 'Enter City',
               required: true,
+              pattern: '^[A-Za-z]+$', 
             },
             validation: {
               messages: {
@@ -106,12 +114,13 @@ export class AddBusinessLeadComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'district',
+            key: 'District',
             type: 'input',
             templateOptions: {
               label: 'District',
               placeholder: 'Enter District',
               required: true,
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
@@ -121,11 +130,12 @@ export class AddBusinessLeadComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'state',
+            key: 'State',
             type: 'input',
             templateOptions: {
               label: 'State',
               placeholder: 'Enter State',
+              pattern: '^[A-Za-z]+$',
               required: true,
             },
             validation: {
@@ -136,12 +146,13 @@ export class AddBusinessLeadComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'postalCode',
+            key: 'PostalCode',
             type: 'input',
             templateOptions: {
               label: 'Postal Code',
               placeholder: 'Enter Postal Code',
               required: true,
+                pattern: '^[0-9]+$',
             },
             validation: {
               messages: {
@@ -151,12 +162,13 @@ export class AddBusinessLeadComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'country',
+            key: 'Country',
             type: 'input',
             templateOptions: {
               label: 'Country',
               placeholder: 'Enter Country',
               required: true,
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
@@ -182,13 +194,16 @@ export class AddBusinessLeadComponent implements OnInit {
   onCancleClick() {
     this.router.navigateByUrl('tds/business-lead');
   }
+  onResetClick() {
+    this.form.reset();
+  }
 
   insertBusinessDetails() {
     this.businessDetails.addedBy = 1;
     this.businessDetails.addedDate = new Date();
     this.businessDetails.updatedBy = 1;
     this.businessDetails.updatedDate = new Date();
-    this.businessDetails.businessId = 0;
+    //this.businessDetails.businessId = 0;
 
     this.addBusinessLeadService.InsertBusinessDetails(this.businessDetails).subscribe(
       (result: any) => {
@@ -206,6 +221,21 @@ export class AddBusinessLeadComponent implements OnInit {
       }
     );
     this.router.navigateByUrl('tds/business-lead');
+  }
+  getBusinessDetails(BusinessId: number) {
+    this.addBusinessLeadService.getBusinessDetails(BusinessId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.businessDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for BusinessId: ' + BusinessId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving business details:', error);
+
+      }
+    );
   }
 
 
