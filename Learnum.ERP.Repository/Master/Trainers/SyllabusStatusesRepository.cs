@@ -18,6 +18,8 @@ namespace Learnum.ERP.Repository.Master.Trainers
     {
         Task<ResponseCode> AddSyllabusStatuses(SyllabusStatusModel syllabusStatusModel);
         Task<List<SyllabusStatusResponseModel>> GetSyllabusStatusesList();
+        Task<Tuple<SyllabusStatusModel?, ResponseCode>> GetSyllabusDetails(long? TrainerId);
+
     }
     public class SyllabusStatusesRepository : BaseRepository, ISyllabusStatusRepository
     {
@@ -27,7 +29,7 @@ namespace Learnum.ERP.Repository.Master.Trainers
             {
                 var dbparams = new DynamicParameters(syllabusStatusModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("PROC_InsertTrainerDetails", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_InsertSyllabusDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
@@ -38,8 +40,21 @@ namespace Learnum.ERP.Repository.Master.Trainers
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<SyllabusStatusResponseModel>("PROC_GetTrainerDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                var result = dbConnection.Query<SyllabusStatusResponseModel>("PROC_GetSyllabusList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<Tuple<SyllabusStatusModel?, ResponseCode>> GetSyllabusDetails(long? TrainerId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@TrainerId", TrainerId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<SyllabusStatusModel?>("PROC_GetSyllabusDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<SyllabusStatusModel?, ResponseCode>(result, responseCode));
             }
         }
     }

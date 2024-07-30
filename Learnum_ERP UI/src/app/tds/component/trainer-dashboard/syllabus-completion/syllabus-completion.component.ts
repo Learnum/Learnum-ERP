@@ -16,28 +16,36 @@ export class SyllabusCompletionComponent implements OnInit {
 
   SyllabusDetails: syllabusDetails = new syllabusDetails();
   form = new FormGroup({});
-  model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   statusDetails: any;
+  editData: any;
 
   constructor(
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
     private formBuilder: FormBuilder,
+    private activateRoute: ActivatedRoute,
     private syllabuscompletionService: SyllabuscompletionService
   ) { }
 
   ngOnInit(): void {
     this.setParameter();
     this.getBranchDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.TrainerId) {
+      this.getSyllabusDetails(this.editData.TrainerId);
+    }
   }
   setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
+          {
+            key:'trainerId',
+          },
           {
             className: 'col-md-6',
             type: 'select',
@@ -56,17 +64,18 @@ export class SyllabusCompletionComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
       this.InsertsyllabusDetails();
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   // Handle form submission
-    // } else {
-    //   // Handle form errors
-    // }
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
   }
-
-  onCancelClick() {
+  onCancleClick() {
     this.router.navigateByUrl('tds/trainer-dashboard');
+  }
+  onResetClick() {
+    this.form.reset();
   }
 
   getBranchDetails() {
@@ -86,7 +95,7 @@ export class SyllabusCompletionComponent implements OnInit {
     this.SyllabusDetails.addedDate = new Date();
     this.SyllabusDetails.updatedBy = 1;
     this.SyllabusDetails.updatedDate = new Date();
-    this.SyllabusDetails.trainerId = 0;
+    //this.SyllabusDetails.trainerId = 0;
 
     this.syllabuscompletionService.insertProblemAnswer(this.SyllabusDetails).subscribe(
       (result: any) => {
@@ -104,6 +113,20 @@ export class SyllabusCompletionComponent implements OnInit {
       }
     );
     this.router.navigateByUrl('tds/trainer-dashboard');
+  }
+	getSyllabusDetails(TrainerId: number) {
+    this.syllabuscompletionService.getSyllabus(TrainerId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.SyllabusDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for TrainerId: ' + TrainerId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving syllabus details:', error);
+      }
+    );
   }
 }
 

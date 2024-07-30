@@ -7,7 +7,7 @@
 <div class="col-md-12">
   <div class="row" align="right">
     <div class="col-md-12" style="display: flex; justify-content: flex-end;">
-      <button class="btn btn-fent-cloud" (click)="onAddSyllabus()">
+      <button class="btn btn-fent-cloud" (click)="onAddSyallbus()">
         <i class="uil uil-plus"></i> Syllabus Completion Status
       </button>
     </div>
@@ -23,5 +23,5 @@
 <app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="syllabusDetailsList" [tableColumns]="declaredTableColumns"
   [actionColumns]="declaredActionColumns" [isEditable]="false" [isSortable]="true" [isFilterable]="false"
   [isColumnFilterable]="false" [isResizable]="false" [isPageable]="true" [defaultPageSize]="12"
-  (selectedRows)="selectSyllabusCompletion($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">
+  (selectedRows)="selectSyllabus($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">
 </app-data-grid>
