@@ -58,11 +58,13 @@ export class AddTrainerComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
-
+          {
+            key: 'TrainerId'
+          },
           {
             className: 'col-md-3',
             type: 'input',
-            key: 'trainerName',
+            key: 'TrainerName',
             props: {
               placeholder: 'Trainer Name',
               required: true,
@@ -138,7 +140,8 @@ export class AddTrainerComponent implements OnInit {
               label: "Batch Name",
               options: this.batchDetails ? this.batchDetails.map(batch => ({
                 label: batch.BatchName
-                , value: batch.BatchId })) : [],
+                , value: batch.BatchId
+              })) : [],
 
             },
             validation: {
@@ -147,20 +150,20 @@ export class AddTrainerComponent implements OnInit {
               },
             },
           },
-         ,
+          ,
 
           {
             className: 'col-md-3',
             type: 'select',
-            key: 'isActive',
+            key: 'IsActive',
             templateOptions: {
               placeholder: 'Select Status',
               type: 'text',
               label: "Status",
               required: true,
               options: [
-                { value: 'true', label: 'Active' },
-                { value: 'false', label: 'Inactive' }
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
               ]
             },
           },
@@ -195,7 +198,7 @@ export class AddTrainerComponent implements OnInit {
     this.TrainerDetails.addedDate = new Date();
     this.TrainerDetails.updatedBy = 1;
     this.TrainerDetails.updatedDate = new Date();
-    this.TrainerDetails.TrainerId = 0;
+    // this.TrainerDetails.TrainerId = 0;
 
     this.addtrainerService.insertTrainerData(this.TrainerDetails).subscribe(
       (result: any) => {
@@ -274,14 +277,14 @@ export class AddTrainerComponent implements OnInit {
     this.addtrainerService.getTrainerDetails(TrainerId).subscribe(
       (result: any) => {
         if (result && result.Value) {
-          this.branchDetails = result.Value.Item1;
+          this.TrainerDetails = result.Value.Item1;
 
           this.setParameter();
           console.error('No data found for BranchId: ' + TrainerId);
         }
       },
       (error: any) => {
-        console.error('Error retrieving employee details:', error);
+        console.error('Error retrieving trainer details:', error);
 
       }
     );

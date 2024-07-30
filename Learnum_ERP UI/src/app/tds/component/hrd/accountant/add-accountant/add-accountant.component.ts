@@ -19,13 +19,13 @@ export class AddAccountantComponent implements OnInit {
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
+  
   GetEmployeeList: any;
   coOwners: any;
   NowDate: any = new Date();
   BranchAccountantDetails : BranchAccountantDetailsModel = new BranchAccountantDetailsModel();
    onReset: any;
-   accountantDetails:any[] = [];
+   accountantDetails:any;
    branchDetails: any;
  
   constructor(
@@ -40,6 +40,11 @@ export class AddAccountantComponent implements OnInit {
   ngOnInit(): void {
     this.setParameter();
     this.getBranchDetails();
+
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.BranchAccountantId) {
+      this.getBranchAccountantDetails(this.editData.BranchAccountantId);
+    }
   }
  
 
@@ -50,9 +55,15 @@ setParameter() {
         fieldGroup: [
 
           {
+            key: 'BranchAccountantId'
+
+          },
+
+
+          {
             className: 'col-md-3',
             type: 'input',
-            key: 'accountantName',
+            key: 'AccountantName',
             templateOptions: {
               placeholder: 'Enter Accountant Name',
               type: 'text',
@@ -84,15 +95,15 @@ setParameter() {
              {
                 className: 'col-md-3',
                 type: 'select',
-                key: 'isActive',
+                key: 'IsActive',
                 templateOptions: {
                   placeholder: 'Select Status',
                   type: 'text',
                   label: "Status",
                   required: true,
                   options: [
-                    { value: 'true', label: 'Active' },
-                    { value: 'false', label: 'Inactive' }
+                    { value: true, label: 'Active' },
+                    { value: false, label: 'Inactive' }
                   ]
                  },
                 },
@@ -124,7 +135,7 @@ setParameter() {
     this.BranchAccountantDetails.addedDate = new Date();
     this.BranchAccountantDetails.updatedBy = 1;
     this.BranchAccountantDetails.updatedDate = new Date();
-    this.BranchAccountantDetails.branchAccountantId = 0;
+    //this.BranchAccountantDetails.branchAccountantId = 0;
 
     this.addaccountantService.insertBranchAccountantData(this.BranchAccountantDetails).subscribe(
       (result: any) => {
@@ -163,7 +174,23 @@ setParameter() {
       }
     );
   }
+   
+  getBranchAccountantDetails(BranchAccountantId: number) {
+    this.addaccountantService.getBranchAccountantDetails(BranchAccountantId).subscribe(
+      (result: any) => {    
+        if (result && result.Value) {
+          this.BranchAccountantDetails = result.Value.Item1;
 
+          this.setParameter();
+          console.error('No data found for BranchAccountantId: ' + BranchAccountantId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving Branch Accountant details:', error);
+
+      }
+    );
+  }
 }
 
 

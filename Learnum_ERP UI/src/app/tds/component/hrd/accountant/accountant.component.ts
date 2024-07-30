@@ -13,6 +13,7 @@ import { AddaccountantService } from './add-accountant/addaccountant.service';
 })
 export class AccountantComponent implements OnInit {
 
+
   accountantDetailsList: any[] = [];
   form: FormGroup;
 
@@ -114,17 +115,17 @@ export class AccountantComponent implements OnInit {
       });
     }
   }
-  selectBranch(branch: any) {
-
-  }
+  selectBranchAccountant($event: any) {
+    throw new Error('Method not implemented.');
+    }
   
 
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'branchID': data.row.branchID
+      'BranchAccountantId': data.row.BranchAccountantId
     }
-    this.router.navigate(['/tds/hrd/add-trainer'], { queryParams: data1 });
+    this.router.navigate(['tds/hrd/accountant/add-accountant'], { queryParams: data1 });
   }
 
 
@@ -132,7 +133,7 @@ export class AccountantComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewBranch',
+      actionPage: 'ViewBranchAccountant',
       actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
@@ -151,5 +152,27 @@ export class AccountantComponent implements OnInit {
       this.accountantDetailsList = result.Value;
       let accountantDetailsList = result.Value;
     })
+  }
+
+  editBranchAccountant(BranchAccountantData: any) {
+    const BranchAccountantId = BranchAccountantData.BranchAccountantId;
+    const index = this.accountantDetailsList.findIndex(BranchAccountant => BranchAccountant.BranchAccountantId === BranchAccountantId);
+
+    if (index !== -1) {
+      this.openEditForm(BranchAccountantData).then((editedBranchAccountantData: any) => {
+        this.accountantDetailsList[index] = editedBranchAccountantData;
+        console.log('Edited  Branch Accountant:', editedBranchAccountantData);
+      });
+    }
+  }
+
+  openEditForm(BranchAccountantData: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const editedBranchAccountantData = { ...BranchAccountantData };
+        editedBranchAccountantData.Status = 'Edited';
+        resolve(editedBranchAccountantData);
+      }, 1000);
+    });
   }
 }

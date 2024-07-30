@@ -38,6 +38,11 @@ export class AddContentwriterComponent {
     this.setParameter();
     this.getCourseDetails();
     this.getSubjectDetails();
+
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.ContentWriterId) {
+      this.getContentWriterDetails(this.editData.ContentWriterId);
+    }
 }
 
   setParameter() {
@@ -45,6 +50,11 @@ export class AddContentwriterComponent {
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
+
+          {
+            key: 'ContentWriterId'
+
+          },
 
           {
             className: 'col-md-6',
@@ -101,15 +111,15 @@ export class AddContentwriterComponent {
           {
             className: 'col-md-4',
             type: 'select',
-            key: 'isActive',
+            key: 'IsActive',
             templateOptions: {
-              placeholder: 'Enter Status',
+              placeholder: 'select Status',
               type: 'text',
               label: "Status",
               required: true,
               options: [
-                { value: 'true', label: 'Active' },
-                { value: 'false', label: 'Inactive' }
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
               ]
              },
             },
@@ -189,6 +199,23 @@ export class AddContentwriterComponent {
     );
   }
 
+
+  getContentWriterDetails(ContentWriterId: number) {
+    this.addcontentWriterService.getContentWriterDetails(ContentWriterId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.ContentWriterDetails = result.Value.Item1;
+
+          this.setParameter();
+          console.error('No data found for ContentWriterId: ' + ContentWriterId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving Content Writer details:', error);
+
+      }
+    );
+  }
 
 }
 

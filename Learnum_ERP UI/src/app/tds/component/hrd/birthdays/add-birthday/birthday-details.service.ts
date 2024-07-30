@@ -13,6 +13,8 @@ export class BirthdayDetailsService extends BaseService{
 
   private urlInsertBirthdayDetails: string = "BirthdayDetails/InsertBirthdayDetails";
   private urlBirthdayDetailsList: string = "BirthdayDetails/getAllBirthdayList";
+  private urlGetBirthday: string = "BirthdayDetails/getBirthDayDetails";
+
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
@@ -25,5 +27,9 @@ export class BirthdayDetailsService extends BaseService{
   
   getBirthdayList(){
     return this.apiService.getData(this.urlBirthdayDetailsList);
+  }
+
+  getBirthdayDetails(BirthId: number) {
+    return this.apiService.getData(this.urlGetBirthday+ '/' + BirthId);
   }
 }

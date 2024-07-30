@@ -21,7 +21,7 @@ export class AddWorksheetComponent implements OnInit {
   tdsReturnList: any;
   NowDate: any = new Date();
   worksheetDetails: WorksheetDetailsModel = new WorksheetDetailsModel();
-
+  editData: any;
  
  
   constructor(
@@ -36,7 +36,10 @@ export class AddWorksheetComponent implements OnInit {
   ngOnInit(): void {
     this.setParameter();
     
-    
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.WorkId) {
+      this.getWorksheetDetails(this.editData.WorkId);
+    }
   }
  
 setParameter() {
@@ -46,10 +49,13 @@ setParameter() {
         
         fieldGroup: [
 
+           {
+            key:'WorkId',
+           },
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'name',
+            key: 'Name',
             templateOptions: {
               placeholder: 'Enter Name',
               type: 'text',
@@ -68,7 +74,7 @@ setParameter() {
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'email',
+            key: 'Email',
             props: {
               placeholder: 'Email',
               type: 'text',
@@ -86,7 +92,7 @@ setParameter() {
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'date',
+            key: 'Date',
             templateOptions: {
               label: 'Date of Birth',
               placeholder: 'Date',
@@ -105,7 +111,7 @@ setParameter() {
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'role',
+            key: 'Role',
             props: {
               placeholder: 'select',
               type: 'text',
@@ -197,6 +203,27 @@ setParameter() {
     );
     
   }
+
+  getWorksheetDetails(WorkId: number) {
+    this.addWorksheetservices.getWorksheetDetails(WorkId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.worksheetDetails = result.Value.Item1;
+
+          this.worksheetDetails.Date = this.addWorksheetservices.formatDate(this.worksheetDetails.Date);
+
+
+          this.setParameter();
+          console.error('No data found for ContentWriterId: ' + WorkId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving Content Writer details:', error);
+
+      }
+    );
+  }
+  
 
 }
 

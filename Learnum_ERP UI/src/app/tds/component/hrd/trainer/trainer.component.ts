@@ -99,7 +99,7 @@ export class TrainerComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewBranch',
+      actionPage: 'ViewTrainer',
       actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
@@ -131,9 +131,9 @@ export class TrainerComponent implements OnInit {
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'trainerID': data.row.trainerID
+      'TrainerId': data.row.TrainerId
     };
-    this.router.navigate(['/tds/hrd/add-trainer'], { queryParams: data1 });
+    this.router.navigate(['tds/hrd/trainer/add-trainer'], { queryParams: data1 });
   }
 
   onAddTrainer() {
@@ -151,8 +151,8 @@ export class TrainerComponent implements OnInit {
   }
 
   editTrainer(trainerData: any) {
-    const trainerID = trainerData.TrainerId;
-    const index = this.trainerList.findIndex(trainer => trainer.trainerID === trainerID);
+    const trainerId = trainerData.trainerId;
+    const index = this.trainerList.findIndex(trainer => trainer.trainerId === trainerId);
 
     if (index !== -1) {
       this.openEditForm(trainerData).then((editedTrainerData: any) => {

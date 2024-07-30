@@ -53,5 +53,23 @@ namespace Learnum.ERP.API.Controller.HRD
             }
             return NotFound("No record found");
         }
+
+
+
+        [HttpGet("getWorkSheetDetails/{WorkId}")]
+        public async Task<IActionResult> GetWorkSheetDetails(long? WorkId)
+        {
+            if (WorkId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await worksheetDetailsRepository.GetWorkSheetDetails(WorkId);
+            return Ok(result);
+        }
     }
 }

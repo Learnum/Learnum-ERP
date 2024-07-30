@@ -14,6 +14,8 @@ export class AddcounsellorService extends BaseService{
   private urlInsertBranchManagerDetails: string = "BranchCounsellorDetails/InsertBranchCounsellorDetails";
   private urlgetcounsellorList: string = "BranchCounsellorDetails/getAllBranchCounsellorList";
   private urlgetBranchList: string = "BranchDetails/getAllBranchList";
+  private urlGetCounsellor: string = "BranchCounsellorDetails/getBranchCounsellorDetails";
+
 
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
@@ -31,5 +33,9 @@ export class AddcounsellorService extends BaseService{
 
   getBranchList() {
     return this.apiService.getData(this.urlgetBranchList);
+  }
+
+  getCounsellorDetails(CounsellorId: number) {
+    return this.apiService.getData(this.urlGetCounsellor+ '/' + CounsellorId);
   }
 }

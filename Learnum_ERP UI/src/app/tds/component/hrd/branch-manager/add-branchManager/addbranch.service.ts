@@ -14,6 +14,9 @@ export class AddbranchManagerService extends BaseService{
   private urlInsertBranchManagerDetails: string = "BranchManagerDetails/InsertBranchManagerDetails";
   private urlgetBranchManagerList: string = "BranchManagerDetails/getAllBranchManagerList";
   private urlgetBranchList: string = "BranchDetails/getAllBranchList";
+  private urlGetBranchManager: string = "BranchManagerDetails/getBranchManagerDetails";
+
+
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
@@ -31,5 +34,9 @@ export class AddbranchManagerService extends BaseService{
 
   getBranchList() {
     return this.apiService.getData(this.urlgetBranchList);
+  }
+
+  getBranchManagerDetails(BranchManagerId: number) {
+    return this.apiService.getData(this.urlGetBranchManager+ '/' + BranchManagerId);
   }
 }
