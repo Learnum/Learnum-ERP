@@ -1,5 +1,5 @@
 export class CounsellorsPlaningModel {
-    counsellorId: number | null;
+    CounsellorId: number | null;
     branchId: number | null;
     counsellorName: string;
     isActive: boolean | null;

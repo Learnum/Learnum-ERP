@@ -15,9 +15,9 @@
     </div>
   </div>
   <!-- ag-grid -->
-  <app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="tdsReturnList" [tableColumns]="declaredTableColumns"
+  <app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="worksheetList" [tableColumns]="declaredTableColumns"
     [actionColumns]="declaredActionColumns" [isEditable]="false" [isSortable]="true" [isFilterable]="false"
     [isColumnFilterable]="false" [isResizable]="false" [isPageable]="true" [defaultPageSize]="12"
-    (selectedRows)="selectBranch($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">
+    (selectedRows)="selectwork($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">
   </app-data-grid>
 

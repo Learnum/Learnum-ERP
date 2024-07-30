@@ -1,5 +1,6 @@
 ﻿using Learnum.ERP.Repository.Master;
 using Learnum.ERP.Repository.Master.HRD_repo;
+using Learnum.ERP.Repository.Master.Masters;
 using Learnum.ERP.Shared.Core;
 using Learnum.ERP.Shared.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -52,6 +53,22 @@ namespace Learnum.ERP.API.Controller.HRD
                 return Ok(data);
             }
             return NotFound("No record found");
+        }
+
+        [HttpGet("getBranchManagerDetails/{BranchManagerId}")]
+        public async Task<IActionResult> GetBranchManagerDetails(long? BranchManagerId)
+        {
+            if (BranchManagerId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await branchmanagerDetailsRepository.GetBranchManagerDetails(BranchManagerId);
+            return Ok(result);
         }
     }
     }

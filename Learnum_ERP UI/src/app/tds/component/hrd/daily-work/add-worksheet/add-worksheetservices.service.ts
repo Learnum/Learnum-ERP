@@ -13,6 +13,8 @@ export class AddWorksheetservices extends BaseService {
 
   private urlInsertWorksheetDetails: string = "WorksheetDetails/InsertWorkSheetDetails";
   private urlgetWorksheetList: string = "WorksheetDetails/getWorkSheetList";
+  private urlGetWorkSheet: string = "WorksheetDetails/getWorkSheetDetails";
+
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
@@ -27,7 +29,10 @@ export class AddWorksheetservices extends BaseService {
   getworksheetList(){
     return this.apiService.getData(this.urlgetWorksheetList);
   }
-
+  
+  getWorksheetDetails(WorkId: number) {
+    return this.apiService.getData(this.urlGetWorkSheet+ '/' + WorkId);
+  }
   }
 
 

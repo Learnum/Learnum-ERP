@@ -12,6 +12,9 @@ import { AddcounsellorService } from './add-counsellor/addcounsellor.service';
   styleUrls: ['./counsellor.component.scss']
 })
 export class CounsellorComponent implements OnInit {
+selectCounsellor($event: any) {
+throw new Error('Method not implemented.');
+}
 
   CounsellorList: any[] = [];
   form: FormGroup;
@@ -112,9 +115,9 @@ export class CounsellorComponent implements OnInit {
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'branchID': data.row.branchID
+      'CounsellorId': data.row.CounsellorId
     }
-    this.router.navigate(['/tds/hrd/add-trainer'], { queryParams: data1 });
+    this.router.navigate(['tds/hrd/counsellor/add-counsellor'], { queryParams: data1 });
   }
 
 
@@ -122,7 +125,7 @@ export class CounsellorComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewBranch',
+      actionPage: 'ViewContentWriter',
       actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
@@ -151,6 +154,28 @@ export class CounsellorComponent implements OnInit {
         this.CounsellorList = result.Value;
         let CounsellorList = result.Value;
       },);
+    }
+
+    editCounsellor(CounsellorData: any) {
+      const CounsellorId = CounsellorData.CounsellorId;
+      const index = this.CounsellorList.findIndex(Counsellor => Counsellor.CounsellorId === CounsellorId);
+  
+      if (index !== -1) {
+        this.openEditForm(CounsellorData).then((editedCounsellorData: any) => {
+          this.CounsellorList[index] = editedCounsellorData;
+          console.log('Edited Counsellor:', editedCounsellorData);
+        });
+      }
+    }
+  
+    openEditForm(CounsellorData: any): Promise<any> {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const editedCounsellorData = { ...CounsellorData };
+          editedCounsellorData.Status = 'Edited';
+          resolve(editedCounsellorData);
+        }, 1000);
+      });
     }
   }
 

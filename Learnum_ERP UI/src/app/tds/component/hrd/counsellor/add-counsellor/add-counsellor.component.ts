@@ -36,6 +36,11 @@ export class AddCounsellorComponent implements OnInit {
   ngOnInit(): void {
     this.setParameter();
     this.getBranchDetails();
+
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.CounsellorId) {
+      this.getCounsellorDetails(this.editData.CounsellorId);
+    }
   }
 
   setParameter() {
@@ -43,6 +48,12 @@ export class AddCounsellorComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
+
+          {
+            key: 'CounsellorId'
+
+          },
+
 
           {
             className: 'col-md-3',
@@ -78,15 +89,15 @@ export class AddCounsellorComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'select',
-            key: 'isActive',
+            key: 'IsActive',
             templateOptions: {
               placeholder: 'Select Status',
               type: 'text',
               label: "Status",
               required: true,
               options: [
-                { value: 'true', label: 'Active' },
-                { value: 'false', label: 'Inactive' }
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
               ]
              },
             },
@@ -104,7 +115,6 @@ export class AddCounsellorComponent implements OnInit {
   }
 
   onSubmit(): void {
-   // this.insertBranchCounsellor();
 
     this.form.markAllAsTouched();
     if (this.form.valid) {
@@ -132,7 +142,7 @@ export class AddCounsellorComponent implements OnInit {
     this.CounsellorDetails.addedDate = new Date();
     this.CounsellorDetails.updatedBy = 1;
     this.CounsellorDetails.updatedDate = new Date();
-    this.CounsellorDetails.counsellorId = 0;
+    //this.CounsellorDetails.counsellorId = 0;
 
     this.addcounsellorService.insertcounsellorData(this.CounsellorDetails).subscribe(
       (result: any) => {
@@ -155,5 +165,23 @@ export class AddCounsellorComponent implements OnInit {
       }
     )
     
+  }
+
+
+  getCounsellorDetails(CounsellorId: number) {
+    this.addcounsellorService.getCounsellorDetails(CounsellorId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.CounsellorDetails = result.Value.Item1;
+
+          this.setParameter();
+          console.error('No data found for CounsellorId: ' + CounsellorId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving Counsellor ID details:', error);
+
+      }
+    );
   }
 }

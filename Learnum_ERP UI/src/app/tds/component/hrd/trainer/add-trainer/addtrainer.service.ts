@@ -51,7 +51,7 @@ export class AddtrainerService extends BaseService {
     return this.apiService.getData(this.urlgetBatchList);
   }
 
-  getTrainerDetails(TrainerId: number) {
-    return this.apiService.getData(this.urlGetTrainer+ '/' + TrainerId);
+  getTrainerDetails(trainerId: number) {
+    return this.apiService.getData(this.urlGetTrainer+ '/' + trainerId);
   }
 }

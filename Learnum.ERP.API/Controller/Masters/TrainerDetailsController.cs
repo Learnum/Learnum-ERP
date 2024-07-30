@@ -57,7 +57,7 @@ namespace Learnum.ERP.API.Controller.Masters
 
 
         [HttpGet("getTrainerDetails/{TrainerId}")]
-        public async Task<IActionResult> GetBranchDetails(long? TrainerId)
+        public async Task<IActionResult> GetTrainerDetails(long? TrainerId)
         {
             if (TrainerId == null)
             {

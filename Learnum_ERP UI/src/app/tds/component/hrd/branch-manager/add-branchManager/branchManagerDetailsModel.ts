@@ -1,5 +1,5 @@
 export class branchManagerDetailsModel {
-  branchManagerId: number;
+  BranchManagerId: number;
   BranchId: number;
   branchManagerName: string;
   BranchName: string;

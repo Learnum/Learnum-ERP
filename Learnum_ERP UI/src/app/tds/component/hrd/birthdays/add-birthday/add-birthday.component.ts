@@ -36,6 +36,11 @@ export class AddBirthdayComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
+
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.BirthId) {
+      this.getBirthdayDetails(this.editData.BirthId);
+    }
     }
   
 
@@ -48,6 +53,10 @@ setParameter() {
         fieldGroupClassName: 'row card-body p-2',
 
         fieldGroup: [
+
+           {
+            key:'BirthId',
+           },
             {
             className: 'col-md-3',
             type: 'input',
@@ -70,7 +79,7 @@ setParameter() {
           {
             className: 'col-md-3',
             type: 'input',
-            key: 'email',
+            key: 'Email',
             props: {
               placeholder: 'Email',
               type: 'text',
@@ -152,15 +161,15 @@ setParameter() {
           {
             className: 'col-md-3',
             type: 'select',
-            key: 'Status',
+            key: 'IsActive',
             props: {
               placeholder: 'Select Status',
               type: 'text',
               label: "Select Status",
               required: true,
               options: [
-                { value: 'true', label: 'Active' },
-                { value: 'false', label: 'Inactive' }
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
               ]
             },
            
@@ -217,5 +226,26 @@ setParameter() {
     );
     
   }
+
+  getBirthdayDetails(BirthId: number) {
+    this.birthdayDetailsService.getBirthdayDetails(BirthId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.birthdayDetails = result.Value.Item1;
+
+          this.birthdayDetails.Date = this.birthdayDetailsService.formatDate(this.birthdayDetails.Date);
+
+
+          this.setParameter();
+          console.error('No data found for BirthId: ' + BirthId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving birthday details:', error);
+
+      }
+    );
+  }
+  
 
 }

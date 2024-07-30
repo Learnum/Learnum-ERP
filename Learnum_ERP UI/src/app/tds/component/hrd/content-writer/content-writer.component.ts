@@ -13,6 +13,7 @@ import { AddcontentWriterService } from './add-contentwriter/addcontent-writer.s
 })
 export class ContentWriterComponent implements OnInit {
 
+
   ContentWriterList: any[] = [];
   form: FormGroup;
 
@@ -118,16 +119,16 @@ export class ContentWriterComponent implements OnInit {
         });
       }
   }
-  selectBranch(branch: any) {
-
-  }
+  selectContentWriter($event: any) {
+    throw new Error('Method not implemented.');
+    }
  
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'branchID': data.row.branchID
+      'ContentWriterId': data.row.ContentWriterId
     }
-    this.router.navigate(['/tds/masters/add-employee'], { queryParams: data1 });
+    this.router.navigate(['tds/hrd/content-writer/add-contentwriter'], { queryParams: data1 });
   }
 
 
@@ -135,7 +136,7 @@ export class ContentWriterComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewBranch',
+      actionPage: 'ViewContentWriter',
       actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
@@ -160,4 +161,26 @@ export class ContentWriterComponent implements OnInit {
       let ContentWriterList = result.Value;
     })
   } 
+
+  editContentWriter(ContentWriterData: any) {
+    const ContentWriterId = ContentWriterData.ContentWriterId;
+    const index = this.ContentWriterList.findIndex(ContentWriter => ContentWriter.ContentWriterId === ContentWriterId);
+
+    if (index !== -1) {
+      this.openEditForm(ContentWriterData).then((editedContentWriterData: any) => {
+        this.ContentWriterList[index] = editedContentWriterData;
+        console.log('Edited Content Writer:', editedContentWriterData);
+      });
+    }
+  }
+
+  openEditForm(ContentWriterData: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const editedContentWriterData = { ...ContentWriterData };
+        editedContentWriterData.Status = 'Edited';
+        resolve(editedContentWriterData);
+      }, 1000);
+    });
+  }
 }

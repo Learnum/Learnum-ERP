@@ -15,6 +15,8 @@ export class AddcontentWriterService extends BaseService{
   private urlContentWriterList: string = "ContentWriterDetails/getAllContentWriterList";
   private urlgetCourseList: string = "CourseDetails/getAllCourseList";
   private urlgetSubjectList: string = "SubjectDetails/getAllSubjectList";
+  private urlGetContentWriter: string = "ContentWriterDetails/getContentWriterDetails";
+
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
@@ -34,5 +36,9 @@ export class AddcontentWriterService extends BaseService{
 
   getsubjectList() {
     return this.apiService.getData(this.urlgetSubjectList);
+  }
+
+  getContentWriterDetails(ContentWriterId: number) {
+    return this.apiService.getData(this.urlGetContentWriter+ '/' + ContentWriterId);
   }
 }

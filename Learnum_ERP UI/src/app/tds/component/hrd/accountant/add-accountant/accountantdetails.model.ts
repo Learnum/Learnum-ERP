@@ -1,7 +1,7 @@
 export class BranchAccountantDetailsModel {
-    branchAccountantId: number;
+    BranchAccountantId: number;
     branchId: number;
-    accountantName: string;
+    AccountantName: string;
     BranchName: string;
     isActive: boolean | null;
     addedBy: number | null;

@@ -1,7 +1,7 @@
 export class ContentWriterDetailsModel {
   CourseId: number;
   SubjectId: number;
-  contentWriterId: number;
+  ContentWriterId: number;
   ContentWriterName: string;
   CourseName: string;
   SubjectName: string;

@@ -38,6 +38,10 @@ export class AddBranchComponent implements OnInit {
     this.setParameter();
     this.getBranchDetails();
     
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.BranchManagerId) {
+      this. getBranchManagerDetails(this.editData.BranchManagerId);
+    }
   }
 
 setParameter() {
@@ -45,6 +49,10 @@ setParameter() {
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
+          {
+            key: 'BranchManagerId'
+
+          },
 
           {
             className: 'col-md-3',
@@ -83,15 +91,15 @@ setParameter() {
             {
               className: 'col-md-3',
               type: 'select',
-              key: 'isActive',
+              key: 'IsActive',
               templateOptions: {
                 placeholder: 'Select Status',
                 type: 'text',
                 label: "Status",
                 required: true,
                 options: [
-                  { value: 'true', label: 'Active' },
-                  { value: 'false', label: 'Inactive' }
+                  { value: true, label: 'Active' },
+                  { value: false, label: 'Inactive' }
                 ]
                },
               }, 
@@ -123,7 +131,7 @@ setParameter() {
     this.branchManagerDetails.addedDate = new Date();
     this.branchManagerDetails.updatedBy = 1;
     this.branchManagerDetails.updatedDate = new Date();
-    this.branchManagerDetails.branchManagerId = 0;
+   // this.branchManagerDetails.branchManagerId = 0;
 
     this.addbranchManagerService.insertBranchManagerData(this.branchManagerDetails).subscribe(
       (result: any) => {
@@ -160,5 +168,21 @@ setParameter() {
       }
     );
   }
+  
+  getBranchManagerDetails(BranchManagerId: number) {
+    this.addbranchManagerService.getBranchManagerDetails(BranchManagerId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.branchManagerDetails = result.Value.Item1;
 
+          this.setParameter();
+          console.error('No data found for BranchId: ' + BranchManagerId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving trainer details:', error);
+
+      }
+    );
+  }
 }
