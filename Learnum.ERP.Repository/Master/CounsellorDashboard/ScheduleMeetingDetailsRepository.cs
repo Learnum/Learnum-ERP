@@ -18,6 +18,7 @@ namespace Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo
      {
         Task<ResponseCode> InsertScheduleMeetingDetails(ScheduleMeetingDetailsModel schedulemeetingDetailsModel);
         Task<List<ScheduleMeetingDetailsResponseModel>> GetScheduleMeetingDetailsList();
+        Task<Tuple<ScheduleMeetingDetailsModel?, ResponseCode>> GetMettingDetails(long? MeetingId);
     }
     public class ScheduleMeetingDetailsRepository : BaseRepository, IScheduleMeetingDetailsRepository
     {
@@ -40,6 +41,18 @@ namespace Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo
                 var dbparams = new DynamicParameters();
                 var result = dbConnection.Query<ScheduleMeetingDetailsResponseModel>("PROC_GetMeetingDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
+            }
+        }
+        public async Task<Tuple<ScheduleMeetingDetailsModel?, ResponseCode>> GetMettingDetails(long? MeetingId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@MeetingId", MeetingId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<ScheduleMeetingDetailsModel?>("PROC_GetMettingDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<ScheduleMeetingDetailsModel?, ResponseCode>(result, responseCode));
             }
         }
     }

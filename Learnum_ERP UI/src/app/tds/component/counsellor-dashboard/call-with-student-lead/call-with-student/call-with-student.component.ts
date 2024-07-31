@@ -20,6 +20,7 @@ export class CallWithStudentComponent implements OnInit {
   fields: FormlyFieldConfig[];
   studentDetails:any;
   branchDetails: any;
+  editData: any;
 
   constructor(
     private router: Router,
@@ -32,6 +33,10 @@ export class CallWithStudentComponent implements OnInit {
     this.setParameter();
     this.getStudentCallDetails();
     this.getBranchDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.CallId) {
+      this.getCallDetails(this.editData.CallId);
+    }
   }
 
   setParameter() {
@@ -39,6 +44,9 @@ export class CallWithStudentComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
+          {
+            key:'callId',
+          },
           {
             className: 'col-md-6',
             type: 'select',
@@ -53,7 +61,7 @@ export class CallWithStudentComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'phone',
+            key: 'Phone',
             type: 'input',
             props: {
               label: 'Phone',
@@ -69,7 +77,7 @@ export class CallWithStudentComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'phoneCallDate',
+            key: 'PhoneCallDate',
             type: 'input',
             props: {
               label: 'Phone Call Date',
@@ -85,7 +93,7 @@ export class CallWithStudentComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'phoneCallTime',
+            key: 'PhoneCallTime',
             type: 'input',
             props: {
               label: 'Phone Call Time',
@@ -114,7 +122,7 @@ export class CallWithStudentComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'leadStatus',
+            key: 'LeadStatus',
             type: 'select',
             props: {
               label: 'Lead Status',
@@ -138,7 +146,7 @@ export class CallWithStudentComponent implements OnInit {
           },
           {
             //className: 'col-md-6',
-            key: 'callConversation',
+            key: 'CallConversation',
             type: 'textarea',
             props: {
               label: 'Call Conversation',
@@ -156,25 +164,26 @@ export class CallWithStudentComponent implements OnInit {
       },
     ];
   }
-  onCancelClick() {
+  onSubmit(): void {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this.InsertStudentCall();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
+  }
+  onCancleClick() {
     this.router.navigateByUrl('tds/counsellor-dashboard/call-with-student-lead');
   }
-
-  onSubmit(): void {
-    this.InsertStudentCall();
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   // Handle form submission
-    // } else {
-    //   // Handle form errors
-    // }
+  onResetClick() {
+    this.form.reset();
   }
   InsertStudentCall() {
     this.studentLeadcalls.addedBy = 1;
     this.studentLeadcalls.addedDate = new Date();
     this.studentLeadcalls.updatedBy = 1;
     this.studentLeadcalls.updatedDate = new Date();
-    this.studentLeadcalls.callId = 0;
+    //this.studentLeadcalls.callId = 0;
 
     this.studentcallsService.insertStudentCallDetails(this.studentLeadcalls).subscribe(
       (result: any) => {
@@ -212,6 +221,21 @@ export class CallWithStudentComponent implements OnInit {
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  getCallDetails(CallId: number) {
+    this.studentcallsService.getStudentDetails(CallId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.studentLeadcalls = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for CallId: ' + CallId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving call details:', error);
       }
     );
   }

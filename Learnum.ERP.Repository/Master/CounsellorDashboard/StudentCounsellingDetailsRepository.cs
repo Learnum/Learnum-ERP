@@ -17,6 +17,7 @@ namespace Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo
     {
         Task<ResponseCode> InsertStudentCounsellingDetails(StudentCounsellingDetailsModel studentcounsellingDetailsModel);
         Task<List<StudentCounsellingDetailsResponseModel>> GetStudentCounsellingDetailsList();
+        Task<Tuple<StudentCounsellingDetailsModel?, ResponseCode>> GetStudentCounselling(long? CounsellingId);
     }
     public class StudentCounsellingDetailsRepository : BaseRepository, IStudentCounsellingDetailsRepository
     {
@@ -41,6 +42,20 @@ namespace Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo
                 return await Task.FromResult(result);
             }
         }
+
+        public async Task<Tuple<StudentCounsellingDetailsModel?, ResponseCode>> GetStudentCounselling(long? CounsellingId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@CounsellingId", CounsellingId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<StudentCounsellingDetailsModel?>("PROC_GetStudentcounsellingList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<StudentCounsellingDetailsModel?, ResponseCode>(result, responseCode));
+            }
+        }
+
     }
 }
 

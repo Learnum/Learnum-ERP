@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
@@ -111,17 +111,10 @@ export class ScheduleSeminarWithCollegeComponent implements OnInit {
     {
       action: 'view',
       actionPage: 'ViewSeminar',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
-    {
-      action: 'edit',
-      actionPage: 'EditSeminar',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
   ];
 
   constructor(
@@ -136,36 +129,68 @@ export class ScheduleSeminarWithCollegeComponent implements OnInit {
     this.getClassroomDetails();
   }
 
-  getSeminarList() {
-    // this.seminarService.getSeminarList().subscribe(
-    //   (result: any) => {
-    //     this.seminarList = result.Value;
-    //   },
-    //   (error: any) => {
-    //     console.error("Error occurred while fetching seminars:", error);
-    //     this.alertService.ShowErrorMessage("An error occurred while fetching seminars. Please try again later.");
-    //   }
-    // );
-  }
-
-  onAddSeminar() {
-    this.router.navigate(['tds/counsellor-dashboard/schedule-seminar-with-college/add-seminar']);
-  }
-
   onRowAction(data: any) {
     let data1 = {
-      'source': data.action,
+      'source': 'edit',
       'SeminarId': data.row.SeminarId
-    };
-    this.router.navigate(['/tds/counsellor-dashboard/schedule-seminar-with-college/add-seminar'], { queryParams: data1 });
+    }
+    this.router.navigate(['tds/counsellor-dashboard/schedule-seminar-with-college/add-seminar'], { queryParams: data1 });
+  }
+  selectSeminar($event: any)
+   {
+    throw new Error('Method not implemented.');
   }
 
+  ActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewSeminar',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
+  onAddSeminar(seminar?: any) {
+
+    let navigationExtras: NavigationExtras = {};
+    if (seminar) {
+      navigationExtras = {
+        state: {
+          seminarData: seminar
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/counsellor-dashboard/schedule-seminar-with-college/add-seminar')
+  }
   onActionButton(action: string) {
-    alert(action + ' action button clicked.');
+    alert(action + ' ' + 'action button clicked.');
   }
+  editSeminar(seminarData: any) {
+    const seminarId = seminarData.seminarId;
+    const index = this.seminarDetailsList.findIndex(seminar => seminar.seminarId === seminarId);
 
-  selectSeminar(seminars: any) {
-    // Handle row selection logic
+    if (index !== -1) {
+
+
+      this.openEditForm(seminarData).then((editedseminarData: any) => {
+
+        this.seminarDetailsList[index] = editedseminarData;
+        console.log('Edited seminar:', editedseminarData);
+
+      });
+    }
+  }
+  openEditForm(seminarData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedseminarData = { ...seminarData };
+
+        editedseminarData.Status = 'Edited';
+        resolve(editedseminarData);
+      }, 1000);
+    });
   }
   getClassroomDetails() {
     this.collegeseminarService.getCollegeSeminarList().subscribe((result: any) => {

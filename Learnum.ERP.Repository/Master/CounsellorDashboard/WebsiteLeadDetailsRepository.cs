@@ -17,6 +17,7 @@ namespace Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo
     {
         Task<ResponseCode> InsertWebsiteLeadDetails(WebsiteLeadDetailsModel websiteleadDetailsModel);
         Task<List<WebsiteLeadDetailsResponseModel>> GetWebsiteLeadDetailsList();
+        Task<Tuple<WebsiteLeadDetailsModel?, ResponseCode>> GetWebsiteleadDetails(long? StudentId);
     }
     public class WebsiteLeadDetailsRepository : BaseRepository, IWebsiteLeadDetailsRepository
     {
@@ -39,6 +40,19 @@ namespace Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo
                 var dbparams = new DynamicParameters();
                 var result = dbConnection.Query<WebsiteLeadDetailsResponseModel>("PROC_GetWebsiteLeadList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<Tuple<WebsiteLeadDetailsModel?, ResponseCode>> GetWebsiteleadDetails(long? StudentId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@StudentId", StudentId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<WebsiteLeadDetailsModel?>("PROC_GetWebsiteLeadDetail", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<WebsiteLeadDetailsModel?, ResponseCode>(result, responseCode));
             }
         }
     }

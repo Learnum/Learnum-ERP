@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
@@ -96,18 +96,11 @@ export class WebsiteLeadsComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewLead',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
+      actionPage: 'ViewWebsiteLeads',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
-    {
-      action: 'edit',
-      actionPage: 'EditLead',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
   ];
 
   constructor(
@@ -121,24 +114,68 @@ export class WebsiteLeadsComponent implements OnInit {
   ngOnInit(): void {
     this.getWebsiteLeadDetails();
   }
-  AddWebsiteLead() {
-    this.router.navigate(['/tds/counsellor-dashboard/website-leads/add-website']);
-  }
-
   onRowAction(data: any) {
     let data1 = {
-      'source': data.action,
-      'LeadId': data.row.LeadId
-    };
-    this.router.navigate(['/tds/counsellor-dashboard/website-leads/add-website'], { queryParams: data1 });
+      'source': 'edit',
+      'StudentId': data.row.StudentId
+    }
+    this.router.navigate(['tds/counsellor-dashboard/website-leads/add-website'], { queryParams: data1 });
+  }
+  selectWebsiteLeads($event: any)
+   {
+    throw new Error('Method not implemented.');
   }
 
+  ActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewWebsiteLeads',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
+  onAddWebsiteLeads(website?: any) {
+
+    let navigationExtras: NavigationExtras = {};
+    if (website) {
+      navigationExtras = {
+        state: {
+          websiteData: website
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/counsellor-dashboard/website-leads/add-website')
+  }
   onActionButton(action: string) {
-    alert(action + ' action button clicked.');
+    alert(action + ' ' + 'action button clicked.');
   }
+  editWebsite(WebsiteData: any) {
+    const studentId = WebsiteData.studentId;
+    const index = this.websiteLeadList.findIndex(website => website.studentId === studentId);
 
-  selectLead(leads: any) {
-    // Handle row selection logic
+    if (index !== -1) {
+
+
+      this.openEditForm(WebsiteData).then((editedWebsiteData: any) => {
+
+        this.websiteLeadList[index] = editedWebsiteData;
+        console.log('Edited website:', editedWebsiteData);
+
+      });
+    }
+  }
+  openEditForm(websiteData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedWebsiteData = { ...websiteData };
+
+        editedWebsiteData.Status = 'Edited';
+        resolve(editedWebsiteData);
+      }, 1000);
+    });
   }
   getWebsiteLeadDetails() {
     this.websiteleadsService.getWebsiteList().subscribe((result: any) => {

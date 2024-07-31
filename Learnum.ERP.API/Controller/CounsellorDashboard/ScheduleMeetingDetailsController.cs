@@ -53,5 +53,21 @@ namespace Learnum.ERP.API.Controller.Counsellor_Dashboard
             }
             return NotFound("No record found");
         }
+
+        [HttpGet("getMeetingDetails/{MeetingId}")]
+        public async Task<IActionResult> GetMettingDetails(long? MeetingId)
+        {
+            if (MeetingId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await schedulemeetingDetailsRepository.GetMettingDetails(MeetingId);
+            return Ok(result);
+        }
     }
 }

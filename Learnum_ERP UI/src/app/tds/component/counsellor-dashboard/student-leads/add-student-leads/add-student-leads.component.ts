@@ -20,6 +20,7 @@ export class AddStudentLeadsComponent implements OnInit {
   fields: FormlyFieldConfig[];
   branchDetails: any;
   collegeDetails: any;
+  editData: any;
 
 
   constructor(
@@ -33,6 +34,10 @@ export class AddStudentLeadsComponent implements OnInit {
     this.setParameter();
     this.getBranchDetails();
     this.getCollegeDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.StudentId) {
+      this.getStudentDetails(this.editData.StudentId);
+    }
   }
 
   setParameter() {
@@ -41,8 +46,11 @@ export class AddStudentLeadsComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
+            key:'studentId',
+          },
+          {
             className: 'col-md-4',
-            key: 'studentName',
+            key: 'StudentName',
             type: 'input',
             props: {
               label: 'Student Name',
@@ -58,7 +66,7 @@ export class AddStudentLeadsComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'select',
-            key: 'collegeId',
+            key: 'CollegeId',
             templateOptions: {
               placeholder: 'College Name',
               type: 'text',
@@ -82,7 +90,7 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'studentPhone',
+            key: 'StudentPhone',
             type: 'input',
             props: {
               label: 'Student Phone',
@@ -97,7 +105,7 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'parentPhone',
+            key: 'ParentPhone',
             type: 'input',
             props: {
               label: "Parent's Phone",
@@ -112,7 +120,7 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'address',
+            key: 'Address',
             type: 'input',
             props: {
               label: 'Address',
@@ -127,7 +135,7 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'city',
+            key: 'City',
             type: 'input',
             props: {
               label: 'City / District',
@@ -142,7 +150,7 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'state',
+            key: 'State',
             type: 'input',
             props: {
               label: 'State',
@@ -157,7 +165,7 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'postalCode',
+            key: 'PostalCode',
             type: 'input',
             props: {
               label: 'PostalCode',
@@ -172,7 +180,7 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'leadSource',
+            key: 'LeadSource',
             type: 'select',
             props: {
               label: 'Lead Source',
@@ -196,7 +204,7 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'studentEmail',
+            key: 'StudentEmail',
             type: 'input',
             props: {
               label: 'Student Email',
@@ -211,7 +219,7 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'education',
+            key: 'Education',
             type: 'select',
             props: {
               label: 'Education',
@@ -241,7 +249,7 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'gender',
+            key: 'Gender',
             type: 'select',
             props: {
               label: 'Gender',
@@ -263,24 +271,28 @@ export class AddStudentLeadsComponent implements OnInit {
       },
     ];
   }
-  onCancelClick() {
+
+  onSubmit(): void {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this.InsertStudentLeads();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
+  }
+  onCancleClick() {
     this.router.navigateByUrl('tds/counsellor-dashboard/student-leads');
   }
-  onSubmit(): void {
-    this.InsertStudentLeads();
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   // Handle form submission
-    // } else {
-    //   // Handle form errors
-    // }
+  onResetClick() {
+    this.form.reset();
   }
+  
   InsertStudentLeads() {
     this.studentLeadDetails.addedBy = 1;
     this.studentLeadDetails.addedDate = new Date();
     this.studentLeadDetails.updatedBy = 1;
     this.studentLeadDetails.updatedDate = new Date();
-    this.studentLeadDetails.studentId = 0;
+    //this.studentLeadDetails.studentId = 0;
 
     this.studentleadsService.insertStudentLeads(this.studentLeadDetails).subscribe(
       (result: any) => {
@@ -319,6 +331,20 @@ export class AddStudentLeadsComponent implements OnInit {
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getStudentDetails(StudentId: number) {
+    this.studentleadsService.getStudentDetails(StudentId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.studentLeadDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for StudentId: ' + StudentId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving student details:', error);
       }
     );
   }

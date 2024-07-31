@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
@@ -90,18 +90,11 @@ export class CounsellingWithStudentComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewCounselling',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
+      actionPage: 'ViewStudent',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
-    {
-      action: 'edit',
-      actionPage: 'EditCounselling',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
   ];
 
   constructor(
@@ -115,24 +108,68 @@ export class CounsellingWithStudentComponent implements OnInit {
   ngOnInit(): void {
     this.getStudentCounsellingDetails();
   }
-  onAddCounselling() {
-    this.router.navigate(['tds/counsellor-dashboard/counselling-with-student/counselling-student']);
-  }
-
   onRowAction(data: any) {
     let data1 = {
-      'source': data.action,
+      'source': 'edit',
       'CounsellingId': data.row.CounsellingId
-    };
-    this.router.navigate(['/tds/counsellor-dashboard/counselling-with-student/add-counselling'], { queryParams: data1 });
+    }
+    this.router.navigate(['tds/counsellor-dashboard/counselling-with-student/counselling-student'], { queryParams: data1 });
+  }
+  selectStudentCounselling($event: any)
+   {
+    throw new Error('Method not implemented.');
   }
 
+  ActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewStudent',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
+  onAddStudentCounselling(student?: any) {
+
+    let navigationExtras: NavigationExtras = {};
+    if (student) {
+      navigationExtras = {
+        state: {
+          studentData: student
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/counsellor-dashboard/counselling-with-student/counselling-student')
+  }
   onActionButton(action: string) {
-    alert(action + ' action button clicked.');
+    alert(action + ' ' + 'action button clicked.');
   }
+  editPractical(StudentData: any) {
+    const counsellingId = StudentData.counsellingId;
+    const index = this.StudentCounsellingList.findIndex(student => student.counsellingId === counsellingId);
 
-  selectCounselling(counsellings: any) {
-    // Handle row selection logic
+    if (index !== -1) {
+
+
+      this.openEditForm(StudentData).then((editedStudentData: any) => {
+
+        this.StudentCounsellingList[index] = editedStudentData;
+        console.log('Edited Student:', editedStudentData);
+
+      });
+    }
+  }
+  openEditForm(studentData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedStudentData = { ...studentData };
+
+        editedStudentData.Status = 'Edited';
+        resolve(editedStudentData);
+      }, 1000);
+    });
   }
   getStudentCounsellingDetails() {
     this.studentcounsellingService.getStudentCounsellingDetails().subscribe((result: any) => {
