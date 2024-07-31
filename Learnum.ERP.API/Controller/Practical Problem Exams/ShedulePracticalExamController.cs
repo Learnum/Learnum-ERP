@@ -1,4 +1,5 @@
 ﻿using Learnum.ERP.API.Controller.Student_Management;
+using Learnum.ERP.Repository.Master;
 using Learnum.ERP.Repository.Master.Practical_Exams;
 using Learnum.ERP.Repository.Master.Student_Management;
 using Learnum.ERP.Shared.Core;
@@ -52,6 +53,23 @@ namespace Learnum.ERP.API.Controller.Practical_Exams
                 return Ok(data);
             }
             return NotFound("No record found");
+        }
+
+
+        [HttpGet("getGetShedulePracticalDetailsById/{SchedulePracticalExamId}")]
+        public async Task<IActionResult> GetShedulePracticalDetailsById(long? SchedulePracticalExamId)
+        {
+            if (SchedulePracticalExamId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await shedulePracticalExamRepository.GetShedulePracticalDetailsById(SchedulePracticalExamId);
+            return Ok(result);
         }
     }
 }

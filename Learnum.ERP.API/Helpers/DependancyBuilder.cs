@@ -9,6 +9,7 @@ using Learnum.ERP.Repository.Master.HRD_repo;
 using Learnum.ERP.Repository.Master.Masters;
 using Learnum.ERP.Repository.Master.My_Practical_Exam;
 using Learnum.ERP.Repository.Master.MySyllabus_repo;
+using Learnum.ERP.Repository.Master.Practical_Exams;
 using Learnum.ERP.Repository.Master.Student_Management;
 using Learnum.ERP.Repository.Master.Trainers;
 
@@ -67,6 +68,7 @@ namespace Learnum.ERP.API.Helpers
             services.AddTransient<ISyllabusStatusRepository, SyllabusStatusesRepository>();
             services.AddTransient<IBranchAccountantDetailsRepository, BranchAccountantDetailsRepository>();
             services.AddTransient<IContentWriterDetailsRepository, ContentWriterDetailsRepository>();
+            services.AddTransient<IShedulePracticalExamRepository, ShedulePracticalExamRepository>();
            
         }
     }

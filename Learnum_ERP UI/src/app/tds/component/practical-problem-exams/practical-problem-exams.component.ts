@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn, ActionColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { SchedulePracticalProblemService } from './schedule-practical-problem/schedule-practical-problem.service';
 
 @Component({
   selector: 'app-practical-problem-exams',
@@ -11,77 +12,87 @@ import { TableColumn, ActionColumn } from 'src/app/shared/data-grid/model/data-g
 })
 export class PracticalProblemExamsComponent implements OnInit {
 
-  practicalProblemExamList: any[] = [];
+  PracticalProblemList: any[] = [];
 
   declaredTableColumns: TableColumn[] = [
+    // {
+    //   field: 'schedulePracticalExamId',
+    //   headerName: 'ID',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 80
+    // },
     {
-      field: 'ExamId',
-      headerName: 'ID',
+      field: 'BatchName',
+      headerName: 'Batch Name',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'SubjectName',
+      headerName: 'Subject Name',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 80
+      minWidth: 150
+
     },
     {
-      field: 'title',
-      headerName: 'Title',
+      field: 'BranchName',
+      headerName: 'branch Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'subject',
-      headerName: 'Subject',
+      field: 'CourseName',
+      headerName: 'Course Name',
+      filter: 'agSetColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+
+    },
+    // {
+    //   field: 'TopicName',
+    //   headerName: 'Topic Name',
+    //   filter: 'agDateColumnFilter',
+    //   filterParams: { buttons: ['reset', 'apply'] },
+    //   minWidth: 150
+    // },
+    {
+      field: 'PracticalProblemStatus',
+      headerName: 'PracticalProblemStatus',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
-    {
-      field: 'grade',
-      headerName: 'Grade',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    },
-    {
-      field: 'date',
-      headerName: 'Date',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    }
+    
   ];
 
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewPracticalProblemExam',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
+      actionPage: 'ViewContentWriter',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
-    {
-      action: 'edit',
-      actionPage: 'EditPracticalProblemExam',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
   ];
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private alertService: AlertService,
+    private alertService: AlertService,    
+    private schedulePracticalProblemService: SchedulePracticalProblemService,
+
+
   ) { }
 
   ngOnInit(): void {
@@ -89,34 +100,63 @@ export class PracticalProblemExamsComponent implements OnInit {
   }
 
   getPracticalProblemExamList() {
-    // this.practicalProblemExamService.getPracticalProblemExamList().subscribe(
-    //   (result: any) => {
-    //     this.practicalProblemExamList = result.Value;
-    //   },
-    //   (error: any) => {
-    //     console.error("Error occurred while fetching practical problem exams:", error);
-    //     this.alertService.ShowErrorMessage("An error occurred while fetching practical problem exams. Please try again later.");
-    //   }
-    // );
-  }
+    this.schedulePracticalProblemService.getPracticalProblemList().subscribe((result: any) => {
+      this.PracticalProblemList = result.Value;
+      //let PracticalProblemList = result.Value;
+    })
+}
 
-  onAddPracticalProblemExam() {
+  onAddPracticalProblemExam(practical?: any) {
+
+    let navigationExtras: NavigationExtras = {};
+    if (practical) {
+      navigationExtras = {
+        state: {
+          PracticalProblemData: practical
+        }
+      };
+    }
     this.router.navigate(['tds/practical-problem-exams/schedule-practical-problem']);
   }
 
   onRowAction(data: any) {
     let data1 = {
       'source': data.action,
-      'ExamId': data.row.ExamId
+      'SchedulePracticalExamId': data.row.SchedulePracticalExamId
     };
-    this.router.navigate(['/tds/practical-problem-exam/add-practical-problem-exam'], { queryParams: data1 });
+    this.router.navigate(['tds/practical-problem-exams/schedule-practical-problem'], { queryParams: data1 });
   }
 
   onActionButton(action: string) {
     alert(action + ' action button clicked.');
   }
 
-  selectPracticalProblemExam(exams: any) {
-    // Handle row selection logic
+  selectPracticalProblemExam($event: any) {
+    throw new Error('Method not implemented.');
+  }
+
+  editPracticalProblem(PracticalProblemData: any) {
+    const schedulePracticalExamId = PracticalProblemData.schedulePracticalExamId;
+    const index = this.PracticalProblemList.findIndex(PracticalProblem => PracticalProblem.schedulePracticalExamId === schedulePracticalExamId);
+
+    if (index !== -1) {
+      this.openEditForm(PracticalProblemData).then((editedPracticalProblemData: any) => {
+        this.PracticalProblemList[index] = editedPracticalProblemData;
+        console.log('Edited Practical Problem:', editedPracticalProblemData);
+      });
+    }
+  }
+
+  openEditForm(PracticalProblemData: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const editedPracticalProblemData = { ...PracticalProblemData };
+        editedPracticalProblemData.Status = 'Edited';
+        resolve(editedPracticalProblemData);
+      }, 1000);
+    });
   }
 }
+
+
+
