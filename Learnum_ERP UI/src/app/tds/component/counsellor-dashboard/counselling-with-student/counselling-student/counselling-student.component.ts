@@ -65,7 +65,7 @@ export class CounsellingStudentComponent implements OnInit {
             props: {
               label: 'Phone',
               placeholder: 'Enter Phone Number',
-              type: 'tel',
+              type: 'number',
               required: true,
               pattern: '^[0-9]+$',
             },

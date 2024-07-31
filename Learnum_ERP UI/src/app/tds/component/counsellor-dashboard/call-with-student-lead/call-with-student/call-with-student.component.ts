@@ -48,7 +48,7 @@ export class CallWithStudentComponent implements OnInit {
             key:'callId',
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'StudentId',
             templateOptions: {
@@ -60,23 +60,25 @@ export class CallWithStudentComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'Phone',
             type: 'input',
             props: {
               label: 'Phone',
               placeholder: 'Enter Phone Number',
-              type: 'tel',
+              type: 'number',
               required: true,
+              pattern: '^[0-9]+$',
             },
             validation: {
               messages: {
                 required: 'Phone is required',
+                pattern: 'Please Enter Valid PhoneNumber',
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'PhoneCallDate',
             type: 'input',
             props: {
@@ -92,7 +94,7 @@ export class CallWithStudentComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'PhoneCallTime',
             type: 'input',
             props: {
@@ -108,7 +110,7 @@ export class CallWithStudentComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
@@ -121,7 +123,7 @@ export class CallWithStudentComponent implements OnInit {
 
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'LeadStatus',
             type: 'select',
             props: {
@@ -145,14 +147,14 @@ export class CallWithStudentComponent implements OnInit {
             },
           },
           {
-            //className: 'col-md-6',
+            className: 'col-md-6',
             key: 'CallConversation',
             type: 'textarea',
             props: {
               label: 'Call Conversation',
               placeholder: 'Enter Call Conversation',
               required: true,
-              rows:10
+              rows:5
             },
             validation: {
               messages: {

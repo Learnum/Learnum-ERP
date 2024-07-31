@@ -71,11 +71,12 @@ export class AddMeetingComponent implements OnInit {
               type: 'text',
               label: "Meeting with",
               required: true,
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Meeting Name is required',
-
+                pattern: 'Please Enter Meeting with',
               },
             },
           },
@@ -119,22 +120,25 @@ export class AddMeetingComponent implements OnInit {
               label: 'Meeting Location',
               placeholder: 'Enter Meeting Location',
               required: true,
+              type:'text',
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Meeting Location is required',
+                pattern: 'Please Enter Meeting location'
               },
             },
           },
           {
-            className: 'col-md-9',
+            className: 'col-md-6',
             type: 'textarea',
             key: 'MeetingAgenda',
             templateOptions: {
               placeholder: 'Enter Meeting Agenda',
               label: 'Meeting Agenda',
               required: true,
-              rows: 10,
+              rows: 5,
              
             },
             validation: {

@@ -55,7 +55,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
               label: 'Question',
               placeholder: 'Enter Question',
               required: true,
-              rows: 6
+              rows: 5
             },
             validation: {
               messages: {
@@ -71,7 +71,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
               label: 'Model Answer',
               placeholder: 'Enter Model Answer',
               required: true,
-              rows: 6
+              rows: 5
             },
             validation: {
               messages: {
@@ -95,6 +95,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
                 required: 'Marks are required',
                 min: 'Marks must be at least 0',
                 max: 'Marks cannot be more than 100',
+                pattern: 'Please Enter Marks'
               },
             },
           },

@@ -71,11 +71,13 @@ export class AddSeminarComponent implements OnInit {
               label: 'Spock Person',
               placeholder: 'Enter Spock Person Name',
               required: true,
-              type: 'text'
+              type: 'text',
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Spock Person is required',
+                pattern: 'Please Enter Spock Person name',
               },
             },
           },
@@ -112,17 +114,20 @@ export class AddSeminarComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-2',
+            className: 'col-md-3',
             key: 'SeminarLocation',
             type: 'input',
             props: {
               label: 'Seminar Location',
               placeholder: 'Enter Seminar Location',
               required: true,
+              type:'text',
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Seminar Location is required',
+                pattern: 'Please Enter Seminar Location',
               },
             },
           },
@@ -172,14 +177,14 @@ export class AddSeminarComponent implements OnInit {
           //   },
           // },
           {
-            className: 'col-md-7',
+            className: 'col-md-6',
             type: 'textarea',
             key: 'SeminarAgenda',
             templateOptions: {
               placeholder: 'Enter Seminar Agenda',
               label: 'Seminar Agenda',
               required: true,
-              rows: 10,
+              rows: 5,
 
             },
             validation: {

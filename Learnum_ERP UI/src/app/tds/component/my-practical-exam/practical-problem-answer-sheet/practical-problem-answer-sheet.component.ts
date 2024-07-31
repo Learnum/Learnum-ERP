@@ -48,14 +48,14 @@ export class PracticalProblemAnswerSheetComponent implements OnInit {
             key:'studentId'
           },
           {
-            className: 'col-md-7',
+            className: 'col-md-6',
             key: 'Answer',
             type: 'textarea',
             props: {
               label: 'StudentAnswer',
               placeholder: 'StudentAnswer',
               required: true,
-              rows:8,
+              rows:5,
             },
           },
         ],
