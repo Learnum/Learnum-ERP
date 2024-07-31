@@ -19,7 +19,7 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
   declaredTableColumns: TableColumn[] = [
     {
       field: 'MeetingId',
-      headerName: 'SR>NO',
+      headerName: 'SR.NO',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
@@ -95,24 +95,6 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
       minWidth: 150
     },
   ];
-
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewMeeting',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-    {
-      action: 'edit',
-      actionPage: 'EditMeeting',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
-  ];
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -125,29 +107,82 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
       // Apply validators here if needed
     });
   }
-
   ngOnInit(): void {
     this.getMeetingDetails();
   }
 
-  onAddMeeting() {
-    this.router.navigate(['/tds/counsellor-dashboard/schedule-meeting-with-college/add-meeting']);
-  }
-
-  selectCourse(event: any) {
-    console.log('Selected course:', event);
-  }
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'Edit',
+      actionPage: 'EditMeeting',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
 
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'meetingId': data.row.branchID
+      'MeetingId': data.row.MeetingId
     }
-    this.router.navigate(['/tds/counsellor-dashboard/schedule-meeting-with-college/add-meeting'], { queryParams: data1 });
+    this.router.navigate(['tds/counsellor-dashboard/schedule-meeting-with-college/add-meeting'], { queryParams: data1 });
+  }
+  selectMetting($event: any)
+   {
+    throw new Error('Method not implemented.');
   }
 
+  ActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewPractical',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
+  onAddMetting(metting?: any) {
+
+    let navigationExtras: NavigationExtras = {};
+    if (metting) {
+      navigationExtras = {
+        state: {
+          mettingData: metting
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/counsellor-dashboard/schedule-meeting-with-college/add-meeting')
+  }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
+  }
+  editMetting(MeetingData: any) {
+    const meetingId = MeetingData.meetingId;
+    const index = this.meetingDetailsList.findIndex(metting => metting.meetingId === meetingId);
+
+    if (index !== -1) {
+
+
+      this.openEditForm(MeetingData).then((editedMeetingData: any) => {
+
+        this.meetingDetailsList[index] = editedMeetingData;
+        console.log('Edited metting:', editedMeetingData);
+
+      });
+    }
+  }
+  openEditForm(mettingData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedmettingData = { ...mettingData };
+
+        editedmettingData.Status = 'Edited';
+        resolve(editedmettingData);
+      }, 1000);
+    });
   }
 
   getMeetingDetails() {

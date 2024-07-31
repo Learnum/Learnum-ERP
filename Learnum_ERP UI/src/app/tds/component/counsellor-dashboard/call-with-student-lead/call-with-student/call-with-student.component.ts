@@ -20,6 +20,7 @@ export class CallWithStudentComponent implements OnInit {
   fields: FormlyFieldConfig[];
   studentDetails:any;
   branchDetails: any;
+  editData: any;
 
   constructor(
     private router: Router,
@@ -32,6 +33,10 @@ export class CallWithStudentComponent implements OnInit {
     this.setParameter();
     this.getStudentCallDetails();
     this.getBranchDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.CallId) {
+      this.getCallDetails(this.editData.CallId);
+    }
   }
 
   setParameter() {
@@ -40,7 +45,10 @@ export class CallWithStudentComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-6',
+            key:'callId',
+          },
+          {
+            className: 'col-md-3',
             type: 'select',
             key: 'StudentId',
             templateOptions: {
@@ -52,24 +60,26 @@ export class CallWithStudentComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'phone',
+            className: 'col-md-3',
+            key: 'Phone',
             type: 'input',
             props: {
               label: 'Phone',
               placeholder: 'Enter Phone Number',
-              type: 'tel',
+              type: 'number',
               required: true,
+              pattern: '^[0-9]+$',
             },
             validation: {
               messages: {
                 required: 'Phone is required',
+                pattern: 'Please Enter Valid PhoneNumber',
               },
             },
           },
           {
-            className: 'col-md-6',
-            key: 'phoneCallDate',
+            className: 'col-md-3',
+            key: 'PhoneCallDate',
             type: 'input',
             props: {
               label: 'Phone Call Date',
@@ -84,8 +94,8 @@ export class CallWithStudentComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'phoneCallTime',
+            className: 'col-md-3',
+            key: 'PhoneCallTime',
             type: 'input',
             props: {
               label: 'Phone Call Time',
@@ -100,7 +110,7 @@ export class CallWithStudentComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
@@ -113,8 +123,8 @@ export class CallWithStudentComponent implements OnInit {
 
           },
           {
-            className: 'col-md-6',
-            key: 'leadStatus',
+            className: 'col-md-3',
+            key: 'LeadStatus',
             type: 'select',
             props: {
               label: 'Lead Status',
@@ -137,14 +147,14 @@ export class CallWithStudentComponent implements OnInit {
             },
           },
           {
-            //className: 'col-md-6',
-            key: 'callConversation',
+            className: 'col-md-6',
+            key: 'CallConversation',
             type: 'textarea',
             props: {
               label: 'Call Conversation',
               placeholder: 'Enter Call Conversation',
               required: true,
-              rows:10
+              rows:5
             },
             validation: {
               messages: {
@@ -156,25 +166,26 @@ export class CallWithStudentComponent implements OnInit {
       },
     ];
   }
-  onCancelClick() {
+  onSubmit(): void {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this.InsertStudentCall();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
+  }
+  onCancleClick() {
     this.router.navigateByUrl('tds/counsellor-dashboard/call-with-student-lead');
   }
-
-  onSubmit(): void {
-    this.InsertStudentCall();
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   // Handle form submission
-    // } else {
-    //   // Handle form errors
-    // }
+  onResetClick() {
+    this.form.reset();
   }
   InsertStudentCall() {
     this.studentLeadcalls.addedBy = 1;
     this.studentLeadcalls.addedDate = new Date();
     this.studentLeadcalls.updatedBy = 1;
     this.studentLeadcalls.updatedDate = new Date();
-    this.studentLeadcalls.callId = 0;
+    //this.studentLeadcalls.callId = 0;
 
     this.studentcallsService.insertStudentCallDetails(this.studentLeadcalls).subscribe(
       (result: any) => {
@@ -212,6 +223,21 @@ export class CallWithStudentComponent implements OnInit {
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  getCallDetails(CallId: number) {
+    this.studentcallsService.getStudentDetails(CallId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.studentLeadcalls = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for CallId: ' + CallId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving call details:', error);
       }
     );
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
@@ -117,18 +117,11 @@ export class StudentLeadsComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewStudentLead',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
+      actionPage: 'ViewStudent',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
-    {
-      action: 'edit',
-      actionPage: 'EditStudentLead',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
   ];
 
   constructor(
@@ -144,24 +137,68 @@ export class StudentLeadsComponent implements OnInit {
   }
 
 
-  AddStudentLeads() {
-    this.router.navigate(['tds/counsellor-dashboard/student-leads/add-student-leads']);
-  }
-
   onRowAction(data: any) {
     let data1 = {
-      'source': data.action,
-      'StudentLeadId': data.row.StudentLeadId
-    };
-    this.router.navigate(['/tds/counsellor-dashboard/student-leads/add-student-leads'], { queryParams: data1 });
+      'source': 'edit',
+      'StudentId': data.row.StudentId
+    }
+    this.router.navigate(['tds/counsellor-dashboard/student-leads/add-student-leads'], { queryParams: data1 });
+  }
+  selectStudent($event: any)
+   {
+    throw new Error('Method not implemented.');
   }
 
+  ActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewStudent',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
+  onAddStudent(student?: any) {
+
+    let navigationExtras: NavigationExtras = {};
+    if (student) {
+      navigationExtras = {
+        state: {
+          studentData: student
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/counsellor-dashboard/student-leads/add-student-leads')
+  }
   onActionButton(action: string) {
-    alert(action + ' action button clicked.');
+    alert(action + ' ' + 'action button clicked.');
   }
+  editStudent(StudentData: any) {
+    const studentId = StudentData.studentId;
+    const index = this.studentLeadList.findIndex(student => student.studentId === studentId);
 
-  selectStudentLead(studentLeads: any) {
-    // Handle row selection logic
+    if (index !== -1) {
+
+
+      this.openEditForm(StudentData).then((editedStudentData: any) => {
+
+        this.studentLeadList[index] = editedStudentData;
+        console.log('Edited student:', editedStudentData);
+
+      });
+    }
+  }
+  openEditForm(studentData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedStudentData = { ...studentData };
+
+        editedStudentData.Status = 'Edited';
+        resolve(editedStudentData);
+      }, 1000);
+    });
   }
   getStudentLeadsDetails() {
     this.studentleadsService.getStudentLeads().subscribe((result: any) => {

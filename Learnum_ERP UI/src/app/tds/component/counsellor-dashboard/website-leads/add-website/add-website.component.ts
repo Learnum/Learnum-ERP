@@ -17,10 +17,10 @@ export class AddWebsiteComponent implements OnInit {
 
   websiteLeadDetails:WebsiteLeadDetails = new WebsiteLeadDetails();
   form = new FormGroup({});
-  model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   courseDetails: any;
+  editData: any;
 
 
   constructor(
@@ -33,6 +33,10 @@ export class AddWebsiteComponent implements OnInit {
   ngOnInit(): void {
     this.setParameter();
     this.getCourseDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.StudentId) {
+      this.getWebsiteLeadsDetails(this.editData.StudentId);
+    }
   }
 
   setParameter() {
@@ -41,22 +45,28 @@ export class AddWebsiteComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-6',
-            key: 'studentName',
+            key:'studentId'
+          },
+          {
+            className: 'col-md-3',
+            key: 'StudentName',
             type: 'input',
             props: {
               label: 'Student Name',
               placeholder: 'Enter Student Name',
+              type: 'text',
               required: true,
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Student Name is required',
+                pattern: 'Please Enter Student FullName',
               },
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'CourseId',
             templateOptions: {
@@ -68,24 +78,26 @@ export class AddWebsiteComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'phone',
+            className: 'col-md-3',
+            key: 'Phone',
             type: 'input',
             props: {
               label: 'Phone',
               placeholder: 'Enter Phone Number',
-              type: 'tel',
+              type: 'number',
               required: true,
+              pattern: '^[0-9]+$',
             },
             validation: {
               messages: {
                 required: 'Phone is required',
+                pattern: 'Please Enter Valid PhoneNumber',
               },
             },
           },
           {
-            className: 'col-md-6',
-            key: 'email',
+            className: 'col-md-3',
+            key: 'Email',
             type: 'input',
             props: {
               label: 'Email',
@@ -100,17 +112,19 @@ export class AddWebsiteComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'yourLocation',
+            className: 'col-md-3',
+            key: 'YourLocation',
             type: 'input',
             props: {
               label: 'Your Location',
               placeholder: 'Enter Your Location',
               required: true,
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Your Location is required',
+                pattern: 'Please Enter Your Location',
               },
             },
           },
@@ -118,18 +132,19 @@ export class AddWebsiteComponent implements OnInit {
       },
     ];
   }
-  onCancelClick() {
+  onSubmit(): void {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this. insertWebsiteLeads();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
+  }
+  onCancleClick() {
     this.router.navigateByUrl('tds/counsellor-dashboard/website-leads');
   }
-
-  onSubmit(): void {
-    this.insertWebsiteLeads();
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   // Handle form submission
-    // } else {
-    //   // Handle form errors
-    // }
+  onResetClick() {
+    this.form.reset();
   }
   getCourseDetails() {
     this.websiteleadsService.getClassroomList().subscribe(
@@ -148,7 +163,7 @@ export class AddWebsiteComponent implements OnInit {
     this.websiteLeadDetails.addedDate = new Date();
     this.websiteLeadDetails.updatedBy = 1;
     this.websiteLeadDetails.updatedDate = new Date();
-    this.websiteLeadDetails.studentId = 0;
+    //this.websiteLeadDetails.studentId = 0;
 
     this.websiteleadsService.insertWebsiteDetails(this.websiteLeadDetails).subscribe(
       (result: any) => {
@@ -166,6 +181,20 @@ export class AddWebsiteComponent implements OnInit {
       }
     );
     this.router.navigateByUrl('tds/counsellor-dashboard/website-leads');
+  }
+  getWebsiteLeadsDetails(StudentId: number) {
+    this.websiteleadsService.getWebsiteLeadList(StudentId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.websiteLeadDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for StudentId: ' + StudentId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving practical details:', error);
+      }
+    );
   }
 
 }

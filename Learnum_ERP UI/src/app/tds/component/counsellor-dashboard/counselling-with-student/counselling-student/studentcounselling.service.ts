@@ -11,6 +11,7 @@ export class StudentcounsellingService {
   private urlgetStudentCounsellingDetails: string = "StudentCounsellingDetails/getAllStudentCounsellingList";
   private urlStudentLeadsdetails: string = "StudentLeadDetails/getAllStudentLeadList";
   private urlgetBranchList: string = "BranchDetails/getAllBranchList";
+  private urlGetStudentCounselling: string = "StudentCounsellingDetails/getStudentCounsellingDetails";
 
   constructor(private apiService: APIService) { }
 
@@ -25,5 +26,8 @@ export class StudentcounsellingService {
   }
   getBranchList() {
     return this.apiService.getData(this.urlgetBranchList);
+  }
+  getStudentCounsellingList(counsellingId: number) {
+    return this.apiService.getData(this.urlGetStudentCounselling + '/' + counsellingId);
   }
 }

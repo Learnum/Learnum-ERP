@@ -20,6 +20,7 @@ export class AddStudentLeadsComponent implements OnInit {
   fields: FormlyFieldConfig[];
   branchDetails: any;
   collegeDetails: any;
+  editData: any;
 
 
   constructor(
@@ -33,6 +34,10 @@ export class AddStudentLeadsComponent implements OnInit {
     this.setParameter();
     this.getBranchDetails();
     this.getCollegeDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.StudentId) {
+      this.getStudentDetails(this.editData.StudentId);
+    }
   }
 
   setParameter() {
@@ -41,24 +46,30 @@ export class AddStudentLeadsComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-4',
-            key: 'studentName',
+            key:'studentId',
+          },
+          {
+            className: 'col-md-3',
+            key: 'StudentName',
             type: 'input',
             props: {
               label: 'Student Name',
               placeholder: 'Enter Student Name',
+              type: 'text',
               required: true,
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Student Name is required',
+                pattern: 'Please Enter Student FullName',
               },
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
-            key: 'collegeId',
+            key: 'CollegeId',
             templateOptions: {
               placeholder: 'College Name',
               type: 'text',
@@ -68,7 +79,7 @@ export class AddStudentLeadsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
@@ -81,98 +92,114 @@ export class AddStudentLeadsComponent implements OnInit {
 
           },
           {
-            className: 'col-md-4',
-            key: 'studentPhone',
+            className: 'col-md-3',
+            key: 'StudentPhone',
             type: 'input',
             props: {
               label: 'Student Phone',
               placeholder: 'Enter Student Phone',
+              type: 'number',
               required: true,
             },
             validation: {
               messages: {
                 required: 'Student Phone is required',
+                type:'Please Enter Valid Number',
               },
             },
           },
           {
-            className: 'col-md-4',
-            key: 'parentPhone',
+            className: 'col-md-3',
+            key: 'ParentPhone',
             type: 'input',
             props: {
               label: "Parent's Phone",
               placeholder: "Enter Parent's Phone",
               required: true,
+              type: 'number',
             },
             validation: {
               messages: {
                 required: "Parent's Phone is required",
+                type:'Please Enter Valid Number',
               },
             },
           },
           {
-            className: 'col-md-4',
-            key: 'address',
+            className: 'col-md-3',
+            key: 'Address',
             type: 'input',
             props: {
               label: 'Address',
               placeholder: 'Enter Address',
+              type: 'text',
               required: true,
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Address is required',
+                pattern: 'Please Enter Full Address',
               },
             },
           },
           {
-            className: 'col-md-4',
-            key: 'city',
+            className: 'col-md-3',
+            key: 'City',
             type: 'input',
             props: {
               label: 'City / District',
               placeholder: 'Enter City',
+              type:'text',
+              pattern: '^[A-Za-z]+$',
               required: true,
             },
             validation: {
               messages: {
                 required: 'City is required',
+                pattern: 'Please Enter City',
               },
             },
           },
           {
-            className: 'col-md-4',
-            key: 'state',
+            className: 'col-md-3',
+            key: 'State',
             type: 'input',
             props: {
               label: 'State',
               placeholder: 'Enter State',
               required: true,
+              type:'text',
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'State is required',
+                pattern: 'Please Enter State',
               },
             },
           },
           {
-            className: 'col-md-4',
-            key: 'postalCode',
+            className: 'col-md-3',
+            key: 'PostalCode',
             type: 'input',
             props: {
               label: 'PostalCode',
               placeholder: 'Enter PostalCode',
               required: true,
+              pattern: '^[0-9]+$',
+              type:'number'
             },
             validation: {
               messages: {
                 required: 'PostalCode is required',
+                pattern: 'Please Enter Valid Pincode',
               },
             },
           },
           {
-            className: 'col-md-4',
-            key: 'leadSource',
+            className: 'col-md-3',
+            key: 'LeadSource',
             type: 'select',
             props: {
               label: 'Lead Source',
@@ -195,8 +222,8 @@ export class AddStudentLeadsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            key: 'studentEmail',
+            className: 'col-md-3',
+            key: 'StudentEmail',
             type: 'input',
             props: {
               label: 'Student Email',
@@ -210,8 +237,8 @@ export class AddStudentLeadsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            key: 'education',
+            className: 'col-md-3',
+            key: 'Education',
             type: 'select',
             props: {
               label: 'Education',
@@ -240,8 +267,8 @@ export class AddStudentLeadsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            key: 'gender',
+            className: 'col-md-3',
+            key: 'Gender',
             type: 'select',
             props: {
               label: 'Gender',
@@ -263,24 +290,28 @@ export class AddStudentLeadsComponent implements OnInit {
       },
     ];
   }
-  onCancelClick() {
+
+  onSubmit(): void {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this.InsertStudentLeads();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
+  }
+  onCancleClick() {
     this.router.navigateByUrl('tds/counsellor-dashboard/student-leads');
   }
-  onSubmit(): void {
-    this.InsertStudentLeads();
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   // Handle form submission
-    // } else {
-    //   // Handle form errors
-    // }
+  onResetClick() {
+    this.form.reset();
   }
+  
   InsertStudentLeads() {
     this.studentLeadDetails.addedBy = 1;
     this.studentLeadDetails.addedDate = new Date();
     this.studentLeadDetails.updatedBy = 1;
     this.studentLeadDetails.updatedDate = new Date();
-    this.studentLeadDetails.studentId = 0;
+    //this.studentLeadDetails.studentId = 0;
 
     this.studentleadsService.insertStudentLeads(this.studentLeadDetails).subscribe(
       (result: any) => {
@@ -319,6 +350,20 @@ export class AddStudentLeadsComponent implements OnInit {
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getStudentDetails(StudentId: number) {
+    this.studentleadsService.getStudentDetails(StudentId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.studentLeadDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for StudentId: ' + StudentId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving student details:', error);
       }
     );
   }

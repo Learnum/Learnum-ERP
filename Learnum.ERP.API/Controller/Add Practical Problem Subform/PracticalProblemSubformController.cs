@@ -63,6 +63,7 @@ namespace Learnum.ERP.API.Controller.Add_Practical_Problem_Subform
             fileUpload.FileName = file.FileName;
             fileUpload.MimeType = file.ContentType;
             fileUpload.FilePath = fullPath;
+            fileUpload.QuestionId = practicalProblemsSubform.QuestionId;
             fileUpload.Question = practicalProblemsSubform.Question;
             fileUpload.ModelAnswer = practicalProblemsSubform.ModelAnswer;
             fileUpload.Marks = practicalProblemsSubform.Marks;
@@ -92,5 +93,22 @@ namespace Learnum.ERP.API.Controller.Add_Practical_Problem_Subform
             }
             return NotFound("No record found");
         }
+
+        [HttpGet("getAddPracticalDetails/{QuestionId}")]
+        public async Task<IActionResult> GetPracticalDetails(long? QuestionId)
+        {
+            if (QuestionId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await practicalProblemsSubformRepository.GetPracticalDetails(QuestionId);
+            return Ok(result);
+        }
+
     }
 }

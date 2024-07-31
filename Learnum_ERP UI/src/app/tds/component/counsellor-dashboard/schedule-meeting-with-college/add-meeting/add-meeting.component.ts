@@ -17,10 +17,10 @@ export class AddMeetingComponent implements OnInit {
 
   meetingDetails:MeetingDetails=new MeetingDetails();
   form = new FormGroup({});
-  model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   collegeDetails:any;
+  editData: any;
 
   constructor(
     private router: Router,
@@ -34,7 +34,10 @@ export class AddMeetingComponent implements OnInit {
   ngOnInit(): void {
     this.setParameter();
     this.getCollegeDetails();
-    
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.MeetingId) {
+      this.getMettingDetails(this.editData.MeetingId);
+    }
   }
 
 
@@ -44,7 +47,10 @@ export class AddMeetingComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [ 
           {
-            className: 'col-md-6',
+            key:'meetingId',
+          },
+          {
+            className: 'col-md-3',
             type: 'select',
             key: 'CollegeId',
             templateOptions: {
@@ -57,25 +63,26 @@ export class AddMeetingComponent implements OnInit {
 
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
-            key: 'meetingwith',
+            key: 'Meetingwith',
             props: {
               placeholder: 'Meeting with',
               type: 'text',
               label: "Meeting with",
               required: true,
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Meeting Name is required',
-
+                pattern: 'Please Enter Meeting with',
               },
             },
           },
           {
-            className: 'col-md-6',
-            key: 'meetingDate',
+            className: 'col-md-3',
+            key: 'MeetingDate',
             type: 'input',
             props: {
               label: 'Meeting Date',
@@ -90,8 +97,8 @@ export class AddMeetingComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'meetingTime',
+            className: 'col-md-3',
+            key: 'MeetingTime',
             type: 'input',
             props: {
               label: 'Meeting Time',
@@ -106,29 +113,32 @@ export class AddMeetingComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'meetingLocation',
+            className: 'col-md-3',
+            key: 'MeetingLocation',
             type: 'input',
             props: {
               label: 'Meeting Location',
               placeholder: 'Enter Meeting Location',
               required: true,
+              type:'text',
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Meeting Location is required',
+                pattern: 'Please Enter Meeting location'
               },
             },
           },
           {
-            className: 'col-md-',
+            className: 'col-md-6',
             type: 'textarea',
-            key: 'meetingAgenda',
+            key: 'MeetingAgenda',
             templateOptions: {
               placeholder: 'Enter Meeting Agenda',
               label: 'Meeting Agenda',
               required: true,
-              rows: 10,
+              rows: 5,
              
             },
             validation: {
@@ -141,19 +151,19 @@ export class AddMeetingComponent implements OnInit {
       },
     ];
   }
-
-  onCancelClick() {
+  onSubmit(): void {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+       this.InsertMeetingDetails();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
+  }
+  onCancleClick() {
     this.router.navigateByUrl('tds/counsellor-dashboard/schedule-meeting-with-college');
   }
-
-  onSubmit(): void {
-    this.InsertMeetingDetails();
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   // Handle form submission
-    // } else {
-    //   // Handle form errors
-    // }
+  onResetClick() {
+    this.form.reset();
   }
   
   InsertMeetingDetails() {
@@ -161,7 +171,7 @@ export class AddMeetingComponent implements OnInit {
     this.meetingDetails.addedDate = new Date();
     this.meetingDetails.updatedBy = 1;
     this.meetingDetails.updatedDate = new Date();
-    this.meetingDetails.meetingId = 0;
+  //  this.meetingDetails.meetingId = 0;
 
     this.collegemeetingService.insertMeetingDetails(this.meetingDetails).subscribe(
       (result: any) => {
@@ -189,6 +199,21 @@ export class AddMeetingComponent implements OnInit {
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+	getMettingDetails(MeetingId: number) {
+    this.collegemeetingService.getMettingDetails(MeetingId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.meetingDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for MeetingId: ' + MeetingId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving metting details:', error);
       }
     );
   }

@@ -1,4 +1,5 @@
 ﻿using Learnum.ERP.API.Controller.Student_Management;
+using Learnum.ERP.Repository.Master;
 using Learnum.ERP.Repository.Master.Student_Management;
 using Learnum.ERP.Repository.Master.Trainers;
 using Learnum.ERP.Shared.Core;
@@ -43,7 +44,7 @@ namespace Learnum.ERP.API.Controller.Trainers_Details
             return BadRequest("Failed to Save");
         }
 
-        [HttpGet("getAllSyllabusStatusesListList")]
+        [HttpGet("getAllSyllabusStatusesList")]
         public async Task<IActionResult> GetSyllabusStatusesList()
         {
             var data = await syllabusStatusRepository.GetSyllabusStatusesList();
@@ -52,6 +53,22 @@ namespace Learnum.ERP.API.Controller.Trainers_Details
                 return Ok(data);
             }
             return NotFound("No record found");
+        }
+
+        [HttpGet("getSyllabusDetails/{TrainerId}")]
+        public async Task<IActionResult> GetSyllabusDetails(long? TrainerId)
+        {
+            if (TrainerId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await syllabusStatusRepository.GetSyllabusDetails(TrainerId);
+            return Ok(result);
         }
     }
 }

@@ -18,11 +18,11 @@ export class PracticalProblemsStudentsComponent implements OnInit {
 
   problemDetails: problemDetailsModel = new problemDetailsModel();
   form = new FormGroup({});
-  model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   coOwners: any;
   NowDate: any = new Date();
+  editData: any;
  
 
   constructor(
@@ -36,17 +36,10 @@ export class PracticalProblemsStudentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-    this.createForm();
-  }
-
-  createForm(): void {
-    this.form = this.formBuilder.group({
-      question: ['', Validators.required],
-      modelAnswer: ['', Validators.required],
-      attachment: [Validators.required],
-      marks: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
-      practicalProblemStatus: ['', Validators.required],
-    });
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.QuestionId) {
+      this.getPracticalDetails(this.editData.QuestionId);
+    }
   }
 
   setParameter() {
@@ -56,13 +49,13 @@ export class PracticalProblemsStudentsComponent implements OnInit {
         fieldGroup: [
           {
             className: 'col-md-6',
-            key: 'question',
+            key: 'Question',
             type: 'textarea',
             props: {
               label: 'Question',
               placeholder: 'Enter Question',
               required: true,
-              rows: 6
+              rows: 5
             },
             validation: {
               messages: {
@@ -72,13 +65,13 @@ export class PracticalProblemsStudentsComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'modelAnswer',
+            key: 'ModelAnswer',
             type: 'textarea',
             props: {
               label: 'Model Answer',
               placeholder: 'Enter Model Answer',
               required: true,
-              rows: 6
+              rows: 5
             },
             validation: {
               messages: {
@@ -88,7 +81,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'marks',
+            key: 'Marks',
             type: 'input',
             props: {
               label: 'Marks',
@@ -102,20 +95,21 @@ export class PracticalProblemsStudentsComponent implements OnInit {
                 required: 'Marks are required',
                 min: 'Marks must be at least 0',
                 max: 'Marks cannot be more than 100',
+                pattern: 'Please Enter Marks'
               },
             },
           },
           {
             className: 'col-md-3',
-            key: 'isActive',
+            key: 'IsActive',
             type: 'select',
             props: {
               label: 'Practical Problem Status',
               placeholder: 'Select Status',
               required: true,
               options: [
-                { label: 'Active', value: 'true' },
-                { label: 'Inactive', value: 'false' }
+                { label: 'Active', value: true },
+                { label: 'Inactive', value: false}
               ],
               
             },
@@ -147,17 +141,19 @@ export class PracticalProblemsStudentsComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.InsertProblemDetails();
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   // Perform submission logic here
-    // } else {
-    //   this.alertService.ShowErrorMessage('Please fill in all required fields.');
-    // }
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this.InsertProblemDetails();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
   }
 
   onCancleClick() {
     this.router.navigateByUrl('tds/add-practical-problem-solution');
+  }
+  onResetClick() {
+    this.form.reset();
   }
 
   InsertProblemDetails() {
@@ -175,6 +171,21 @@ export class PracticalProblemsStudentsComponent implements OnInit {
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  getPracticalDetails(QuestionId: number) {
+    this.practicalProblemsStudentsService.getPracticalDetails(QuestionId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.problemDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for QuestionId: ' + QuestionId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving practical details:', error);
       }
     );
   }
