@@ -43,6 +43,11 @@ export class AddTrainersComponent implements OnInit {
     this.getBranchDetails();
     this.getBatchDetails();
 
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.TrainerId) {
+      this.getTrainerDetails(this.editData.TrainerId);
+    }
+
   }
 
 setParameter() {
@@ -51,6 +56,10 @@ setParameter() {
         fieldGroupClassName: 'row card-body p-2',
         // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
+ 
+          {
+            key: 'TrainerId'
+          },
 
           {
             className: 'col-md-6',
@@ -141,20 +150,20 @@ setParameter() {
           },
           
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
-            key: 'isActive',
+            key: 'IsActive',
             templateOptions: {
-              placeholder: 'Enter Status',
+              placeholder: 'Select Status',
               type: 'text',
               label: "Status",
               required: true,
               options: [
-                { value: 'true', label: 'active' },
-                { value: 'false', label: 'inacative' }
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
               ]
-             },
             },
+          },
          
         ],
       },
@@ -258,6 +267,22 @@ setParameter() {
       }
     );
   }
+ 
+  getTrainerDetails(TrainerId: number) {
+    this.addtrainerService.getTrainerDetails(TrainerId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.TrainerDetails = result.Value.Item1;
 
+          this.setParameter();
+          console.error('No data found for BranchId: ' + TrainerId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving trainer details:', error);
+
+      }
+    );
+  }
 
 }

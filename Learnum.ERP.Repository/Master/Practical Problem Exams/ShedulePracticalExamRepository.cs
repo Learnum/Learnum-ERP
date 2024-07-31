@@ -18,6 +18,8 @@ namespace Learnum.ERP.Repository.Master.Practical_Exams
     {
         Task<ResponseCode> ShedulePracticalExam(ShedulePracticalExamModel shedulePracticalExamModel);
         Task<List<ShedulePracticalExamResponseModel>> GetShedulePracticalExamList();
+        Task<Tuple<ShedulePracticalExamModel?, ResponseCode>> GetShedulePracticalDetailsById(long? SchedulePracticalExamId);
+
     }
     public class ShedulePracticalExamRepository :BaseRepository, IShedulePracticalExamRepository
     {
@@ -27,7 +29,7 @@ namespace Learnum.ERP.Repository.Master.Practical_Exams
             {
                 var dbparams = new DynamicParameters(shedulePracticalExamModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_InsertOrUpdateSchedulePracticalExam", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
@@ -38,10 +40,23 @@ namespace Learnum.ERP.Repository.Master.Practical_Exams
                using (IDbConnection dbConnection = base.GetCoreConnection())
                 {
                     var dbparams = new DynamicParameters();
-                    var result = dbConnection.Query<ShedulePracticalExamResponseModel>("", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                    var result = dbConnection.Query<ShedulePracticalExamResponseModel>("PROC_GetSchedulePracticalExam", dbparams, commandType: CommandType.StoredProcedure).ToList();
                     return await Task.FromResult(result);
                 }
         }
-        
+
+        public async Task<Tuple<ShedulePracticalExamModel?, ResponseCode>> GetShedulePracticalDetailsById(long? SchedulePracticalExamId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@SchedulePracticalExamId", SchedulePracticalExamId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<ShedulePracticalExamModel?>("PROC_EditSchedulePracticalExam", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<ShedulePracticalExamModel?, ResponseCode>(result, responseCode));
+            }
+        }
+
     }
 }

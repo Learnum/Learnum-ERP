@@ -24,7 +24,6 @@ export class AddcontentWriterService extends BaseService{
   }
 
   insertContentWriterData(branchContentWriterDetails: ContentWriterDetailsModel) {
-    //const URL = ConfigurationSettings.BASE_API_URL;
     return this.apiService.postBlob(this.urlInsertContentWriterDetails,branchContentWriterDetails);
   }
   getContentWriterList(){
