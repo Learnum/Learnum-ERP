@@ -11,7 +11,8 @@ export class StudentleadsService {
   private urlStudentLeadsdetails: string = "StudentLeadDetails/getAllStudentLeadList";
   private urlgetBranchList: string = "BranchDetails/getAllBranchList";
   private urlgetCollegesList: string = "AddColleges/getAllCollegesList";
-
+  private urlGetStudentList: string = "StudentLeadDetails/getStudentDetails";
+  
   constructor(private apiService: APIService) { }
 
   insertStudentLeads(studentLeadDetails: StudentLeadDetails) {
@@ -26,5 +27,7 @@ export class StudentleadsService {
   getCollegeList() {
     return this.apiService.getData(this.urlgetCollegesList);
   }
-
+  getStudentDetails(studentId: number) {
+    return this.apiService.getData(this.urlGetStudentList + '/' + studentId);
+  }
 }

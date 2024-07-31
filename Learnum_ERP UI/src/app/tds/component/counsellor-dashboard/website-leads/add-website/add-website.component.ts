@@ -21,6 +21,7 @@ export class AddWebsiteComponent implements OnInit {
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   courseDetails: any;
+  editData: any;
 
 
   constructor(
@@ -33,6 +34,10 @@ export class AddWebsiteComponent implements OnInit {
   ngOnInit(): void {
     this.setParameter();
     this.getCourseDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.StudentId) {
+      this.getWebsiteLeadsDetails(this.editData.StudentId);
+    }
   }
 
   setParameter() {
@@ -41,8 +46,11 @@ export class AddWebsiteComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
+            key:'studentId'
+          },
+          {
             className: 'col-md-6',
-            key: 'studentName',
+            key: 'StudentName',
             type: 'input',
             props: {
               label: 'Student Name',
@@ -69,7 +77,7 @@ export class AddWebsiteComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'phone',
+            key: 'Phone',
             type: 'input',
             props: {
               label: 'Phone',
@@ -85,7 +93,7 @@ export class AddWebsiteComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'email',
+            key: 'Email',
             type: 'input',
             props: {
               label: 'Email',
@@ -101,7 +109,7 @@ export class AddWebsiteComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'yourLocation',
+            key: 'YourLocation',
             type: 'input',
             props: {
               label: 'Your Location',
@@ -118,18 +126,19 @@ export class AddWebsiteComponent implements OnInit {
       },
     ];
   }
-  onCancelClick() {
+  onSubmit(): void {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this.insertWebsiteLeads();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
+  }
+  onCancleClick() {
     this.router.navigateByUrl('tds/counsellor-dashboard/website-leads');
   }
-
-  onSubmit(): void {
-    this.insertWebsiteLeads();
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   // Handle form submission
-    // } else {
-    //   // Handle form errors
-    // }
+  onResetClick() {
+    this.form.reset();
   }
   getCourseDetails() {
     this.websiteleadsService.getClassroomList().subscribe(
@@ -148,7 +157,7 @@ export class AddWebsiteComponent implements OnInit {
     this.websiteLeadDetails.addedDate = new Date();
     this.websiteLeadDetails.updatedBy = 1;
     this.websiteLeadDetails.updatedDate = new Date();
-    this.websiteLeadDetails.studentId = 0;
+    //this.websiteLeadDetails.studentId = 0;
 
     this.websiteleadsService.insertWebsiteDetails(this.websiteLeadDetails).subscribe(
       (result: any) => {
@@ -166,6 +175,20 @@ export class AddWebsiteComponent implements OnInit {
       }
     );
     this.router.navigateByUrl('tds/counsellor-dashboard/website-leads');
+  }
+  getWebsiteLeadsDetails(StudentId: number) {
+    this.websiteleadsService.getWebsiteLeadList(StudentId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.websiteLeadDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for StudentId: ' + StudentId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving practical details:', error);
+      }
+    );
   }
 
 }

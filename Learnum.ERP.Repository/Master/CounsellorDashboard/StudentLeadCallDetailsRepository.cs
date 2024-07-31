@@ -17,6 +17,7 @@ namespace Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo
     {
         Task<ResponseCode> InsertStudentLeadDetails(StudentLeadCalldetailsModel studentLeadCalldetailsModel);
         Task<List<StudentLeadCallDetailsResponseModel>> GetStudentLeadDetailsList();
+        Task<Tuple<StudentLeadCalldetailsModel?, ResponseCode>> GetStudentLeadDetails(long? CallId);
     }
     public class StudentLeadCallDetailsRepository : BaseRepository, IStudentLeadCallDetailsRepository
     {
@@ -39,6 +40,18 @@ namespace Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo
                 var dbparams = new DynamicParameters();
                 var result = dbConnection.Query<StudentLeadCallDetailsResponseModel>("PROC_GetStudentCallDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
+            }
+        }
+        public async Task<Tuple<StudentLeadCalldetailsModel?, ResponseCode>> GetStudentLeadDetails(long? CallId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@CallId", CallId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<StudentLeadCalldetailsModel?>("PROC_GetStudentcallDetail", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<StudentLeadCalldetailsModel?, ResponseCode>(result, responseCode));
             }
         }
 

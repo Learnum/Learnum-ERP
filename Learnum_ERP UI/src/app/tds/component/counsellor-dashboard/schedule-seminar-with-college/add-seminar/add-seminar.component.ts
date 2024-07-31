@@ -23,6 +23,7 @@ export class AddSeminarComponent implements OnInit {
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   collegeDetails: any;
+  editData: any;
 
   constructor(
     private router: Router,
@@ -35,6 +36,10 @@ export class AddSeminarComponent implements OnInit {
   ngOnInit(): void {
     this.setParameter();
     this.getCollegeDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.SeminarId) {
+      this.getSeminarDetails(this.editData.SeminarId);
+    }
   }
 
   setParameter() {
@@ -43,9 +48,12 @@ export class AddSeminarComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-6',
+            key:'seminarId'
+          },
+          {
+            className: 'col-md-3',
             type: 'select',
-            key: 'collegeId',
+            key: 'CollegeId',
             templateOptions: {
               placeholder: 'College Name',
               type: 'text',
@@ -56,8 +64,8 @@ export class AddSeminarComponent implements OnInit {
 
           },
           {
-            className: 'col-md-6',
-            key: 'spockPerson',
+            className: 'col-md-3',
+            key: 'SpockPerson',
             type: 'input',
             props: {
               label: 'Spock Person',
@@ -72,8 +80,8 @@ export class AddSeminarComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'seminarDate',
+            className: 'col-md-3',
+            key: 'SeminarDate',
             type: 'input',
             props: {
               label: 'Seminar Date',
@@ -88,8 +96,8 @@ export class AddSeminarComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'seminarTime',
+            className: 'col-md-3',
+            key: 'SeminarTime',
             type: 'input',
             props: {
               label: 'Seminar Time',
@@ -104,8 +112,8 @@ export class AddSeminarComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'seminarLocation',
+            className: 'col-md-2',
+            key: 'SeminarLocation',
             type: 'input',
             props: {
               label: 'Seminar Location',
@@ -119,8 +127,8 @@ export class AddSeminarComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'seminarStatus',
+            className: 'col-md-3',
+            key: 'SeminarStatus',
             type: 'select',
             props: {
               label: 'Seminar Status',
@@ -140,10 +148,33 @@ export class AddSeminarComponent implements OnInit {
               },
             },
           },
+          // {
+          //   className: 'col-md-3',
+          //   type: 'select',
+          //   key: 'seminarStatus',
+          //   props: {
+          //     label: 'Seminar Status',
+          //     placeholder: 'Select Seminar Status',
+          //     required: true,
+          //     options: [
+          //       { label: 'Select Seminar Status', value: '', disabled: true }, // Default disabled option
+          //       { value: 'scheduled', label: 'Scheduled' },
+          //       { value: 'inProgress', label: 'In Progress' },
+          //       { value: 'confirmed', label: 'Confirmed' },
+          //       { value: 'completed', label: 'Completed' },
+          //       { value: 'canceled', label: 'Canceled' },
+          //     ],
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'Seminar Status is required',
+          //     },
+          //   },
+          // },
           {
-            className: 'col-md-',
+            className: 'col-md-7',
             type: 'textarea',
-            key: 'seminarAgenda',
+            key: 'SeminarAgenda',
             templateOptions: {
               placeholder: 'Enter Seminar Agenda',
               label: 'Seminar Agenda',
@@ -161,26 +192,26 @@ export class AddSeminarComponent implements OnInit {
       },
     ];
   }
-  onCancelClick() {
+  onSubmit(): void {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this.InsertSeminarDetails();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
+  }
+  onCancleClick() {
     this.router.navigateByUrl('tds/counsellor-dashboard/schedule-seminar-with-college');
   }
-
-  onSubmit(): void {
-    this.InsertSeminarDetails();
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   // Handle form submission
-    // } else {
-    //   // Handle form errors
-    // }
+  onResetClick() {
+    this.form.reset();
   }
-
   InsertSeminarDetails() {
     this.seminarDetailsModel.addedBy = 1;
     this.seminarDetailsModel.addedDate = new Date();
     this.seminarDetailsModel.updatedBy = 1;
     this.seminarDetailsModel.updatedDate = new Date();
-    this.seminarDetailsModel.seminarId = 0;
+   // this.seminarDetailsModel.seminarId = 0;
 
     this.collegeseminarService.insertSeminarDetails(this.seminarDetailsModel).subscribe(
       (result: any) => {
@@ -208,6 +239,20 @@ export class AddSeminarComponent implements OnInit {
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getSeminarDetails(SeminarId: number) {
+    this.collegeseminarService.getSeminarDetails(SeminarId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.seminarDetailsModel = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for SeminarId: ' + SeminarId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving seminar details:', error);
       }
     );
   }
