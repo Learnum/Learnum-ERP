@@ -17,7 +17,6 @@ export class AddWebsiteComponent implements OnInit {
 
   websiteLeadDetails:WebsiteLeadDetails = new WebsiteLeadDetails();
   form = new FormGroup({});
-  model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   courseDetails: any;
@@ -49,22 +48,25 @@ export class AddWebsiteComponent implements OnInit {
             key:'studentId'
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'StudentName',
             type: 'input',
             props: {
               label: 'Student Name',
               placeholder: 'Enter Student Name',
+              type: 'text',
               required: true,
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Student Name is required',
+                pattern: 'Please Enter Student FullName',
               },
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'CourseId',
             templateOptions: {
@@ -76,23 +78,25 @@ export class AddWebsiteComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'Phone',
             type: 'input',
             props: {
               label: 'Phone',
               placeholder: 'Enter Phone Number',
-              type: 'tel',
+              type: 'number',
               required: true,
+              pattern: '^[0-9]+$',
             },
             validation: {
               messages: {
                 required: 'Phone is required',
+                pattern: 'Please Enter Valid PhoneNumber',
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'Email',
             type: 'input',
             props: {
@@ -108,17 +112,19 @@ export class AddWebsiteComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'YourLocation',
             type: 'input',
             props: {
               label: 'Your Location',
               placeholder: 'Enter Your Location',
               required: true,
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Your Location is required',
+                pattern: 'Please Enter Your Location',
               },
             },
           },
@@ -129,7 +135,7 @@ export class AddWebsiteComponent implements OnInit {
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      this.insertWebsiteLeads();
+      this. insertWebsiteLeads();
     } else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }

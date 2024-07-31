@@ -50,7 +50,7 @@ export class AddBusinessLeadComponent implements OnInit {
             key:'businessId'
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'Name',
             type: 'input',
             props: {
@@ -62,58 +62,66 @@ export class AddBusinessLeadComponent implements OnInit {
             validation: {
               messages: {
                 required: 'First Name is required',
+                pattern: 'Please Enter Full Name'
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'PhoneNumber',
             type: 'input',
             templateOptions: {
               label: 'Phone Number',
               placeholder: 'Enter Phone Number',
               required: true,
-               pattern: '^[0-9]+$'
+              type:'number',
+              pattern: '^[0-9]+$'
             },
             validation: {
               messages: {
                 required: 'Phone Number is required',
+                pattern: 'Please Enter Valid number'
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'Address',
             type: 'input',
             templateOptions: {
               label: 'Address',
               placeholder: 'Enter Address',
               required: true,
+              type:'text',
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Town is required',
+                pattern: 'Please Enter Address'
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'City',
             type: 'input',
             templateOptions: {
               label: 'City',
               placeholder: 'Enter City',
               required: true,
+              type:'text',
               pattern: '^[A-Za-z]+$', 
             },
             validation: {
               messages: {
                 required: 'City is required',
+                pattern: 'Please Enter City'
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'District',
             type: 'input',
             templateOptions: {
@@ -121,47 +129,53 @@ export class AddBusinessLeadComponent implements OnInit {
               placeholder: 'Enter District',
               required: true,
               pattern: '^[A-Za-z]+$',
+              type:'text',
             },
             validation: {
               messages: {
                 required: 'District is required',
+                pattern: 'Please Enter District'
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'State',
             type: 'input',
             templateOptions: {
               label: 'State',
               placeholder: 'Enter State',
               pattern: '^[A-Za-z]+$',
+              type:'text',
               required: true,
             },
             validation: {
               messages: {
                 required: 'State is required',
+                pattern: 'Please Enter State'
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'PostalCode',
             type: 'input',
             templateOptions: {
               label: 'Postal Code',
               placeholder: 'Enter Postal Code',
               required: true,
-                pattern: '^[0-9]+$',
+              pattern: '^[0-9]+$',
+              type:'number',
             },
             validation: {
               messages: {
                 required: 'Postal Code is required',
+                pattern: 'Please Enter valid Postal Code'
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'Country',
             type: 'input',
             templateOptions: {
@@ -169,10 +183,12 @@ export class AddBusinessLeadComponent implements OnInit {
               placeholder: 'Enter Country',
               required: true,
               pattern: '^[A-Za-z]+$',
+              type:'text',
             },
             validation: {
               messages: {
                 required: 'Country is required',
+                pattern: 'Please Enter Country'
               },
             },
           },
