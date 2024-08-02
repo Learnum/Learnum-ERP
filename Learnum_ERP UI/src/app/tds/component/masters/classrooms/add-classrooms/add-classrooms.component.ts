@@ -36,7 +36,7 @@ constructor(
 
   ngOnInit(): void {
     this.setParameter();
-   this.getBranchDetails();
+    this.getBranchDetails();
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.ClassroomId) {
       this.getClassroomDetails(this.editData.ClassroomId);
