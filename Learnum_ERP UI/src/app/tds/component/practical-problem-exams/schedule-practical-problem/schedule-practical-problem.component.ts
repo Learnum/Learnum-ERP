@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
-import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { SchedulePracticalProblemService } from './schedule-practical-problem.service';
 import { schedulepracticalmodel } from './schedulepracticalmodel';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
@@ -36,23 +36,23 @@ export class SchedulePracticalProblemComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private messageService: MessageService,
 
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    
+
     this.setParameter();
     this.getSubjectDetails();
     this.getCourseDetails();
     this.getBatchDetails();
     this.getBranchDetails();
 
-   this.editData = this.activateRoute.snapshot.queryParams;
+    this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.SchedulePracticalExamId) {
       this.getSchedulePracticalProblemDetails(this.editData.SchedulePracticalExamId);
     }
   }
 
- 
+
 
   setParameter(): void {
     this.fields = [
@@ -61,11 +61,10 @@ export class SchedulePracticalProblemComponent implements OnInit {
         fieldGroup: [
 
           {
-
-             key:'schedulePracticalExamId',
+            key: 'schedulePracticalExamId',
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'CourseId',
             templateOptions: {
@@ -73,63 +72,67 @@ export class SchedulePracticalProblemComponent implements OnInit {
               type: 'text',
               label: "course Name",
               required: true,
-              options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName
-                , value: course.CourseId })) : [],
-             
+              options: this.courseDetails ? this.courseDetails.map(course => ({
+                label: course.CourseName
+                , value: course.CourseId
+              })) : [],
+
             },
-            },
-            {
-              className: 'col-md-6',
-              type: 'select',
-              key: 'BranchId',
-              templateOptions: {
-                placeholder: 'Branch Name',
-                type: 'text',
-                label: "Branch Name",
-                required: true,
-                options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
-              },
-  
-            },
-            {
-              className: 'col-md-6',
-              type: 'select',
-              key: 'BatchId',
-              templateOptions: {
-                placeholder: 'Enter batch Name',
-                required: true,
-                type: ' Batch Name',
-                label: "Batch Name",
-                options: this.batchDetails ? this.batchDetails.map(batch => ({ label: batch.BatchName
-                  , value: batch.BatchId
-                })) : [],
-              
-                },
-              validation: {
-                messages: {
-                  required: 'This field is required',
-                },
-              },
-            },
-            {
-              className: 'col-md-6',
-              type: 'select',
-              key: 'SubjectId',
-              templateOptions: {
-                placeholder: 'Subject Name',
-                type: 'subject Name',
-                label: "Subject Name",
-                required: true,
-                options: this.subjectDetails ? this.subjectDetails.map(subject => ({ label: subject.SubjectName
-                  , value: subject.SubjectId
-                })) : [],
-                
-              },
-  
-            },
+          },
           {
-            className: 'col-md-6',
-            key: 'TopicName',
+            className: 'col-md-3',
+            type: 'select',
+            key: 'BranchId',
+            templateOptions: {
+              placeholder: 'Branch Name',
+              type: 'text',
+              label: "Branch Name",
+              required: true,
+              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+            },
+
+          },
+          {
+            className: 'col-md-3',
+            type: 'select',
+            key: 'BatchId',
+            templateOptions: {
+              placeholder: 'Enter batch Name',
+              required: true,
+              type: ' Batch Name',
+              label: "Batch Name",
+              options: this.batchDetails ? this.batchDetails.map(batch => ({
+                label: batch.BatchName
+                , value: batch.BatchId
+              })) : [],
+
+            },
+            validation: {
+              messages: {
+                required: 'This field is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-3',
+            type: 'select',
+            key: 'SubjectId',
+            templateOptions: {
+              placeholder: 'Subject Name',
+              type: 'subject Name',
+              label: "Subject Name",
+              required: true,
+              options: this.subjectDetails ? this.subjectDetails.map(subject => ({
+                label: subject.SubjectName
+                , value: subject.SubjectId
+              })) : [],
+
+            },
+
+          },
+          {
+            className: 'col-md-3',
+            key: 'TopicId',
             type: 'select',
             templateOptions: {
               label: 'Topic Name',
@@ -148,7 +151,7 @@ export class SchedulePracticalProblemComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'PaperSetNo',
             type: 'select',
             templateOptions: {
@@ -168,8 +171,8 @@ export class SchedulePracticalProblemComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'dateofExam',
+            className: 'col-md-3',
+            key: 'DateofExam',
             type: 'input',
             templateOptions: {
               type: 'date',
@@ -184,8 +187,8 @@ export class SchedulePracticalProblemComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'startTime',
+            className: 'col-md-3',
+            key: 'StartTime',
             type: 'input',
             templateOptions: {
               type: 'time',
@@ -200,8 +203,8 @@ export class SchedulePracticalProblemComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'endTime',
+            className: 'col-md-3',
+            key: 'EndTime',
             type: 'input',
             templateOptions: {
               type: 'time',
@@ -216,7 +219,7 @@ export class SchedulePracticalProblemComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'PracticalProblemStatus',
             type: 'select',
             templateOptions: {
@@ -248,14 +251,14 @@ export class SchedulePracticalProblemComponent implements OnInit {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
- 
+
 
   insertScheduleProblem() {
     this.SchedulePracticalProblemDetails.addedBy = 1;
     this.SchedulePracticalProblemDetails.addedDate = new Date();
     this.SchedulePracticalProblemDetails.updatedBy = 1;
     this.SchedulePracticalProblemDetails.updatedDate = new Date();
-   // this.branchManagerDetails.branchManagerId = 0;
+    // this.branchManagerDetails.branchManagerId = 0;
 
     this.schedulePracticalProblemService.insertScheduleProblemData(this.SchedulePracticalProblemDetails).subscribe(
       (result: any) => {
@@ -277,7 +280,7 @@ export class SchedulePracticalProblemComponent implements OnInit {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    
+
   }
 
 
@@ -288,7 +291,7 @@ export class SchedulePracticalProblemComponent implements OnInit {
     this.schedulePracticalProblemService.getsubjectList().subscribe(
       (data: any) => {
         this.subjectDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -301,54 +304,53 @@ export class SchedulePracticalProblemComponent implements OnInit {
     this.schedulePracticalProblemService.getBatchList().subscribe(
       (data: any) => {
         this.batchDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
       }
     );
   }
-    getCourseDetails() {
-      this.schedulePracticalProblemService.getcourseList().subscribe(
-        (data: any) => {
-          this.courseDetails = data.Value;
-          this.setParameter();  
-        },
-        (error: any) => {
-          this.alertService.ShowErrorMessage(error);
-        }
-      );
-    }
-
-    getBranchDetails() {
-      this.schedulePracticalProblemService.getBranchList().subscribe(
-        (data: any) => {
-          this.branchDetails = data.Value;
-          this.setParameter();  
-        },
-        (error: any) => {
-          this.alertService.ShowErrorMessage(error);
-        }
-      );
-    }
-
-    getSchedulePracticalProblemDetails(SchedulePracticalExamId: number) {
-      this.schedulePracticalProblemService.getScheduleProblemDetails(SchedulePracticalExamId).subscribe(
-        (result: any) => {
-          if (result && result.Value) {
-            this.SchedulePracticalProblemDetails = result.Value.Item1;
-  
-            this.setParameter();
-            console.error('No data found for SchedulePracticalExamId: ' + SchedulePracticalExamId);
-          }
-        },
-        (error: any) => {
-          console.error('Error retrieving Schedule Practical details:', error);
-  
-        }
-      );
-    }
-  
+  getCourseDetails() {
+    this.schedulePracticalProblemService.getcourseList().subscribe(
+      (data: any) => {
+        this.courseDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
   }
+
+  getBranchDetails() {
+    this.schedulePracticalProblemService.getBranchList().subscribe(
+      (data: any) => {
+        this.branchDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  getSchedulePracticalProblemDetails(SchedulePracticalExamId: number) {
+    this.schedulePracticalProblemService.getScheduleProblemDetails(SchedulePracticalExamId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.SchedulePracticalProblemDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for SchedulePracticalExamId: ' + SchedulePracticalExamId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving practical details:', error);
+      }
+    );
+  }
+}
+
+
 
 

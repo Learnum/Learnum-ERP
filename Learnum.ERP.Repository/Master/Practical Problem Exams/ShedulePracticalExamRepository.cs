@@ -20,6 +20,7 @@ namespace Learnum.ERP.Repository.Master.Practical_Exams
         Task<List<ShedulePracticalExamResponseModel>> GetShedulePracticalExamList();
         Task<Tuple<ShedulePracticalExamModel?, ResponseCode>> GetShedulePracticalDetailsById(long? SchedulePracticalExamId);
 
+
     }
     public class ShedulePracticalExamRepository :BaseRepository, IShedulePracticalExamRepository
     {

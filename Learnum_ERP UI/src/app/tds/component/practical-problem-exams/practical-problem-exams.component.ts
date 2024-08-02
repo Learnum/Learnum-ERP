@@ -84,7 +84,15 @@ export class PracticalProblemExamsComponent implements OnInit {
       colorClass: 'text-secondary h4'
     },
   ];
-
+  ActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewPractical',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -121,9 +129,9 @@ export class PracticalProblemExamsComponent implements OnInit {
 
   onRowAction(data: any) {
     let data1 = {
-      'source': data.action,
+      'source': 'edit',
       'SchedulePracticalExamId': data.row.SchedulePracticalExamId
-    };
+    }
     this.router.navigate(['tds/practical-problem-exams/schedule-practical-problem'], { queryParams: data1 });
   }
 
@@ -135,24 +143,30 @@ export class PracticalProblemExamsComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
 
-  editPracticalProblem(PracticalProblemData: any) {
-    const schedulePracticalExamId = PracticalProblemData.schedulePracticalExamId;
-    const index = this.PracticalProblemList.findIndex(PracticalProblem => PracticalProblem.schedulePracticalExamId === schedulePracticalExamId);
+  editPractical(PracticalData: any) {
+    const schedulePracticalExamId = PracticalData.schedulePracticalExamId;
+    const index = this.PracticalProblemList.findIndex(practical => practical.schedulePracticalExamId === schedulePracticalExamId);
 
     if (index !== -1) {
-      this.openEditForm(PracticalProblemData).then((editedPracticalProblemData: any) => {
-        this.PracticalProblemList[index] = editedPracticalProblemData;
-        console.log('Edited Practical Problem:', editedPracticalProblemData);
+
+
+      this.openEditForm(PracticalData).then((editedPracticalData: any) => {
+
+        this.PracticalProblemList[index] = editedPracticalData;
+        console.log('Edited Practical:', editedPracticalData);
+
       });
     }
   }
+  openEditForm(practicalData: any): Promise<any> {
 
-  openEditForm(PracticalProblemData: any): Promise<any> {
     return new Promise((resolve, reject) => {
+
       setTimeout(() => {
-        const editedPracticalProblemData = { ...PracticalProblemData };
-        editedPracticalProblemData.Status = 'Edited';
-        resolve(editedPracticalProblemData);
+        const editedPracticalData = { ...practicalData };
+
+        editedPracticalData.Status = 'Edited';
+        resolve(editedPracticalData);
       }, 1000);
     });
   }

@@ -28,24 +28,18 @@ export class SchedulePracticalProblemService extends BaseService{
   getBranchList() {
     return this.apiService.getData(this.urlgetBranchList);
   }
-
   getcourseList() {
     return this.apiService.getData(this.urlgetCourseList);
   }
-
   getsubjectList() {
     return this.apiService.getData(this.urlgetSubjectList);
   }
-
-
   getBatchList(){
     return this.apiService.getData(this.urlgetBatchList);
   }
-
   getScheduleProblemDetails(schedulePracticalExamId:number){
     return this.apiService.getData(this.urlGetScheduleList+ '/' + schedulePracticalExamId);
   }
-
   getPracticalProblemList(){
     return this.apiService.getData(this.urlgetPracticalProblemList);
   }
