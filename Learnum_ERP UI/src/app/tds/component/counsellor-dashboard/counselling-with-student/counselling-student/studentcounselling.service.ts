@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { APIService } from 'src/app/core/services/apiService';
 import { StudentCounsellingDetails } from './studentcounselling.model';
+import { BaseService } from 'src/app/core/services/baseService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StudentcounsellingService {
+export class StudentcounsellingService extends BaseService {
 
   private urlInsertStudentCounsellingDetails: string = "StudentCounsellingDetails/InsertStudentCounsellingDetails";
   private urlgetStudentCounsellingDetails: string = "StudentCounsellingDetails/getAllStudentCounsellingList";
@@ -13,7 +14,7 @@ export class StudentcounsellingService {
   private urlgetBranchList: string = "BranchDetails/getAllBranchList";
   private urlGetStudentCounselling: string = "StudentCounsellingDetails/getStudentCounsellingDetails";
 
-  constructor(private apiService: APIService) { }
+  constructor(private apiService: APIService) { super(); }
 
   insertStudentCounsellingDetails(studentCounsellingDetails: StudentCounsellingDetails) {
     return this.apiService.postBlob(this.urlInsertStudentCounsellingDetails, studentCounsellingDetails);

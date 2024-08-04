@@ -1,5 +1,5 @@
 export class ClassroomModel {
-    [x: string]: any;
+   // [x: string]: any;
     branchId: number;
     classroomId: number;
     classroomName: string;

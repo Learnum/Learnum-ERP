@@ -7,6 +7,8 @@ import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/for
 import { StudentcounsellingService } from './studentcounselling.service';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { StudentCounsellingDetails } from './studentcounselling.model';
+import { formatDate } from '@angular/common';
+
 @Component({
   selector: 'app-counselling-student',
   templateUrl: './counselling-student.component.html',
@@ -18,6 +20,7 @@ export class CounsellingStudentComponent implements OnInit {
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
+  NowDate: any = new Date();
   studentDetails:any;
   branchDetails: any;
   editData: any;
@@ -85,6 +88,9 @@ export class CounsellingStudentComponent implements OnInit {
               placeholder: 'Select Counselling Date',
               type: 'date',
               required: true,
+              attributes: {
+                max: formatDate(this.NowDate, 'YYYY-MM-dd', 'en-IN'),
+              },
             },
             validation: {
               messages: {
@@ -229,6 +235,7 @@ export class CounsellingStudentComponent implements OnInit {
       (result: any) => {
         if (result && result.Value) {
           this.studentCounsellingDetails = result.Value.Item1;
+          this.studentCounsellingDetails.counsellingDate = this.studentcounsellingService.formatDate(this.studentCounsellingDetails.counsellingDate);
           this.setParameter();
           console.error('No data found for CounsellingId: ' + CounsellingId);
         }
