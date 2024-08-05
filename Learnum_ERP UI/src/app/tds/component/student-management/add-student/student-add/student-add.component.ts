@@ -20,6 +20,7 @@ export class StudentAddComponent implements OnInit {
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
+  editData: any;
 
   constructor(
     private router: Router,
@@ -32,6 +33,10 @@ export class StudentAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.setFields();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.StudentId) {
+      this.getAddStudentDetails(this.editData.StudentId);
+    }
   }
 
 
@@ -41,7 +46,7 @@ export class StudentAddComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             key: 'studentName',
             type: 'input',
             props: {
@@ -56,7 +61,7 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             key: 'studentEmail',
             type: 'input',
             props: {
@@ -71,13 +76,13 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-1',
+            className: 'col-md-3',
             type: 'file',
             key: 'file',
             props: {
               placeholder: 'Student Photo',
              // type: 'text',
-              label: "Upload Brochure",
+              label: "Student Photo",
               required: true,
 
             },
@@ -89,7 +94,7 @@ export class StudentAddComponent implements OnInit {
             // },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             key: 'studentPhone',
             type: 'input',
             props: {
@@ -104,7 +109,7 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             key: 'aadharNumber',
             type: 'input',
             props: {
@@ -119,7 +124,7 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             key: 'dateofBirth',
             type: 'input',
             props: {
@@ -135,7 +140,7 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             key: 'education',
             type: 'select',
             props: {
@@ -165,7 +170,7 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             key: 'bloodGroup',
             type: 'select',
             props: {
@@ -191,7 +196,7 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             key: 'gender',
             type: 'select',
             props: {
@@ -303,7 +308,7 @@ export class StudentAddComponent implements OnInit {
             ]
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'checkbox',
             key: 'SameAsCurrentAddress',
             templateOptions: {
@@ -406,7 +411,7 @@ export class StudentAddComponent implements OnInit {
             fieldGroupClassName: 'row card-body p-2',
             fieldGroup: [
               {
-                className: 'col-md-4',
+                className: 'col-md-3',
                 type: 'input',
                 key: 'fatherName',
                 templateOptions: {
@@ -421,7 +426,7 @@ export class StudentAddComponent implements OnInit {
                 },
               },
               {
-                className: 'col-md-4',
+                className: 'col-md-3',
                 type: 'input',
                 key: 'fatherOccupation',
                 templateOptions: {
@@ -436,7 +441,7 @@ export class StudentAddComponent implements OnInit {
                 },
               },
               {
-                className: 'col-md-4',
+                className: 'col-md-3',
                 type: 'input',
                 key: 'fatherPhone',
                 templateOptions: {
@@ -451,7 +456,7 @@ export class StudentAddComponent implements OnInit {
                 },
               },
               {
-                className: 'col-md-4',
+                className: 'col-md-3',
                 type: 'input',
                 key: 'motherName',
                 templateOptions: {
@@ -466,7 +471,7 @@ export class StudentAddComponent implements OnInit {
                 },
               },
               {
-                className: 'col-md-4',
+                className: 'col-md-3',
                 type: 'input',
                 key: 'motherOccupation',
                 templateOptions: {
@@ -481,7 +486,7 @@ export class StudentAddComponent implements OnInit {
                 },
               },
               {
-                className: 'col-md-4',
+                className: 'col-md-3',
                 type: 'input',
                 key: 'motherPhone',
                 templateOptions: {
@@ -496,7 +501,7 @@ export class StudentAddComponent implements OnInit {
                 },
               },
               {
-                className: 'col-md-4',
+                className: 'col-md-3',
                 key: 'studentRole',
                 type: 'select',
                 props: {
@@ -505,6 +510,7 @@ export class StudentAddComponent implements OnInit {
                   //required: true,
                   options: [
                     { value: 'Student', label: 'Student' },
+                    { value: 'Intern', label: 'Intern' },
                   ],
                 },
                 validation: {
@@ -514,7 +520,7 @@ export class StudentAddComponent implements OnInit {
                 },
               },
               {
-                className: 'col-md-6',
+                className: 'col-md-3',
                 type: 'select',
                 key: 'isActive',
                 props: {
@@ -536,18 +542,19 @@ export class StudentAddComponent implements OnInit {
       },
     ];
   }
-  onCancelClick() {
+  onCancleClick() {
     this.router.navigateByUrl('tds/student-management/add-student');
   }
+  onResetClick() {
+    this.form.reset();
+  }
   onSubmit(): void {
-   // console.log(this.model);
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   // Handle form submission
-    // } else {
-    //   // Handle form errors
-    // }
-    this.insertStudentDetails();
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this.insertStudentDetails();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
   }
   insertStudentDetails() {
     this.addstudentService.insertStudentDetails(this.studentDetails).subscribe(
@@ -564,6 +571,20 @@ export class StudentAddComponent implements OnInit {
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getAddStudentDetails(StudentId: number) {
+    this.addstudentService.getStudentList(StudentId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.studentDetails = result.Value.Item1;
+          this.setFields();
+          console.error('No data found for StudentId: ' + StudentId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving practical details:', error);
       }
     );
   }
