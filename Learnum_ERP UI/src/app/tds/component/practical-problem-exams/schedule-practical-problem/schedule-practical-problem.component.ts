@@ -76,7 +76,6 @@ export class SchedulePracticalProblemComponent implements OnInit {
                 label: course.CourseName
                 , value: course.CourseId
               })) : [],
-
             },
           },
           {
@@ -139,9 +138,9 @@ export class SchedulePracticalProblemComponent implements OnInit {
               placeholder: 'Select Topic Name',
               required: true,
               options: [
-                { value: 'topic1', label: 'Topic 1' },
-                { value: 'topic2', label: 'Topic 2' },
-                { value: 'topic3', label: 'Topic 3' }
+                { value: 1, label: 'Topic 1' },
+                { value: 2, label: 'Topic 2' },
+                { value: 3, label: 'Topic 3' }
               ]
             },
             validation: {

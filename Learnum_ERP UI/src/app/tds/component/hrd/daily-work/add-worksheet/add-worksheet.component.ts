@@ -118,8 +118,8 @@ setParameter() {
               label: "Role",
               required: true,
               options: [
-                { value: 'developer', label: 'Developer' },
-                { value: 'manager', label: 'Manager' }
+                { value: 1, label: 'Developer' },
+                { value: 2, label: 'Manager' }
               ]
             },
             validation: {
