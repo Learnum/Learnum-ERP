@@ -10,7 +10,8 @@
           <formly-form [model]="studentDetails" [fields]="fields" [options]="options" [form]="form"></formly-form>
           <div class="col-12 px-4 py-2 border-top buttons-container">
               <button class="btn btn-cloud me-2" type="submit" (click)="onSubmit()">Save</button>
-              <button class="btn btn-fent-cloud" type="button" (click)="onCancelClick()">Cancel</button>
+              <button class="btn btn-fent-cloud me-2" (click)=" onResetClick()">Reset</button>
+              <button class="btn btn-fent-cloud" type="button" (click)="onCancleClick()">Cancel</button>
           </div>
       </form>
   </div>
