@@ -5,7 +5,7 @@ import { AlertService } from 'src/app/core/services/alertService';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddcollegesService } from './addcolleges.service';
-import { CollegeContactDetails } from './addcolleges.model';
+import { AddcollegesDetails, CollegeContactDetails } from './addcolleges.model';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { MessageService } from 'src/app/core/services/message.service';
 
@@ -18,12 +18,13 @@ export class AddCollegsComponent implements OnInit {
 
   collegeContactDetails: CollegeContactDetails = new CollegeContactDetails();
 
+  contactForm = new FormGroup({});
   collegeForm: FormGroup;
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
-  contactForm: FormGroup;
+  // contactForm: FormGroup;
   departmentForm: FormGroup;
   collegeDetails: any;
   contactDetails: any[] = [];
@@ -356,6 +357,8 @@ export class AddCollegsComponent implements OnInit {
     this.collegeContactDetails.addcollegesDetails.updatedBy = 0;
     this.collegeContactDetails.addcollegesDetails.updatedDate = new Date();
 
+    const collegeContactDetails = this.form.value as AddcollegesDetails;
+    
     this.addcollegesService.insertCollegesData(this.collegeContactDetails).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;
