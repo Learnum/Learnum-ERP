@@ -9,6 +9,7 @@ export class AddcollegesService {
 
   
   private urlInsertCollegesDetails: string = "AddColleges/InsertCollegesDetails";
+
   private urlgetBranchList: string = "BranchDetails/getAllBranchList";
 
   constructor(private apiService: APIService) { }

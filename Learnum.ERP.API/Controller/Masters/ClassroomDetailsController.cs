@@ -58,8 +58,21 @@ namespace Learnum.ERP.API.Controller.Masters
             }
             return NotFound("No record found");
 
+        }
+        [HttpGet("getClassroomDetails/{ClassroomId}")]
+        public async Task<IActionResult> GetClassroomDetails(long? ClassroomId)
+        {
+            if (ClassroomId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
 
-
+            var result = await classroomDetailsRepository.GetClassroomDetails(ClassroomId);
+            return Ok(result);
         }
     }
 }

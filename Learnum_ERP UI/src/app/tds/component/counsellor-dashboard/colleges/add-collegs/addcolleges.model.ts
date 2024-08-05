@@ -1,5 +1,3 @@
-import { ContactDetails } from "./contactdetails.model";
-import { DepartmentDetails } from "./departmentdetails.model";
 
 export class AddcollegesDetails{
     collegeId: number;
@@ -9,28 +7,33 @@ export class AddcollegesDetails{
     collegeWebsite: string;
     branchName: string;
     aboutCollege: string;
-    //isActive: boolean;
+    isActive: boolean;
     addedBy: number | null;
     addedDate: Date | null;
     updatedBy: number | null;
     updatedDate: Date | null;
     computerName: string;
 }
+export class ContactDetails {
+  contactId: number;
+  collegeId: number;
+  name: string;
+  phoneNumber: number;
+  email: string;
+  roleId: number;
+}
+
+export class DepartmentDetails{
+  departmentId: number;
+  collegeId: number;
+  courseId: number;
+  seats: number;
+  isActive: boolean;
+}
 
 export class CollegeContactDetails {
   addcollegesDetails: AddcollegesDetails;
   contactDetails: ContactDetails[];
   departmentDetails: DepartmentDetails[];
-  
-
-    constructor(
-      addcollegesDetails: AddcollegesDetails,
-      contactDetails: ContactDetails[],
-      departmentDetails: DepartmentDetails[]   // Replace `any` with a specific type if available
-      ) {
-        this.addcollegesDetails = addcollegesDetails;
-        this.contactDetails = contactDetails;
-        this.departmentDetails = departmentDetails;
-      }
   }
 
