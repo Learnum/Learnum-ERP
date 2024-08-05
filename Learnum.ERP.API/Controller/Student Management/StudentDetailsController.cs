@@ -69,6 +69,7 @@ namespace Learnum.ERP.API.Controller.Student_Management
             fileUpload.FileName = file.FileName;
             fileUpload.MimeType = file.ContentType;
             fileUpload.FilePath = fullPath;
+            fileUpload.StudentId = studentDetailsModel.StudentId;
             fileUpload.StudentName = studentDetailsModel.StudentName;
             fileUpload.StudentEmail = studentDetailsModel.StudentEmail;
             fileUpload.StudentPhone = studentDetailsModel.StudentPhone;

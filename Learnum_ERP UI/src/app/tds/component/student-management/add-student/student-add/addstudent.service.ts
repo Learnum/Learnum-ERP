@@ -11,7 +11,7 @@ export class AddstudentService {
  
   private urlInsertStudentDetails: string = "StudentDetails/InsertStudentDetails";
   private urlgetAddStudentList: string = "StudentDetails/getAllStudentList";
-  private urlGetStudentList: string = "";
+  private urlGetStudentList: string = "StudentDetails/getStudentDetails";
 
   constructor(private apiService: APIService) { }
 
@@ -51,6 +51,6 @@ export class AddstudentService {
   }
 
   getStudentList(studentId: number) {
-    return this.apiService.getData(this.urlgetAddStudentList + '/' + studentId);
+    return this.apiService.getData(this.urlGetStudentList + '/' + studentId);
   }
 }

@@ -54,7 +54,6 @@ namespace Learnum.ERP.API.Helpers
             services.AddTransient<IStudentLeadCallDetailsRepository, StudentLeadCallDetailsRepository>();
             services.AddTransient<IStudentCounsellingDetailsRepository, StudentCounsellingDetailsRepository>();
             services.AddTransient<IStudentDetailsRepository, StudentDetailsRepository>();
-
             services.AddTransient<IStudentLeadDetailsRepository, StudentLeadDetailsRepository>();   
             services.AddTransient<ITopicDetailsRepository, TopicDetailsRepository>();
             services.AddTransient<IEmployeeDetailsRepository, EmployeeDetailsRepository>();
@@ -69,6 +68,7 @@ namespace Learnum.ERP.API.Helpers
             services.AddTransient<IBranchAccountantDetailsRepository, BranchAccountantDetailsRepository>();
             services.AddTransient<IContentWriterDetailsRepository, ContentWriterDetailsRepository>();
             services.AddTransient<IShedulePracticalExamRepository, ShedulePracticalExamRepository>();
+            services.AddTransient<IMasterRepository, MasterRepository>();
            
         }
     }

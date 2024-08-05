@@ -28,6 +28,10 @@ export class AddCollegsComponent implements OnInit {
   collegeDetails: any;
   contactDetails: any[] = [];
   departmentDetails: any[] = [];
+  contactFields: FormlyFieldConfig[];
+  departmentFields:FormlyFieldConfig[];
+  roleDetails: any;
+  collegeroleDetails:any;
 
   constructor(
     private router: Router,
@@ -43,6 +47,8 @@ export class AddCollegsComponent implements OnInit {
     this.createDepartmentForm();
     this.setParameter();
     this.getBranchDetails();
+    this.getJobroleList();
+    this.getCollegeList();
   }
 
   setParameter() {
@@ -186,6 +192,78 @@ export class AddCollegsComponent implements OnInit {
         ],
       },
     ];
+
+    this.contactFields = [{
+      fieldGroupClassName: 'row card-body p-2',
+      fieldGroup: [
+        {
+          key: 'Name',
+          className: 'col-4',
+          type: 'input',
+          templateOptions: {
+            placeholder: 'Enter Name',
+            type: 'text',
+            required: true,
+          }
+        },
+        {
+          key: 'Phone',
+          className: 'col-4',
+          type: 'input',
+          templateOptions: {
+            placeholder: 'Enter Phone Number',
+            type: 'number',
+            required: true,
+          }
+        },
+        {
+          key: 'Email',
+          className: 'col-4',
+          type: 'input',
+          templateOptions: {
+            placeholder: 'Enter Email',
+            type: 'text',
+            required: true,
+          }
+        },
+        {
+          key: 'RoleId',
+          className: 'col-4',
+          type: 'select',
+          templateOptions: {
+            placeholder: 'Enter Email',
+            type: 'text',
+            required: true,
+          }
+        },
+      ]
+    }];
+
+    this.departmentFields =[{
+      fieldGroupClassName: 'row card-body p-2',
+      fieldGroup: [
+        {
+          key: 'Name',
+          className: 'col-4',
+          type: 'input',
+          templateOptions: {
+            placeholder: 'Enter Name',
+            type: 'text',
+            required: true,
+          }
+        },
+        {
+          key: 'collegeRoleId',
+          className: 'col-4',
+          type: 'select',
+          templateOptions: {
+            placeholder: 'Select College',
+            type: 'text',
+            required: true,
+          }
+        },
+      ]
+    }]
   }
 
   createContactForm(): void {
@@ -228,8 +306,8 @@ export class AddCollegsComponent implements OnInit {
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-    this.insertCollegeDetails();
-      console.log( this.insertCollegeDetails)
+      this.insertCollegeDetails();
+      console.log(this.insertCollegeDetails)
     } else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
@@ -250,7 +328,28 @@ export class AddCollegsComponent implements OnInit {
       }
     );
   }
-
+  getJobroleList() {
+    this.addcollegesService.getroleList().subscribe(
+      (data: any) => {
+        this.roleDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getCollegeList() {
+    this.addcollegesService.getCollegeList().subscribe(
+      (data: any) => {
+        this.collegeroleDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
   insertCollegeDetails() {
     this.collegeContactDetails.addcollegesDetails.addedBy = 0;
     this.collegeContactDetails.addcollegesDetails.addedDate = new Date();
