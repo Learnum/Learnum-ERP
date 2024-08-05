@@ -12,7 +12,7 @@ namespace Learnum.ERP.Shared.Entities.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public DateTime? Date { get; set; }
-        public string Role { get; set; }
+        public long Role { get; set; }
 
         public string TodaysWork { get; set; }
         public bool? IsActive { get; set; }

@@ -60,7 +60,8 @@ constructor(
               label: "Branch Name",
               required: true,
               options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
-            },
+            
+            },   
             validation: {
               messages: {
                 required: 'Branch Name is required',
