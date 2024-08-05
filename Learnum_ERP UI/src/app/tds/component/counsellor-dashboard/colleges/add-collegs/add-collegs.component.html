@@ -5,6 +5,10 @@
     <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">
       <formly-form [model]="collegeContactDetails" [fields]="fields" [options]="options" [form]="form">
       </formly-form>
+      <formly-form [model]="contactForm" [fields]="contactFields" [options]="options" [form]="contactForm">
+      </formly-form>
+      <formly-form [model]="departmentForm" [fields]="departmentFields" [options]="options" [form]="departmentForm">
+      </formly-form>
     </form>
   </div>
 </div>
