@@ -57,7 +57,7 @@ export class AddContentwriterComponent {
           },
 
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
             type: 'input',
             key: 'ContentWriterName',
             templateOptions: {
@@ -78,7 +78,7 @@ export class AddContentwriterComponent {
           },
 
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
             type: 'select',
             key: 'CourseId',
             templateOptions: {
@@ -93,7 +93,7 @@ export class AddContentwriterComponent {
 
           
           {
-            className: 'col-md-6',
+            className: 'col-md-4',
             type: 'select',
             key: 'SubjectId',
             templateOptions: {
@@ -113,7 +113,7 @@ export class AddContentwriterComponent {
             type: 'select',
             key: 'IsActive',
             templateOptions: {
-              placeholder: 'select Status',
+              placeholder: 'Select Status',
               type: 'text',
               label: "Status",
               required: true,
