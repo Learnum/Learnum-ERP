@@ -137,7 +137,7 @@ export class AddStudentComponent implements OnInit {
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'QuestionId': data.row.QuestionId
+      'StudentId': data.row.StudentId
     }
     this.router.navigate(['tds/student-management/student-add'], { queryParams: data1 });
   }

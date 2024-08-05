@@ -47,7 +47,7 @@ export class StudentAddComponent implements OnInit {
         fieldGroup: [
           {
             className: 'col-md-3',
-            key: 'studentName',
+            key: 'StudentName',
             type: 'input',
             props: {
               label: 'Student Name',
@@ -62,7 +62,7 @@ export class StudentAddComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'studentEmail',
+            key: 'StudentEmail',
             type: 'input',
             props: {
               label: 'Student Email',
@@ -95,7 +95,7 @@ export class StudentAddComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'studentPhone',
+            key: 'StudentPhone',
             type: 'input',
             props: {
               label: 'Student Phone',
@@ -110,7 +110,7 @@ export class StudentAddComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'aadharNumber',
+            key: 'AadharNumber',
             type: 'input',
             props: {
               label: 'Aadhar Number',
@@ -125,7 +125,7 @@ export class StudentAddComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'dateofBirth',
+            key: 'DateofBirth',
             type: 'input',
             props: {
               label: 'Date of Birth',
@@ -141,7 +141,7 @@ export class StudentAddComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'education',
+            key: 'Education',
             type: 'select',
             props: {
               label: 'Education',
@@ -171,7 +171,7 @@ export class StudentAddComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'bloodGroup',
+            key: 'BloodGroup',
             type: 'select',
             props: {
               label: 'Blood Group',
@@ -197,7 +197,7 @@ export class StudentAddComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'gender',
+            key: 'Gender',
             type: 'select',
             props: {
               label: 'Gender',
@@ -248,7 +248,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'town',
+                key: 'Town',
                 templateOptions: {
                   label: 'Town',
                   placeholder: 'Enter Address',
@@ -263,7 +263,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'city',
+                key: 'City',
                 templateOptions: {
                   label: 'City / District',
                   placeholder: 'Enter Your City',
@@ -278,7 +278,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'state',
+                key: 'State',
                 templateOptions: {
                   label: 'State / Province',
                   placeholder: 'Enter Your State',
@@ -293,7 +293,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'postalCode',
+                key: 'PostalCode',
                 templateOptions: {
                   label: 'Postal Code',
                   placeholder: 'Enter Your State',
@@ -333,7 +333,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'town',
+                key: 'Town',
                 templateOptions: {
                   label: 'Town',
                   placeholder: 'Enter Address',
@@ -348,7 +348,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'city',
+                key: 'City',
                 templateOptions: {
                   label: 'City / District',
                   placeholder: 'Enter Your City',
@@ -363,7 +363,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'state',
+                key: 'State',
                 templateOptions: {
                   label: 'State / Province',
                   placeholder: 'Enter Your State',
@@ -378,7 +378,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'postalCode',
+                key: 'PostalCode',
                 templateOptions: {
                   label: 'Postal Code',
                   placeholder: 'Enter Your State',
@@ -413,7 +413,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'fatherName',
+                key: 'FatherName',
                 templateOptions: {
                   label: 'Father Name',
                   placeholder: 'Enter Your Full Name',
@@ -428,7 +428,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'fatherOccupation',
+                key: 'FatherOccupation',
                 templateOptions: {
                   label: 'Father Occupation',
                   placeholder: 'Enter Your Occupation',
@@ -443,7 +443,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'fatherPhone',
+                key: 'FatherPhone',
                 templateOptions: {
                   label: 'Father Phone',
                   placeholder: 'Enter Your Phone Number',
@@ -458,7 +458,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'motherName',
+                key: 'MotherName',
                 templateOptions: {
                   label: 'Mother Name',
                   placeholder: 'Enter Your Full Name',
@@ -473,7 +473,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'motherOccupation',
+                key: 'MotherOccupation',
                 templateOptions: {
                   label: 'Mother Occupation',
                   placeholder: 'Enter Your Occupation',
@@ -488,7 +488,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'motherPhone',
+                key: 'MotherPhone',
                 templateOptions: {
                   label: 'Mother Phone',
                   placeholder: 'Enter Your Phone Number',
@@ -502,7 +502,7 @@ export class StudentAddComponent implements OnInit {
               },
               {
                 className: 'col-md-3',
-                key: 'studentRole',
+                key: 'StudentRole',
                 type: 'select',
                 props: {
                   label: 'Student Role',
@@ -510,7 +510,7 @@ export class StudentAddComponent implements OnInit {
                   //required: true,
                   options: [
                     { value: 'Student', label: 'Student' },
-                    { value: 'Intern', label: 'Intern' },
+                    { value: 'Intern', label: 'Intern'},
                   ],
                 },
                 validation: {
@@ -522,12 +522,12 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'select',
-                key: 'isActive',
+                key: 'IsActive',
                 props: {
                   placeholder: 'Student Status',
                   required: true,
                   type: 'text',
-                  label: "Course Status",
+                  label: "Student Status",
                   options: [
                     { label: 'Active', value: 'true' },
                     { label: 'Inactive', value: 'false' }
