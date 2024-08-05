@@ -5,7 +5,7 @@ import {
   Validators,
   NgForm,
 } from '@angular/forms';
-//import { SignUpService } from './sign-up.service';
+import { SignUpService } from './sign-up.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 //import { RegistrationMaster } from './registration-master.model';
