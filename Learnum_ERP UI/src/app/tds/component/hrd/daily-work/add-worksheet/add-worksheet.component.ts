@@ -94,7 +94,7 @@ setParameter() {
             type: 'input',
             key: 'Date',
             templateOptions: {
-              label: 'Date of Birth',
+              label: 'Date',
               placeholder: 'Date',
               type: 'date',
               required: true,
