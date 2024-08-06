@@ -18,6 +18,7 @@ export class AddAdmissionsComponent implements OnInit {
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   branchDetails: any;
+  courseDetails: any;
 
   constructor(
     private router: Router,
@@ -30,6 +31,7 @@ export class AddAdmissionsComponent implements OnInit {
   ngOnInit(): void {
     this.setParameter();
     this.getBranchDetails();
+    this.getCourseDetails();
   }
 
   setParameter() {
@@ -55,12 +57,13 @@ export class AddAdmissionsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'courseName',
-            type: 'input',
+            type: 'select',
+            key: 'CourseId',
             props: {
-              label: 'Course Name',
-              placeholder: 'Enter Course Name',
+              placeholder: 'Select Course',
+              label: "Course Name",
               required: true,
+              options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
             },
             validation: {
               messages: {
@@ -207,6 +210,17 @@ export class AddAdmissionsComponent implements OnInit {
     this.admissionService.getBranchList().subscribe(
       (data: any) => {
         this.branchDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getCourseDetails() {
+    this.admissionService.getCourseList().subscribe(
+      (data: any) => {
+        this.courseDetails = data.Value;
         this.setParameter();  
       },
       (error: any) => {
