@@ -42,6 +42,7 @@ namespace Learnum.ERP.Repository.Master
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
+                dbparams.Add("@Action", "GetBranchDetailsList");
                 var result = dbConnection.Query<BranchDetailsResponseModel>("PROC_GetBranchDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
