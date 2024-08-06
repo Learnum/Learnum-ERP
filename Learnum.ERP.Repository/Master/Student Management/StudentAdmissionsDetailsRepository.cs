@@ -59,13 +59,13 @@ namespace Learnum.ERP.Repository.Master.Student_Management
                 return await Task.FromResult(result);
             }
         }
-        public async Task<List<CourseDetailsModel>> GetCourseDetails()
+        public async Task<List<BatchesDetailsModel>> GetBatchDetails()
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
                 dbparams.Add("@Action", "getCourses");
-                var result = dbConnection.Query<CourseDetailsModel>("PROC_GetCourseDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                var result = dbConnection.Query<BatchesDetailsModel>("PROC_GetCourseDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }
