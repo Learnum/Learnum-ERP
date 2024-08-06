@@ -5,7 +5,7 @@ import { AlertService } from 'src/app/core/services/alertService';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddcollegesService } from './addcolleges.service';
-import { AddcollegesDetails, CollegeContactDetails } from './addcolleges.model';
+import { AddcollegesDetails, CollegeContactDetails, ContactDetails, DepartmentDetails } from './addcolleges.model';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { MessageService } from 'src/app/core/services/message.service';
 
@@ -18,13 +18,13 @@ export class AddCollegsComponent implements OnInit {
 
   collegeContactDetails: CollegeContactDetails = new CollegeContactDetails();
 
-  contactForm = new FormGroup({});
+  //contactForm = new FormGroup({});
   collegeForm: FormGroup;
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
-  // contactForm: FormGroup;
+  contactForm: FormGroup;
   departmentForm: FormGroup;
   collegeDetails: any;
   contactDetails: any[] = [];
@@ -59,19 +59,7 @@ export class AddCollegsComponent implements OnInit {
         fieldGroup: [
           {
             className: 'col-md-3',
-            type: 'select',
-            key: 'BranchId',
-            templateOptions: {
-              placeholder: 'Branch Name',
-              type: 'text',
-              label: "Branch Name",
-              required: true,
-              options: this.collegeDetails ? this.collegeDetails.map(college => ({ label: college.BranchName, value: college.BranchId })) : [],
-            },
-          },
-          {
-            className: 'col-md-3',
-            key: 'collegeName',
+            key: 'CollegeName',
             type: 'input',
             props: {
               label: 'College Name',
@@ -86,11 +74,11 @@ export class AddCollegsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'collegeAddress',
+            key: 'CollegeAddress',
             type: 'input',
             props: {
               label: 'College Address',
-              placeholder: 'College Address',
+              placeholder: 'Address Line 1',
               required: true,
             },
             validation: {
@@ -101,7 +89,7 @@ export class AddCollegsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'city',
+            key: 'City',
             type: 'input',
             props: {
               label: 'City',
@@ -116,7 +104,22 @@ export class AddCollegsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'state',
+            key: 'District',
+            type: 'input',
+            props: {
+              label: 'District',
+              placeholder: 'District',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'City is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-3',
+            key: 'State',
             type: 'input',
             props: {
               label: 'State',
@@ -131,7 +134,7 @@ export class AddCollegsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'pincode',
+            key: 'Pincode',
             type: 'input',
             props: {
               label: 'Pincode',
@@ -146,7 +149,20 @@ export class AddCollegsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'collegeWebsite',
+            type: 'select',
+            key: 'BranchId',
+            templateOptions: {
+              placeholder: 'Branch Name',
+              type: 'text',
+              label: "Branch Name",
+              required: true,
+              options: this.collegeDetails ? this.collegeDetails.map(college => ({ label: college.BranchName, value: college.BranchId })) : [],
+            },
+          },
+          
+          {
+            className: 'col-md-3',
+            key: 'CollegeWebsite',
             type: 'input',
             props: {
               label: 'College Website',
@@ -161,7 +177,7 @@ export class AddCollegsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'branchName1',
+            key: 'BranchName1',
             type: 'input',
             props: {
               label: 'Branch Name 1',
@@ -176,7 +192,7 @@ export class AddCollegsComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            key: 'aboutCollege',
+            key: 'AboutCollege',
             type: 'textarea',
             props: {
               label: 'About College',
@@ -200,7 +216,7 @@ export class AddCollegsComponent implements OnInit {
         {
           key: 'Name',
           className: 'col-4',
-          type: 'input',
+         // type: 'input',
           templateOptions: {
             placeholder: 'Enter Name',
             type: 'text',
@@ -210,7 +226,7 @@ export class AddCollegsComponent implements OnInit {
         {
           key: 'Phone',
           className: 'col-4',
-          type: 'input',
+          //type: 'input',
           templateOptions: {
             placeholder: 'Enter Phone Number',
             type: 'number',
@@ -220,7 +236,7 @@ export class AddCollegsComponent implements OnInit {
         {
           key: 'Email',
           className: 'col-4',
-          type: 'input',
+         // type: 'input',
           templateOptions: {
             placeholder: 'Enter Email',
             type: 'text',
@@ -230,7 +246,7 @@ export class AddCollegsComponent implements OnInit {
         {
           key: 'RoleId',
           className: 'col-4',
-          type: 'select',
+         // type: 'select',
           templateOptions: {
             placeholder: 'Enter Email',
             type: 'text',
@@ -246,7 +262,7 @@ export class AddCollegsComponent implements OnInit {
         {
           key: 'Name',
           className: 'col-4',
-          type: 'input',
+          //type: 'input',
           templateOptions: {
             placeholder: 'Enter Name',
             type: 'text',
@@ -254,9 +270,9 @@ export class AddCollegsComponent implements OnInit {
           }
         },
         {
-          key: 'collegeRoleId',
+          key: 'CollegeRoleId',
           className: 'col-4',
-          type: 'select',
+          //type: 'select',
           templateOptions: {
             placeholder: 'Select College',
             type: 'text',
@@ -308,7 +324,10 @@ export class AddCollegsComponent implements OnInit {
     this.form.markAllAsTouched();
     if (this.form.valid) {
       this.insertCollegeDetails();
-      console.log(this.insertCollegeDetails)
+      //this.combineFormData();
+      console.log(this.departmentDetails);
+      console.log( this.contactDetails);
+      console.log(this.collegeContactDetails)
     } else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
@@ -352,13 +371,12 @@ export class AddCollegsComponent implements OnInit {
     );
   }
   insertCollegeDetails() {
-    this.collegeContactDetails.addcollegesDetails.addedBy = 0;
+    this.collegeContactDetails.addcollegesDetails.addedBy = 1;
     this.collegeContactDetails.addcollegesDetails.addedDate = new Date();
-    this.collegeContactDetails.addcollegesDetails.updatedBy = 0;
+    this.collegeContactDetails.addcollegesDetails.updatedBy = 1;
     this.collegeContactDetails.addcollegesDetails.updatedDate = new Date();
+    this.collegeContactDetails.addcollegesDetails.collegeId=0;
 
-    const collegeContactDetails = this.form.value as AddcollegesDetails;
-    
     this.addcollegesService.insertCollegesData(this.collegeContactDetails).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;
