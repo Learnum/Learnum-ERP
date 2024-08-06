@@ -41,8 +41,8 @@ export class AddFeesComponent implements OnInit {
     this.getBranchDetails();
 
     this.editData = this.activateRoute.snapshot.queryParams;
-    if (this.editData.source === 'edit' && this.editData.CounsellorId) {
-      this.getOfflineFeesDetails(this.editData.CounsellorId);
+    if (this.editData.source === 'edit' && this.editData.offlineFeesPaymentId) {
+      this.getOfflineFeesDetails(this.editData.offlineFeesPaymentId);
     }
   }
 
@@ -139,7 +139,7 @@ export class AddFeesComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            type: 'input',
+            type: 'select',
             key: 'BranchId',
             templateOptions: {
               placeholder: 'Branch Name',
@@ -224,12 +224,12 @@ export class AddFeesComponent implements OnInit {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/offline-fees-payment');
+          this.router.navigateByUrl('tds/student-management/offline-fees-payment');
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/offline-fees-payment');
+          this.router.navigateByUrl('tds/student-management/offline-fees-payment');
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
@@ -290,7 +290,7 @@ export class AddFeesComponent implements OnInit {
   }
   
   getOfflineFeesDetails(offlineFeesPaymentId: number) {
-    this.addfeesService.getOfflineFessDetails(offlineFeesPaymentId).subscribe(
+    this.addfeesService.getOfflineFessDetailsById(offlineFeesPaymentId).subscribe(
       (result: any) => {
         if (result && result.Value) {
           this.OfflineFeesDetails = result.Value.Item1;

@@ -16,8 +16,9 @@
 </div>
 
 <!-- ag-grid -->
-<app-data-grid class="ag-theme-alpine" #offlineFeesGrid [tableColumns]="offlineFeesTableColumns" [actionColumns]="offlineFeesActionColumns"
+<app-data-grid class="ag-theme-alpine" #offlineFeesGrid [tableData]="offlineFeesList" [tableColumns]="declaredTableColumns"  [actionColumns]="declaredActionColumns"
     [isEditable]="false" [isSortable]="true" [isFilterable]="false" [isColumnFilterable]="false" [isResizable]="false"
     [isPageable]="true" [defaultPageSize]="12" (selectedRows)="selectOfflineFees($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">
 </app-data-grid>
 <!-- end of ag-grid -->
+
