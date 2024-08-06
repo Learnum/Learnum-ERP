@@ -79,9 +79,9 @@ export class LoginComponent implements OnInit {
     this._router.navigate(['/sign-up']);
   }
 
-  Home_Page() {
-    this._router.navigate(['/home']);
-  }
+  // Home_Page() {
+  //   this._router.navigate(['/home']);
+  // }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;

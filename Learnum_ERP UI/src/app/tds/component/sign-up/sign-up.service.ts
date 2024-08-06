@@ -14,10 +14,10 @@ import { ConfigurationSettings } from 'src/app/core/models/configuration';
 })
 export class SignUpService {
 
-  signUpURL: string = '/Authentication/Account/registration';
-  urlGetDisclaimer: string = '/Masters/EmployeeMaster/search-organization';
-  setPasswordURL: string = '/Authentication/Account/UpdatePassword';
-  verifyOTPURL: string = '/Authentication/Account/VerifyOTP';
+  signUpURL: string = "Authentication/Account/registration";
+  urlGetDisclaimer: string = "Masters/EmployeeMaster/search-organization";
+  setPasswordURL: string = "Authentication/Account/UpdatePassword";
+  verifyOTPURL: string = "Authentication/Account/VerifyOTP";
  
   constructor(
     private apiService: APIService,
