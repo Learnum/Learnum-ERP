@@ -5,9 +5,12 @@
     <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">
       <formly-form [model]="collegeContactDetails" [fields]="fields" [options]="options" [form]="form">
       </formly-form>
+      <!-- <formly-form [model]="contactForm" [fields]="contactFields" [options]="options" [form]="contactForm">
+      </formly-form>
+      <formly-form [model]="departmentForm" [fields]="departmentFields" [options]="options" [form]="departmentForm">
+      </formly-form> -->
     </form>
   </div>
- 
 </div>
 
 
@@ -67,7 +70,7 @@
           </div>
           <div class="form-group">
             <label for="jobRole">Job Role</label>
-            <select class="form-control" id="jobRole" formControlName="jobRole">
+            <!-- <select class="form-control" id="jobRole" formControlName="jobRole">
               <option value="" disabled selected>Select Job Role</option>
               <option value="principle">Principle</option>
               <option value="vice-principle">Vice Principle</option>
@@ -77,6 +80,10 @@
               <option value="accountant">Accountant</option>
               <option value="office-boy">Office Boy</option>
               <option value="other">Other</option>
+            </select> -->
+            <select class="form-control" id="jobRole" formControlName="jobRole">
+              <option value="" disabled selected>Select Job Role</option>
+              <option *ngFor="let role of roleDetails" [value]="role.Name">{{ role.Name }}</option>
             </select>
           </div>
         </form>
@@ -130,11 +137,15 @@
         <form [formGroup]="departmentForm">
           <div class="form-group">
             <label for="coursename">Course Name</label>
-            <select class="form-control" id="coursename" formControlName="coursename">
+            <!-- <select class="form-control" id="coursename" formControlName="coursename">
               <option value="" disabled selected>Select Job Role</option>
               <option value="fy">FY B.com</option>
               <option value="sy">SY B.com</option>
               <option value="ty">TY B.com</option>
+            </select> -->
+            <select class="form-control" id="coursename" formControlName="coursename">
+              <option value="" disabled selected>Select Job Role</option>
+              <option *ngFor="let college of collegeroleDetails" [value]="college.Name">{{ college.Name }}</option>
             </select>
           </div>
           <div class="form-group">

@@ -11,10 +11,9 @@ export class AddstudentService {
  
   private urlInsertStudentDetails: string = "StudentDetails/InsertStudentDetails";
   private urlgetAddStudentList: string = "StudentDetails/getAllStudentList";
+  private urlGetStudentList: string = "StudentDetails/getStudentDetails";
 
-  constructor(private apiService: APIService) {
-   
-  }
+  constructor(private apiService: APIService) { }
 
   insertStudentDetails(studentDetails: studentDetailsModel) : Observable<any> {
     let studentDetailsModel1 : studentDetailsModel = new studentDetailsModel()
@@ -49,5 +48,9 @@ export class AddstudentService {
 
   getAddStudentList() {
     return this.apiService.getData(this.urlgetAddStudentList);
+  }
+
+  getStudentList(studentId: number) {
+    return this.apiService.getData(this.urlGetStudentList + '/' + studentId);
   }
 }

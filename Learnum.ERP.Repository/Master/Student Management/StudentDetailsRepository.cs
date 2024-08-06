@@ -20,6 +20,7 @@ namespace Learnum.ERP.Repository.Master.Student_Management
     {
         Task<ResponseCode> InsertStudentDetails(StudentDetailFileUpload fileUpload);
         Task<List<StudentDeatailsResponseModel>> GetStudentDetailsList();
+        Task<Tuple<StudentDetailFileUpload?, ResponseCode>> GetStudentDetails(long? StudentId);
     }
 
     public class StudentDetailsRepository : BaseRepository, IStudentDetailsRepository
@@ -43,6 +44,19 @@ namespace Learnum.ERP.Repository.Master.Student_Management
                 var dbparams = new DynamicParameters();
                 var result = dbConnection.Query<StudentDeatailsResponseModel>("PROC_GetAddStudentDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<Tuple<StudentDetailFileUpload?, ResponseCode>> GetStudentDetails(long? StudentId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@StudentId", StudentId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<StudentDetailFileUpload?>("PROC_GetAddStudentDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<StudentDetailFileUpload?, ResponseCode>(result, responseCode));
             }
         }
 

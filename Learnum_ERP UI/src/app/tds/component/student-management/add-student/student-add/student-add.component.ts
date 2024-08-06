@@ -20,6 +20,7 @@ export class StudentAddComponent implements OnInit {
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
+  editData: any;
 
   constructor(
     private router: Router,
@@ -32,6 +33,10 @@ export class StudentAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.setFields();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.StudentId) {
+      this.getAddStudentDetails(this.editData.StudentId);
+    }
   }
 
 
@@ -41,8 +46,8 @@ export class StudentAddComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-4',
-            key: 'studentName',
+            className: 'col-md-3',
+            key: 'StudentName',
             type: 'input',
             props: {
               label: 'Student Name',
@@ -56,8 +61,8 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            key: 'studentEmail',
+            className: 'col-md-3',
+            key: 'StudentEmail',
             type: 'input',
             props: {
               label: 'Student Email',
@@ -71,13 +76,13 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-1',
+            className: 'col-md-3',
             type: 'file',
             key: 'file',
             props: {
               placeholder: 'Student Photo',
              // type: 'text',
-              label: "Upload Brochure",
+              label: "Student Photo",
               required: true,
 
             },
@@ -89,8 +94,8 @@ export class StudentAddComponent implements OnInit {
             // },
           },
           {
-            className: 'col-md-4',
-            key: 'studentPhone',
+            className: 'col-md-3',
+            key: 'StudentPhone',
             type: 'input',
             props: {
               label: 'Student Phone',
@@ -104,8 +109,8 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            key: 'aadharNumber',
+            className: 'col-md-3',
+            key: 'AadharNumber',
             type: 'input',
             props: {
               label: 'Aadhar Number',
@@ -119,8 +124,8 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            key: 'dateofBirth',
+            className: 'col-md-3',
+            key: 'DateofBirth',
             type: 'input',
             props: {
               label: 'Date of Birth',
@@ -135,8 +140,8 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            key: 'education',
+            className: 'col-md-3',
+            key: 'Education',
             type: 'select',
             props: {
               label: 'Education',
@@ -165,8 +170,8 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            key: 'bloodGroup',
+            className: 'col-md-3',
+            key: 'BloodGroup',
             type: 'select',
             props: {
               label: 'Blood Group',
@@ -191,8 +196,8 @@ export class StudentAddComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            key: 'gender',
+            className: 'col-md-3',
+            key: 'Gender',
             type: 'select',
             props: {
               label: 'Gender',
@@ -243,7 +248,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'town',
+                key: 'Town',
                 templateOptions: {
                   label: 'Town',
                   placeholder: 'Enter Address',
@@ -258,7 +263,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'city',
+                key: 'City',
                 templateOptions: {
                   label: 'City / District',
                   placeholder: 'Enter Your City',
@@ -273,7 +278,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'state',
+                key: 'State',
                 templateOptions: {
                   label: 'State / Province',
                   placeholder: 'Enter Your State',
@@ -288,7 +293,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'postalCode',
+                key: 'PostalCode',
                 templateOptions: {
                   label: 'Postal Code',
                   placeholder: 'Enter Your State',
@@ -303,7 +308,7 @@ export class StudentAddComponent implements OnInit {
             ]
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'checkbox',
             key: 'SameAsCurrentAddress',
             templateOptions: {
@@ -328,7 +333,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'town',
+                key: 'Town',
                 templateOptions: {
                   label: 'Town',
                   placeholder: 'Enter Address',
@@ -343,7 +348,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'city',
+                key: 'City',
                 templateOptions: {
                   label: 'City / District',
                   placeholder: 'Enter Your City',
@@ -358,7 +363,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'state',
+                key: 'State',
                 templateOptions: {
                   label: 'State / Province',
                   placeholder: 'Enter Your State',
@@ -373,7 +378,7 @@ export class StudentAddComponent implements OnInit {
               {
                 className: 'col-md-3',
                 type: 'input',
-                key: 'postalCode',
+                key: 'PostalCode',
                 templateOptions: {
                   label: 'Postal Code',
                   placeholder: 'Enter Your State',
@@ -406,9 +411,9 @@ export class StudentAddComponent implements OnInit {
             fieldGroupClassName: 'row card-body p-2',
             fieldGroup: [
               {
-                className: 'col-md-4',
+                className: 'col-md-3',
                 type: 'input',
-                key: 'fatherName',
+                key: 'FatherName',
                 templateOptions: {
                   label: 'Father Name',
                   placeholder: 'Enter Your Full Name',
@@ -421,9 +426,9 @@ export class StudentAddComponent implements OnInit {
                 },
               },
               {
-                className: 'col-md-4',
+                className: 'col-md-3',
                 type: 'input',
-                key: 'fatherOccupation',
+                key: 'FatherOccupation',
                 templateOptions: {
                   label: 'Father Occupation',
                   placeholder: 'Enter Your Occupation',
@@ -436,9 +441,9 @@ export class StudentAddComponent implements OnInit {
                 },
               },
               {
-                className: 'col-md-4',
+                className: 'col-md-3',
                 type: 'input',
-                key: 'fatherPhone',
+                key: 'FatherPhone',
                 templateOptions: {
                   label: 'Father Phone',
                   placeholder: 'Enter Your Phone Number',
@@ -451,9 +456,9 @@ export class StudentAddComponent implements OnInit {
                 },
               },
               {
-                className: 'col-md-4',
+                className: 'col-md-3',
                 type: 'input',
-                key: 'motherName',
+                key: 'MotherName',
                 templateOptions: {
                   label: 'Mother Name',
                   placeholder: 'Enter Your Full Name',
@@ -466,9 +471,9 @@ export class StudentAddComponent implements OnInit {
                 },
               },
               {
-                className: 'col-md-4',
+                className: 'col-md-3',
                 type: 'input',
-                key: 'motherOccupation',
+                key: 'MotherOccupation',
                 templateOptions: {
                   label: 'Mother Occupation',
                   placeholder: 'Enter Your Occupation',
@@ -481,9 +486,9 @@ export class StudentAddComponent implements OnInit {
                 },
               },
               {
-                className: 'col-md-4',
+                className: 'col-md-3',
                 type: 'input',
-                key: 'motherPhone',
+                key: 'MotherPhone',
                 templateOptions: {
                   label: 'Mother Phone',
                   placeholder: 'Enter Your Phone Number',
@@ -496,8 +501,8 @@ export class StudentAddComponent implements OnInit {
                 },
               },
               {
-                className: 'col-md-4',
-                key: 'studentRole',
+                className: 'col-md-3',
+                key: 'StudentRole',
                 type: 'select',
                 props: {
                   label: 'Student Role',
@@ -505,6 +510,7 @@ export class StudentAddComponent implements OnInit {
                   //required: true,
                   options: [
                     { value: 'Student', label: 'Student' },
+                    { value: 'Intern', label: 'Intern'},
                   ],
                 },
                 validation: {
@@ -514,14 +520,14 @@ export class StudentAddComponent implements OnInit {
                 },
               },
               {
-                className: 'col-md-6',
+                className: 'col-md-3',
                 type: 'select',
-                key: 'isActive',
+                key: 'IsActive',
                 props: {
                   placeholder: 'Student Status',
                   required: true,
                   type: 'text',
-                  label: "Course Status",
+                  label: "Student Status",
                   options: [
                     { label: 'Active', value: 'true' },
                     { label: 'Inactive', value: 'false' }
@@ -536,18 +542,19 @@ export class StudentAddComponent implements OnInit {
       },
     ];
   }
-  onCancelClick() {
+  onCancleClick() {
     this.router.navigateByUrl('tds/student-management/add-student');
   }
+  onResetClick() {
+    this.form.reset();
+  }
   onSubmit(): void {
-   // console.log(this.model);
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   // Handle form submission
-    // } else {
-    //   // Handle form errors
-    // }
-    this.insertStudentDetails();
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this.insertStudentDetails();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
   }
   insertStudentDetails() {
     this.addstudentService.insertStudentDetails(this.studentDetails).subscribe(
@@ -564,6 +571,20 @@ export class StudentAddComponent implements OnInit {
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getAddStudentDetails(StudentId: number) {
+    this.addstudentService.getStudentList(StudentId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.studentDetails = result.Value.Item1;
+          this.setFields();
+          console.error('No data found for StudentId: ' + StudentId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving practical details:', error);
       }
     );
   }

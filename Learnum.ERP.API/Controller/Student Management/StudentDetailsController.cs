@@ -69,6 +69,7 @@ namespace Learnum.ERP.API.Controller.Student_Management
             fileUpload.FileName = file.FileName;
             fileUpload.MimeType = file.ContentType;
             fileUpload.FilePath = fullPath;
+            fileUpload.StudentId = studentDetailsModel.StudentId;
             fileUpload.StudentName = studentDetailsModel.StudentName;
             fileUpload.StudentEmail = studentDetailsModel.StudentEmail;
             fileUpload.StudentPhone = studentDetailsModel.StudentPhone;
@@ -114,5 +115,22 @@ namespace Learnum.ERP.API.Controller.Student_Management
             }
             return NotFound("No record found");
         }
+
+        [HttpGet("getStudentDetails/{StudentId}")]
+        public async Task<IActionResult> GetStudentDetails(long? StudentId)
+        {
+            if (StudentId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await studentDetailsRepository.GetStudentDetails(StudentId);
+            return Ok(result);
+        }
+
     }
 }
