@@ -68,5 +68,12 @@ namespace Learnum.ERP.API.Controller.Student_Management
             return Ok(data.Result);
         }
 
+        [HttpGet("GetAllBatches")]
+        public async Task<IActionResult> GetBatchDetails()
+        {
+            var data = studentAdmissionsDetailsRepository.GetBatchDetails();
+            return Ok(data.Result);
+        }
+
     }
 }
