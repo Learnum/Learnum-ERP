@@ -1,4 +1,5 @@
-﻿using Learnum.ERP.Repository.Master.Student_Management;
+﻿using Learnum.ERP.Repository.Master;
+using Learnum.ERP.Repository.Master.Student_Management;
 using Learnum.ERP.Shared.Core;
 using Learnum.ERP.Shared.Entities.Models;
 using Microsoft.AspNetCore.Http;
@@ -51,6 +52,22 @@ namespace Learnum.ERP.API.Controller.Student_Management
                 return Ok(data);
             }
             return NotFound("No record found");
+        }
+
+        [HttpGet("GetOfflineFeesDetailsByID/{OfflineFeesPaymentId}")]
+        public async Task<IActionResult> GetOfflineFeesDetailsByID(long? OfflineFeesPaymentId)
+        {
+            if (OfflineFeesPaymentId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await offlineFeesDetailsRepository.GetOfflineFeesDetailsByID(OfflineFeesPaymentId);
+            return Ok(result);
         }
     }
 }

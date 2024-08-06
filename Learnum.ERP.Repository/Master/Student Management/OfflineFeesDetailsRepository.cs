@@ -17,6 +17,9 @@ namespace Learnum.ERP.Repository.Master.Student_Management
     {
         Task<ResponseCode> InsertOfflineFeesDetails(OfflineFeesDetailsModel offlineFeesDetailsModel);
         Task<List<OfflineFeesDetailsResponseModel>> GetOfflineFeesDetailsList();
+
+        Task<Tuple<OfflineFeesDetailsModel?, ResponseCode>> GetOfflineFeesDetailsByID(long? @OfflineFeesPaymentId);
+
     }
     public class OfflineFeesDetailsRepository : BaseRepository, IOfflineFeesDetailsRepository
     {
@@ -26,7 +29,7 @@ namespace Learnum.ERP.Repository.Master.Student_Management
             {
                 var dbparams = new DynamicParameters(offlineFeesDetailsModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_InsertUpdateOfflineFeesPayment", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
@@ -37,8 +40,21 @@ namespace Learnum.ERP.Repository.Master.Student_Management
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<OfflineFeesDetailsResponseModel>("", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                var result = dbConnection.Query<OfflineFeesDetailsResponseModel>("PROC_GetOfflineFeesPayment", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<Tuple<OfflineFeesDetailsModel?, ResponseCode>> GetOfflineFeesDetailsByID(long? @OfflineFeesPaymentId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@OfflineFeesPaymentId", @OfflineFeesPaymentId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<OfflineFeesDetailsModel?>("PROC_EditOfflineFeesPayment", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<OfflineFeesDetailsModel?, ResponseCode>(result, responseCode));
             }
         }
     }

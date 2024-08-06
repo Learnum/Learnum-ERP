@@ -206,6 +206,389 @@ export class TDSLayoutComponent implements OnInit {
         //   { id: 54, title: 'All Business Leads', url: '/tds/business-lead/all-business-lead', type: 'no' },
         // ]
       },
+
+      // {
+      //   "id": 55,
+      //   "title": "My Dashboard ERP",
+      //   "url": "/tds/my-dashboard-erp",
+      //   "type": "no",
+      //   "hasChildren": false,
+      //   "children": null
+      // },
+      // {
+      //   "id": 4,
+      //   "title": "Masters",
+      //   "url": "/tds/masters",
+      //   "type": "no",
+      //   "hasChildren": true,
+      //   "children": [
+      //     {
+      //       "id": 5,
+      //       "title": "Branches",
+      //       "url": "/tds/masters/branches",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 6,
+      //       "title": "IP Address",
+      //       "url": "/tds/masters/ip-address",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 7,
+      //       "title": "Classrooms",
+      //       "url": "/tds/masters/classrooms",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 8,
+      //       "title": "Courses",
+      //       "url": "/tds/masters/courses",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 9,
+      //       "title": "Subjects",
+      //       "url": "/tds/masters/subjects",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 10,
+      //       "title": "Batches",
+      //       "url": "/tds/masters/batches",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     }
+      //   ]
+      // },
+      // {
+      //   "id": 11,
+      //   "title": "HRD",
+      //   "url": "/tds/hrd",
+      //   "type": "no",
+      //   "hasChildren": true,
+      //   "children": [
+      //     {
+      //       "id": 12,
+      //       "title": "Employees",
+      //       "url": "/tds/hrd/employees",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 13,
+      //       "title": "Trainer For Batch",
+      //       "url": "/tds/hrd/trainer",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 14,
+      //       "title": "Branch Manager For Branch",
+      //       "url": "/tds/hrd/branch-manager",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 15,
+      //       "title": "Content Writer For Subject",
+      //       "url": "/tds/hrd/content-writer",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 16,
+      //       "title": "Counsellor For Branch",
+      //       "url": "/tds/hrd/counsellor",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 17,
+      //       "title": "Accountant For Branch",
+      //       "url": "/tds/hrd/accountant",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 18,
+      //       "title": "Attendance Sheet",
+      //       "url": "/tds/hrd/attendance",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 19,
+      //       "title": "Daily Work Sheet",
+      //       "url": "/tds/hrd/daily-work",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 20,
+      //       "title": "All Birthdays",
+      //       "url": "/tds/hrd/birthdays",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     }
+      //   ]
+      // },
+      // {
+      //   "id": 21,
+      //   "title": "My Syllabus",
+      //   "url": "/tds/my-syllabus",
+      //   "type": "no",
+      //   "hasChildren": true,
+      //   "children": [
+      //     {
+      //       "id": 22,
+      //       "title": "MY Syllabus",
+      //       "url": "/tds/my-syllabus/my-syllabus-erp",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 23,
+      //       "title": "My Exams",
+      //       "url": "/tds/my-syllabus/myexam",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 24,
+      //       "title": "MCQ Assignments",
+      //       "url": "/tds/my-syllabus/mcq-assignments",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 25,
+      //       "title": "Practical Problem",
+      //       "url": "/tds/my-syllabus/practical-problem",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 26,
+      //       "title": "General Exams",
+      //       "url": "/tds/my-syllabus/general-exam",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     }
+      //   ]
+      // },
+      // {
+      //   "id": 31,
+      //   "title": "Student Management",
+      //   "url": "/tds/student-management",
+      //   "type": "no",
+      //   "hasChildren": true,
+      //   "children": [
+      //     {
+      //       "id": 32,
+      //       "title": "Add Students",
+      //       "url": "/tds/student-management/add-student",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 33,
+      //       "title": "Students Admissions",
+      //       "url": "/tds/student-management/student-admission",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 34,
+      //       "title": "Offline Fees Payment",
+      //       "url": "/tds/student-management/offline-fees-payment",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 35,
+      //       "title": "Send Fees Reminder Report",
+      //       "url": "/tds/student-management/send-fees-reminder-report",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 36,
+      //       "title": "Students Admission Status",
+      //       "url": "/tds/student-management/student-admission-status",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 37,
+      //       "title": "Offline Fees Status",
+      //       "url": "/tds/student-management/offline-fees-status",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     }
+      //   ]
+      // },
+      // {
+      //   "id": 38,
+      //   "title": "Trainer Dashboard",
+      //   "url": "/tds/trainer-dashboard",
+      //   "type": "no",
+      //   "hasChildren": false,
+      //   "children": []
+      // },
+      // {
+      //   "id": 39,
+      //   "title": "Counsellor Dashboard",
+      //   "url": "/tds/counsellor-dashboard",
+      //   "type": "no",
+      //   "hasChildren": true,
+      //   "children": [
+      //     {
+      //       "id": 40,
+      //       "title": "Colleges",
+      //       "url": "/tds/counsellor-dashboard/colleges",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 41,
+      //       "title": "Schedule Meeting With College",
+      //       "url": "/tds/counsellor-dashboard/schedule-meeting-with-college",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 42,
+      //       "title": "Schedule Seminar With College",
+      //       "url": "/tds/counsellor-dashboard/schedule-seminar-with-college",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 43,
+      //       "title": "Student Leads",
+      //       "url": "/tds/counsellor-dashboard/student-leads",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 44,
+      //       "title": "Website Leads",
+      //       "url": "/tds/counsellor-dashboard/website-leads",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 45,
+      //       "title": "Call With Student Lead",
+      //       "url": "/tds/counsellor-dashboard/call-with-student-lead",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 46,
+      //       "title": "Counselling With Student",
+      //       "url": "/tds/counsellor-dashboard/counselling-with-student",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     }
+      //   ]
+      // },
+      // {
+      //   "id": 47,
+      //   "title": "Counselors Planning",
+      //   "url": "/tds/counselors-planning",
+      //   "type": "no",
+      //   "hasChildren": true,
+      //   "children": [
+      //     {
+      //       "id": 48,
+      //       "title": "Trainers Planning",
+      //       "url": "/tds/counselors-planning/trainers-planning",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 49,
+      //       "title": "Batches Planning",
+      //       "url": "/tds/counselors-planning/batches-planning",
+      //       "type": "no",
+      //       "hasChildren": false,
+      //       "children": []
+      //     }
+      //   ]
+      // },
+      // {
+      //   "id": 50,
+      //   "title": "Practical Problem Exams",
+      //   "url": "/tds/practical-problem-exams",
+      //   "type": "no",
+      //   "hasChildren": false,
+      //   "children": []
+      // },
+      // {
+      //   "id": 52,
+      //   "title": "My Practical Exam",
+      //   "url": "/tds/my-practical-exam",
+      //   "type": "no",
+      //   "hasChildren": false,
+      //   "children": []
+      // },
+      // {
+      //   "id": 55,
+      //   "title": "Add Practical Problems Subform",
+      //   "url": "/tds/add-practical-problem-solution",
+      //   "type": "no",
+      //   "hasChildren": false,
+      //   "children": []
+      // },
+      // {
+      //   "id": 56,
+      //   "title": "Business Leads",
+      //   "url": "/tds/business-lead",
+      //   "type": "no",
+      //   "hasChildren": false,
+      //   "children": []
+      // }
     ]
     // this._coreMenuService.onMenuRegistered.subscribe(res => {
     //    this.Menu = res[1];
