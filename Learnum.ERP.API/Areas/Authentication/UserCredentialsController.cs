@@ -60,7 +60,7 @@ namespace Learnum.ERP.API.Areas.Authentication
         }
 
 
-        /*[HttpPost("verifyOTP")]
+        [HttpPost("verifyOTP")]
         public async Task<IActionResult> VerifyOTP(LoginModel loginModel)
         {
             try
@@ -80,7 +80,7 @@ namespace Learnum.ERP.API.Areas.Authentication
             {
                 throw;
             }
-        }*/
+        }
         [HttpPost("ResetPassword")]
         public async Task<IActionResult> ResetPassword(LoginModel loginModel)
         {
