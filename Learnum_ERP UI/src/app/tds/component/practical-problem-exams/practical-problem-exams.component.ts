@@ -74,16 +74,17 @@ export class PracticalProblemExamsComponent implements OnInit {
     },
     
   ];
-
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewContentWriter',
+      actionPage: 'ViewPracticalProblem',
       actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
   ];
+
+  
   ActionColumns: ActionColumn[] = [
     {
       action: 'view',

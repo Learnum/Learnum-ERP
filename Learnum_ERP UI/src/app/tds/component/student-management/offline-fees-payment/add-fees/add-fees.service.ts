@@ -13,19 +13,24 @@ export class AddFeesService extends BaseService{
   private urlgetSubjectList: string = "SubjectDetails/getAllSubjectList";
   private urlgetBatchList: string = "BatchesDetails/getAllBatchesList";
   private urlInsertfeesDetails: string = "OfflineFeesDetails/InsertOfflineFeesDetails";
-  private urlGetofflineFeesList: string = "OfflineFeesDetails/getOfflineFeesDetailsList";
+  private urlGetofflineFeesListByID: string = "OfflineFeesDetails/GetOfflineFeesDetailsByID";
+  private urlgetfeesList: string = "OfflineFeesDetails/getOfflineFeesDetailsList";
 
 
    constructor(private apiService: APIService) {
     super();
+  }
+  
+  getfeesList() {
+    return this.apiService.getData(this.urlgetfeesList);
   }
 
   insertfeesDetails(OfflineFessDetails: addfeesModel) {
     return this.apiService.postBlob(this.urlInsertfeesDetails,OfflineFessDetails);
   }
 
-  getOfflineFessDetails(offlineFeesPaymentId:number){
-    return this.apiService.getData(this.urlGetofflineFeesList+ '/' + offlineFeesPaymentId);
+  getOfflineFessDetailsById(offlineFeesPaymentId:number){
+    return this.apiService.getData(this.urlGetofflineFeesListByID+ '/' + offlineFeesPaymentId);
   }
 
   getBranchList() {
