@@ -1,4 +1,5 @@
-﻿using Learnum.ERP.Repository.Master.Student_Management;
+﻿using Learnum.ERP.Repository.Master;
+using Learnum.ERP.Repository.Master.Student_Management;
 using Learnum.ERP.Shared.Core;
 using Learnum.ERP.Shared.Entities.Models;
 using Microsoft.AspNetCore.Http;
@@ -41,7 +42,7 @@ namespace Learnum.ERP.API.Controller.Student_Management
             return BadRequest("Failed to Save");
         }
 
-        [HttpGet("GetStudentAdmissionsDetailsList")]
+       /* [HttpGet("GetStudentAdmissionsDetailsList")]
         public async Task<IActionResult> GetStudentAdmissionsDetailsList()
         {
             var data = await studentAdmissionsDetailsRepository.GetStudentAdmissionsDetailsList();
@@ -50,6 +51,22 @@ namespace Learnum.ERP.API.Controller.Student_Management
                 return Ok(data);
             }
             return NotFound("No record found");
+        }*/
+
+        [HttpGet("GetAllBranches")]
+        public async Task<IActionResult> GetBranchDetails()
+        {
+            var data = studentAdmissionsDetailsRepository.GetBranchDetails();
+            return Ok(data.Result);
         }
+
+
+        [HttpGet("GetAllCourses")]
+        public async Task<IActionResult> GetCourseDetails()
+        {
+            var data = studentAdmissionsDetailsRepository.GetCourseDetails();
+            return Ok(data.Result);
+        }
+
     }
 }

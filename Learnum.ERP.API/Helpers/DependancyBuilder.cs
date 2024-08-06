@@ -70,6 +70,7 @@ namespace Learnum.ERP.API.Helpers
             services.AddTransient<IShedulePracticalExamRepository, ShedulePracticalExamRepository>();
             services.AddTransient<IMasterRepository, MasterRepository>();
             services.AddTransient<IOfflineFeesDetailsRepository, OfflineFeesDetailsRepository>();
+            services.AddTransient<IStudentAdmissionsDetailsRepository,  StudentAdmissionsDetailsRepository>();
            
         }
     }
