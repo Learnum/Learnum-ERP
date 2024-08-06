@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models.ViewModel.Student_Management
 {
-    public class StudentAdmissionsDetailsResponseModel
+    public class StudentAdmissionsDetailsResponseModel:BaseModel
     {
-       public long AdmissionID { get; set; }    
+        public long AdmissionId { get; set; }
+        public DateTime DateOfAdmission { get; set; }
+        public long CourseId { get; set; }
+        public long BranchId { get; set; }
+        public long BatchId { get; set; }
+        public long StudentId { get; set; }
+        public bool IsActive { get; set; }
 
     }
 }

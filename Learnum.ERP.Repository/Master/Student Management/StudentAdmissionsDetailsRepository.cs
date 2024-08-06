@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Dapper;
 using System.Data;
 using Learnum.ERP.Repository.Core;
+using Learnum.ERP.Shared.Entities.Models.Comman;
 
 namespace Learnum.ERP.Repository.Master.Student_Management
 {
@@ -17,7 +18,9 @@ namespace Learnum.ERP.Repository.Master.Student_Management
     public interface IStudentAdmissionsDetailsRepository
     {
         Task<ResponseCode> InsertStudentAdmissionsDetails(StudentAdmissionsDetailsModel studentAdmissionsDetailsModel);
-        Task<List<StudentAdmissionsDetailsResponseModel>> GetStudentAdmissionsDetailsList();
+        Task<List<StudentAdmissionsDetailsResponseModel>> GetStudentAdmissionsDetailsList(); 
+        Task<List<BranchDetailsModel>> GetBranchDetails();
+        Task<List<CourseDetailsModel>> GetCourseDetails();
     }
     public class StudentAdmissionsDetailsRepository : BaseRepository, IStudentAdmissionsDetailsRepository
     {
@@ -27,18 +30,30 @@ namespace Learnum.ERP.Repository.Master.Student_Management
             {
                 var dbparams = new DynamicParameters(studentAdmissionsDetailsModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_InsertStudentAdmissions", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
         }
 
-        public async Task<List<StudentAdmissionsDetailsResponseModel>> GetStudentAdmissionsDetailsList()
+        public async Task<List<BranchDetailsModel>> GetBranchDetails()
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<StudentAdmissionsDetailsResponseModel>("", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                dbparams.Add("@Action", "getBranches");
+                var result = dbConnection.Query<BranchDetailsModel>("PROC_GetBranchDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<List<CourseDetailsModel>> GetCourseDetails()
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@Action", "getCourse");
+                var result = dbConnection.Query<CourseDetailsModel>("PROC_GetCourseDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }
