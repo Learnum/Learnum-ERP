@@ -58,7 +58,7 @@ export class AddCoursesComponent implements OnInit {
               type: 'text',
               label: "CoursesName",
               required: true,
-              pattern: '^[A-Za-z]+$',
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
 
           },
@@ -71,9 +71,10 @@ export class AddCoursesComponent implements OnInit {
               type: 'text',
               label: "Description",
               required: true,
-              pattern: '^[A-Za-z]+$',
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
           },
+         
           {
             className: 'col-md-3',
             type: 'select',
@@ -94,17 +95,17 @@ export class AddCoursesComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-2',
             type: 'file',
             key: 'file',
             props: {
               placeholder: 'select File',
               // type: 'text',
-              label: "Upload Brochure",
+              label: "Upload Brochure*",
               //required: true,
 
             },
-          }
+          },
         ],
       },
     ];

@@ -44,36 +44,32 @@ export class CoursesComponent implements OnInit {
       minWidth: 150
 
     },
-    {
-      field: 'IsActive',
-      headerName: 'Course Status',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 150,
-      valueFormatter: params => {
-        return params.value ? 'Active' : 'Inactive';
-      }
-    },
+    // {
+    //   field: 'file',
+    //   headerName: 'Upload Brochure',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 150
+
+    // },
+    // {
+    //   field: 'IsActive',
+    //   headerName: 'Course Status',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 150,
+    //   valueFormatter: params => {
+    //     return params.value ? 'Active' : 'Inactive';
+    //   }
+    // },
     {
       field: 'addedBy',
-      headerName: 'AddedBy',
+      headerName: 'Added By',
       filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'addedTime',
-      headerName: 'AddedTime',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'updatedBy',
-      headerName: 'UpdatedBy',
-      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -83,13 +79,22 @@ export class CoursesComponent implements OnInit {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }, {
-      field: 'updatedDate',
-      headerName: 'UpdatedDate',
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
+    {
+      field: 'updatedTime',
+      headerName: 'Updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    }, 
+    
   ];
   declaredActionColumns: ActionColumn[] = [
     {

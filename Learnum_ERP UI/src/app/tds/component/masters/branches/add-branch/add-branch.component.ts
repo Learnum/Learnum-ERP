@@ -22,6 +22,8 @@ export class AddBranchComponent implements OnInit {
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
+  StateList: any;
+  CityList:any;
 
   constructor(
     private router: Router,
@@ -38,7 +40,9 @@ export class AddBranchComponent implements OnInit {
     if (this.editData.source === 'edit' && this.editData.BranchId) {
       this.getBranchDetails(this.editData.BranchId);
     }
-
+    this.getAllStates();
+    this.getAllCity();
+  
   }
 
   setParameter() {
@@ -59,7 +63,7 @@ export class AddBranchComponent implements OnInit {
               type: 'text',
               label: 'Branch Name',
               required: true,
-              pattern: '^[A-Za-z]+$', 
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
             validation: {
               messages: {
@@ -77,7 +81,7 @@ export class AddBranchComponent implements OnInit {
               type: 'text',
               label: "Address",
               required: true,
-              pattern: '^[A-Za-z]+$'
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
             validation: {
               messages: {
@@ -86,16 +90,52 @@ export class AddBranchComponent implements OnInit {
               },
             },
           },
+          // {
+          //   className: 'col-md-3',
+          //   type: 'input',
+          //   key: 'City',
+          //   props: {
+          //     placeholder: 'Enter Your city',
+          //     required: true,
+          //     type: 'text',
+          //     label: "City",
+          //     pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'City is required',
+          //     },
+          //   },
+          // },
+          // {
+          //   className: 'col-md-3',
+          //   type: 'input',
+          //   key: 'State',
+          //   props: {
+          //     placeholder: 'Enter Your state',
+          //     required: true,
+          //     valueProp: 'value',
+          //     labelProp: 'label',
+          //     label: "State",
+          //     pattern: '^[A-Za-z]+$'
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'State is required',
+          //     },
+          //   },
+          // },
           {
             className: 'col-md-3',
-            type: 'input',
-            key: 'City',
+            type: 'select',
+            key: 'CityId',
             props: {
-              placeholder: 'Enter Your city',
+              options: this.CityList,
+              placeholder: 'Select City',
+              valueProp: 'CityId',
+              labelProp: 'CityName',
+              label: "City Name",
               required: true,
-              type: 'text',
-              label: "City",
-              pattern: '^[A-Za-z]+$'
             },
             validation: {
               messages: {
@@ -105,22 +145,23 @@ export class AddBranchComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            type: 'input',
-            key: 'State',
+            type: 'select',
+            key: 'StateId',
             props: {
-              placeholder: 'Enter Your state',
+              options: this.StateList,
+              placeholder: 'Select State',
+              valueProp: 'StateId',
+              labelProp: 'StateName',
+              label: "State Name",
               required: true,
-              valueProp: 'value',
-              labelProp: 'label',
-              label: "State",
-              pattern: '^[A-Za-z]+$'
             },
-            validation: {
-              messages: {
-                required: 'State is required',
-              },
-            },
+            // validation: {
+            //   messages: {
+            //     required: 'State is required',
+            //   },
+            // },
           },
+          
           {
             className: 'col-md-3',
             type: 'input',
@@ -130,11 +171,12 @@ export class AddBranchComponent implements OnInit {
               required: true,
               type: 'text',
               label: "Postal Code",
-               pattern: '^[0-9]+$'
+              pattern: "^[0-9]{6}$",
             },
             validation: {
               messages: {
                 required: 'postal code is required',
+                pattern: "Postal code must be exactly 6 digits"
               },
             },
           },
@@ -202,6 +244,7 @@ export class AddBranchComponent implements OnInit {
     );
     this.router.navigateByUrl('tds/masters/branches');
   }
+
   getBranchDetails(BranchId: number) {
     this.addBranchService.getBranchDetails(BranchId).subscribe(
       (result: any) => {
@@ -217,6 +260,28 @@ export class AddBranchComponent implements OnInit {
 
       }
     );
+  }
+
+  getAllStates() {
+    this.addBranchService.getAllStates().subscribe(
+      (result) => {
+        let data = result.Value;
+        this.StateList = data
+        this.setParameter();
+      }, (error) => {
+
+      });
+  }
+  
+  getAllCity() {
+    this.addBranchService.getAllCity().subscribe(
+      (result) => {
+        let data = result.Value;
+        this.CityList = data
+        this.setParameter();
+      }, (error) => {
+
+      });
   }
 }
 

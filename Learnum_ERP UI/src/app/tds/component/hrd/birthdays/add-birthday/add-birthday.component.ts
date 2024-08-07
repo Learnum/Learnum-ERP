@@ -66,7 +66,7 @@ setParameter() {
               type: 'text',
               label: "Name",
               required: true,
-              pattern: '^[A-Za-z]+$',
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
               title: 'Only characters are allowed',
             },
             validation: {
@@ -85,13 +85,14 @@ setParameter() {
               type: 'text',
               label: 'Email',
               required: true,
+              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
             },
             validation: {
               messages: {
                 required: 'Email is required',
                 pattern: 'Please enter a valid Email',
               },
-              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+             
             },
           },
 

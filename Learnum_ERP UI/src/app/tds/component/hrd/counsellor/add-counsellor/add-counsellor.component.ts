@@ -63,7 +63,7 @@ export class AddCounsellorComponent implements OnInit {
               placeholder: 'Counsellor Name',
               label: "Counsellor Name",
               required: true,
-              pattern: '^[A-Za-z]+$',
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
               title: 'Only characters are allowed',
               },
               validation: {

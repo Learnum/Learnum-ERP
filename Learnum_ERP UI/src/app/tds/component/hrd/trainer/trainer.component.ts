@@ -88,12 +88,13 @@ export class TrainerComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'updatedDate',
-      headerName: 'UpdatedDate',
+      field: 'updatedTime',
+      headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    }, 
+    
   ];
 
   declaredActionColumns: ActionColumn[] = [

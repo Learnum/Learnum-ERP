@@ -83,19 +83,13 @@ export class ContentWriterComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'addedTime',
-      headerName: 'Added Time',
+      field: 'updatedTime',
+      headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    },
-    {
-      field: 'updatedDate',
-      headerName: 'UpdatedDate',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
+    }, 
+    
   ];
 
 
