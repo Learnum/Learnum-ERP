@@ -51,7 +51,7 @@ export class IpAddressComponent {
     },
     {
       field: 'IsActive',
-      headerName: 'IsActive',
+      headerName: 'Status',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -63,22 +63,8 @@ export class IpAddressComponent {
     },
     {
       field: 'addedBy',
-      headerName: 'AddedBy',
+      headerName: 'Added By',
       filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'addedTime',
-      headerName: 'AddedTime',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'updatedBy',
-      headerName: 'UpdatedBy',
-      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -88,13 +74,22 @@ export class IpAddressComponent {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }, {
-      field: 'updatedDate',
-      headerName: 'UpdatedDate',
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
+    {
+      field: 'updatedTime',
+      headerName: 'updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    }, 
+    
   ];
   declaredActionColumns: ActionColumn[] = [
     {

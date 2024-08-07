@@ -63,7 +63,7 @@ setParameter() {
               type: 'text',
               label: "Branch Manager Name",
               required: true,
-              pattern: '^[A-Za-z]+$',
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
               title: 'Only characters are allowed',
             },
             validation: {

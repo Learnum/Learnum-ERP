@@ -72,7 +72,7 @@ export class AddSubjectsComponent implements OnInit {
               placeholder: 'Subject Name',
               type: 'text',
               label: "Subject Name",
-              pattern: '^[A-Za-z]+$',
+              pattern: '^[A-Za-z0-9\\s\\W]+$',
               required: true,
             },
             validation: {

@@ -34,5 +34,20 @@ namespace Learnum.ERP.API.Controller
             var data = masterRepository.GetAllColleges();
             return Ok(data.Result);
         }
+
+        [HttpGet("GetAllStates")]
+        public async Task<IActionResult> GetAllStates()
+        {
+            var data = masterRepository.GetAllStates();
+            return Ok(data.Result);
+        }
+
+        [HttpGet("LoadStateWiseCities/{StateId}")]
+
+        public async Task<IActionResult> LoadStateWiseCities(long StateId)
+        {
+            var data = masterRepository.LoadStateWiseCities(StateId);
+            return Ok(data.Result);
+        }
     }
 }

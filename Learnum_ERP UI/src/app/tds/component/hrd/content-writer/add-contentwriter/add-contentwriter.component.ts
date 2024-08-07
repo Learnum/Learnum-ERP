@@ -65,7 +65,7 @@ export class AddContentwriterComponent {
               type: 'text',
               label: "Content Writer",
               required: true,
-              pattern: '^[A-Za-z]+$',
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$", 
               title: 'Only characters are allowed',
              
             },
@@ -150,7 +150,7 @@ export class AddContentwriterComponent {
     this.ContentWriterDetails.addedDate = new Date();
     this.ContentWriterDetails.updatedBy = 1;
     this.ContentWriterDetails.updatedDate = new Date();
-    this.ContentWriterDetails.isActive = true;
+    //this.ContentWriterDetails.isActive = true;
 
     this.addcontentWriterService.insertContentWriterData(this.ContentWriterDetails).subscribe(
       (result: any) => {
