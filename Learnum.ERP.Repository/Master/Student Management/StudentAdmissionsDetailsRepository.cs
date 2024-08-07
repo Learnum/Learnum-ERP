@@ -18,10 +18,11 @@ namespace Learnum.ERP.Repository.Master.Student_Management
     public interface IStudentAdmissionsDetailsRepository
     {
         Task<ResponseCode> InsertStudentAdmissionsDetails(StudentAdmissionsDetailsModel studentAdmissionsDetailsModel);
-       // Task<List<StudentAdmissionsDetailsResponseModel>> GetStudentAdmissionsDetailsList(); 
+      
         Task<List<BranchDetailsModel>> GetBranchDetails();
         Task<List<CourseDetailsModel>> GetCourseDetails();
-        Task<List<BatchesDetailsModel>> GetBatchDetails();
+        Task<Tuple<List<BatchesDetailsModel>?, ResponseCode>> GetBatchDetailsbyBranchID(long? BranchId);
+       
     }
     public class StudentAdmissionsDetailsRepository : BaseRepository, IStudentAdmissionsDetailsRepository
     {
@@ -59,15 +60,20 @@ namespace Learnum.ERP.Repository.Master.Student_Management
                 return await Task.FromResult(result);
             }
         }
-        public async Task<List<BatchesDetailsModel>> GetBatchDetails()
+       
+        public async Task<Tuple<List<BatchesDetailsModel>?, ResponseCode>> GetBatchDetailsbyBranchID(long? BranchId)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                dbparams.Add("@Action", "getCourses");
-                var result = dbConnection.Query<BatchesDetailsModel>("PROC_GetCourseDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
-                return await Task.FromResult(result);
+                dbparams.Add("@BranchId", BranchId);
+                dbparams.Add("@Action", "GetBatchDetailsByBranchId");
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<BatchesDetailsModel?>("PROC_StudentAdmissions", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<List<BatchesDetailsModel>?, ResponseCode>(result, responseCode));
             }
         }
+
     }
 }

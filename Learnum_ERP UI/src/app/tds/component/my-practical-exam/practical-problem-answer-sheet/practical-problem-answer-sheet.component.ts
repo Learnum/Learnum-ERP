@@ -47,17 +47,32 @@ export class PracticalProblemAnswerSheetComponent implements OnInit {
           {
             key:'studentId'
           },
+          // {
+          //   className: 'col-md-6',
+          //   key: 'Answer',
+          //   type: 'textarea',
+          //   props: {
+          //     label: 'StudentAnswer',
+          //     placeholder: 'StudentAnswer',
+          //     required: true,
+          //     rows:5,
+          //   },
+          // },
           {
-            className: 'col-md-6',
+            className: 'col-md-7',
             key: 'Answer',
             type: 'textarea',
             props: {
-              label: 'StudentAnswer',
-              placeholder: 'StudentAnswer',
+              label: 'Student Answer',
+              placeholder: 'Student Answer',
               required: true,
-              rows:5,
-            },
-          },
+              attributes: {
+                style: 'overflow:hidden; resize:none;',
+                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+              }
+            }
+          }
+          
         ],
       },
     ];
