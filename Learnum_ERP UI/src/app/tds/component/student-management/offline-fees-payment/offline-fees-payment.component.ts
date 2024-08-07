@@ -125,28 +125,25 @@ editFees(FeesData: any) {
   }
 }
 openEditForm(FeesData: any): Promise<any> {
-
   return new Promise((resolve, reject) => {
-
-    setTimeout(() => {
+  setTimeout(() => {
       const editedFeesData = { ...FeesData };
-
       editedFeesData.Status = 'Edited';
       resolve(editedFeesData);
     }, 1000);
   });
 }
 
-AddOfflineFeesPayment(fees?: any) {
+AddOfflineFeesPayment() {
 
-  let navigationExtras: NavigationExtras = {};
-  if (fees) {
-    navigationExtras = {
-      state: {
-        FeesData: fees
-      }
-    };
-  }
+  // let navigationExtras: NavigationExtras = {};
+  // if (fees) {
+  //   navigationExtras = {
+  //     state: {
+  //       FeesData: fees
+  //     }
+  //   };
+  // }
   this.router.navigateByUrl('tds/student-management/add-fees')
 }
  
