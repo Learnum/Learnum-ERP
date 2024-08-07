@@ -19,7 +19,7 @@ export class MyPracticalExamComponent implements OnInit {
   declaredTableColumns: TableColumn[] = [
     {
       field: 'StudentId',
-      headerName: 'ID',
+      headerName: 'SR.NO',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 80
@@ -31,16 +31,16 @@ export class MyPracticalExamComponent implements OnInit {
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 100
     },
-    {
-      field: 'IsActive',
-      headerName: 'Status',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100,
-      valueFormatter: params => {
-        return params.value ? 'Active' : 'Inactive';
-      }
-    },
+    // {
+    //   field: 'IsActive',
+    //   headerName: 'Status',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: { buttons: ['reset', 'apply'] },
+    //   minWidth: 100,
+    //   valueFormatter: params => {
+    //     return params.value ? 'Active' : 'Inactive';
+    //   }
+    // },
     {
       field: 'addedBy',
       headerName: 'AddedBy',
