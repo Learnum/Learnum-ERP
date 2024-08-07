@@ -42,17 +42,6 @@ namespace Learnum.ERP.API.Controller.Student_Management
             return BadRequest("Failed to Save");
         }
 
-       /* [HttpGet("GetStudentAdmissionsDetailsList")]
-        public async Task<IActionResult> GetStudentAdmissionsDetailsList()
-        {
-            var data = await studentAdmissionsDetailsRepository.GetStudentAdmissionsDetailsList();
-            if (data != null)
-            {
-                return Ok(data);
-            }
-            return NotFound("No record found");
-        }*/
-
         [HttpGet("GetAllBranches")]
         public async Task<IActionResult> GetBranchDetails()
         {
@@ -68,12 +57,20 @@ namespace Learnum.ERP.API.Controller.Student_Management
             return Ok(data.Result);
         }
 
-        [HttpGet("GetAllBatches")]
-        public async Task<IActionResult> GetBatchDetails()
+        [HttpGet("getBatchDetails/{BranchId}")]
+        public async Task<IActionResult> GetBatchDetailsbyBranchID(long? BranchId)
         {
-            var data = studentAdmissionsDetailsRepository.GetBatchDetails();
-            return Ok(data.Result);
-        }
+            if (BranchId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
 
+            var result = await studentAdmissionsDetailsRepository.GetBatchDetailsbyBranchID(BranchId);
+            return Ok(result);
+        }
     }
 }

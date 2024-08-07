@@ -10,6 +10,9 @@ export class AdmissionService {
   private urlInsertStudentDetails: string = "StudentAdmissionsDetails/InsertStudentAdmissionsDetails";
   private urlgetBranchList: string = "StudentAdmissionsDetails/GetAllBranches";
   private urlgetCourseList: string = "StudentAdmissionsDetails/GetAllCourses";
+  private urlgetBatchDetailsByBranchId: string = "StudentAdmissionsDetails/getBatchDetails";
+  private urlgetAddStudentList: string = "StudentDetails/getAllStudentList";
+  private urlGetAddStudentList: string = "StudentDetails/getStudentDetails";
 
   constructor(private apiService: APIService) {}
 
@@ -22,6 +25,13 @@ export class AdmissionService {
   getCourseList() {
     return this.apiService.getData(this.urlgetCourseList);
   }
-
-
+  getBatchDetailsByBranchId(branchId: number) {
+    return this.apiService.getData(this.urlgetBatchDetailsByBranchId + '/' + branchId);
+  }
+  getAddStudentList() {
+    return this.apiService.getData(this.urlgetAddStudentList);
+  }
+  getAddStudentDetailsByStudentId(studentId: number) {
+    return this.apiService.getData(this.urlGetAddStudentList + '/' + studentId);
+  }
 }
