@@ -5,7 +5,7 @@ export class BusinessDetails {
     address: string;
     city: string;
     district: string;
-    state: string;
+    stateId: string;
     postalCode: number;
     country: string;
     isActive: boolean;

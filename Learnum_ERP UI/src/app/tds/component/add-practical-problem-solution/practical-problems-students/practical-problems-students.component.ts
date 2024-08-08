@@ -55,7 +55,10 @@ export class PracticalProblemsStudentsComponent implements OnInit {
               label: 'Question',
               placeholder: 'Enter Question',
               required: true,
-              rows: 5
+              attributes: {
+                style: 'overflow:hidden; resize:none;',
+                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+              }
             },
             validation: {
               messages: {
@@ -71,7 +74,10 @@ export class PracticalProblemsStudentsComponent implements OnInit {
               label: 'Model Answer',
               placeholder: 'Enter Model Answer',
               required: true,
-              rows: 5
+              attributes: {
+                style: 'overflow:hidden; resize:none;',
+                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+              }
             },
             validation: {
               messages: {
@@ -99,6 +105,28 @@ export class PracticalProblemsStudentsComponent implements OnInit {
               },
             },
           },
+          // {
+          //   className: 'col-md-3',
+          //   key: 'Marks',
+          //   type: 'input',
+          //   props: {
+          //     label: 'Marks',
+          //     placeholder: 'Enter Marks',
+          //     type: 'number',
+          //     required: true,
+          //     min: 10,
+          //     max: 99,
+          //     pattern: '^[0-9]{2}$'
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'Marks are required',
+          //       min: 'Marks must be at least 10',
+          //       max: 'Marks cannot be more than 99',
+          //       pattern: 'Marks must be exactly two digits'
+          //     },
+          //   },
+          // },                   
           {
             className: 'col-md-3',
             key: 'IsActive',

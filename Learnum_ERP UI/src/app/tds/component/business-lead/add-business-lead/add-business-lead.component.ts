@@ -22,6 +22,7 @@ export class AddBusinessLeadComponent implements OnInit {
   NowDate: any = new Date();
   businessDetails:BusinessDetails =new BusinessDetails();
   editData: any;
+  stateDetails:any;
 
   constructor(
     private addBusinessLeadService : AddBusinessLeadService,
@@ -34,6 +35,7 @@ export class AddBusinessLeadComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter(); 
+    this.getStateList()
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.BusinessId) {
       this.getBusinessDetails(this.editData.BusinessId);
@@ -89,10 +91,16 @@ export class AddBusinessLeadComponent implements OnInit {
               maxLength: 10, 
               minLength: 10
             },
+            validators: {
+              phoneNumber: {
+                expression: (c: AbstractControl) => /^[0-9]{10}$/.test(c.value),
+                message: (error: any, field: FormlyFieldConfig) => `"${field.formControl.value}" is not a valid 10-digit phone number`,
+              },
+            },
             validation: {
               messages: {
                 required: 'Phone Number is required',
-                pattern: 'Please Enter a Valid 10-digit Phone Number',
+                pattern: 'Please enter a valid 10-digit phone number',
                 minLength: 'Phone Number must be exactly 10 digits',
                 maxLength: 'Phone Number must be exactly 10 digits'
               }
@@ -107,7 +115,7 @@ export class AddBusinessLeadComponent implements OnInit {
               placeholder: 'Enter Address',
               required: true,
               type:'text',
-              pattern: '^[A-Za-z ]+$', 
+             // pattern: '^[A-Za-z ]+$', 
             },
             validation: {
               messages: {
@@ -115,16 +123,16 @@ export class AddBusinessLeadComponent implements OnInit {
                 pattern: 'Please Enter Address'
               },
             },
-            hooks: {
-              onInit: (field) => {
-                field.formControl.valueChanges.subscribe(value => {
-                  const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
-                  if (value !== capitalizedValue) {
-                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
-                  }
-                });
-              }
-            }
+            // hooks: {
+            //   onInit: (field) => {
+            //     field.formControl.valueChanges.subscribe(value => {
+            //       const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+            //       if (value !== capitalizedValue) {
+            //         field.formControl.setValue(capitalizedValue, { emitEvent: false });
+            //       }
+            //     });
+            //   }
+            // }
           },
           {
             className: 'col-md-3',
@@ -184,14 +192,14 @@ export class AddBusinessLeadComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'State',
-            type: 'input',
+            key: 'StateId',
+            type: 'select',
             templateOptions: {
               label: 'State',
-              placeholder: 'Enter State',
-              pattern: '^[A-Za-z]+$',
+              placeholder: 'Select State',
               type:'text',
               required: true,
+              options: this.stateDetails ? this.stateDetails.map(state => ({ label: state.StateName, value: state.StateId })) : [],
             },
             validation: {
               messages: {
@@ -300,6 +308,16 @@ export class AddBusinessLeadComponent implements OnInit {
       }
     );
   }
-
+  getStateList() {
+    this.addBusinessLeadService.getStateList().subscribe(
+      (data: any) => {
+        this.stateDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
 
 }
