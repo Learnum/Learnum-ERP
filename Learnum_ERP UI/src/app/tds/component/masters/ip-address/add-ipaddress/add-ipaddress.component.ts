@@ -164,5 +164,9 @@ export class AddIpaddressComponent implements OnInit {
       }
     );
   }
-
+ 
+  navigate()
+  {
+    this.router.navigateByUrl('tds/masters/ip-address');
+  }
 }

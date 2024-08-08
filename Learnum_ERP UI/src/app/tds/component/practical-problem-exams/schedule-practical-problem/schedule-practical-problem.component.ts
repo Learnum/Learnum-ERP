@@ -286,6 +286,11 @@ export class SchedulePracticalProblemComponent implements OnInit {
   onCancelClick(): void {
     this.router.navigateByUrl('tds/practical-problem-exams');
   }
+
+  navigate()
+  {
+    this.router.navigateByUrl('tds/practical-problem-exams');
+  }
   getSubjectDetails() {
     this.schedulePracticalProblemService.getsubjectList().subscribe(
       (data: any) => {

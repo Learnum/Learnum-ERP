@@ -66,7 +66,7 @@ export class BusinessLeadComponent {
     },
     {
       field: 'addedTime',
-      headerName: 'AddedTime',
+      headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
@@ -79,18 +79,13 @@ export class BusinessLeadComponent {
       minWidth: 150
     },
     {
-      field: 'addedTime',
-      headerName: 'Added Time',
+      field: 'updatedTime',
+      headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    },{
-      field: 'updatedDate',
-      headerName: 'Updated Date',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
+    }, 
+    
     
   ];
 

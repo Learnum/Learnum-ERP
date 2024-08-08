@@ -74,6 +74,11 @@ export class SyllabusCompletionComponent implements OnInit {
   onCancleClick() {
     this.router.navigateByUrl('tds/trainer-dashboard');
   }
+
+  navigate()
+  {
+    this.router.navigateByUrl('tds/trainer-dashboard');
+  }
   onResetClick() {
     this.form.reset();
   }

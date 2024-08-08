@@ -158,7 +158,11 @@ setParameter() {
   onCancleClick() {
     this.router.navigateByUrl("tds/hrd/daily-work"); 
   }
-
+  
+  navigate()
+  {
+    this.router.navigateByUrl("tds/hrd/daily-work"); 
+  }
   get f()
   {
     return this.form.controls;

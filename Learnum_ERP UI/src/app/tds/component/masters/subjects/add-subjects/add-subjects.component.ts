@@ -129,6 +129,11 @@ export class AddSubjectsComponent implements OnInit {
     this.form.reset();
   }
 
+  navigate()
+  {
+    this.router.navigateByUrl('tds/masters/subjects');
+  }
+
   onSubmit() {
     this.form.markAllAsTouched();
     if (this.form.valid) {

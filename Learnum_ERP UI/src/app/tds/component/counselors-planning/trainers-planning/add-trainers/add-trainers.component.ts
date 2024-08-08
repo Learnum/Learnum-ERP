@@ -172,9 +172,13 @@ setParameter() {
 
   
   onCancel() {
-    this.router.navigateByUrl('tds/hrd/trainer')
+    this.router.navigateByUrl('tds/counselors-planning/trainers-planning')
     }
 
+    navigate()
+    {
+      this.router.navigateByUrl('tds/counselors-planning/trainers-planning')
+    }
   get f()
   {
     return this.form.controls;
@@ -216,7 +220,8 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    this.router.navigateByUrl('tds/hrd/trainer');
+    // this.router.navigateByUrl('tds/hrd/trainer');
+    this.router.navigateByUrl('tds/counselors-planning/trainers-planning');
   }
 
  

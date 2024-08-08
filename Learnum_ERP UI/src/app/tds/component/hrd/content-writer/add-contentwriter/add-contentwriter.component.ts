@@ -132,6 +132,11 @@ export class AddContentwriterComponent {
     this.router.navigateByUrl('tds/hrd/content-writer');
   }
 
+  navigate()
+  {
+    this.router.navigateByUrl('tds/hrd/content-writer');
+  }
+
   get f() {
     return this.form.controls;
   }

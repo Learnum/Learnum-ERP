@@ -86,6 +86,7 @@ setParameter() {
                   , value: branch.BranchId
                 })) : [],
               },
+              
   
             },
             {
@@ -109,6 +110,11 @@ setParameter() {
   }
 
   onCancleClick() {
+    this.router.navigateByUrl('tds/hrd/branch-manager');
+  }
+
+  navigate()
+  {
     this.router.navigateByUrl('tds/hrd/branch-manager');
   }
 

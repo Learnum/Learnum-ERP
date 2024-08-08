@@ -1,7 +1,10 @@
 <div style="margin-left: 5px;" class="row d-flex">
-  <h5 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);">
-    <b><span data-toggle="tooltip" title="Close"><i class="uil uil-multiply"></i> &nbsp;</span>Add Classrooms</b>
-  </h5>
+  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);">
+    <b> <span data-toggle="tooltip" title="Close">
+        <i class="uil uil-multiply" style="cursor: pointer;" (click)="navigate()"></i>
+        </span> 
+        Add Classrooms </b>
+  </h6>
   <div>
     <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">
       <formly-form [model]="classroomDetails" [fields]="fields" [options]="options" [form]="form">

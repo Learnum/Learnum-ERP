@@ -73,38 +73,31 @@ export class BatchesPlanningComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
+      field: 'updatedBy',
+      headerName: 'Updated By',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedTime',
+      headerName: 'updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    }, 
+    
   ];
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewCall',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
+      actionPage: 'ViewBranch',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
-    {
-      action: 'edit',
-      actionPage: 'EditCall',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
   ];
-  getEmployeeList: any;
-
+ 
 
 
   ngOnInit(): void {
@@ -131,7 +124,7 @@ export class BatchesPlanningComponent implements OnInit {
       'source': 'edit',
       'branchID': data.row.branchID
     }
-    this.router.navigate(['/tds/masters/add-branch'], { queryParams: data1 });
+    this.router.navigate(['tds/counselors-planning/add-batch'], { queryParams: data1 });
   }
 
 
@@ -155,7 +148,7 @@ export class BatchesPlanningComponent implements OnInit {
     //     }
     //   };
     // }
-    this.router.navigate(['tds/masters/batches/add-batches']);
+    this.router.navigate(['tds/counselors-planning/add-batch']);
   }
 
   onActionButton(action: string) {
@@ -170,5 +163,31 @@ export class BatchesPlanningComponent implements OnInit {
     })
   }
 
+  editBatch(BatchData: any) {
+    const batchId = BatchData.batchId;
+    const index = this.BatchDetails.findIndex(batch => batch.batchId === batchId);
 
+    if (index !== -1) {
+
+
+      this.openEditForm(BatchData).then((editedBatchData: any) => {
+
+        this.BatchDetails[index] = editedBatchData;
+        console.log('Edited Branch:', editedBatchData);
+
+      });
+    }
+  }
+  openEditForm(batchData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedBatchData = { ...batchData };
+
+        editedBatchData.Status = 'Edited';
+        resolve(editedBatchData);
+      }, 1000);
+    });
+  }
 }
