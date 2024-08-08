@@ -69,7 +69,7 @@ setParameter() {
               type: 'text',
               label: "Accountant Name",
               required: true,
-              pattern: '^[A-Za-z]+$',
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
               title: 'Only characters are allowed',
             },
             validation: {

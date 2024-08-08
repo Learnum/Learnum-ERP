@@ -70,8 +70,8 @@ export class AddTrainerComponent implements OnInit {
               required: true,
               type: 'text',
               label: "Trainer Name",
-              pattern: '^[A-Za-z]+$',
-              title: 'Only characters are allowed',
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+             
             },
             validation: {
               messages: {

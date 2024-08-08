@@ -78,7 +78,7 @@ constructor(
               type: 'text',
               label: "Classroom Name",
               required: true,
-               pattern: '^[A-Za-z]+$',
+               pattern: '^[\\w\\s\\W]+$',
               // options: this.classroomDetails ? this.classroomDetails.map(classroom => ({ label: classroom.classroomName, value: classroom.classroomId })) : [],
             
             },
@@ -104,6 +104,7 @@ constructor(
             validation: {
               messages: {
                 required: 'Student Capacity is required',
+                pattern: 'Please enter a valid number for Student Capacity',
 
               },
             },
@@ -126,7 +127,7 @@ constructor(
             validation: {
               messages: {
                 required: 'Classroom Status is required',
-
+                
               },
             },
           }

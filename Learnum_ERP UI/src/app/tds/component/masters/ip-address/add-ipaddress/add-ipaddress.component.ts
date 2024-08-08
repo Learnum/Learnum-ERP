@@ -57,7 +57,7 @@ export class AddIpaddressComponent implements OnInit {
               type: 'text',
               label: "Location",
               required: true,
-              pattern: '^[A-Za-z]+$'
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
             validation: {
               messages: {
@@ -74,12 +74,13 @@ export class AddIpaddressComponent implements OnInit {
               type: 'text',
               label: "Location IP",
               required: true,
-              // pattern: '^[0-9]+$',
+              pattern: "^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$",
+
             },
             validation: {
               messages: {
                 required: 'location IP is required',
-
+                pattern: "Please enter a valid address"
               },
             },
           },

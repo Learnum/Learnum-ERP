@@ -46,16 +46,16 @@ export class DailyWorkComponent implements OnInit {
       minWidth: 150
 
     },
-    {
-      field: 'Role',
-      headerName: 'Role',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 100
+    // {
+    //   field: 'Role',
+    //   headerName: 'Role',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 100
 
-    },
+    // },
     {
       field: 'addedBy',
       headerName: 'Added By',
@@ -71,19 +71,20 @@ export class DailyWorkComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
+      field: 'updatedBy',
+      headerName: 'Updated By',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedTime',
+      headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    }, 
+    
   ];
   getEmployeeList: any;
 
