@@ -56,7 +56,7 @@ export class AddBusinessLeadComponent implements OnInit {
             props: {
               label: 'Name',
               placeholder: 'Name',
-              pattern: '^[A-Za-z]+$', 
+              pattern: '^[A-Za-z ]+$', 
               required: true,
             },
             validation: {
@@ -65,6 +65,16 @@ export class AddBusinessLeadComponent implements OnInit {
                 pattern: 'Please Enter Full Name'
               },
             },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }
           },
           {
             className: 'col-md-3',
@@ -74,15 +84,19 @@ export class AddBusinessLeadComponent implements OnInit {
               label: 'Phone Number',
               placeholder: 'Enter Phone Number',
               required: true,
-              type:'number',
-              pattern: '^[0-9]+$'
+              type: 'tel', 
+              pattern: '^[0-9]{10}$', 
+              maxLength: 10, 
+              minLength: 10
             },
             validation: {
               messages: {
                 required: 'Phone Number is required',
-                pattern: 'Please Enter Valid number'
-              },
-            },
+                pattern: 'Please Enter a Valid 10-digit Phone Number',
+                minLength: 'Phone Number must be exactly 10 digits',
+                maxLength: 'Phone Number must be exactly 10 digits'
+              }
+            }
           },
           {
             className: 'col-md-3',
@@ -93,7 +107,7 @@ export class AddBusinessLeadComponent implements OnInit {
               placeholder: 'Enter Address',
               required: true,
               type:'text',
-              pattern: '^[A-Za-z]+$',
+              pattern: '^[A-Za-z ]+$', 
             },
             validation: {
               messages: {
@@ -101,6 +115,16 @@ export class AddBusinessLeadComponent implements OnInit {
                 pattern: 'Please Enter Address'
               },
             },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }
           },
           {
             className: 'col-md-3',
@@ -111,7 +135,7 @@ export class AddBusinessLeadComponent implements OnInit {
               placeholder: 'Enter City',
               required: true,
               type:'text',
-              pattern: '^[A-Za-z]+$', 
+              pattern: '^[A-Za-z ]+$', 
             },
             validation: {
               messages: {
@@ -119,6 +143,16 @@ export class AddBusinessLeadComponent implements OnInit {
                 pattern: 'Please Enter City'
               },
             },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }
           },
           {
             className: 'col-md-3',
@@ -128,7 +162,7 @@ export class AddBusinessLeadComponent implements OnInit {
               label: 'District',
               placeholder: 'Enter District',
               required: true,
-              pattern: '^[A-Za-z]+$',
+              pattern: '^[A-Za-z ]+$',
               type:'text',
             },
             validation: {
@@ -137,6 +171,16 @@ export class AddBusinessLeadComponent implements OnInit {
                 pattern: 'Please Enter District'
               },
             },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }
           },
           {
             className: 'col-md-3',
@@ -164,15 +208,19 @@ export class AddBusinessLeadComponent implements OnInit {
               label: 'Postal Code',
               placeholder: 'Enter Postal Code',
               required: true,
-              pattern: '^[0-9]+$',
-              type:'number',
+              type: 'tel', 
+              pattern: '^[0-9]{6}$', 
+              maxLength: 6, 
+              minLength: 6 
             },
             validation: {
               messages: {
                 required: 'Postal Code is required',
-                pattern: 'Please Enter valid Postal Code'
-              },
-            },
+                pattern: 'Please Enter a Valid 6-digit Postal Code',
+                minLength: 'Postal Code must be exactly 6 digits',
+                maxLength: 'Postal Code must be exactly 6 digits'
+              }
+            }
           },
           {
             className: 'col-md-3',
@@ -206,7 +254,6 @@ export class AddBusinessLeadComponent implements OnInit {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
-
   onCancleClick() {
     this.router.navigateByUrl('tds/business-lead');
   }

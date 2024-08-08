@@ -19,49 +19,47 @@ export class BusinessLeadComponent {
   declaredTableColumns: TableColumn[] = [
     {
       field: 'BusinessId',
-      headerName: 'ID',
+      headerName: 'SR.NO',
       filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 80
+      filterParams: {buttons: ['reset', 'apply'],},
+      minWidth: 100
     },
     {
       field: 'Name',
       headerName: 'Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
     {
       field: 'PhoneNumber',
       headerName: 'Phone Number',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
     {
       field: 'Address',
       headerName: 'Address',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
-    {
-      field: 'IsActive',
-      headerName: 'IsActive',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 150,
-      valueFormatter: params => {
-        return params.value ? 'Active' : 'Inactive';
-      }
-    },
+    // {
+    //   field: 'IsActive',
+    //   headerName: 'IsActive',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 150,
+    //   valueFormatter: params => {
+    //     return params.value ? 'Active' : 'Inactive';
+    //   }
+    // },
     {
       field: 'addedBy',
-      headerName: 'AddedBy',
+      headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
@@ -75,7 +73,7 @@ export class BusinessLeadComponent {
     },
     {
       field: 'updatedBy',
-      headerName: 'UpdatedBy',
+      headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
@@ -88,7 +86,7 @@ export class BusinessLeadComponent {
       minWidth: 150
     },{
       field: 'updatedDate',
-      headerName: 'UpdatedDate',
+      headerName: 'Updated Date',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
