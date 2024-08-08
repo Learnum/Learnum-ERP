@@ -82,6 +82,13 @@ export class AddBatchesComponent implements OnInit {
               type: 'text',
               label: "Batch Name",
               required: true,
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+            },
+            validation: {
+              messages: {
+                required: 'BatchName is required',
+                pattern: "Please enter a valid BatchName"
+              },
             },
           },
           {
@@ -135,9 +142,19 @@ export class AddBatchesComponent implements OnInit {
             type: 'input',
             key: 'CourseFeesInstallment',
             templateOptions: {
-              placeholder: '###',
+              placeholder: '₹',
               required: true,
               label: "Course Fees in Installment",
+              pattern: '^[0-9]+(\\.[0-9]{1,2})?$',
+              inputMode: 'numeric', 
+              min: 0, 
+              step: 0.01,
+            },
+            validation: {
+              messages: {
+                required: 'Please enter the course fees',
+                pattern: 'Please enter a valid amount',
+              },
             },
           },
           {
@@ -145,15 +162,19 @@ export class AddBatchesComponent implements OnInit {
             type: 'input',
             key: 'OneTimeCourseFees',
             templateOptions: {
-              placeholder: 'Enter One Time Course Fees',
+              placeholder: '₹',
               required: true,
               type: 'text',
-              label: "One Time Course Fees",
-              pattern: '^[0-9]+$',
+              label: 'One Time Course Fees',
+              pattern: '^[0-9]+(\\.[0-9]{1,2})?$', 
+              inputMode: 'numeric', 
+              min: 0, 
+              step: 0.01,
             },
             validation: {
               messages: {
-                required: 'Please enter the course fees',
+                required: 'Please enter the  One Time course fees',
+                pattern: 'Please enter a valid amount',
               },
             },
           },
@@ -233,7 +254,7 @@ export class AddBatchesComponent implements OnInit {
               className: 'col-4',
               type: 'input',
               templateOptions: {
-                placeholder: 'Installment Amount',
+                placeholder: '₹',
                 type: 'number',
                 required: true,
               },
@@ -255,6 +276,12 @@ export class AddBatchesComponent implements OnInit {
   }
   onCancleClick() {
     this.router.navigateByUrl('tds/masters/batches');
+  }
+
+  navigate()
+  {
+    this.router.navigateByUrl('tds/masters/batches');
+
   }
   onResetClick() {
     this.form.reset();

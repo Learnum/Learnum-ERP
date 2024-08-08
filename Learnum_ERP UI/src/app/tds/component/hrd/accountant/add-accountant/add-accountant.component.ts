@@ -116,6 +116,12 @@ setParameter() {
     this.router.navigateByUrl('tds/hrd/accountant');
   }
 
+  navigate()
+  {
+    this.router.navigateByUrl('tds/hrd/accountant');
+  }
+  
+
   get f()
   {
     return this.form.controls;

@@ -110,6 +110,11 @@ export class AddCounsellorComponent implements OnInit {
     this.router.navigateByUrl('tds/hrd/counsellor');
   }
 
+  navigate()
+  {
+    this.router.navigateByUrl('tds/hrd/counsellor');
+  }
+
   get f() {
     return this.form.controls;
   }

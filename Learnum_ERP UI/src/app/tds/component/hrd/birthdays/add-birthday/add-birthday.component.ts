@@ -96,27 +96,7 @@ setParameter() {
             },
           },
 
-          {
-            className: 'col-md-3',
-            type: 'select',
-            key: 'Role',
-            props: {
-              placeholder: 'Select Role',
-              type: 'text',
-              label: "Role",
-              required: true,
-              options: [
-                { label: 'Developer', value: '1' },
-                { label: 'Manager', value: '2' }
-              ]
-            },
-            validation: {
-              messages: {
-                required: 'Role is required',
-                pattern: 'Please enter a valid Role',
-              },
-            },
-          },
+          
           
           {
             className: 'col-md-3',
@@ -139,26 +119,26 @@ setParameter() {
           },
           {
             className: 'col-md-3',
-            type: 'input',
-            key:'Day',
+            type: 'select',
+            key: 'Role',
             props: {
-              placeholder: 'Enter Day',
+              placeholder: 'Select Role',
               type: 'text',
-              label: "Day",
+              label: "Role",
               required: true,
+              options: [
+                { label: 'Developer', value: 1 },
+                { label: 'Manager', value: 2 }
+              ]
+            },
+            validation: {
+              messages: {
+                required: 'Role is required',
+                pattern: 'Please enter a valid Role',
+              },
             },
           },
-          {
-            className: 'col-md-3',
-            type: 'input',
-            key: 'Month',
-            props: {
-              placeholder: 'Enter Month',
-              type: 'text',
-              label: "Month",
-              required: true,
-            },
-          },
+         
           {
             className: 'col-md-3',
             type: 'select',
@@ -179,8 +159,17 @@ setParameter() {
       },
     ]
   }
-
+ 
+  onReset()
+  {
+    
+  }
   onCancleClick() {
+    this.router.navigateByUrl('tds/hrd/birthdays');
+  }
+
+  navigate()
+  {
     this.router.navigateByUrl('tds/hrd/birthdays');
   }
 

@@ -19,6 +19,8 @@ export class BatchesDetailsModel {
     updatedBy: number | null;
     updatedDate: Date | null;
     computerName: string;
+    // step:number;
+    // type:number;
 }
 
 export class InstallMentDetailsModel {

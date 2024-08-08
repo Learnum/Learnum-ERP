@@ -25,8 +25,8 @@ export class BranchesComponent {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
-
+      minWidth: 150,
+      headerTooltip: 'Serial Number of the branch'
     },
     {
       field: 'BranchName',
@@ -35,7 +35,9 @@ export class BranchesComponent {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Branch Name of the branch'
+
     },
     {
       field: 'Address',
@@ -73,18 +75,18 @@ export class BranchesComponent {
       },
       minWidth: 150
     },
-    {
-      field: 'IsActive',
-      headerName: 'IsActive',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 150,
-      valueFormatter: params => {
-        return params.value ? 'Active' : 'Inactive';
-      }
-    },
+    // {
+    //   field: 'IsActive',
+    //   headerName: 'IsActive',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 150,
+    //   valueFormatter: params => {
+    //     return params.value ? 'Active' : 'Inactive';
+    //   }
+    // },
     {
       field: 'addedBy',
       headerName: 'Added By',

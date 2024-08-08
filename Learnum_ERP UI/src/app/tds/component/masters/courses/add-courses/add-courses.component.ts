@@ -158,4 +158,9 @@ export class AddCoursesComponent implements OnInit {
       }
     );
   }
+
+  navigate()
+  {
+    this.router.navigateByUrl('tds/masters/courses');
+  }
 }

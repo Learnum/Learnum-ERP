@@ -152,6 +152,11 @@ export class PracticalProblemsStudentsComponent implements OnInit {
   onCancleClick() {
     this.router.navigateByUrl('tds/add-practical-problem-solution');
   }
+
+  navigate()
+  {
+    this.router.navigateByUrl('tds/add-practical-problem-solution');
+  }
   onResetClick() {
     this.form.reset();
   }

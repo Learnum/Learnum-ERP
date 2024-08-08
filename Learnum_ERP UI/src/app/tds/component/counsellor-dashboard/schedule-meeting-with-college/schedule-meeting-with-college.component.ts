@@ -83,17 +83,18 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
     {
       field: 'updatedBy',
       headerName: 'Updated By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'updatedDate',
-      headerName: 'Updated Date',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
+    {
+      field: 'updatedTime',
+      headerName: 'Updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    }, 
+    
   ];
   constructor(
     private router: Router,

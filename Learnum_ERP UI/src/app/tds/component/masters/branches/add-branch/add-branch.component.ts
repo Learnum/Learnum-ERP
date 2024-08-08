@@ -185,7 +185,7 @@ export class AddBranchComponent implements OnInit {
             type: 'select',
             key: 'IsActive',
             props: {
-              placeholder: 'Select Branch ',
+              placeholder: 'Select Branch',
               required: true,
               label: 'Branch Status',
               options: [
@@ -282,6 +282,11 @@ export class AddBranchComponent implements OnInit {
       }, (error) => {
 
       });
+  }
+
+  navigate()
+  {
+    this.router.navigateByUrl('tds/masters/branches');
   }
 }
 

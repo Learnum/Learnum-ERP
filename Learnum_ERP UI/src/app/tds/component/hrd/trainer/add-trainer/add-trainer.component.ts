@@ -178,6 +178,10 @@ export class AddTrainerComponent implements OnInit {
     this.router.navigateByUrl('tds/hrd/trainer')
   }
 
+  navigate()
+  {
+    this.router.navigateByUrl('tds/hrd/trainer')
+  }
   get f() {
     return this.form.controls;
   }

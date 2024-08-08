@@ -57,7 +57,7 @@ export class AddBusinessLeadComponent implements OnInit {
               label: 'Name',
               placeholder: 'Name',
               pattern: '^[A-Za-z]+$', 
-              required: true,
+             // required: true,
             },
             validation: {
               messages: {

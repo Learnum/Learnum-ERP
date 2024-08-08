@@ -99,7 +99,6 @@ export class BatchesComponent implements OnInit {
       colorClass: 'text-secondary h4'
     },
   ];
-  getEmployeeList: any;
 
 
 
