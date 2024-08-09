@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
-import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { StudentleadsService } from './studentleads.service';
 import { StudentLeadDetails } from './studentleads.model';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
@@ -14,7 +14,7 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
 })
 export class AddStudentLeadsComponent implements OnInit {
 
-  studentLeadDetails:StudentLeadDetails = new StudentLeadDetails();
+  studentLeadDetails: StudentLeadDetails = new StudentLeadDetails();
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
@@ -28,7 +28,7 @@ export class AddStudentLeadsComponent implements OnInit {
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
-    private studentleadsService:StudentleadsService) { }
+    private studentleadsService: StudentleadsService) { }
 
   ngOnInit(): void {
     this.setParameter();
@@ -46,7 +46,7 @@ export class AddStudentLeadsComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            key:'studentId',
+            key: 'studentId',
           },
           {
             className: 'col-md-3',
@@ -95,16 +95,39 @@ export class AddStudentLeadsComponent implements OnInit {
             className: 'col-md-3',
             key: 'StudentPhone',
             type: 'input',
-            props: {
+            templateOptions: {
               label: 'Student Phone',
-              placeholder: 'Enter Student Phone',
-              type: 'number',
+              placeholder: 'Enter Phone Number',
               required: true,
+              maxLength: 10,
+              minLength: 10,
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^0-9]/g, '');
+                  if (sanitizedValue !== value) {
+                    field.formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              },
+            },
+            validators: {
+              phoneNumber: {
+                expression: (c: AbstractControl) => {
+                  const value = c.value;
+                  // Ensure the value is exactly 10 digits long
+                  return value && /^[0-9]{10}$/.test(value);
+                },
+                message: (error: any, field: FormlyFieldConfig) => {
+                  return `"${field.formControl.value}" is not a valid 10-digit phone number`;
+                },
+              },
             },
             validation: {
               messages: {
-                required: 'Student Phone is required',
-                type:'Please Enter Valid Number',
+                required: 'Phone Number is required',
+                phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
               },
             },
           },
@@ -112,16 +135,39 @@ export class AddStudentLeadsComponent implements OnInit {
             className: 'col-md-3',
             key: 'ParentPhone',
             type: 'input',
-            props: {
-              label: "Parent's Phone",
-              placeholder: "Enter Parent's Phone",
+            templateOptions: {
+              label: 'Student Phone',
+              placeholder: 'Enter Phone Number',
               required: true,
-              type: 'number',
+              maxLength: 10,
+              minLength: 10,
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^0-9]/g, '');
+                  if (sanitizedValue !== value) {
+                    field.formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              },
+            },
+            validators: {
+              phoneNumber: {
+                expression: (c: AbstractControl) => {
+                  const value = c.value;
+                  // Ensure the value is exactly 10 digits long
+                  return value && /^[0-9]{10}$/.test(value);
+                },
+                message: (error: any, field: FormlyFieldConfig) => {
+                  return `"${field.formControl.value}" is not a valid 10-digit phone number`;
+                },
+              },
             },
             validation: {
               messages: {
-                required: "Parent's Phone is required",
-                type:'Please Enter Valid Number',
+                required: 'Phone Number is required',
+                phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
               },
             },
           },
@@ -150,7 +196,7 @@ export class AddStudentLeadsComponent implements OnInit {
             props: {
               label: 'City / District',
               placeholder: 'Enter City',
-              type:'text',
+              type: 'text',
               pattern: '^[A-Za-z]+$',
               required: true,
             },
@@ -169,7 +215,7 @@ export class AddStudentLeadsComponent implements OnInit {
               label: 'State',
               placeholder: 'Enter State',
               required: true,
-              type:'text',
+              type: 'text',
               pattern: '^[A-Za-z]+$',
             },
             validation: {
@@ -188,7 +234,7 @@ export class AddStudentLeadsComponent implements OnInit {
               placeholder: 'Enter PostalCode',
               required: true,
               pattern: '^[0-9]+$',
-              type:'number'
+              type: 'number'
             },
             validation: {
               messages: {
@@ -199,13 +245,14 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'LeadSource',
             type: 'select',
-            props: {
+            key: 'LeadSource',
+            templateOptions: {
               label: 'Lead Source',
-              placeholder: 'Select Lead Source',
+              // placeholder: 'Select Lead Source',
               required: true,
               options: [
+                { value: null, label: 'Select Lead Source', disabled: true }, // Disabled placeholder option
                 { value: 'collegeSeminar', label: 'College Seminar' },
                 { value: 'friends', label: 'Friends' },
                 { value: 'mailCampaign', label: 'Mail Campaign' },
@@ -215,12 +262,20 @@ export class AddStudentLeadsComponent implements OnInit {
                 { value: 'other', label: 'Other' },
               ],
             },
+            defaultValue: null,
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Lead Source is required',
+              },
+            },
             validation: {
               messages: {
                 required: 'Lead Source is required',
               },
             },
-          },
+          }
+          ,
           {
             className: 'col-md-3',
             key: 'StudentEmail',
@@ -238,13 +293,14 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'Education',
             type: 'select',
-            props: {
+            key: 'Education',
+            templateOptions: {
               label: 'Education',
-              placeholder: 'Select Education Level',
+              //placeholder: 'Select Education Level',
               required: true,
               options: [
+                { value: null, label: 'Select Education Level', disabled: true }, // Disabled placeholder option
                 { value: 'FYBcom', label: 'F.Y.Bcom' },
                 { value: 'SYBcom', label: 'S.Y.Bcom' },
                 { value: 'TYBcom', label: 'T.Y.Bcom' },
@@ -260,32 +316,49 @@ export class AddStudentLeadsComponent implements OnInit {
                 { value: 'other', label: 'Other' },
               ],
             },
+            defaultValue: null,
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Education Level is required',
+              },
+            },
             validation: {
               messages: {
                 required: 'Education Level is required',
               },
             },
           },
+
           {
             className: 'col-md-3',
-            key: 'Gender',
             type: 'select',
-            props: {
+            key: 'Gender',
+            templateOptions: {
               label: 'Gender',
-              placeholder: 'Select Gender',
+              //placeholder: 'Select Gender',
               required: true,
               options: [
+                { value: null, label: 'Select Gender', disabled: true }, // Disabled placeholder option
                 { value: 'male', label: 'Male' },
                 { value: 'female', label: 'Female' },
                 { value: 'other', label: 'Other' },
               ],
+            },
+            defaultValue: null,
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Gender is required',
+              },
             },
             validation: {
               messages: {
                 required: 'Gender is required',
               },
             },
-          },
+          }
+          ,
         ],
       },
     ];
@@ -305,7 +378,7 @@ export class AddStudentLeadsComponent implements OnInit {
   onResetClick() {
     this.form.reset();
   }
-  
+
   InsertStudentLeads() {
     this.studentLeadDetails.addedBy = 1;
     this.studentLeadDetails.addedDate = new Date();
@@ -335,7 +408,7 @@ export class AddStudentLeadsComponent implements OnInit {
     this.studentleadsService.getBranchList().subscribe(
       (data: any) => {
         this.branchDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);

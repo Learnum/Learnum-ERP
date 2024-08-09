@@ -133,13 +133,14 @@ export class AddSeminarComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'SeminarStatus',
             type: 'select',
-            props: {
+            key: 'SeminarStatus',
+            templateOptions: {
               label: 'Seminar Status',
-              placeholder: 'Select Seminar Status',
+              //placeholder: 'Select Seminar Status',
               required: true,
               options: [
+                { value: null, label: 'Select Seminar Status', disabled: true }, // Disabled placeholder option
                 { value: 'scheduled', label: 'Scheduled' },
                 { value: 'inProgress', label: 'In Progress' },
                 { value: 'confirmed', label: 'Confirmed' },
@@ -147,12 +148,20 @@ export class AddSeminarComponent implements OnInit {
                 { value: 'canceled', label: 'Canceled' },
               ],
             },
+            defaultValue: null,
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Seminar Status is required',
+              },
+            },
             validation: {
               messages: {
                 required: 'Seminar Status is required',
               },
             },
-          },
+          }
+          ,
           // {
           //   className: 'col-md-3',
           //   type: 'select',

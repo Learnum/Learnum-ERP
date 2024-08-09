@@ -113,21 +113,20 @@ constructor(
             className: 'col-md-3',
             type: 'select',
             key: 'IsActive',
-            props: {
-              placeholder: 'Classroom Status',
-              type: 'text',
-              label: "Classroom Status",
+            templateOptions: {
+              label: 'Classroom Status',
+              //placeholder: 'Select Branch Status',
               required: true,
               options: [
+                { value: null, label: 'Select Classroom Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
-                { value: false, label: 'InActive' }
+                { value: false, label: 'Inactive' }
               ],
-             
             },
+            defaultValue: null,  // Set default value to 'Active'
             validation: {
               messages: {
-                required: 'Classroom Status is required',
-                
+                required: 'Please select a classroom status',
               },
             },
           }

@@ -121,14 +121,22 @@ export class AddEmployeeComponent implements OnInit {
             key: 'bloodGroup',
             templateOptions: {
               label: 'Blood Group',
-              placeholder: 'Select Blood Group',
+             // placeholder: 'Select Blood Group',
               required: true,
               options: [
+                { value: null, label: 'Select Blood Group', disabled: true },  // Disabled placeholder option
                 { value: 'A+', label: 'A+' },
                 { value: 'B+', label: 'B+' },
                 { value: 'A-', label: 'A-' },
                 { value: 'B-', label: 'B-' },
-              ]
+              ],
+            },
+            defaultValue: null,
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'This field is required',
+              },
             },
             validation: {
               messages: {
@@ -136,26 +144,35 @@ export class AddEmployeeComponent implements OnInit {
               },
             },
           },
+          
           {
             className: 'col-md-4',
             type: 'select',
             key: 'gender',
             templateOptions: {
-              placeholder: 'Enter Gender',
-              required: true,
-              type: 'text',
               label: 'Gender',
+              //placeholder: 'Select Gender',
+              required: true,
               options: [
+                { value: null, label: 'Select Gender', disabled: true },  // Disabled placeholder option
                 { value: 'Male', label: 'Male' },
                 { value: 'Female', label: 'Female' }
-              ]
+              ],
+            },
+            defaultValue: null,
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'This field is required',
+              },
             },
             validation: {
               messages: {
                 required: 'This field is required',
               },
             },
-          },
+          }
+          ,
           {
             className: 'col-md-4',
             type: 'input',
@@ -378,18 +395,24 @@ export class AddEmployeeComponent implements OnInit {
           },
         },
         {
-          className: 'col-md-2',
+          className: 'col-md-3',
           type: 'select',
-          key: 'isActive',
+          key: 'IsActive',
           templateOptions: {
-            placeholder: 'select',
-            type: 'text',
             label: 'Employee Status',
+            //placeholder: 'Select Employee Status',
             required: true,
             options: [
-              { value: 'true', label: 'active' },
-              { value: 'false', label: 'Inactive' }
-            ]
+              { value: null, label: 'Select Employee Status', disabled: true },  // Disabled placeholder option
+              { value: true, label: 'Active' },
+              { value: false, label: 'Inactive' }
+            ],
+          },
+          defaultValue: null,  // Set default value to 'Active'
+          validation: {
+            messages: {
+              required: 'Please select a employee status',
+            },
           },
         }
       ]

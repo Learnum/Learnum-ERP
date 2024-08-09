@@ -82,21 +82,23 @@ export class AddSubjectsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'IsActive',
-            props: {
-              placeholder: 'Select Status',
-              required: true,
+            templateOptions: {
               label: 'Subject Status',
+              //placeholder: 'Select Suject Status',
+              required: true,
               options: [
+                { value: null, label: 'Select Subject Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
-                { value: false, label: 'InActive' }
+                { value: false, label: 'Inactive' }
               ],
             },
+            defaultValue: null,  // Set default value to 'Active'
             validation: {
               messages: {
-                required: 'Subject Status is required',
+                required: 'Please select a subject status',
               },
             },
           },

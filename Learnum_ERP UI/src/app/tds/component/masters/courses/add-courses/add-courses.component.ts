@@ -79,15 +79,17 @@ export class AddCoursesComponent implements OnInit {
             className: 'col-md-3',
             type: 'select',
             key: 'IsActive',
-            props: {
-              placeholder: 'Course Status',
-              required: true,
+            templateOptions: {
               label: 'Course Status',
+              //placeholder: 'Select Course Status',
+              required: true,
               options: [
+                { value: null, label: 'Select Course Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
-                { value: false, label: 'InActive' }
+                { value: false, label: 'Inactive' }
               ],
             },
+            defaultValue: null,  // Set default value to 'Active'
             validation: {
               messages: {
                 required: 'Please select a course status',

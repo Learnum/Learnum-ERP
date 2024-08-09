@@ -91,16 +91,22 @@ export class AddCounsellorComponent implements OnInit {
             type: 'select',
             key: 'IsActive',
             templateOptions: {
-              placeholder: 'Select Status',
-              type: 'text',
-              label: "Status",
+              label: 'Counsellor Status',
+              //placeholder: 'Select Counsellor Status',
               required: true,
               options: [
+                { value: null, label: 'Select Counsellor Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
-              ]
-             },
+              ],
             },
+            defaultValue: null,  // Set default value to 'Active'
+            validation: {
+              messages: {
+                required: 'Please select a Counsellor status',
+              },
+            },
+          },
         ],
       },
     ]
