@@ -157,14 +157,20 @@ export class AddTrainerComponent implements OnInit {
             type: 'select',
             key: 'IsActive',
             templateOptions: {
-              placeholder: 'Select Status',
-              type: 'text',
-              label: "Status",
+              label: 'Trainer Status',
+              //placeholder: 'Select Trainer Status',
               required: true,
               options: [
+                { value: null, label: 'Select Trainer Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
-              ]
+              ],
+            },
+            defaultValue: null,  // Set default value to 'Active'
+            validation: {
+              messages: {
+                required: 'Please select a Trainer status',
+              },
             },
           },
 

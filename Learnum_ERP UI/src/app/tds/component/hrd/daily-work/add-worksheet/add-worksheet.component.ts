@@ -113,22 +113,30 @@ setParameter() {
             className: 'col-md-6',
             type: 'select',
             key: 'Role',
-            props: {
-              placeholder: 'select',
-              type: 'text',
-              label: "Role",
+            templateOptions: {
+              label: 'Role',
+              //placeholder: 'Select Role',
               required: true,
               options: [
+                { value: null, label: 'Select Role', disabled: true },  // Placeholder option
                 { value: 1, label: 'Developer' },
                 { value: 2, label: 'Manager' }
-              ]
+              ],
+            },
+            defaultValue: null,  // Optionally set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure that a valid value is selected
+                message: 'Role is required',
+              },
             },
             validation: {
               messages: {
                 required: 'Role is required',
               },
             },
-          },
+          }
+          ,
           {
             className: 'col-md-6',
             type: 'textarea',

@@ -94,16 +94,22 @@ setParameter() {
               type: 'select',
               key: 'IsActive',
               templateOptions: {
-                placeholder: 'Select Status',
-                type: 'text',
-                label: "Status",
+                label: 'Branch Manager Status',
+                //placeholder: 'Select Branch manager Status',
                 required: true,
                 options: [
+                  { value: null, label: 'Select Branch Manager Status', disabled: true },  // Disabled placeholder option
                   { value: true, label: 'Active' },
                   { value: false, label: 'Inactive' }
-                ]
-               },
-              }, 
+                ],
+              },
+              defaultValue: null,  // Set default value to 'Active'
+              validation: {
+                messages: {
+                  required: 'Please select a branch manager status',
+                },
+              },
+            } 
          ],
       },
     ]

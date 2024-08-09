@@ -88,18 +88,20 @@ export class AddIpaddressComponent implements OnInit {
             className: 'col-md-3',
             type: 'select',
             key: 'IsActive',
-            props: {
-              placeholder: 'Select IPStatus ',
+            templateOptions: {
+              label: 'IP Status',
+              //placeholder: 'Select IP Status',
               required: true,
-              label: 'IPStatus',
               options: [
+                { value: null, label: 'Select IP Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
-                { value: false, label: 'InActive' }
+                { value: false, label: 'Inactive' }
               ],
             },
+            defaultValue: null,  
             validation: {
               messages: {
-                required: 'Please select a Location status',
+                required: 'Please select a IP status',
               },
             },
           },

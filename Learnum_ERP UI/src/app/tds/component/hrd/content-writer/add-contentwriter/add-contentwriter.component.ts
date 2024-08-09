@@ -109,20 +109,26 @@ export class AddContentwriterComponent {
 
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'IsActive',
             templateOptions: {
-              placeholder: 'Select Status',
-              type: 'text',
-              label: "Status",
+              label: 'ContentWriter Status',
+              //placeholder: 'Select ContentWriter Status',
               required: true,
               options: [
+                { value: null, label: 'Select ContentWriter Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
-              ]
-             },
+              ],
             },
+            defaultValue: null,  // Set default value to 'Active'
+            validation: {
+              messages: {
+                required: 'Please select a ContentWriter status',
+              },
+            },
+          },
         ],
       },
     ]

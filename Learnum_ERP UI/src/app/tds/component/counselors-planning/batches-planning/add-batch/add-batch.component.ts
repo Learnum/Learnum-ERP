@@ -75,12 +75,12 @@ export class AddBatchComponent implements OnInit {
               type: 'text',
               label: "Batch Name",
               required: true,
-              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+             // pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
-            validation: {
-              messages: {
-                required: 'BatchName is required',
-                pattern: "Please enter a valid BatchName"
+            validators: {
+              ip: {
+                expression: (c: AbstractControl) => !c.value || /^[A-Za-z ]+$/.test(c.value),
+                message: (error: any, field: FormlyFieldConfig) => `Please Enter Batch Name `,
               },
             },
           },

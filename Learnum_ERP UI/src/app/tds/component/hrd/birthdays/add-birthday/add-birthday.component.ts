@@ -118,42 +118,54 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-6',
             type: 'select',
             key: 'Role',
-            props: {
-              placeholder: 'Select Role',
-              type: 'text',
-              label: "Role",
+            templateOptions: {
+              label: 'Role',
+              //placeholder: 'Select Role',
               required: true,
               options: [
-                { label: 'Developer', value: 1 },
-                { label: 'Manager', value: 2 }
-              ]
+                { value: null, label: 'Select Role', disabled: true },  // Placeholder option
+                { value: 1, label: 'Developer' },
+                { value: 2, label: 'Manager' }
+              ],
+            },
+            defaultValue: null,  // Optionally set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure that a valid value is selected
+                message: 'Role is required',
+              },
             },
             validation: {
               messages: {
                 required: 'Role is required',
-                pattern: 'Please enter a valid Role',
               },
             },
-          },
+          }
+          ,
          
           {
             className: 'col-md-3',
             type: 'select',
             key: 'IsActive',
-            props: {
-              placeholder: 'Select Status',
-              type: 'text',
-              label: "Select Status",
+            templateOptions: {
+              label: 'Status',
+              //placeholder: 'Select Status',
               required: true,
               options: [
+                { value: null, label: 'Select Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
-              ]
+              ],
             },
-           
+            defaultValue: null,  // Set default value to 'Active'
+            validation: {
+              messages: {
+                required: 'Please select a  status',
+              },
+            },
           },
         ],
       },
@@ -162,7 +174,7 @@ setParameter() {
  
   onReset()
   {
-    
+    this.form.reset();
   }
   onCancleClick() {
     this.router.navigateByUrl('tds/hrd/birthdays');
