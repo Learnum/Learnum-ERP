@@ -92,41 +92,17 @@ export class PracticalProblemsStudentsComponent implements OnInit {
             props: {
               label: 'Marks',
               placeholder: 'Enter Marks',
-              type: 'number',
+              type: 'text',
               required: true,
-              pattern: '^[0-9]+$'
+              pattern: '^([1-9][0-9]|100)(\\.00)?%?$'  // Matches numbers like 99, 99.00, 90.00%, etc.
             },
             validation: {
               messages: {
                 required: 'Marks are required',
-                min: 'Marks must be at least 0',
-                max: 'Marks cannot be more than 100',
-                pattern: 'Please Enter Marks'
+                pattern: 'Please enter a valid mark (e.g., 99, 99.00, 90.00%, etc.)'
               },
             },
-          },
-          // {
-          //   className: 'col-md-3',
-          //   key: 'Marks',
-          //   type: 'input',
-          //   props: {
-          //     label: 'Marks',
-          //     placeholder: 'Enter Marks',
-          //     type: 'number',
-          //     required: true,
-          //     min: 10,
-          //     max: 99,
-          //     pattern: '^[0-9]{2}$'
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'Marks are required',
-          //       min: 'Marks must be at least 10',
-          //       max: 'Marks cannot be more than 99',
-          //       pattern: 'Marks must be exactly two digits'
-          //     },
-          //   },
-          // },                   
+          },                
           {
             className: 'col-md-3',
             key: 'IsActive',

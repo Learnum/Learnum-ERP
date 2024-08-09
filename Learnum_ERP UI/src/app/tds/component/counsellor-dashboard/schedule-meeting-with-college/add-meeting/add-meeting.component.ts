@@ -130,16 +130,35 @@ export class AddMeetingComponent implements OnInit {
               },
             },
           },
+          // {
+          //   className: 'col-md-6',
+          //   type: 'textarea',
+          //   key: 'MeetingAgenda',
+          //   templateOptions: {
+          //     placeholder: 'Enter Meeting Agenda',
+          //     label: 'Meeting Agenda',
+          //     required: true,
+          //     rows: 5,
+             
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'Meeting Agenda is required',
+          //     },
+          //   },
+          // },
           {
             className: 'col-md-6',
-            type: 'textarea',
             key: 'MeetingAgenda',
-            templateOptions: {
-              placeholder: 'Enter Meeting Agenda',
+            type: 'textarea',
+            props: {
               label: 'Meeting Agenda',
+              placeholder: 'Enter Meeting Agenda',
               required: true,
-              rows: 5,
-             
+              attributes: {
+                style: 'overflow:hidden; resize:none;',
+                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+              }
             },
             validation: {
               messages: {
