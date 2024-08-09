@@ -68,6 +68,7 @@ namespace Learnum.ERP.API.Controller
             fileUpload.FileName = file.FileName;
             fileUpload.MimeType = file.ContentType;
             fileUpload.FilePath = fullPath;
+            fileUpload.CourseId = courseDetailsModel.CourseId;
             fileUpload.CourseName = courseDetailsModel.CourseName;
             fileUpload.Description = courseDetailsModel.Description;
             fileUpload.IsActive = courseDetailsModel.IsActive;
@@ -96,6 +97,22 @@ namespace Learnum.ERP.API.Controller
                 return Ok(data);
             }
             return NotFound("No record found");
+        }
+
+        [HttpGet("getCourseDetails/{CourseId}")]
+        public async Task<IActionResult> GetCourseDetails(long? CourseId)
+        {
+            if (CourseId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await courseDetailsRepository.GetCourseDetails(CourseId);
+            return Ok(result);
         }
 
     }

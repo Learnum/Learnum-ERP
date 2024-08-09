@@ -1,4 +1,5 @@
-﻿using Learnum.ERP.Repository.Master.HRD_repo;
+﻿using Learnum.ERP.Repository.Master;
+using Learnum.ERP.Repository.Master.HRD_repo;
 using Learnum.ERP.Shared.Core;
 using Learnum.ERP.Shared.Entities.Models;
 using Microsoft.AspNetCore.Http;
@@ -12,13 +13,13 @@ namespace Learnum.ERP.API.Controller.HRD
     public class WorksheetDetailsController : ControllerBase
     {
         private readonly IWorksheetDetailsRepository worksheetDetailsRepository;
-        private readonly ILogger<BranchCounsellorDetailsController> logger;
+        private readonly ILogger<WorksheetDetailsController> logger;
 
         public WorksheetDetailsController(
-           ILogger<WorksheetDetailsController> _logger,
-          IWorksheetDetailsRepository _worksheetDetailsRepository)
+          ILogger<WorksheetDetailsController> _logger,
+         IWorksheetDetailsRepository _worksheetDetailsRepository)
         {
-            logger = (ILogger<BranchCounsellorDetailsController>?)_logger;
+            logger = _logger;
             worksheetDetailsRepository = _worksheetDetailsRepository;
         }
 
@@ -51,6 +52,24 @@ namespace Learnum.ERP.API.Controller.HRD
                 return Ok(data);
             }
             return NotFound("No record found");
+        }
+
+
+
+        [HttpGet("getWorkSheetDetails/{WorkId}")]
+        public async Task<IActionResult> GetWorkSheetDetails(long? WorkId)
+        {
+            if (WorkId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await worksheetDetailsRepository.GetWorkSheetDetails(WorkId);
+            return Ok(result);
         }
     }
 }

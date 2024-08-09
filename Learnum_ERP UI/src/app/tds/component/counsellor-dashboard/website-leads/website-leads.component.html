@@ -7,15 +7,15 @@
 <div class="col-md-12">
   <div class="row" align="right">
     <div class="col-md-12" style="display: flex; justify-content: flex-end;">
-      <button class="btn btn-fent-cloud" (click)="AddWebsiteLead()">
+      <button class="btn btn-fent-cloud" (click)="onAddWebsiteLeads()">
         <i class="uil uil-plus"></i> Add Website Lead
       </button>
     </div>
   </div>
 </div>
 <!-- ag-grid -->
-<app-data-grid class="ag-theme-alpine" #declaredGrid [tableColumns]="declaredTableColumns" [actionColumns]="declaredActionColumns"
+<app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="websiteLeadList" [tableColumns]="declaredTableColumns" [actionColumns]="declaredActionColumns"
   [isEditable]="false" [isSortable]="true" [isFilterable]="false" [isColumnFilterable]="false" [isResizable]="false"
-  [isPageable]="true" [defaultPageSize]="12" (selectedRows)="selectLead($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">
+  [isPageable]="true" [defaultPageSize]="12" (selectedRows)="selectWebsiteLeads($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">
 </app-data-grid>
 <!-- end of ag-grid -->

@@ -17,6 +17,7 @@ namespace Learnum.ERP.Repository.Master.My_Practical_Exam
     { 
         Task<ResponseCode>StudentAnswerDetails(MyPracticalExamModel myPracticalExamModel);
         Task<List<MyPracticalExamResposeModel>> GetStudentAnswerList();
+        Task<Tuple<MyPracticalExamModel?, ResponseCode>> GetPracticalExamDetails(long? StudentId);
     }
     public class MyPracticalExamRepository : BaseRepository, IMyPracticalExamRepository
     {
@@ -39,6 +40,19 @@ namespace Learnum.ERP.Repository.Master.My_Practical_Exam
                 var dbparams = new DynamicParameters();
                 var result = dbConnection.Query<MyPracticalExamResposeModel>("PROC_GetProblemAnswerDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<Tuple<MyPracticalExamModel?, ResponseCode>> GetPracticalExamDetails(long? StudentId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@StudentId", StudentId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<MyPracticalExamModel?>("PROC_GetProblemAnswerList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<MyPracticalExamModel?, ResponseCode>(result, responseCode));
             }
         }
     }

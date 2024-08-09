@@ -6,6 +6,8 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
+import { BirthdayDetailsService } from './birthday-details.service';
+import { BirthdayDetailsModel } from './BirthDayDetails.model';
 
 @Component({
   selector: 'app-add-birthday',
@@ -15,21 +17,16 @@ import { MessageService } from 'src/app/core/services/message.service';
 export class AddBirthdayComponent implements OnInit {
 
   form = new FormGroup({});
-  //employeeDetails: EmployeeDetails = new EmployeeDetails();
-  reasonList: any[] = [];
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
   tdsReturnList: any;
-  GetEmployeeList: any;
-  coOwners: any;
   NowDate: any = new Date();
- employeeDetails: any;
-  birthdayDetails: any;
-  addBirthdayService: any;
+  birthdayDetails: BirthdayDetailsModel = new BirthdayDetailsModel();
+
  
   constructor(
-    //private addEmployeeService: AddEmployeeService,
+    private birthdayDetailsService: BirthdayDetailsService,
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -39,56 +36,29 @@ export class AddBirthdayComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-  //  this.getReason();
-    // this.createForm();
+
     this.editData = this.activateRoute.snapshot.queryParams;
-    if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
-   //   this.getEmployeeDetails(this.editData.EmployeeDetailId);
+    if (this.editData.source === 'edit' && this.editData.BirthId) {
+      this.getBirthdayDetails(this.editData.BirthId);
     }
-    
-  }
+    }
   
 
 
-  // getEmployeeDetails(EmployeeDetailId: number) {
-  //   this.addEmployeeService.getEmployeeDetails(EmployeeDetailId).subscribe(
-  //     (result: any) => {
-  //       if (result && result.Value && result.Value.Item1) {
-  //         this.employeeDetails = result.Value.Item1;
-          
-  //         //DateofPayment && DateOfDeduction
-  //         this.employeeDetails.DateOfPayment = this.addEmployeeService.formatDate(this.employeeDetails.DateOfPayment);
-  //         this.employeeDetails.DateOfDeduction = this.addEmployeeService.formatDate(this.employeeDetails.DateOfDeduction);
-
-  //         this.setParameter();
-  //       } else {
-  //         console.error('No data found for EmployeeDetailId: ' + EmployeeDetailId);
-
-  //       }
-  //     },
-  //     (error: any) => {
-  //       console.error('Error retrieving employee details:', error);
-
-  //       if (error && error.status === 404) {
-  //         console.error('Employee not found.');
-
-  //       } else {
-  //         console.error('An unexpected error occurred. Please try again later.');
-
-  //       }
-  //     }
-  //   );
-  // }
 
 
 setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
-        // key: 'ITDPreEmploymentSalModel',
+
         fieldGroup: [
+
+           {
+            key:'BirthId',
+           },
             {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'Name',
             templateOptions: {
@@ -96,38 +66,50 @@ setParameter() {
               type: 'text',
               label: "Name",
               required: true,
-            },
-          },
-          {
-            className: 'col-md-4',
-            type: 'input',
-            key: 'Email',
-            props: {
-              placeholder: 'Enter Email',
-              type: 'text',
-              label: "Email",
-              required: true,
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+              title: 'Only characters are allowed',
             },
             validation: {
               messages: {
-                required: 'Email is required',
-                pattern: 'Please enter a valid Email ',
+                required: 'Name is required',
+                pattern: 'Please enter a valid name ',
               },
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
-            key: 'DateofBirth',
+            key: 'Email',
+            props: {
+              placeholder: 'Email',
+              type: 'text',
+              label: 'Email',
+              required: true,
+              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            },
+            validation: {
+              messages: {
+                required: 'Email is required',
+                pattern: 'Please enter a valid Email',
+              },
+             
+            },
+          },
+
+          
+          
+          {
+            className: 'col-md-3',
+            type: 'input',
+            key: 'date',
             templateOptions: {
               label: 'Date of Birth',
-              placeholder: 'Enter Date',
+              placeholder: 'Date',
               type: 'date',
               required: true,
               attributes: {
                 max: formatDate(this.NowDate, 'YYYY-MM-dd', 'en-IN'),
               },
-
             },
             validation: {
               messages: {
@@ -136,51 +118,71 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-4',
-            type: 'input',
-            key:'Day',
-            props: {
-              placeholder: 'Enter Day',
-              type: 'text',
-              label: "Day",
-              required: true,
-            },
-          },
-          {
-            className: 'col-md-4',
-            type: 'input',
-            key: 'Month',
-            props: {
-              placeholder: 'Enter Month',
-              type: 'text',
-              label: "Month",
-              required: true,
-            },
-          },
-          {
-            className: 'col-md-4',
+            className: 'col-md-6',
             type: 'select',
-            key: 'Status',
-            props: {
-              placeholder: 'status',
-              
-              type: 'text',
-              label: "Status",
+            key: 'Role',
+            templateOptions: {
+              label: 'Role',
+              //placeholder: 'Select Role',
               required: true,
               options: [
-                { value: 'Active', label: 'Active' },
-                { value: 'Inactive', label: 'Inactive' }
-              ]
+                { value: null, label: 'Select Role', disabled: true },  // Placeholder option
+                { value: 1, label: 'Developer' },
+                { value: 2, label: 'Manager' }
+              ],
             },
-           
+            defaultValue: null,  // Optionally set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure that a valid value is selected
+                message: 'Role is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Role is required',
+              },
+            },
+          }
+          ,
+         
+          {
+            className: 'col-md-3',
+            type: 'select',
+            key: 'IsActive',
+            templateOptions: {
+              label: 'Status',
+              //placeholder: 'Select Status',
+              required: true,
+              options: [
+                { value: null, label: 'Select Status', disabled: true },  // Disabled placeholder option
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
+              ],
+            },
+            defaultValue: null,  // Set default value to 'Active'
+            validation: {
+              messages: {
+                required: 'Please select a  status',
+              },
+            },
           },
         ],
       },
     ]
   }
-
+ 
+  onReset()
+  {
+    this.form.reset();
+  }
   onCancleClick() {
-    this.router.navigateByUrl('tds/hrd/counsellor');
+    this.router.navigateByUrl('tds/hrd/birthdays');
+  }
+
+  navigate()
+  {
+    this.router.navigateByUrl('tds/hrd/birthdays');
   }
 
   get f()
@@ -191,8 +193,7 @@ setParameter() {
   onSubmit():void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-    //  this.insertAddEmployee();
-      this.GetEmployeeList();
+    this.insertAddBirthday();
     }
     else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
@@ -200,20 +201,24 @@ setParameter() {
   }
 
   insertAddBirthday() {
-    this.birthdayDetails.AddedBy = 1;
-    this.birthdayDetails.AddedDate = new Date();
-    this.birthdayDetails.UpdatedBy = 1;
-    this.birthdayDetails.UpdatedDate = new Date();
-    this.birthdayDetails.IsActive = true;
+    this.birthdayDetails.addedBy = 1;
+    this.birthdayDetails.addedDate = new Date();
+    this.birthdayDetails.updatedBy = 1;
+    this.birthdayDetails.updatedDate = new Date();
+    this.birthdayDetails.birthId = 0;
 
-    this.addBirthdayService.insertBirthdayData(this.birthdayDetails).subscribe(
+    this.birthdayDetailsService.insertBirthdayData(this.birthdayDetails).subscribe(
       (result: any) => {
         let serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-        } else if (serviceResponse == ResponseCode.Update) {
+          this.router.navigateByUrl('tds/hrd/birthdays');
+        }
+         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-        } else {
+          this.router.navigateByUrl('tds/hrd/birthdays');
+        } 
+        else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
       },
@@ -221,7 +226,28 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     );
-    this.router.navigateByUrl('tds/tds-return/employee');
+    
   }
+
+  getBirthdayDetails(BirthId: number) {
+    this.birthdayDetailsService.getBirthdayDetails(BirthId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.birthdayDetails = result.Value.Item1;
+
+          this.birthdayDetails.Date = this.birthdayDetailsService.formatDate(this.birthdayDetails.Date);
+
+
+          this.setParameter();
+          console.error('No data found for BirthId: ' + BirthId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving birthday details:', error);
+
+      }
+    );
+  }
+  
 
 }

@@ -7,39 +7,13 @@
   </h6>
   <div class="form-container">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
-          <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
+          <formly-form [model]="studentDetails" [fields]="fields" [options]="options" [form]="form"></formly-form>
           <div class="col-12 px-4 py-2 border-top buttons-container">
-              <button class="btn btn-cloud me-2" type="submit">Save</button>
-              <button class="btn btn-fent-cloud" type="button" (click)="onCancelClick()">Cancel</button>
+              <button class="btn btn-cloud me-2" type="submit" (click)="onSubmit()">Save</button>
+              <button class="btn btn-fent-cloud me-2" (click)=" onResetClick()">Reset</button>
+              <button class="btn btn-fent-cloud" type="button" (click)="onCancleClick()">Cancel</button>
           </div>
       </form>
   </div>
 </div>
 
-<!-- <div style="margin-left: 5px;">
- 
-  <div class="row d-flex">
-    <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230); width: 100%;">
-      <b>
-        <span data-toggle="tooltip" title="Close">
-          <i class="uil uil-multiply"></i> &nbsp;
-        </span>
-        Add Students
-      </b>
-    </h6>
-    <div class="col-12">
-      <form id="MyForm" [formGroup]="form">
-        <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form">
-        </formly-form>
-      </form>
-    </div>
-  </div>
-</div>
-
-
-<div class="row fixed-bottom">
-  <div class="col-12 px-4 py-2 border-top" style="background-color: #fff;">
-    <button class="btn btn-cloud me-2" (click)="onSubmit()">Add</button>
-    <button class="btn btn-fent-cloud" (click)="onCancelClick()">Cancel</button>
-  </div>
-</div> -->

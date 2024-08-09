@@ -20,7 +20,7 @@ namespace Learnum.ERP.API.Areas.Authentication
         ILogger logger = null;
         EmailHelper emailHelper = null;
         IAccountRepository accountRepository = null;
-       // IBulkEmailRepository bulkEmailRepository;
+        //IBulkEmailRepository bulkEmailRepository;
         IRegistrationRepository registrationRepository = null;
 
 
@@ -122,7 +122,7 @@ namespace Learnum.ERP.API.Areas.Authentication
 
 
 
-       /* [HttpGet("VerifyOTP/{UserId}/{EnteredOTP}")]
+        [HttpGet("VerifyOTP/{UserId}/{EnteredOTP}")]
         public async Task<IActionResult> VerifyOTP(long UserId, long EnteredOTP)
         {
             var result = await registrationRepository.VerifyOTP(UserId, EnteredOTP);
@@ -131,7 +131,7 @@ namespace Learnum.ERP.API.Areas.Authentication
                 return Ok(result);
             }
             return BadRequest("Record not added");
-        }*/
+        }
 
         [HttpPost("UpdatePassword")]
         public async Task<IActionResult> UpdatePassword(RegistrationMaster registrationMaster)

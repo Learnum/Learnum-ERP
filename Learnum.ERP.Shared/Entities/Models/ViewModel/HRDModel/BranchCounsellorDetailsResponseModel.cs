@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models.ViewModel.HRDModel
 {
-    public class BranchCounsellorDetailsResponseModel
+    public class BranchCounsellorDetailsResponseModel: BaseModel
     {
-        public long BranchID { get; set; }
-        public string CounsellorName { get; set; }
+        public long? CounsellorId { get; set; }
+        public long? BranchId { get; set; }
+
         public string BranchName { get; set; }
-        public string Status { get; set; }
+        public string CounsellorName { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

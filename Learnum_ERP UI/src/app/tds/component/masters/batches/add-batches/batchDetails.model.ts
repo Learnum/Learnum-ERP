@@ -1,16 +1,21 @@
 export class BatchesDetailsModel {
     batchId: number;
-    branchId: number;
-    courseId: number;
-    classroomId: number;
-    batchName: string;
+   BatchTd:number;
+    BranchId: number;
+    CourseId: number;
+    ClassRoomId: number;
+    //batchName: string;
+    BatchName:string;
+    CourseName:string;
+    BranchName:string;
+    ClassroomName:string;
     courseFeesInstallment: number;
     oneTimeCourseFees: string;
     startOn: string;
     endOn: string;
     isActive: boolean;
-    startTime: string;
-    endTime: string;
+    startTime: Date;
+    endTime: Date;
     addedBy: number | null;
     addedDate: Date | null;
     updatedBy: number | null;

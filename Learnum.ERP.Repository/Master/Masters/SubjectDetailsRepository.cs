@@ -17,6 +17,7 @@ namespace Learnum.ERP.Repository.Master
     {
         Task<ResponseCode> InsertSubjectDetails(SubjectDetailsModel subjectDetailsModel);
         Task<List<SubjectDetailsResponseModel>> GetSubjectDetailsList();
+        Task<Tuple<SubjectDetailsModel?, ResponseCode>> GetSubjectDetails(long? SubjectId);
     }
 
     public class SubjectDetailsRepository : BaseRepository, ISubjectDetailsRepository
@@ -41,6 +42,19 @@ namespace Learnum.ERP.Repository.Master
                 var result = dbConnection.Query<SubjectDetailsResponseModel>("PROC_GetSubjectDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }                       
+        }
+
+        public async Task<Tuple<SubjectDetailsModel?, ResponseCode>> GetSubjectDetails(long? SubjectId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@SubjectId", SubjectId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<SubjectDetailsModel?>("PROC_GetSubjectDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<SubjectDetailsModel?, ResponseCode>(result, responseCode));
+            }
         }
 
     }

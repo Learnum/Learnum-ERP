@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models
 {
-    public class ContentWriterDetailsModel
+    public class ContentWriterDetailsModel:BaseModel
     {
-        public long Courseid { get; set; }
-        public string Course { get; set; }
-        public string ContentWriter { get; set; }
-        public string Subject { get; set; }
-        public string Status { get; set; }
-        public long AddedBy { get; set; }
-        public DateTime AddedDate { get; set; }
-        public long UpdatedBy { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public long CourseId { get; set; }
+        public long SubjectId { get; set; }
 
+        public long ContentWriterId { get; set; }
+
+        public string ContentWriterName { get; set; }
+       
+        public bool? IsActive { get; set; }
     }
 }

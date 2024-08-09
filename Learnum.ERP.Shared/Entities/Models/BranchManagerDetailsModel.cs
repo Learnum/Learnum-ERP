@@ -9,10 +9,9 @@ namespace Learnum.ERP.Shared.Entities.Models
     public class BranchManagerDetailsModel:BaseModel
     {
         public long BranchManagerId { get; set; }
-        public string BranchManagerName { get; set; }
+        public long BranchId {  get; set; }
 
-        public long BranchID {  get; set; }
-       
+       public string BranchManagerName  { get; set; }
         public bool IsActive { get; set; }
        
     }

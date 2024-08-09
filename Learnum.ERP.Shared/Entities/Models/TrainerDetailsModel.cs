@@ -9,13 +9,14 @@ namespace Learnum.ERP.Shared.Entities.Models
 {
     public class TrainerDetailsModel : BaseModel
     {
+
         public long TrainerId { get; set; }
-        public string? TrainerName { get; set; }
+        public long CourseId { get; set; }
+        public long SubjectId { get; set; }
         public long BranchId { get; set; }
-        public long batchId { get; set; }
-        public long courseId { get; set; }
-       public string? SubjectName { get; set; }
-       public bool IsActive { get; set; }
+        public long BatchId { get; set; }
+        public string TrainerName { get; set; }
+        public bool IsActive { get; set; }
 
     }
        

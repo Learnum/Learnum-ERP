@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models.ViewModel.Trainers
 {
-    public class SyllabusStatusResponseModel
+    public class SyllabusStatusResponseModel :BaseModel
     {
-        public long BranchID { get; set; }
+        public long TrainerId { get; set; }
+        public long BranchId { get; set; }
+        public string BranchName { get; set; }
     }
 }

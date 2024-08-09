@@ -19,5 +19,7 @@ export enum ResponseCode {
     UserNameAlreadyExists = 10012,
     InvalidUserNameOrPassword = -13,
     UserNotValidFor80G=10000,
-    Update=11116
+    Update=11116,
+    UserDeactivated = 10016,
+    AccountDoesNotExists = 10017
 }

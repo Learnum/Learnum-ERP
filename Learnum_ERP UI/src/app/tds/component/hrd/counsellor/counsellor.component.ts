@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddcounsellorService } from './add-counsellor/addcounsellor.service';
 
 @Component({
   selector: 'app-counsellor',
@@ -11,13 +12,14 @@ import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-g
   styleUrls: ['./counsellor.component.scss']
 })
 export class CounsellorComponent implements OnInit {
+selectCounsellor($event: any) {
+throw new Error('Method not implemented.');
+}
 
-  tdsReturnList: any[] = [];
+  CounsellorList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
-
-
     {
       field: 'CounsellorName',
       headerName: 'Counsellor Name',
@@ -25,7 +27,7 @@ export class CounsellorComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 200
 
     },
     {
@@ -36,6 +38,18 @@ export class CounsellorComponent implements OnInit {
         buttons: ['reset', 'apply'],
       },
       minWidth: 150
+    },
+    {
+      field: 'IsActive',
+      headerName: 'Status',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 200,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
     },
     {
       field: 'addedBy',
@@ -52,32 +66,31 @@ export class CounsellorComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
+      field: 'updatedBy',
+      headerName: 'Updated By',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedTime',
+      headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    }, 
+    
   ];
-
-  getEmployeeList: any;
-
 
 
   ngOnInit(): void {
-    //this.GetbranchList();
+    this.GetcounsellorList();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
+    private addcounsellorService: AddcounsellorService,
     private alertService: AlertService,
     private formBuilder: FormBuilder) {
     {
@@ -95,9 +108,9 @@ export class CounsellorComponent implements OnInit {
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'branchID': data.row.branchID
+      'CounsellorId': data.row.CounsellorId
     }
-    this.router.navigate(['/tds/hrd/add-trainer'], { queryParams: data1 });
+    this.router.navigate(['tds/hrd/counsellor/add-counsellor'], { queryParams: data1 });
   }
 
 
@@ -105,7 +118,7 @@ export class CounsellorComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewBranch',
+      actionPage: 'ViewContentWriter',
       actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
@@ -127,7 +140,36 @@ export class CounsellorComponent implements OnInit {
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
+  
+  GetcounsellorList() {
+    this.addcounsellorService.getcounsellorList().subscribe(
+      (result: any) => {
+        this.CounsellorList = result.Value;
+        let CounsellorList = result.Value;
+      },);
+    }
 
-}
+    editCounsellor(CounsellorData: any) {
+      const CounsellorId = CounsellorData.CounsellorId;
+      const index = this.CounsellorList.findIndex(Counsellor => Counsellor.CounsellorId === CounsellorId);
+  
+      if (index !== -1) {
+        this.openEditForm(CounsellorData).then((editedCounsellorData: any) => {
+          this.CounsellorList[index] = editedCounsellorData;
+          console.log('Edited Counsellor:', editedCounsellorData);
+        });
+      }
+    }
+  
+    openEditForm(CounsellorData: any): Promise<any> {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const editedCounsellorData = { ...CounsellorData };
+          editedCounsellorData.Status = 'Edited';
+          resolve(editedCounsellorData);
+        }, 1000);
+      });
+    }
+  }
 
 

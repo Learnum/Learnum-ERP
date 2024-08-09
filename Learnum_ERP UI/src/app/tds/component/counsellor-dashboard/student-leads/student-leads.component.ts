@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { StudentleadsService } from './add-student-leads/studentleads.service';
 @Component({
   selector: 'app-student-leads',
   templateUrl: './student-leads.component.html',
@@ -15,56 +16,63 @@ export class StudentLeadsComponent implements OnInit {
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'studentName',
+      field: 'StudentId',
+      headerName: 'SR.NO',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'StudentName',
       headerName: 'Student Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'studentPhone',
+      field: 'StudentPhone',
       headerName: 'Student Phone',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'parentsPhone',
+      field: 'ParentPhone',
       headerName: "Parent's Phone",
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'studentEmail',
+      field: 'StudentEmail',
       headerName: 'Student Email',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'collegeName',
+      field: 'CollegeName',
       headerName: 'College Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'education',
+      field: 'Education',
       headerName: 'Education',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'address',
+      field: 'Address',
       headerName: 'Address',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'leadSource',
+      field: 'LeadSource',
       headerName: 'Lead Source',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -75,7 +83,7 @@ export class StudentLeadsComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
     {
       field: 'addedTime',
@@ -85,36 +93,30 @@ export class StudentLeadsComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedBy',
+      headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
+    {
+      field: 'updatedTime',
+      headerName: 'Updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    }, 
+    
   ];
 
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewStudentLead',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
+      actionPage: 'ViewStudent',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
-    {
-      action: 'edit',
-      actionPage: 'EditStudentLead',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
   ];
 
   constructor(
@@ -122,41 +124,81 @@ export class StudentLeadsComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
+    private studentleadsService:StudentleadsService
   ) { }
 
   ngOnInit(): void {
-    this.getStudentLeadList();
+    this.getStudentLeadsDetails();
   }
 
-  getStudentLeadList() {
-    // this.studentLeadService.getStudentLeadList().subscribe(
-    //   (result: any) => {
-    //     this.studentLeadList = result.Value;
-    //   },
-    //   (error: any) => {
-    //     console.error("Error occurred while fetching student leads:", error);
-    //     this.alertService.ShowErrorMessage("An error occurred while fetching student leads. Please try again later.");
-    //   }
-    // );
-  }
-
-  AddStudentLeads() {
-    this.router.navigate(['tds/counsellor-dashboard/student-leads/add-student-leads']);
-  }
 
   onRowAction(data: any) {
     let data1 = {
-      'source': data.action,
-      'StudentLeadId': data.row.StudentLeadId
-    };
-    this.router.navigate(['/tds/counsellor-dashboard/student-leads/add-student-leads'], { queryParams: data1 });
+      'source': 'edit',
+      'StudentId': data.row.StudentId
+    }
+    this.router.navigate(['tds/counsellor-dashboard/student-leads/add-student-leads'], { queryParams: data1 });
+  }
+  selectStudent($event: any)
+   {
+    throw new Error('Method not implemented.');
   }
 
+  ActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewStudent',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
+  onAddStudent(student?: any) {
+
+    let navigationExtras: NavigationExtras = {};
+    if (student) {
+      navigationExtras = {
+        state: {
+          studentData: student
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/counsellor-dashboard/student-leads/add-student-leads')
+  }
   onActionButton(action: string) {
-    alert(action + ' action button clicked.');
+    alert(action + ' ' + 'action button clicked.');
   }
+  editStudent(StudentData: any) {
+    const studentId = StudentData.studentId;
+    const index = this.studentLeadList.findIndex(student => student.studentId === studentId);
 
-  selectStudentLead(studentLeads: any) {
-    // Handle row selection logic
+    if (index !== -1) {
+
+
+      this.openEditForm(StudentData).then((editedStudentData: any) => {
+
+        this.studentLeadList[index] = editedStudentData;
+        console.log('Edited student:', editedStudentData);
+
+      });
+    }
+  }
+  openEditForm(studentData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedStudentData = { ...studentData };
+
+        editedStudentData.Status = 'Edited';
+        resolve(editedStudentData);
+      }, 1000);
+    });
+  }
+  getStudentLeadsDetails() {
+    this.studentleadsService.getStudentLeads().subscribe((result: any) => {
+      this.studentLeadList = result.Value;
+      let studentLeadList = result.Value;
+    })
   }
 }

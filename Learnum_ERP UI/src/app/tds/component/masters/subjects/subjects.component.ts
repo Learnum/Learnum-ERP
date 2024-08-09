@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
 import { AddSubjectsService } from './add-subjects/add-subjects.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-subjects',
@@ -12,8 +13,8 @@ import { AddSubjectsService } from './add-subjects/add-subjects.service';
   styleUrls: ['./subjects.component.scss']
 })
 export class SubjectsComponent implements OnInit {
+
   subjectsList: any[] = [];
-  form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
     {
@@ -58,22 +59,8 @@ export class SubjectsComponent implements OnInit {
     },
     {
       field: 'addedBy',
-      headerName: 'AddedBy',
+      headerName: 'Added By',
       filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'addedTime',
-      headerName: 'AddedTime',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'updatedBy',
-      headerName: 'UpdatedBy',
-      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -83,19 +70,24 @@ export class SubjectsComponent implements OnInit {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    },{
-      field: 'updatedDate',
-      headerName: 'UpdatedDate',
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
-
+    {
+      field: 'updatedTime',
+      headerName: 'Updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    }, 
+    
   ];
-  getEmployeeList: any;
-
-
-
+ 
   ngOnInit(): void {
    this.getSubjectDetails();
   }
@@ -106,23 +98,19 @@ export class SubjectsComponent implements OnInit {
     private messageService: MessageService,
     private alertService: AlertService,
     private formBuilder: FormBuilder) {
-    {
-      this.form = this.formBuilder.group({
-        // Define form controls with validators as needed
-        
-      });
-    }
   }
-  selectBranch(branch: any) {
 
-  }
-  
-  onRowAction(data: any) {
+   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'branchID': data.row.branchID
+      'SubjectId': data.row.SubjectId
     }
-    this.router.navigate(['/tds/masters/add-subjects'], { queryParams: data1 });
+    this.router.navigate(['tds/masters/subjects/add-subjects'], { queryParams: data1 });
+  }
+
+  selectSubject($event: any) 
+  { 
+    throw new Error('Method not implemented.'); 
   }
 
 
@@ -130,18 +118,25 @@ export class SubjectsComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewBranch',
+      actionPage: 'ViewSubject',
       actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
   ];
   
- 
- 
-  onAddSubject()
-  {
-    this.router.navigate(['tds/masters/subjects/add-subjects']);
+
+  onAddSubject(subject?: any) {
+
+    let navigationExtras: NavigationExtras = {};
+    if (subject) {
+      navigationExtras = {
+        state: {
+          subjectData: subject
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/masters/subjects/add-subjects')
   }
   
   onActionButton(action: string) {
@@ -154,6 +149,33 @@ export class SubjectsComponent implements OnInit {
       let subjectsList = result.Value;
     })
   } 
+  editBranch(SubjectData: any) {
+    const subjectId = SubjectData.subjectId;
+    const index = this.subjectsList.findIndex(subject => subject.subjectId === subjectId);
+
+    if (index !== -1) {
+
+
+      this.openEditForm(SubjectData).then((editedSubjectData: any) => {
+
+        this.subjectsList[index] = editedSubjectData;
+        console.log('Edited Subject:', editedSubjectData);
+
+      });
+    }
+  }
+  openEditForm(subjectData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedSubjectData = { ...subjectData };
+
+        editedSubjectData.Status = 'Edited';
+        resolve(editedSubjectData);
+      }, 1000);
+    });
+  }
 
 }
 

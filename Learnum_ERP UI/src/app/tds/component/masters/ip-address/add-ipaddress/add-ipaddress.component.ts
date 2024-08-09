@@ -21,7 +21,7 @@ export class AddIpaddressComponent implements OnInit {
   options: FormlyFormOptions = {};
   editData: any;
   formBuilder: any;
-  
+
   constructor(
     private router: Router,
     private addipaddressService: AddIpaddressService,
@@ -34,10 +34,10 @@ export class AddIpaddressComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-  }
-
-  reset() {
-    throw new Error('Method not implemented.');
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.LocationId) {
+      this.getLocationDetails(this.editData.LocationId);
+    }
   }
 
   setParameter() {
@@ -45,26 +45,28 @@ export class AddIpaddressComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
-
           {
-            className: 'col-md-4',
+            key: 'LocationId'
+          },
+          {
+            className: 'col-md-3',
             type: 'input',
             key: 'Location',
             templateOptions: {
-              placeholder: 'Enter Location',
+              placeholder: 'Enter Your Location',
               type: 'text',
               label: "Location",
               required: true,
-
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
             validation: {
               messages: {
-                required: 'Location  is required',
+                required: 'location is required',
               },
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'LocationIP',
             props: {
@@ -72,31 +74,34 @@ export class AddIpaddressComponent implements OnInit {
               type: 'text',
               label: "Location IP",
               required: true,
+              pattern: "^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$",
 
             },
             validation: {
               messages: {
-                required: 'Location IP is required',
-
+                required: 'location IP is required',
+                pattern: "Please enter a valid address"
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'IsActive',
-            props: {
-              placeholder: 'Select IPStatus ',
+            templateOptions: {
+              label: 'IP Status',
+              //placeholder: 'Select IP Status',
               required: true,
-              label: 'IPStatus',
               options: [
+                { value: null, label: 'Select IP Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
-                { value: false, label: 'InActive' }
+                { value: false, label: 'Inactive' }
               ],
             },
+            defaultValue: null,  
             validation: {
               messages: {
-                required: 'Please select a branch status',
+                required: 'Please select a IP status',
               },
             },
           },
@@ -108,10 +113,11 @@ export class AddIpaddressComponent implements OnInit {
   onCancleClick() {
     this.router.navigateByUrl('tds/masters/ip-address');
   }
-
-
+  onResetClick() {
+    this.form.reset();
+  }
   onSubmit(): void {
-   // this.form.markAllAsTouched();
+    this.form.markAllAsTouched();
     if (this.form.valid) {
       this.AddIPAddress();
     } else {
@@ -124,7 +130,6 @@ export class AddIpaddressComponent implements OnInit {
     this.ipDetails.addedDate = new Date();
     this.ipDetails.updatedBy = 1;
     this.ipDetails.updatedDate = new Date();
-    this.ipDetails.locationId = 0;
 
     this.addipaddressService.insertIPAddress(this.ipDetails).subscribe(
       (result: any) => {
@@ -146,6 +151,24 @@ export class AddIpaddressComponent implements OnInit {
     )
     this.router.navigateByUrl('tds/masters/ip-address');
   }
+  getLocationDetails(LocationId: number) {
+    this.addipaddressService.getLocationDetails(LocationId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.ipDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for LocationId: ' + LocationId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving location details:', error);
 
-  
+      }
+    );
+  }
+ 
+  navigate()
+  {
+    this.router.navigateByUrl('tds/masters/ip-address');
+  }
 }

@@ -16,14 +16,19 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
 })
 export class AddTrainerComponent implements OnInit {
 
+
   form = new FormGroup({});
   TrainerDetails: TrainerDetailsModel = new TrainerDetailsModel();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
   NowDate: any = new Date();
+  branchDetails: any;
+  courseDetails: any;
+  subjectDetails: any;
+  batchDetails: any;
 
- 
+
   constructor(
     private addtrainerService: AddtrainerService,
     private router: Router,
@@ -34,34 +39,39 @@ export class AddTrainerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    this.getCourseDetails();
+    this.getSubjectDetails();
+    this.getBranchDetails();
+    this.getBatchDetails();
     this.setParameter();
+
     this.editData = this.activateRoute.snapshot.queryParams;
-    if (this.editData.source === 'edit' && this.editData.trainerId) {
-  }
+    if (this.editData.source === 'edit' && this.editData.TrainerId) {
+      this.getTrainerDetails(this.editData.TrainerId);
+    }
   }
 
-setParameter() {
+  setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
         // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
-
-           {
-            className: 'col-md-6',
-            type: 'select',
-            key: 'courseId',
-            props: { 
-              placeholder: 'Enter Course Name',
-             
-              label: "Course Name",
+          {
+            key: 'TrainerId'
+          },
+          {
+            className: 'col-md-3',
+            type: 'input',
+            key: 'TrainerName',
+            props: {
+              placeholder: 'Trainer Name',
               required: true,
-              pattern: '^[A-Za-z]+$',
-              title: 'Only characters are allowed',
-              options: [
-                { label: 'Tally', value: 'Tally' },
-                { label: 'Tax', value: 'Tax' }
-              ],
+              type: 'text',
+              label: "Trainer Name",
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+             
             },
             validation: {
               messages: {
@@ -70,133 +80,122 @@ setParameter() {
               },
             },
           },
+
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
-            key: 'subjectName',
-            props: {
-              placeholder: 'Enter Subject Name',
-              required: true,
+            key: 'CourseId',
+            templateOptions: {
+              placeholder: 'Select Course',
               type: 'text',
+              label: "Course Name",
+              required: true,
+              options: this.courseDetails ? this.courseDetails.map(course => ({
+                label: course.CourseName
+                , value: course.CourseId
+              })) : [],
+
+            },
+          },
+          {
+            className: 'col-md-3',
+            type: 'select',
+            key: 'SubjectId',
+            templateOptions: {
+              placeholder: ' Select Subject',
+              type: 'Text',
               label: "Subject Name",
-              options: [
-                { label: 'Account', value: 'Account' },
-                { label: 'tax', value: 'Tax' }
-              ],
+              required: true,
+              options: this.subjectDetails ? this.subjectDetails.map(subject => ({
+                label: subject.SubjectName
+                , value: subject.SubjectId
+              })) : [],
+
             },
-            validation: {
-              messages: {
-                required: 'This field is required',
-                ip: 'Please enter a valid Subject Name',
-              },
-            },
+
           },
 
 
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
-            key: 'branchId',
-            props: {
-              placeholder: 'Select Branch Name',
-              required: true,
-              valueProp: 'value',
-              labelProp: 'label',
+            key: 'BranchId',
+            templateOptions: {
+              placeholder: 'Select Branch ',
+              type: 'text',
               label: "Branch Name",
-              type:'text',
-              options: [
-                { label: 'cpat', value: 'cpat' },
-                { label: 'taxblock', value: 'taxblock' }
-              ],
-            },
-            validation: {
-              messages: {
-                required: 'Please select a Branch Name',
-              },
-            },
-          }, 
-         {
-            className: 'col-md-6',
-            type: 'select',
-            key: 'batchId',
-            props: {
-              placeholder: 'Enter batch Name',
               required: true,
-              type: 'number',
+              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+            },
+
+          },
+          {
+            className: 'col-md-3',
+            type: 'select',
+            key: 'BatchId',
+            templateOptions: {
+              placeholder: 'Select Batch',
+              required: true,
+              type: 'text',
               label: "Batch Name",
-              options: [
-                { label: 'Batch-1', value: 'Batch-1' },
-                { label: 'Batch-2', value: 'Batch-2' }
-              ],
-              },
+              options: this.batchDetails ? this.batchDetails.map(batch => ({
+                label: batch.BatchName
+                , value: batch.BatchId
+              })) : [],
+
+            },
             validation: {
               messages: {
                 required: 'This field is required',
               },
             },
           },
+          ,
+
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
-            key: 'trainerName',
-            props: {
-              placeholder: 'Trainer Name',
+            key: 'IsActive',
+            templateOptions: {
+              label: 'Trainer Status',
+              //placeholder: 'Select Trainer Status',
               required: true,
-              type: 'text',
-              label: "Trainer Name",
               options: [
-                { label: 'Trainer-1', value: 'Trainer-1' },
-                { label: 'Trainer-2', value: 'Trainer-2' }
-              ],
-             },
-            
-            validation: {
-              messages: {
-                required: 'This field is required',
-                tds: 'Please enter a Trainer Name',
-              },
-            },
-          },
-          
-          {
-            className: 'col-md-6',
-            type: 'select',
-            key: 'isActive',
-            props: {
-              placeholder: ' select status',
-              required: true,
-              type: 'text',
-              label: "Trainer Batch Status",
-              options: [
+                { value: null, label: 'Select Trainer Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
-                { value: false, label: 'InActive' }
+                { value: false, label: 'Inactive' }
               ],
             },
+            defaultValue: null,  // Set default value to 'Active'
             validation: {
               messages: {
-                required: 'This field is required', 
+                required: 'Please select a Trainer status',
               },
             },
           },
-         
+
         ],
       },
     ]
   }
 
-  onCancleClick() {
-    this.router.navigateByUrl('tds/hrd/trainer');
+
+  onCancel() {
+    this.router.navigateByUrl('tds/hrd/trainer')
   }
 
-  get f()
+  navigate()
   {
+    this.router.navigateByUrl('tds/hrd/trainer')
+  }
+  get f() {
     return this.form.controls;
   }
 
-  onSubmit():void {
+  onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-    
+
       this.insertTrainer();
     }
     else {
@@ -209,29 +208,95 @@ setParameter() {
     this.TrainerDetails.addedDate = new Date();
     this.TrainerDetails.updatedBy = 1;
     this.TrainerDetails.updatedDate = new Date();
-    this.TrainerDetails.isActive = true;
+    // this.TrainerDetails.TrainerId = 0;
 
     this.addtrainerService.insertTrainerData(this.TrainerDetails).subscribe(
       (result: any) => {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/hrd/trainer');
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/hrd/trainer');
+
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
+
       },
       (error: any) => {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    this.router.navigateByUrl('tds/hrd/trainer');
   }
 
 
+  getCourseDetails() {
+    this.addtrainerService.getcourseList().subscribe(
+      (data: any) => {
+        this.courseDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
 
+  getSubjectDetails() {
+    this.addtrainerService.getsubjectList().subscribe(
+      (data: any) => {
+        this.subjectDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  getBranchDetails() {
+    this.addtrainerService.getBranchList().subscribe(
+      (data: any) => {
+        this.branchDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  getBatchDetails() {
+    this.addtrainerService.getBatchList().subscribe(
+      (data: any) => {
+        this.batchDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  getTrainerDetails(TrainerId: number) {
+    this.addtrainerService.getTrainerDetails(TrainerId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.TrainerDetails = result.Value.Item1;
+
+          this.setParameter();
+          console.error('No data found for BranchId: ' + TrainerId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving trainer details:', error);
+
+      }
+    );
+  }
 }

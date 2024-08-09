@@ -9,13 +9,14 @@ namespace Learnum.ERP.Shared.Entities.Models
 {
     public class StudentCounsellingDetailsModel : BaseModel
     {
-        public long StudentId { get; set; } 
-        public string StudentName { get; set; }
+        public long CounsellingId { get; set; }
+        public long StudentId { get; set; }
+        public long Phone { get; set; }
         public DateTime CounsellingDate { get; set; }
+        public DateTime CounsellingTime { get; set; }
+        public long BranchId { get; set; }
         public string CounsellingStatus { get; set; }
-        public string Phone { get; set; }
-        public TimeSpan CounsellingTime { get; set; } 
-        public string BranchName { get; set; }
         public string CounsellingConversation { get; set; }
+        public bool IsActive { get; set; }
     }
 }

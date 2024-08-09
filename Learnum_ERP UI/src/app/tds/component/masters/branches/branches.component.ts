@@ -13,12 +13,9 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
   styleUrls: ['./branches.component.scss']
 })
 export class BranchesComponent {
-selectCourse($event: any) {
-throw new Error('Method not implemented.');
-}
+
 
   branchList: any[] = [];
-  form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
     {
@@ -28,8 +25,8 @@ throw new Error('Method not implemented.');
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
-
+      minWidth: 150,
+      headerTooltip: 'Serial Number of the branch'
     },
     {
       field: 'BranchName',
@@ -38,7 +35,9 @@ throw new Error('Method not implemented.');
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Branch Name of the branch'
+
     },
     {
       field: 'Address',
@@ -59,8 +58,8 @@ throw new Error('Method not implemented.');
       minWidth: 150
     },
     {
-      field: 'State',
-      headerName: 'State',
+      field: 'StateName',
+      headerName: 'State Name',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -76,36 +75,22 @@ throw new Error('Method not implemented.');
       },
       minWidth: 150
     },
-    {
-      field: 'IsActive',
-      headerName: 'IsActive',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 150,
-      valueFormatter: params => {
-        return params.value ? 'Active' : 'Inactive';
-      }
-    },
+    // {
+    //   field: 'IsActive',
+    //   headerName: 'IsActive',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 150,
+    //   valueFormatter: params => {
+    //     return params.value ? 'Active' : 'Inactive';
+    //   }
+    // },
     {
       field: 'addedBy',
-      headerName: 'AddedBy',
+      headerName: 'Added By',
       filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'addedTime',
-      headerName: 'AddedTime',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'updatedBy',
-      headerName: 'UpdatedBy',
-      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -115,68 +100,24 @@ throw new Error('Method not implemented.');
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    },{
-      field: 'updatedDate',
-      headerName: 'UpdatedDate',
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
+    {
+      field: 'updatedTime',
+      headerName: 'updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    }
+    
   ];
   declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewCall',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-    {
-      action: 'edit',
-      actionPage: 'EditCall',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
-  ];
-  getEmployeeList: any;
-
-
-
-  ngOnInit(): void {
-    this.getAllBranchDetails();    
-  }
-
-  constructor(private router: Router,
-    private route: ActivatedRoute,
-    private messageService: MessageService,
-    private alertService: AlertService,
-    private addBranchService: AddBranchService,
-    private formBuilder: FormBuilder) {
-    {
-      this.form = this.formBuilder.group({
-       
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-      });
-    }
-  }
-  selectBranch(branch: any) {
-
-  }
-  
-
-  onRowAction(data: any) {
-    let data1 = {
-      'source': 'edit',
-      'branchID': data.row.branchID
-    }
-    this.router.navigate(['/tds/masters/add-branch'], { queryParams: data1 });
-  }
-
-
-
-  ActionColumn: any[] = [
     {
       action: 'view',
       actionPage: 'ViewBranch',
@@ -185,17 +126,51 @@ throw new Error('Method not implemented.');
       colorClass: 'text-secondary h4'
     },
   ];
+
+  ngOnInit(): void {
+    this.getAllBranchDetails();
+
+  }
+  constructor(private router: Router,
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+    private alertService: AlertService,
+    private addBranchService: AddBranchService,) {
+
+  }
   
-  onAddBranch() {
-    // let navigationExtras: NavigationExtras = {};
-    // if (branch) {
-    //   navigationExtras = {
-    //     state: {
-    //       branchData: branch
-    //     }
-    //   };
-    // }
-    this.router.navigate(['tds/masters/branches/add-branch']);
+  onRowAction(data: any) {
+    let data1 = {
+      'source': 'edit',
+      'BranchId': data.row.BranchId
+    }
+    this.router.navigate(['tds/masters/branches/add-branch'], { queryParams: data1 });
+  }
+  selectBranch($event: any) 
+  { throw new Error('Method not implemented.'); 
+
+  }
+
+  ActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewEmployee',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
+  onAddBranch(branch?: any) {
+
+    let navigationExtras: NavigationExtras = {};
+    if (branch) {
+      navigationExtras = {
+        state: {
+          branchData: branch
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/masters/branches/add-branch')
   }
 
   onActionButton(action: string) {
@@ -207,6 +182,33 @@ throw new Error('Method not implemented.');
       this.branchList = result.Value;
       let branchList = result.Value;
     })
+  }
+  editBranch(BranchData: any) {
+    const branchId = BranchData.branchId;
+    const index = this.branchList.findIndex(branch => branch.branchId === branchId);
+
+    if (index !== -1) {
+
+
+      this.openEditForm(BranchData).then((editedBranchData: any) => {
+
+        this.branchList[index] = editedBranchData;
+        console.log('Edited Branch:', editedBranchData);
+
+      });
+    }
+  }
+  openEditForm(branchData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedBranchData = { ...branchData };
+
+        editedBranchData.Status = 'Edited';
+        resolve(editedBranchData);
+      }, 1000);
+    });
   }
 
 }

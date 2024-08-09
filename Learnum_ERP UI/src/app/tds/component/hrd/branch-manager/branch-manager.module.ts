@@ -13,6 +13,7 @@ import { BranchManagerComponent } from './branch-manager.component';
 @NgModule({
   declarations: [
    BranchManagerComponent
+ 
   ],
   imports: [
     CommonModule,
@@ -21,7 +22,8 @@ import { BranchManagerComponent } from './branch-manager.component';
     FormlyModule,
     ReactiveFormsModule,
     FormlyBootstrapModule,
-    FormsModule
+    FormsModule,
+    
   ]
 })
 export class BranchManagerModule { }

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddaccountantService } from './add-accountant/addaccountant.service';
 
 @Component({
   selector: 'app-accountant',
@@ -12,10 +13,22 @@ import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-g
 })
 export class AccountantComponent implements OnInit {
 
-  tdsReturnList: any[] = [];
+
+  accountantDetailsList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
+
+    // {
+    //   field: 'BranchAccountantId',
+    //   headerName: 'SR.NO',
+    //   filter: 'agSetColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 200
+
+    // },
     
     {
       field: 'AccountantName',
@@ -37,6 +50,18 @@ export class AccountantComponent implements OnInit {
       minWidth: 200
     },
     {
+      field: 'IsActive',
+      headerName: 'Status',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 200,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
+    },
+    {
       field: 'addedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
@@ -51,50 +76,50 @@ export class AccountantComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
+      field: 'updatedBy',
+      headerName: 'Updated By',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedTime',
+      headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    }, 
+    
   ];
- getEmployeeList: any;
-
-
 
   ngOnInit(): void {
-    //this.GetbranchList();
-  }
+    this.getBranchAccountantDetails();
+    }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private addaccountantService:AddaccountantService
+  ) {
     {
       this.form = this.formBuilder.group({
     
       });
     }
   }
-  selectBranch(branch: any) {
-
-  }
+  selectBranchAccountant($event: any) {
+    throw new Error('Method not implemented.');
+    }
   
 
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'branchID': data.row.branchID
+      'BranchAccountantId': data.row.BranchAccountantId
     }
-    this.router.navigate(['/tds/hrd/add-trainer'], { queryParams: data1 });
+    this.router.navigate(['tds/hrd/accountant/add-accountant'], { queryParams: data1 });
   }
 
 
@@ -102,7 +127,7 @@ export class AccountantComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewBranch',
+      actionPage: 'ViewBranchAccountant',
       actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
@@ -110,18 +135,38 @@ export class AccountantComponent implements OnInit {
   ];
   onAddAccountant() {
 
-    // let navigationExtras: NavigationExtras = {};
-    // if (employee) {
-    //   navigationExtras = {
-    //     state: {
-    //       employeeData: employee
-    //     }
-    //   };
-    // }
     this.router.navigateByUrl('tds/hrd/accountant/add-accountant')
   }
    onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
+  
+  getBranchAccountantDetails() {
+    this.addaccountantService.getbranchaccountantList().subscribe((result: any) => {
+      this.accountantDetailsList = result.Value;
+      let accountantDetailsList = result.Value;
+    })
+  }
 
+  editBranchAccountant(BranchAccountantData: any) {
+    const BranchAccountantId = BranchAccountantData.BranchAccountantId;
+    const index = this.accountantDetailsList.findIndex(BranchAccountant => BranchAccountant.BranchAccountantId === BranchAccountantId);
+
+    if (index !== -1) {
+      this.openEditForm(BranchAccountantData).then((editedBranchAccountantData: any) => {
+        this.accountantDetailsList[index] = editedBranchAccountantData;
+        console.log('Edited  Branch Accountant:', editedBranchAccountantData);
+      });
+    }
+  }
+
+  openEditForm(BranchAccountantData: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const editedBranchAccountantData = { ...BranchAccountantData };
+        editedBranchAccountantData.Status = 'Edited';
+        resolve(editedBranchAccountantData);
+      }, 1000);
+    });
+  }
 }

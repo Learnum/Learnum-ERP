@@ -22,6 +22,7 @@ export class AddBranchComponent implements OnInit {
   options: FormlyFormOptions = {};
   editData: any;
   NowDate: any = new Date();
+  branchDetails: any;
   
  
   constructor(
@@ -35,12 +36,12 @@ export class AddBranchComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-    //this.createForm();
-    this.editData = this.activateRoute.snapshot.queryParams;
-    if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
-     
-    }
+    this.getBranchDetails();
     
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.BranchManagerId) {
+      this. getBranchManagerDetails(this.editData.BranchManagerId);
+    }
   }
 
 setParameter() {
@@ -48,61 +49,79 @@ setParameter() {
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
+          {
+            key: 'BranchManagerId'
+
+          },
 
           {
             className: 'col-md-3',
-            type: 'select',
+            type: 'input',
             key: 'BranchManagerName',
             templateOptions: {
-              placeholder: 'select',
+              placeholder: 'Enter Branch Manager',
               type: 'text',
               label: "Branch Manager Name",
               required: true,
-              options: [
-                { value: 'mr ganesh Agre', label: 'mr ganesh agre' },
-                { value: 'raj', label: 'raj' }
-              ],
-          
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+              title: 'Only characters are allowed',
+            },
+            validation: {
+              messages: {
+                required: 'Name is required',
+                pattern: 'Please enter a valid name ',
+              },
             },
             },
-          {
-            className: 'col-md-3',
-            type: 'select',
-            key: 'BranchName',
-            props: { 
-              placeholder: 'select',
-              type: 'text',
-              label: "BranchName",
-              required: true,
-              options: [
-                { value: 'cpat', label: 'cpat' },
-                { value: 'taxblock', label: 'taxblock' }
-              ],
+            {
+              className: 'col-md-3',
+              type: 'select',
+              key: 'BranchId',
+              templateOptions: {
+                placeholder: 'Branch Name',
+                type: 'text',
+                label: "Branch Name",
+                required: true,
+                options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName
+                  , value: branch.BranchId
+                })) : [],
+              },
+              
+  
             },
-          },
-         {
-            className: 'col-md-3',
-            type: 'select',
-            key: 'status',
-            props: {
-              placeholder: 'Select',
-              required: true,
-              valueProp: 'value',
-              labelProp: 'label',
-              label: "status",
-              options: [
-                { value: 'active', label: 'Active' },
-                { value: 'inactive', label: 'InActive' }
-              ],
-            },
-          }, 
+            {
+              className: 'col-md-3',
+              type: 'select',
+              key: 'IsActive',
+              templateOptions: {
+                label: 'Branch Manager Status',
+                //placeholder: 'Select Branch manager Status',
+                required: true,
+                options: [
+                  { value: null, label: 'Select Branch Manager Status', disabled: true },  // Disabled placeholder option
+                  { value: true, label: 'Active' },
+                  { value: false, label: 'Inactive' }
+                ],
+              },
+              defaultValue: null,  // Set default value to 'Active'
+              validation: {
+                messages: {
+                  required: 'Please select a branch manager status',
+                },
+              },
+            } 
          ],
       },
     ]
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/tds-return/employee');
+    this.router.navigateByUrl('tds/hrd/branch-manager');
+  }
+
+  navigate()
+  {
+    this.router.navigateByUrl('tds/hrd/branch-manager');
   }
 
   get f()
@@ -124,17 +143,19 @@ setParameter() {
     this.branchManagerDetails.addedDate = new Date();
     this.branchManagerDetails.updatedBy = 1;
     this.branchManagerDetails.updatedDate = new Date();
-    this.branchManagerDetails.isActive = true;
+   // this.branchManagerDetails.branchManagerId = 0;
 
     this.addbranchManagerService.insertBranchManagerData(this.branchManagerDetails).subscribe(
       (result: any) => {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/hrd/branch-manager');
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/hrd/branch-manager');
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
@@ -144,10 +165,36 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    this.router.navigateByUrl('tds/hrd/daily-work');
+    
   }
 
 
+  getBranchDetails() {
+    this.addbranchManagerService.getBranchList().subscribe(
+      (data: any) => {
+        this.branchDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  
+  getBranchManagerDetails(BranchManagerId: number) {
+    this.addbranchManagerService.getBranchManagerDetails(BranchManagerId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.branchManagerDetails = result.Value.Item1;
 
+          this.setParameter();
+          console.error('No data found for BranchId: ' + BranchManagerId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving trainer details:', error);
 
+      }
+    );
+  }
 }

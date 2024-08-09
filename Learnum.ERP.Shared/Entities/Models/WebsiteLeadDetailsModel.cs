@@ -8,11 +8,12 @@ namespace Learnum.ERP.Shared.Entities.Models
 {
     public class WebsiteLeadDetailsModel :BaseModel
     {
-        public long Studentid { get; set; }
+        public long StudentId { get; set; }
         public string StudentName { get; set; }
-        public string CourseName { get; set; }
-        public int Phone { get; set; }
+        public long CourseId { get; set; }
+        public long Phone { get; set; }
         public string Email { get; set; }
-        public string Location { get; set; }
+        public string YourLocation { get; set; }
+        public bool IsActive { get; set; }
     }
 }

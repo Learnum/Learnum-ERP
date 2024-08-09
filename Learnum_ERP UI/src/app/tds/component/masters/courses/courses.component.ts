@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
@@ -12,7 +12,7 @@ import { AddCoursesService } from './add-courses/add-courses.service';
 })
 export class CoursesComponent implements OnInit {
 
-  tdsReturnList: any[] = [];
+  courseList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
@@ -44,27 +44,27 @@ export class CoursesComponent implements OnInit {
       minWidth: 150
 
     },
-    {
-      field: 'IsActive',
-      headerName: 'Course Status',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 150,
-      valueFormatter: params => {
-        return params.value ? 'Active' : 'Inactive';
-      }
-    },
     // {
-    //   field: 'Upload Brochure',
+    //   field: 'file',
     //   headerName: 'Upload Brochure',
-    //   filter: 'agSetColumnFilter',
+    //   filter: 'agTextColumnFilter',
     //   filterParams: {
     //     buttons: ['reset', 'apply'],
     //   },
-    //   minWidth: 200
+    //   minWidth: 150
 
+    // },
+    // {
+    //   field: 'IsActive',
+    //   headerName: 'Course Status',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 150,
+    //   valueFormatter: params => {
+    //     return params.value ? 'Active' : 'Inactive';
+    //   }
     // },
     {
       field: 'addedBy',
@@ -81,52 +81,21 @@ export class CoursesComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedBy',
+      headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
-  ];
- 
-
-  ngOnInit(): void {
-   this.getAllCoursesDetails();
-  }
-
-  constructor(private router: Router,
-    private route: ActivatedRoute,
-    private messageService: MessageService,
-    private addCoursesService: AddCoursesService,
-    private alertService: AlertService,
-    private formBuilder: FormBuilder) {
+    },
     {
-      this.form = this.formBuilder.group({
-       
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        
-      });
-    }
-  }
- 
-  onRowAction(data: any) {
-    let data1 = {
-      'source': 'edit',
-      'branchID': data.row.branchID
-    }
-    this.router.navigate(['/tds/masters/add-classrooms'], { queryParams: data1 });
-  }
-
-
-
+      field: 'updatedTime',
+      headerName: 'Updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    }, 
+    
+  ];
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
@@ -136,22 +105,78 @@ export class CoursesComponent implements OnInit {
       colorClass: 'text-secondary h4'
     },
   ];
+  ngOnInit(): void {
+    this.getAllCoursesDetails();
+  }
 
-  onAddcourses() {
-    this.router.navigate(['tds/masters/courses/add-courses']);
+  constructor(private router: Router,
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+    private addCoursesService: AddCoursesService,
+    private alertService: AlertService,
+    private formBuilder: FormBuilder) { }
+
+  onRowAction(data: any) {
+    let data1 = {
+      'source': 'edit',
+      'CourseId': data.row.CourseId
+    }
+    this.router.navigate(['tds/masters/courses/add-courses'], { queryParams: data1 });
+  }
+
+  ActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewCourse',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
+
+  onAddCourse(course?: any) {
+    let navigationExtras: NavigationExtras = {};
+    if (course) {
+      navigationExtras = {
+        state: {
+          courseData: course
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/masters/courses/add-courses')
   }
 
   selectCourse($event: any) {
     throw new Error('Method not implemented.');
-    }
+  }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
 
   getAllCoursesDetails() {
     this.addCoursesService.getCourseList().subscribe((result: any) => {
-      this.tdsReturnList = result.Value;
-      let tdsReturnList = result.Value;
+      this.courseList = result.Value;
+      let courseList = result.Value;
     })
   }
+  editCourse(CourseData: any) {
+    const courseId = CourseData.courseId;
+    const index = this.courseList.findIndex(course => course.courseId === courseId);
+    if (index !== -1) {
+      this.openEditForm(CourseData).then((editedCourseData: any) => {
+        this.courseList[index] = editedCourseData;
+        console.log('Edited course:', editedCourseData);
+      });
+    }
+  }
+  openEditForm(courseData: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const editedcourseData = { ...courseData };
+        editedcourseData.Status = 'Edited';
+        resolve(editedcourseData);
+      }, 1000);
+    });
+  }
+
 }

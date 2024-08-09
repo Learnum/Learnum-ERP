@@ -16,12 +16,13 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
 })
 export class AddBusinessLeadComponent implements OnInit {
   form = new FormGroup({});
-  model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   coOwners: any;
   NowDate: any = new Date();
   businessDetails:BusinessDetails =new BusinessDetails();
+  editData: any;
+  stateDetails:any;
 
   constructor(
     private addBusinessLeadService : AddBusinessLeadService,
@@ -34,6 +35,11 @@ export class AddBusinessLeadComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter(); 
+    this.getStateList()
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.BusinessId) {
+      this.getBusinessDetails(this.editData.BusinessId);
+    }
   }
 
   
@@ -43,124 +49,246 @@ export class AddBusinessLeadComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-6',
-            key: 'name',
+            key:'businessId'
+          },
+          {
+            className: 'col-md-3',
+            key: 'Name',
             type: 'input',
             props: {
               label: 'Name',
               placeholder: 'Name',
+              pattern: '^[A-Za-z ]+$', 
               required: true,
             },
             validation: {
               messages: {
                 required: 'First Name is required',
+                pattern: 'Please Enter Full Name'
               },
             },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }
           },
+          // {
+          //   className: 'col-md-3',
+          //   key: 'PhoneNumber',
+          //   type: 'input',
+          //   templateOptions: {
+          //     label: 'Phone Number',
+          //     placeholder: 'Enter Phone Number',
+          //     required: true,
+          //     type: 'tel', 
+          //     pattern: '^[0-9]{10}$', 
+          //     maxLength: 10, 
+          //     minLength: 10
+          //   },
+          //   validators: {
+          //     phoneNumber: {
+          //       expression: (c: AbstractControl) => /^[0-9]{10}$/.test(c.value),
+          //       message: (error: any, field: FormlyFieldConfig) => `"${field.formControl.value}" is not a valid 10-digit phone number`,
+          //     },
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'Phone Number is required',
+          //       pattern: 'Please enter a valid 10-digit phone number',
+          //       minLength: 'Phone Number must be exactly 10 digits',
+          //       maxLength: 'Phone Number must be exactly 10 digits'
+          //     }
+          //   }
+          // },
           {
-            className: 'col-md-6',
-            key: 'phoneNumber',
+            className: 'col-md-3',
+            key: 'PhoneNumber',
             type: 'input',
             templateOptions: {
               label: 'Phone Number',
               placeholder: 'Enter Phone Number',
               required: true,
-              pattern: '^\\+?[1-9]\\d{1,14}$',
+              maxLength: 10,
+              minLength: 10,
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^0-9]/g, '');
+                  if (sanitizedValue !== value) {
+                    field.formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              },
+            },
+            validators: {
+              phoneNumber: {
+                expression: (c: AbstractControl) => {
+                  const value = c.value;
+                  // Ensure the value is exactly 10 digits long
+                  return value && /^[0-9]{10}$/.test(value);
+                },
+                message: (error: any, field: FormlyFieldConfig) => {
+                  return `"${field.formControl.value}" is not a valid 10-digit phone number`;
+                },
+              },
             },
             validation: {
               messages: {
                 required: 'Phone Number is required',
-                pattern: 'Phone Number must be a valid E.164 number',
+                phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
               },
             },
-          },
+          }
+          ,
+          
+          
+          
           {
-            className: 'col-md-6',
-            key: 'address',
+            className: 'col-md-3',
+            key: 'Address',
             type: 'input',
             templateOptions: {
               label: 'Address',
               placeholder: 'Enter Address',
               required: true,
+              type:'text',
+             // pattern: '^[A-Za-z ]+$', 
             },
             validation: {
               messages: {
                 required: 'Town is required',
+                pattern: 'Please Enter Address'
               },
             },
+            // hooks: {
+            //   onInit: (field) => {
+            //     field.formControl.valueChanges.subscribe(value => {
+            //       const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+            //       if (value !== capitalizedValue) {
+            //         field.formControl.setValue(capitalizedValue, { emitEvent: false });
+            //       }
+            //     });
+            //   }
+            // }
           },
           {
-            className: 'col-md-6',
-            key: 'city',
+            className: 'col-md-3',
+            key: 'City',
             type: 'input',
             templateOptions: {
               label: 'City',
               placeholder: 'Enter City',
               required: true,
+              type:'text',
+              pattern: '^[A-Za-z ]+$', 
             },
             validation: {
               messages: {
                 required: 'City is required',
+                pattern: 'Please Enter City'
               },
             },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }
           },
           {
-            className: 'col-md-6',
-            key: 'district',
+            className: 'col-md-3',
+            key: 'District',
             type: 'input',
             templateOptions: {
               label: 'District',
               placeholder: 'Enter District',
               required: true,
+              pattern: '^[A-Za-z ]+$',
+              type:'text',
             },
             validation: {
               messages: {
                 required: 'District is required',
+                pattern: 'Please Enter District'
               },
             },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }
           },
           {
-            className: 'col-md-6',
-            key: 'state',
-            type: 'input',
+            className: 'col-md-3',
+            key: 'StateId',
+            type: 'select',
             templateOptions: {
               label: 'State',
-              placeholder: 'Enter State',
+              placeholder: 'Select State',
+              type:'text',
               required: true,
+              options: this.stateDetails ? this.stateDetails.map(state => ({ label: state.StateName, value: state.StateId })) : [],
             },
             validation: {
               messages: {
                 required: 'State is required',
+                pattern: 'Please Enter State'
               },
             },
           },
           {
-            className: 'col-md-6',
-            key: 'postalCode',
+            className: 'col-md-3',
+            key: 'PostalCode',
             type: 'input',
             templateOptions: {
               label: 'Postal Code',
               placeholder: 'Enter Postal Code',
               required: true,
+              type: 'tel', 
+              pattern: '^[0-9]{6}$', 
+              maxLength: 6, 
+              minLength: 6 
             },
             validation: {
               messages: {
                 required: 'Postal Code is required',
-              },
-            },
+                pattern: 'Please Enter a Valid 6-digit Postal Code',
+                minLength: 'Postal Code must be exactly 6 digits',
+                maxLength: 'Postal Code must be exactly 6 digits'
+              }
+            }
           },
           {
-            className: 'col-md-6',
-            key: 'country',
+            className: 'col-md-3',
+            key: 'Country',
             type: 'input',
             templateOptions: {
               label: 'Country',
               placeholder: 'Enter Country',
               required: true,
+              pattern: '^[A-Za-z]+$',
+              type:'text',
             },
             validation: {
               messages: {
                 required: 'Country is required',
+                pattern: 'Please Enter Country'
               },
             },
           },
@@ -171,19 +299,18 @@ export class AddBusinessLeadComponent implements OnInit {
   }
 
   onSubmit():void {
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   this.insertBusinessDetails();
-    // }
-    // else {
-    //   this.alertService.ShowErrorMessage('Please fill in all required fields.');
-    // }
-
-    this.insertBusinessDetails();
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this.insertBusinessDetails();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
   }
-
   onCancleClick() {
     this.router.navigateByUrl('tds/business-lead');
+  }
+  onResetClick() {
+    this.form.reset();
   }
 
   insertBusinessDetails() {
@@ -191,7 +318,7 @@ export class AddBusinessLeadComponent implements OnInit {
     this.businessDetails.addedDate = new Date();
     this.businessDetails.updatedBy = 1;
     this.businessDetails.updatedDate = new Date();
-    this.businessDetails.businessId = 0;
+    //this.businessDetails.businessId = 0;
 
     this.addBusinessLeadService.InsertBusinessDetails(this.businessDetails).subscribe(
       (result: any) => {
@@ -210,6 +337,31 @@ export class AddBusinessLeadComponent implements OnInit {
     );
     this.router.navigateByUrl('tds/business-lead');
   }
+  getBusinessDetails(BusinessId: number) {
+    this.addBusinessLeadService.getBusinessDetails(BusinessId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.businessDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for BusinessId: ' + BusinessId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving business details:', error);
 
+      }
+    );
+  }
+  getStateList() {
+    this.addBusinessLeadService.getStateList().subscribe(
+      (data: any) => {
+        this.stateDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
 
 }

@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Dapper;
 using System.Data;
 using Learnum.ERP.Repository.Core;
+using Learnum.ERP.Shared.Entities;
+using Learnum.ERP.Shared.Helpers;
 
 namespace Learnum.ERP.Repository.Master
 {
@@ -17,17 +19,23 @@ namespace Learnum.ERP.Repository.Master
     {
       //  Task<ResponseCode> InsertBatchesDetails(BatchesDetailsModel batchesDetailsModel);
         Task<List<BatchesDetailsResponseModel>> GetBatchesDetailsList();
-        Task<ResponseCode> InsertBatchesDetails(BatchesDetailsReqModel batchesDetailsReqModel);
+        Task<ResponseCode> InsertBatchesDetails(BatchDetailsPayload batchesDetailsReqModel);
+        Task<Tuple<BatchesDetailsModel?, ResponseCode>> GetBatchDetails(long? BatchId);
     }
     public class BatchesDetailsRepository : BaseRepository, IBatchesDetailsRepository
     {
 
-        public async Task<ResponseCode> InsertBatchesDetails(BatchesDetailsReqModel batchesDetailsReqModel)
+        public async Task<ResponseCode> InsertBatchesDetails(BatchDetailsPayload batchesDetailsReqModel)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
-                var dbparams = new DynamicParameters(batchesDetailsReqModel);
+                var dbparams = new DynamicParameters(batchesDetailsReqModel.BatchDetails);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+ 
+                DataTable InstallmentDetailsTable = new ListConverter().ToDataTable<InstallMentModel>(batchesDetailsReqModel.InstallmentDetails);
+                InstallmentDetailsTable.SetTypeName("InstallmentDetailsType");
+                dbparams.Add("@InstallmentDetails", InstallmentDetailsTable.AsTableValuedParameter("InstallmentDetailsType"));
+
                 dbConnection.Query<int>("PROC_InsertBatchesDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
@@ -44,5 +52,18 @@ namespace Learnum.ERP.Repository.Master
             }
         }
 
+
+        public async Task<Tuple<BatchesDetailsModel?, ResponseCode>> GetBatchDetails(long? BatchId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@BatchId", BatchId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<BatchesDetailsModel?>("PROC_GetBatchesDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<BatchesDetailsModel?, ResponseCode>(result, responseCode));
+            }
+        }
     }
 }

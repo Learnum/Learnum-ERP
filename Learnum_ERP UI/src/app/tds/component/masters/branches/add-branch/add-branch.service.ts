@@ -11,22 +11,36 @@ import { ConfigurationSettings } from 'src/app/core/models/configuration';
   providedIn: 'root'
 })
 export class AddBranchService extends BaseService {
- 
-  private httpClientWithoutInterceptor: HttpClient;
 
   private urlInsertBranchDetails: string = "BranchDetails/InsertBranchDetails";
   private urlgetBranchList: string = "BranchDetails/getAllBranchList";
+  private urlGetBranch: string = "BranchDetails/getBranchDetails";
+  private getAllStatesURL : string = "ApplicationMaster/GetAllStates";
+  private getAllCityURL : string = "ApplicationMaster/LoadStateWiseCities";
+ 
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
-    this.httpClientWithoutInterceptor = new HttpClient(httpBackend);
   }
 
   insertBranchData(branchDetails: BranchDetailsModel) {
     return this.apiService.postBlob(this.urlInsertBranchDetails,branchDetails);
   }
-
   getBranchList() {
     return this.apiService.getData(this.urlgetBranchList);
   }
+  getBranchDetails(branchId: number) {
+    return this.apiService.getData(this.urlGetBranch + '/' + branchId);
+  }
+
+  getAllStates(){
+    return this.apiService.getData(this.getAllStatesURL);
+   }
+
+   getAllCity(){
+    return this.apiService.getData(this.getAllCityURL);
+   }
+
+
+
 }

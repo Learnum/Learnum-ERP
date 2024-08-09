@@ -5,6 +5,10 @@ import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { NgForm } from '@angular/forms';
+import { tap } from 'rxjs/operators';
+import { BatchesDetailsModel, BatchesDetailsReqModel, InstallMentDetailsModel } from './batchDetails.model';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { AddbatchService } from './addbatch.service';
 @Component({
   selector: 'app-add-batch',
   templateUrl: './add-batch.component.html',
@@ -13,301 +17,365 @@ import { NgForm } from '@angular/forms';
 export class AddBatchComponent implements OnInit {
 
   form = new FormGroup({});
-  model: any = {};
-  options: any = {};
-  fields: FormlyFieldConfig[] = [];
+  fields: FormlyFieldConfig[];
+  options: FormlyFormOptions = {};
+  editData: any;
+  tdsReturnList: any;
+  branchDetails: any;
+  CoOwnerDetailsModel: any;
+  coOwnerFields: any;
+  batchDetails: BatchesDetailsModel = new BatchesDetailsModel();
+  batchesDetailsReq: BatchesDetailsReqModel = new BatchesDetailsReqModel();
+  classroomDetails:any;
+  courseDetails: any;
 
-  installmentform = new FormGroup({});
-  installmentmodel: any = {
-    tasks: [null],
+  
+
+  installmentForm = new FormGroup({});
+  // installmentModel: any = {
+  //   Installments:  [],
+  // };
+
+  installmentModel: { Installments: InstallMentDetailsModel[] } = {
+    Installments: [],
   };
-  installmentoptions: FormlyFormOptions = {};
-  installmentfields: FormlyFieldConfig[] = [
-    {
-      key: 'tasks',
-      type: 'repeat',
-      props: {
-        addText: 'Add New',
-        label: 'Installments',
-      },
-      fieldArray: {
-        fieldGroupClassName: 'row',
-        fieldGroup: [
-          {
-            key: 'number',
-            className: 'col-4',
-            type: 'input',
-            props: {
-              placeholder: 'Installment Number',
-              type: 'number',
-              required: true,
-            },
-          },
-          {
-            key: 'installment',
-            className: 'col-4',
-            type: 'input',
-            props: {
-              placeholder: 'Due Date',
-              type: 'date',
-              required: true,
-            },
-          },
-          {
-            key: 'amount',
-            className: 'col-4',
-            type: 'input',
-            props: {
-              placeholder: 'Installment Amount',
-              type: 'number',
-              required: true,
-            },
-          }
-        ],
-      },
-    },
-  ];
+  installmentOptions: FormlyFormOptions = {};
+  installmentFields: FormlyFieldConfig[];
+  model: any;
 
-  submit() {
-    alert(JSON.stringify(this.model));
-  }
-
-  constructor(private router: Router, private formBuilder: FormBuilder) { }
+  constructor(
+    private router: Router,
+    
+    private addbatchService:AddbatchService,
+    private alertService: AlertService,
+    private messageService: MessageService,
+    private activateRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
-    this.setFields();
-    this.createForm();
+    this.setParameter();
+    this.getBranchDetails();
+    this.getClassroomDetails();
+    this.getCourseDetails();
   }
 
-  createForm(): void {
-    this.form = this.formBuilder.group({
-      batchName: ['', Validators.required],
-      branchName: ['', Validators.required],
-      classroom: ['', Validators.required],
-      courseName: ['', Validators.required],
-      courseFeesInstallment: ['', Validators.required],
-      oneTimeCourseFees: ['', Validators.required],
-      startOn: ['', Validators.required],
-      endOn: ['', Validators.required],
-      batchStatus: ['', Validators.required],
-      startTime: ['', Validators.required],
-      endTime: ['', Validators.required]
-    });
-  }
 
-  setFields() {
+  setParameter() {
     this.fields = [
       {
-        fieldGroupClassName: 'row ',
+        fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
             className: 'col-md-3',
-            key: 'batchName',
             type: 'input',
-            props: {
-              label: 'Batch Name',
-              placeholder: 'Enter Batch Name',
+            key: 'BatchName',
+            templateOptions: {
+              placeholder: 'Enter Batch',
+              type: 'text',
+              label: "Batch Name",
               required: true,
+             // pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
-            validation: {
-              messages: {
-                required: 'Batch Name is required',
+            validators: {
+              ip: {
+                expression: (c: AbstractControl) => !c.value || /^[A-Za-z ]+$/.test(c.value),
+                message: (error: any, field: FormlyFieldConfig) => `Please Enter Batch Name `,
               },
             },
           },
           {
             className: 'col-md-3',
-            key: 'branchName',
             type: 'select',
-            props: {
-              label: 'Branch Name',
-              placeholder: 'Select Branch Name',
+            key: 'BranchId',
+            templateOptions: {
+              placeholder: 'Branch Name',
+              type: 'text',
+              label: "Branch Name",
               required: true,
-              options: [
-                { value: 'branch1', label: 'Branch 1' },
-                { value: 'branch2', label: 'Branch 2' }
-              ],
+              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
             },
-            validation: {
-              messages: {
-                required: 'Branch Name is required',
-              },
-            },
+
           },
           {
             className: 'col-md-3',
-            key: 'classroom',
             type: 'select',
+            key: 'classroomId',
             props: {
-              label: 'Classroom',
-              placeholder: 'Select Classroom',
+              placeholder: 'Classroom Name',
+              type: 'text',
+              label: "Classroom Name",
               required: true,
-              options: [
-                { value: 'classroom1', label: 'Classroom 1' },
-                { value: 'classroom2', label: 'Classroom 2' }
-              ],
+              options: this.classroomDetails ? this.classroomDetails.map(classroom => ({ label: classroom.ClassroomName, value: classroom.ClassRoomId
+              })) : [],
+            
             },
             validation: {
               messages: {
-                required: 'Classroom is required',
+                required: 'Classroom Name is required',
+
               },
             },
           },
           {
             className: 'col-md-3',
-            key: 'courseName',
             type: 'select',
-            props: {
-              label: 'Course Name',
-              placeholder: 'Select Course Name',
+            key: 'CourseId',
+            templateOptions: {
+              placeholder: 'Select',
+              type: 'text',
+              label: "Course Name",
               required: true,
-              options: [
-                { value: 'course1', label: 'Course 1' },
-                { value: 'course2', label: 'Course 2' }
-              ],
-            },
-            validation: {
-              messages: {
-                required: 'Course Name is required',
-              },
+              options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
             },
           },
           {
             className: 'col-md-3',
-            key: 'courseFeesInstallment',
             type: 'input',
-            props: {
-              label: 'Course Fees in Installment',
-              placeholder: 'Enter Course Fees in Installment',
-              type: 'number',
+            key: 'CourseFeesInstallment',
+            templateOptions: {
+              placeholder: '₹',
               required: true,
+              label: "Course Fees in Installment",
+              pattern: '^[0-9]+(\\.[0-9]{1,2})?$',
+              inputMode: 'numeric', 
+              min: 0, 
+              step: 0.01,
             },
             validation: {
               messages: {
-                required: 'Course Fees in Installment is required',
+                required: 'Please enter the course fees',
+                pattern: 'Please enter a valid amount',
               },
             },
           },
           {
             className: 'col-md-3',
-            key: 'oneTimeCourseFees',
             type: 'input',
-            props: {
+            key: 'OneTimeCourseFees',
+            templateOptions: {
+              placeholder: '₹',
+              required: true,
+              type: 'text',
               label: 'One Time Course Fees',
-              placeholder: 'Enter One Time Course Fees',
-              type: 'number',
-              required: true,
+              pattern: '^[0-9]+(\\.[0-9]{1,2})?$', 
+              inputMode: 'numeric', 
+              min: 0, 
+              step: 0.01,
             },
             validation: {
               messages: {
-                required: 'One Time Course Fees is required',
+                required: 'Please enter the  One Time course fees',
+                pattern: 'Please enter a valid amount',
               },
             },
           },
           {
             className: 'col-md-3',
-            key: 'startOn',
             type: 'input',
-            props: {
-              label: 'Start On',
-              placeholder: 'Enter Start Date',
+            key: 'StartOn',
+            templateOptions: {
+              placeholder: 'YYYY-MM-DD',
               type: 'date',
               required: true,
-            },
-            validation: {
-              messages: {
-                required: 'Start Date is required',
-              },
+              label: "Start On",
             },
           },
           {
             className: 'col-md-3',
-            key: 'endOn',
             type: 'input',
-            props: {
-              label: 'End On',
-              placeholder: 'Enter End Date',
+            key: 'EndOn',
+            templateOptions: {
+              placeholder: 'YYYY-MM-DD',
               type: 'date',
               required: true,
-            },
-            validation: {
-              messages: {
-                required: 'End Date is required',
-              },
+              label: "End On",
             },
           },
           {
             className: 'col-md-3',
-            key: 'batchStatus',
             type: 'select',
-            props: {
-              label: 'Batch Status',
-              placeholder: 'Select Batch Status',
+            key: 'BatchStatus',
+            templateOptions: {
+              placeholder: 'Enter Batch Status',
               required: true,
+              label: "Batch Status",
               options: [
-                { value: 'active', label: 'Active' },
-                { value: 'inactive', label: 'Inactive' }
+                { value: true, label: 'active' },
+                { value: false, label: 'inactive' },
               ],
-            },
-            validation: {
-              messages: {
-                required: 'Batch Status is required',
-              },
-            },
-          },
-          {
-            className: 'col-md-3',
-            key: 'startTime',
-            type: 'input',
-            props: {
-              label: 'Start Time',
-              placeholder: 'Enter Start Time',
-              type: 'time',
-              required: true,
-            },
-            validation: {
-              messages: {
-                required: 'Start Time is required',
-              },
-            },
-          },
-          {
-            className: 'col-md-3',
-            key: 'endTime',
-            type: 'input',
-            props: {
-              label: 'End Time',
-              placeholder: 'Enter End Time',
-              type: 'time',
-              required: true,
-            },
-            validation: {
-              messages: {
-                required: 'End Time is required',
-              },
             },
           },
         ],
       },
     ];
+  
+    this.installmentFields = [
+      {
+        key: 'Installments',
+        type: 'repeat',
+        props: {
+          addText: '+ Add New',
+          label: 'Installments',
+        },
+        fieldArray: {
+          fieldGroupClassName: 'row',
+          fieldGroup: [
+            {
+              key: 'installmentNumber',
+              className: 'col-4',
+              type: 'input',
+              templateOptions: {
+                placeholder: 'Installment Number',
+                type: 'number',
+                required: true,
+              },
+            },
+            {
+              key: 'dueDate',
+              className: 'col-4',
+              type: 'input',
+              templateOptions: {
+                placeholder: 'Due Date',
+                type: 'date',
+                required: true,
+              },
+            },
+            {
+              key: 'installmentAmount',
+              className: 'col-4',
+              type: 'input',
+              templateOptions: {
+                placeholder: '₹',
+                type: 'number',
+                required: true,
+
+              },
+              hooks: {
+                onInit: (field) => {
+                  const form = field.parent.formControl;
+                  field.formControl.valueChanges.pipe(
+                    tap(() => {
+                      this.calculateInstallment();
+                    }),
+                  ).subscribe();
+                },
+              },
+            }
+          ],
+        },
+      },
+    ];
   }
 
+ 
 
-
-
-
+  onCancleClick() {
+    this.router.navigateByUrl('tds/counselors-planning/batches-planning');
+  }
+  
+  navigate()
+  {
+    this.router.navigateByUrl('tds/counselors-planning/batches-planning');
+  }
+  get f() {
+    return this.form.controls;
+  }
 
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      // Handle form submission
+      this.insertBatch();
     } else {
-      // Handle form errors
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
+  }
+  insertBatch() {
+
+    console.log(this.batchDetails);
+    console.log(this.installmentModel)
+    const batchDetails = this.form.value as BatchesDetailsModel;
+    const installmentDetails = this.installmentForm.value.Installments as InstallMentDetailsModel[];
+    this.addbatchService.insertBatchData(batchDetails, installmentDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+        this.router.navigateByUrl('tds/masters/batches');
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+
+  calculateInstallment() {
+    if (this.installmentModel.Installments.length > 0) {
+      let totalInstallments = 0;
+      this.installmentModel.Installments.forEach(element => {
+        totalInstallments += element.installmentAmount || 0;
+      });
+      this.batchDetails.courseFeesInstallment = totalInstallments;
+      this.form.get('CourseFeesInstallment').setValue(totalInstallments);
     }
   }
 
-  onCancelClick() {
-    this.router.navigateByUrl('tds/counselors-planning/batches-planning');
+  
+  getBranchDetails() {
+    this.addbatchService.getBranchList().subscribe(
+      (data: any) => {
+        this.branchDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
   }
 
-}
+  getClassroomDetails() {
+    this.addbatchService.getClassroomList().subscribe(
+      (data: any) => {
+        this.classroomDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  getCourseDetails() {
+    this.addbatchService.getCourseList().subscribe(
+      (data: any) => {
+        this.courseDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+ 
+  getBatchDetails(BatchId: number) {
+    this.addbatchService.getBatchDetails(BatchId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.batchDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for BatchId: ' + BatchId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving batch details:', error);
+
+      }
+    );
+  }
+  }

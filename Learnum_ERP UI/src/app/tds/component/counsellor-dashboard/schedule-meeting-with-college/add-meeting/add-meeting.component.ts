@@ -4,6 +4,9 @@ import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
+import { CollegemeetingService } from './collegemeeting.service';
+import { MeetingDetails } from './collegemeeting.model';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
 @Component({
   selector: 'app-add-meeting',
@@ -12,79 +15,74 @@ import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/for
 })
 export class AddMeetingComponent implements OnInit {
 
+  meetingDetails:MeetingDetails=new MeetingDetails();
   form = new FormGroup({});
-  model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
+  collegeDetails:any;
+  editData: any;
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder) { }
+    private alertService: AlertService,
+    private messageService: MessageService,
+    private activateRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private collegemeetingService:CollegemeetingService
+  ) { }
 
   ngOnInit(): void {
-    this.setFields();
-    this.createForm();
+    this.setParameter();
+    this.getCollegeDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.MeetingId) {
+      this.getMettingDetails(this.editData.MeetingId);
+    }
   }
 
-  createForm(): void {
-    this.form = this.formBuilder.group({
-      collegeName: ['', Validators.required],
-      meetingWith: ['', Validators.required],
-      meetingDate: ['', Validators.required],
-      meetingTime: ['', Validators.required],
-      meetingLocation: ['', Validators.required],
-      meetingAgenda: ['', Validators.required],
-    });
-  }
 
-  setFields() {
+  setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
-        fieldGroup: [
+        fieldGroup: [ 
           {
-            className: 'col-md-6',
-            key: 'collegeName',
+            key:'meetingId',
+          },
+          {
+            className: 'col-md-3',
             type: 'select',
-            props: {
-              label: 'College Name',
-              placeholder: 'Select College Name',
+            key: 'CollegeId',
+            templateOptions: {
+              placeholder: 'College Name',
+              type: 'text',
+              label: "College Name",
               required: true,
-              options: [
-                { value: 'college1', label: 'College 1' },
-                { value: 'college2', label: 'College 2' },
-                { value: 'college3', label: 'College 3' },
-              ],
+              options: this.collegeDetails ? this.collegeDetails.map(college => ({ label: college.CollegeName, value: college.CollegeId })) : [],
+            },
+
+          },
+          {
+            className: 'col-md-3',
+            type: 'input',
+            key: 'Meetingwith',
+            props: {
+              placeholder: 'Meeting with',
+              type: 'text',
+              label: "Meeting with",
+              required: true,
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
-                required: 'College Name is required',
+                required: 'Meeting Name is required',
+                pattern: 'Please Enter Meeting with',
               },
             },
           },
           {
-            className: 'col-md-6',
-            key: 'meetingWith',
-            type: 'select',
-            props: {
-              label: 'Meeting with',
-              placeholder: 'Select Person',
-              required: true,
-              options: [
-                { value: 'person1', label: 'Person 1' },
-                { value: 'person2', label: 'Person 2' },
-                { value: 'person3', label: 'Person 3' },
-              ],
-            },
-            validation: {
-              messages: {
-                required: 'Meeting with is required',
-              },
-            },
-          },
-          {
-            className: 'col-md-6',
-            key: 'meetingDate',
+            className: 'col-md-3',
+            key: 'MeetingDate',
             type: 'input',
             props: {
               label: 'Meeting Date',
@@ -99,8 +97,8 @@ export class AddMeetingComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'meetingTime',
+            className: 'col-md-3',
+            key: 'MeetingTime',
             type: 'input',
             props: {
               label: 'Meeting Time',
@@ -115,31 +113,33 @@ export class AddMeetingComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'meetingLocation',
+            className: 'col-md-3',
+            key: 'MeetingLocation',
             type: 'input',
             props: {
               label: 'Meeting Location',
               placeholder: 'Enter Meeting Location',
               required: true,
+              type:'text',
+              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Meeting Location is required',
+                pattern: 'Please Enter Meeting location'
               },
             },
           },
           {
             className: 'col-md-6',
-            key: 'meetingAgenda',
-            type: 'input',
-            props: {
-              label: 'Meeting Agenda',
+            type: 'textarea',
+            key: 'MeetingAgenda',
+            templateOptions: {
               placeholder: 'Enter Meeting Agenda',
+              label: 'Meeting Agenda',
               required: true,
-              // attributes: {
-              //   class: 'square-input'
-              // }
+              rows: 5,
+             
             },
             validation: {
               messages: {
@@ -151,18 +151,71 @@ export class AddMeetingComponent implements OnInit {
       },
     ];
   }
-
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      // Handle form submission
+       this.InsertMeetingDetails();
     } else {
-      // Handle form errors
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
-
-  onCancelClick() {
+  onCancleClick() {
     this.router.navigateByUrl('tds/counsellor-dashboard/schedule-meeting-with-college');
+  }
+  onResetClick() {
+    this.form.reset();
+  }
+  
+  InsertMeetingDetails() {
+    this.meetingDetails.addedBy = 1;
+    this.meetingDetails.addedDate = new Date();
+    this.meetingDetails.updatedBy = 1;
+    this.meetingDetails.updatedDate = new Date();
+  //  this.meetingDetails.meetingId = 0;
+
+    this.collegemeetingService.insertMeetingDetails(this.meetingDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+    this.router.navigateByUrl('tds/counsellor-dashboard/schedule-meeting-with-college');
+  }
+
+  getCollegeDetails() {
+    this.collegemeetingService.getCollegeList().subscribe(
+      (data: any) => {
+        this.collegeDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+	getMettingDetails(MeetingId: number) {
+    this.collegemeetingService.getMettingDetails(MeetingId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.meetingDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for MeetingId: ' + MeetingId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving metting details:', error);
+      }
+    );
   }
 
 }

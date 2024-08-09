@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { StudentcallsService } from './call-with-student/studentcalls.service';
 @Component({
   selector: 'app-call-with-student-lead',
   templateUrl: './call-with-student-lead.component.html',
@@ -11,39 +12,46 @@ import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-g
 })
 export class CallWithStudentLeadComponent implements OnInit {
 
-  callList: any[] = [];
+  studentCallList: any[] = [];
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'studentName',
+      field: 'CallId',
+      headerName: 'SR.NO',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'StudentName',
       headerName: 'Student Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'phoneCallTime',
-      headerName: 'Phone Call Time',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'phone',
+      field: 'Phone',
       headerName: 'Phone',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'callConversation',
+      field: 'PhoneCallTime',
+      headerName: 'Phone Call Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    },
+    {
+      field: 'CallConversation',
       headerName: 'Call Conversation',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'leadStatus',
+      field: 'LeadStatus',
       headerName: 'Lead Status',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -54,7 +62,7 @@ export class CallWithStudentLeadComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
     {
       field: 'addedTime',
@@ -64,36 +72,30 @@ export class CallWithStudentLeadComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedBy',
+      headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
+    {
+      field: 'updatedTime',
+      headerName: 'Updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    }, 
+    
   ];
 
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
       actionPage: 'ViewCall',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
-    {
-      action: 'edit',
-      actionPage: 'EditCall',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
   ];
 
   constructor(
@@ -101,41 +103,80 @@ export class CallWithStudentLeadComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
+    private studentcallsService:StudentcallsService
   ) { }
 
   ngOnInit(): void {
-    this.getCallList();
-  }
-
-  getCallList() {
-    // this.callService.getCallList().subscribe(
-    //   (result: any) => {
-    //     this.callList = result.Value;
-    //   },
-    //   (error: any) => {
-    //     console.error("Error occurred while fetching calls:", error);
-    //     this.alertService.ShowErrorMessage("An error occurred while fetching calls. Please try again later.");
-    //   }
-    // );
-  }
-
-  CallWithStudent() {
-    this.router.navigate(['tds/counsellor-dashboard/call-with-student-lead/call-with-student']);
+    this.getStudentCallDetails();
   }
 
   onRowAction(data: any) {
     let data1 = {
-      'source': data.action,
+      'source': 'edit',
       'CallId': data.row.CallId
-    };
-    this.router.navigate(['/tds/counsellor-dashboard/call-with-student-lead/call-with-student'], { queryParams: data1 });
+    }
+    this.router.navigate(['tds/counsellor-dashboard/call-with-student-lead/call-with-student'], { queryParams: data1 });
+  }
+  selectStudentCall($event: any)
+   {
+    throw new Error('Method not implemented.');
   }
 
+  ActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewCall',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
+  onAddCall(call?: any) {
+
+    let navigationExtras: NavigationExtras = {};
+    if (call) {
+      navigationExtras = {
+        state: {
+          callData: call
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/counsellor-dashboard/call-with-student-lead/call-with-student')
+  }
   onActionButton(action: string) {
-    alert(action + ' action button clicked.');
+    alert(action + ' ' + 'action button clicked.');
   }
+  editStudentCall(CallData: any) {
+    const callId = CallData.callId;
+    const index = this.studentCallList.findIndex(call => call.callId === callId);
 
-  selectCall(calls: any) {
-    // Handle row selection logic
+    if (index !== -1) {
+
+
+      this.openEditForm(CallData).then((editedCallData: any) => {
+
+        this.studentCallList[index] = editedCallData;
+        console.log('Edited Call:', editedCallData);
+
+      });
+    }
+  }
+  openEditForm(callData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedCallData = { ...callData };
+
+        editedCallData.Status = 'Edited';
+        resolve(editedCallData);
+      }, 1000);
+    });
+  }
+  getStudentCallDetails() {
+    this.studentcallsService.getStudentCallDetails().subscribe((result: any) => {
+      this.studentCallList = result.Value;
+      let studentCallList = result.Value;
+    })
   }
 }

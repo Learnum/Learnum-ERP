@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, AbstractControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
@@ -15,14 +15,11 @@ import { SubjectModel } from './add-subject.model';
 })
 export class AddSubjectsComponent implements OnInit {
 
-  subjectModel:SubjectModel=new SubjectModel();
-  
+  subjectModel: SubjectModel = new SubjectModel();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
-  form: any;
-  branchDetails: any;
+  form = new FormGroup({});
   courseDetails: any;
 
   constructor(
@@ -32,80 +29,88 @@ export class AddSubjectsComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private fb: FormBuilder,
     private addSubjectsService: AddSubjectsService
-
   ) { }
 
   ngOnInit(): void {
     this.setParameter();
-   this.getCourseDetails();
-  }
-
-  reset() {
-    throw new Error('Method not implemented.');
+    this.getCourseDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.SubjectId) {
+      this.getSubjectDetails(this.editData.SubjectId);
+    }
   }
 
   setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
-        // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
-
+          {
+            key: 'SubjectId'
+          },
           {
             className: 'col-md-4',
             type: 'select',
             key: 'CourseId',
-            templateOptions: {
-              placeholder: 'Select',
-              type: 'text',
+            props: {
+              placeholder: 'Select Course',
               label: "Course Name",
               required: true,
               options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
             },
-          },
-          {
-            className: 'col-md-4',
-            type: 'input',
-            key: 'subjectName',
-            props: {
-              placeholder: 'Subject Name',
-              type: 'text',
-              label: "Subject Name",
-              required: true,
-
-            },
             validation: {
               messages: {
-                required: 'Subject Name is required',
-
+                required: 'Course Name is required',
               },
             },
           },
           {
             className: 'col-md-4',
-            type: 'select',
-            key: 'isActive',
+            type: 'input',
+            key: 'SubjectName',
             props: {
-              placeholder: 'Select Subject',
-              required: true,
+              placeholder: 'Subject Name',
               type: 'text',
-              label: 'Subject Status',
-              options: [
-                { value: true, label: 'Active' },
-                { value: false, label: 'InActive' }
-              ],
+              label: "Subject Name",
+              pattern: '^[A-Za-z0-9\\s\\W]+$',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'Subject Name is required',
+              },
             },
           },
           {
-            className: 'col-md-',
-            type: 'textarea',
-            key: 'subjectDescription',
+            className: 'col-md-3',
+            type: 'select',
+            key: 'IsActive',
             templateOptions: {
+              label: 'Subject Status',
+              //placeholder: 'Select Suject Status',
+              required: true,
+              options: [
+                { value: null, label: 'Select Subject Status', disabled: true },  // Disabled placeholder option
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
+              ],
+            },
+            defaultValue: null,  // Set default value to 'Active'
+            validation: {
+              messages: {
+                required: 'Please select a subject status',
+              },
+            },
+          },
+          {
+            className: 'col-md-12',
+            type: 'textarea',
+            key: 'SubjectDescription',
+            props: {
               placeholder: 'Enter Subject Description',
               label: 'Subject Description',
               required: true,
               rows: 10,
-             
             },
             validation: {
               messages: {
@@ -113,7 +118,6 @@ export class AddSubjectsComponent implements OnInit {
               },
             },
           },
-          
         ],
       },
     ];
@@ -123,27 +127,29 @@ export class AddSubjectsComponent implements OnInit {
     this.router.navigateByUrl('tds/masters/subjects');
   }
 
-  // get f() {
-  //   return this.form.controls;
-  // }
+  onResetClick() {
+    this.form.reset();
+  }
 
-  onSubmit(): void {
-    // this.form.markAllAsTouched();
-    // if (this.form.valid) {
-    //   this.insertSubject();
-    // }
-    // else {
-    //   this.alertService.ShowErrorMessage('Please fill in all required fields.');
-    // }
+  navigate()
+  {
+    this.router.navigateByUrl('tds/masters/subjects');
+  }
 
-    this.insertSubject();
+  onSubmit() {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this.insertSubject();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
   }
 
   getCourseDetails() {
     this.addSubjectsService.getClassroomList().subscribe(
       (data: any) => {
         this.courseDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -156,7 +162,6 @@ export class AddSubjectsComponent implements OnInit {
     this.subjectModel.addedDate = new Date();
     this.subjectModel.updatedBy = 1;
     this.subjectModel.updatedDate = new Date();
-    this.subjectModel.subjectId = 0;
 
     this.addSubjectsService.insertSubjectDetails(this.subjectModel).subscribe(
       (result: any) => {
@@ -175,10 +180,20 @@ export class AddSubjectsComponent implements OnInit {
     );
     this.router.navigateByUrl('tds/masters/subjects');
   }
+
+  getSubjectDetails(SubjectId: number) {
+    this.addSubjectsService.getSubjectDetails(SubjectId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.subjectModel = result.Value.Item1;
+          this.setParameter();
+        } else {
+          console.error('No data found for SubjectId: ' + SubjectId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving subject details:', error);
+      }
+    );
+  }
 }
-  
-
-
-
-
-

@@ -1,186 +1,175 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { MessageService } from 'src/app/core/services/message.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
+import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
 import { AddtrainerService } from './add-trainer/addtrainer.service';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
+
 @Component({
   selector: 'app-trainer',
-  templateUrl:'./trainer.component.html',
+  templateUrl: './trainer.component.html',
   styleUrls: ['./trainer.component.scss']
 })
 export class TrainerComponent implements OnInit {
-
-  tdsReturnList: any[] = [];
+  trainerList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
+    // {
+    //   field: 'TrainerId',
+    //   headerName: 'SR.NO',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 100
+    // },
     {
-      field: 'EmployeeDetailId',
-      headerName: 'SR NO',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 100
-    },
-    {
-      field: 'BranchID',
-      headerName: 'BranchID',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 150
-
-    },
-    {
-      field: 'Branch Name',
-      headerName: 'Branch Name',
-      filter: 'agSetColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 150
-
-    },
-    {
-      field: 'Trainer Name',
+      field: 'TrainerName',
       headerName: 'Trainer name',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
       minWidth: 200
-
     },
     {
-      field: 'state',
-      headerName: 'state',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 100
-
-    },
-    {
-      field: 'city ',
-      headerName: 'city ',
-      filter: 'agTextColumnFilter',
+      field: 'BranchName',
+      headerName: 'Branch Name',
+      filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
       minWidth: 150
-
     },
+    
     {
-      field: 'postal code ',
-      headerName: 'postal code ',
+      field: 'CourseName',
+      headerName: ' Course Name',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
-
+      minWidth: 200
+    },
+    {
+      field: 'IsActive',
+      headerName: 'Trainer Status',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
     },
     {
       field: 'addedBy',
-      headerName: 'Added By',
+      headerName: 'AddedBy',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
     {
       field: 'addedTime',
-      headerName: 'Added Time',
+      headerName: 'AddedTime',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedBy',
+      headerName: 'UpdatedBy',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
+    {
+      field: 'updatedTime',
+      headerName: 'Updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    }, 
+    
   ];
-  getEmployeeList: any;
-
-
-
-  ngOnInit(): void {
-    this.getAllTrainerDetails();
-  }
-
-  constructor(private router: Router,
-    private route: ActivatedRoute,
-    private messageService: MessageService,
-    private alertService: AlertService,
-    private addtrainerService: AddtrainerService,
-    private formBuilder: FormBuilder) {
-  
-  }
-
-  selecttrainer($event: any) {
-    throw new Error('Method not implemented.');
-    }
-  
-  
-
-  onRowAction(data: any) {
-    let data1 = {
-      'source': 'edit',
-      'branchID': data.row.branchID
-    }
-    this.router.navigate(['/tds/hrd/add-trainer'], { queryParams: data1 });
-  }
-
-
 
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewBranch',
+      actionPage: 'ViewTrainer',
       actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
   ];
-  onAddTrainer() {
 
-    // let navigationExtras: NavigationExtras = {};
-    // if (employee) {
-    //   navigationExtras = {
-    //     state: {
-    //       employeeData: employee
-    //     }
-    //   };
-    // }
-    this.router.navigateByUrl('tds/hrd/trainer/add-trainer')
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+    private alertService: AlertService,
+    private addtrainerService: AddtrainerService,
+    private formBuilder: FormBuilder
+  ) {
+    this.form = this.formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+    });
   }
-  
+
+  ngOnInit(): void {
+    this.getAllTrainerDetails();
+  }
+
+  selectTrainer(trainer: any) {
+    // Implement this method based on your requirements
+  }
+
+  onRowAction(data: any) {
+    let data1 = {
+      'source': 'edit',
+      'TrainerId': data.row.TrainerId
+    };
+    this.router.navigate(['tds/hrd/trainer/add-trainer'], { queryParams: data1 });
+  }
+
+  onAddTrainer() {
+    this.router.navigate(['tds/hrd/trainer/add-trainer']);
+  }
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
 
-
   getAllTrainerDetails() {
     this.addtrainerService.getTrainerList().subscribe((result: any) => {
-      this.tdsReturnList = result.Value;
-      let tdsReturnList = result.Value;
-    })
-  }
+      this.trainerList = result.Value;
+    });
   }
 
+  editTrainer(trainerData: any) {
+    const trainerId = trainerData.trainerId;
+    const index = this.trainerList.findIndex(trainer => trainer.trainerId === trainerId);
 
+    if (index !== -1) {
+      this.openEditForm(trainerData).then((editedTrainerData: any) => {
+        this.trainerList[index] = editedTrainerData;
+        console.log('Edited Trainer:', editedTrainerData);
+      });
+    }
+  }
+
+  openEditForm(trainerData: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const editedTrainerData = { ...trainerData };
+        editedTrainerData.Status = 'Edited';
+        resolve(editedTrainerData);
+      }, 1000);
+    });
+  }
+}

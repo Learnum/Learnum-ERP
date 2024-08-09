@@ -13,18 +13,20 @@ export class AddIpaddressService extends BaseService {
 
   private urlIPDetails: string = "LocationDetails/InsertLocationDetails";
   private urlGetipdetails: string = "LocationDetails/getAllLocationList";
+  private urlGetLocation: string = "LocationDetails/getLocationDetails";
 
-  constructor(private apiService: APIService,private http: HttpClient) {
+
+  constructor(private apiService: APIService) {
     super();
    }
-
   insertIPAddress(locationDetails: IPAddressDetailsModel) {
     return this.apiService.postBlob(this.urlIPDetails,locationDetails);
   }
-
   getLocationList() {
     return this.apiService.getData(this.urlGetipdetails);
   }
-
-
+  getLocationDetails(locationId: number) {
+    return this.apiService.getData(this.urlGetLocation + '/' + locationId);
+  }
+  
 }

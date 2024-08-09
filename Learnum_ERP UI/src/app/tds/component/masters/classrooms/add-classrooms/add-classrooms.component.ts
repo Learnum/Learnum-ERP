@@ -7,6 +7,7 @@ import { MessageService } from 'src/app/core/services/message.service';
 import { AddClassroomsService } from './add-classrooms.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { ClassroomModel } from './classroomDetails.model';
+import { tap } from 'rxjs/operators';
 
 
 @Component({
@@ -21,7 +22,6 @@ export class AddClassroomsComponent implements OnInit {
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
   form = new FormGroup({});
   branchDetails: any;
   
@@ -37,20 +37,21 @@ constructor(
   ngOnInit(): void {
     this.setParameter();
     this.getBranchDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.ClassroomId) {
+      this.getClassroomDetails(this.editData.ClassroomId);
+    }
   }
-
-  reset() {
-    throw new Error('Method not implemented.');
-  }
-
   setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
-
           {
-            className: 'col-md-6',
+            key: 'classroomId',
+          },
+          {
+            className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
@@ -59,11 +60,17 @@ constructor(
               label: "Branch Name",
               required: true,
               options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
-            },
+            
+            },   
+            validation: {
+              messages: {
+                required: 'Branch Name is required',
 
+              },
+            },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
             key: 'ClassroomName',
             props: {
@@ -71,7 +78,9 @@ constructor(
               type: 'text',
               label: "Classroom Name",
               required: true,
-
+               pattern: '^[\\w\\s\\W]+$',
+              // options: this.classroomDetails ? this.classroomDetails.map(classroom => ({ label: classroom.classroomName, value: classroom.classroomId })) : [],
+            
             },
             validation: {
               messages: {
@@ -81,43 +90,43 @@ constructor(
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
             key: 'StudentCapacity',
             props: {
               placeholder: 'Student Capacity',
               required: true,
               type: 'text',
+              pattern: '^[0-9]+$',
               label: "Student Capacity",
-
             },
 
             validation: {
               messages: {
-                required: 'Student Capacity* is required',
+                required: 'Student Capacity is required',
+                pattern: 'Please enter a valid number for Student Capacity',
 
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
-            key: 'isActive',
-            props: {
-              placeholder: 'Classroom Status',
-              type: 'text',
-              label: "Classroom Status",
+            key: 'IsActive',
+            templateOptions: {
+              label: 'Classroom Status',
+              //placeholder: 'Select Branch Status',
               required: true,
               options: [
+                { value: null, label: 'Select Classroom Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
-                { value: false, label: 'InActive' }
+                { value: false, label: 'Inactive' }
               ],
-             
             },
+            defaultValue: null,  // Set default value to 'Active'
             validation: {
               messages: {
-                required: 'Classroom Status is required',
-
+                required: 'Please select a classroom status',
               },
             },
           }
@@ -129,11 +138,16 @@ constructor(
   onCancleClick() {
     this.router.navigateByUrl('tds/masters/classrooms');
   }
-
+  onResetClick() {
+    this.form.reset();
+  }
   onSubmit() {
-    // if (this.form.valid) {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
       this.insertClassroom();
-    // }
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
   }
 
   insertClassroom() {
@@ -141,7 +155,7 @@ constructor(
     this.classroomDetails.addedDate = new Date();
     this.classroomDetails.updatedBy = 1;
     this.classroomDetails.updatedDate = new Date();
-    this.classroomDetails.classroomId = 0;
+    //this.classroomDetails.classroomId = 0;
 
     this.addclassroomService.insertClassroomData(this.classroomDetails).subscribe(
       (result: any) => {
@@ -160,8 +174,6 @@ constructor(
     );
     this.router.navigateByUrl('tds/masters/classrooms');
   }
-
-
   getBranchDetails() {
     this.addclassroomService.getBranchList().subscribe(
       (data: any) => {
@@ -173,8 +185,26 @@ constructor(
       }
     );
   }
+  getClassroomDetails(ClassroomId: number) {
+    this.addclassroomService.getClassroomDetails(ClassroomId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.classroomDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for ClassroomId: ' + ClassroomId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving classroom details:', error);
 
+      }
+    );
+  }
   
+  navigate()
+  {
+    this.router.navigateByUrl('tds/masters/classrooms');
+  }
 }
 
 

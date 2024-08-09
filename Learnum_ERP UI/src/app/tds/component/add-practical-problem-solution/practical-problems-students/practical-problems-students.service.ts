@@ -10,6 +10,7 @@ export class PracticalProblemsStudentsService {
 
   private urlInsertProblemDetails: string = "PracticalProblemSubform/AddPracticalProblem";
   private urlgetPracticalProblemList: string = "PracticalProblemSubform/getAllPracticalProblemList";
+  private urlGetPractical: string = "PracticalProblemSubform/getAddPracticalDetails";
 
   constructor(private apiService: APIService) {
   }
@@ -31,5 +32,8 @@ export class PracticalProblemsStudentsService {
 
   getPracticalProblemList() {
     return this.apiService.getData(this.urlgetPracticalProblemList);
+  }
+  getPracticalDetails(questionId: number) {
+    return this.apiService.getData(this.urlGetPractical + '/' + questionId);
   }
 }

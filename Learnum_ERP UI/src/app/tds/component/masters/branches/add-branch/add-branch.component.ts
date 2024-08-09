@@ -22,9 +22,8 @@ export class AddBranchComponent implements OnInit {
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
-
-  formBuilder: any;
+  StateList: any;
+  CityList:any;
 
   constructor(
     private router: Router,
@@ -32,23 +31,18 @@ export class AddBranchComponent implements OnInit {
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
-    private fb: FormBuilder
+
   ) { }
 
   ngOnInit(): void {
-
     this.setParameter();
-  // this.createForm();
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.BranchId) {
-
+      this.getBranchDetails(this.editData.BranchId);
     }
-
-  }
-
-
-  reset() {
-    throw new Error('Method not implemented.');
+    this.getAllStates();
+    this.getAllCity();
+  
   }
 
   setParameter() {
@@ -56,35 +50,38 @@ export class AddBranchComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         // key: 'ITDPreEmploymentSalModel',
-       fieldGroup: [
-          
+        fieldGroup: [
           {
-            className: 'col-md-6',
+            key: 'BranchId'
+          },
+          {
+            className: 'col-md-3',
             type: 'input',
             key: 'BranchName',
-            templateOptions: {
-              placeholder: 'Enter Branch',
+            props: {
+              placeholder: 'Enter Branch Name',
               type: 'text',
-              label: "Branch Name",
+              label: 'Branch Name',
               required: true,
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
             validation: {
               messages: {
                 required: 'Branch Name is required',
-
+                // pattern: 'Branch Name should only contain letters',
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
             key: 'Address',
             props: {
-              placeholder: 'Enter Address',
+              placeholder: 'Enter Your Address',
               type: 'text',
               label: "Address",
               required: true,
-
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
             validation: {
               messages: {
@@ -93,41 +90,80 @@ export class AddBranchComponent implements OnInit {
               },
             },
           },
+          // {
+          //   className: 'col-md-3',
+          //   type: 'input',
+          //   key: 'City',
+          //   props: {
+          //     placeholder: 'Enter Your city',
+          //     required: true,
+          //     type: 'text',
+          //     label: "City",
+          //     pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'City is required',
+          //     },
+          //   },
+          // },
+          // {
+          //   className: 'col-md-3',
+          //   type: 'input',
+          //   key: 'State',
+          //   props: {
+          //     placeholder: 'Enter Your state',
+          //     required: true,
+          //     valueProp: 'value',
+          //     labelProp: 'label',
+          //     label: "State",
+          //     pattern: '^[A-Za-z]+$'
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'State is required',
+          //     },
+          //   },
+          // },
           {
-            className: 'col-md-6',
-            type: 'input',
-            key: 'city',
+            className: 'col-md-3',
+            type: 'select',
+            key: 'CityId',
             props: {
-              placeholder: 'Enter city',
+              options: this.CityList,
+              placeholder: 'Select City',
+              valueProp: 'CityId',
+              labelProp: 'CityName',
+              label: "City Name",
               required: true,
-              type: 'text',
-              label: "City",
             },
             validation: {
               messages: {
-                required: 'This field is required',
+                required: 'City is required',
               },
             },
           },
           {
-            className: 'col-md-6',
-            type: 'input',
-            key: 'state',
+            className: 'col-md-3',
+            type: 'select',
+            key: 'StateId',
             props: {
-              placeholder: 'Enter state',
+              options: this.StateList,
+              placeholder: 'Select State',
+              valueProp: 'StateId',
+              labelProp: 'StateName',
+              label: "State Name",
               required: true,
-              valueProp: 'value',
-              labelProp: 'label',
-              label: "state",
             },
-            validation: {
-              messages: {
-                required: 'Please select a State',
-              },
-            },
+            // validation: {
+            //   messages: {
+            //     required: 'State is required',
+            //   },
+            // },
           },
+          
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
             key: 'PostalCode',
             props: {
@@ -135,32 +171,37 @@ export class AddBranchComponent implements OnInit {
               required: true,
               type: 'text',
               label: "Postal Code",
+              pattern: "^[0-9]{6}$",
             },
             validation: {
               messages: {
-                required: 'Please select a postal code',
+                required: 'postal code is required',
+                pattern: "Postal code must be exactly 6 digits"
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'IsActive',
-            props: {
-              placeholder: 'Select Branch ',
-              required: true,
+            templateOptions: {
               label: 'Branch Status',
+              //placeholder: 'Select Branch Status',
+              required: true,
               options: [
+                { value: null, label: 'Select Branch Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
-                { value: false, label: 'InActive' }
+                { value: false, label: 'Inactive' }
               ],
             },
+            defaultValue: null,  // Set default value to 'Active'
             validation: {
               messages: {
                 required: 'Please select a branch status',
               },
             },
-          },
+          }
+          
 
         ],
       },
@@ -170,7 +211,9 @@ export class AddBranchComponent implements OnInit {
   onCancleClick() {
     this.router.navigateByUrl('tds/masters/branches');
   }
-  
+  onResetClick() {
+    this.form.reset();
+  }
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
@@ -185,7 +228,7 @@ export class AddBranchComponent implements OnInit {
     this.branchDetails.addedDate = new Date();
     this.branchDetails.updatedBy = 1;
     this.branchDetails.updatedDate = new Date();
-    this.branchDetails.branchId = 0;
+    //this.branchDetails.BranchId = 0;
 
     this.addBranchService.insertBranchData(this.branchDetails).subscribe(
       (result: any) => {
@@ -205,4 +248,49 @@ export class AddBranchComponent implements OnInit {
     this.router.navigateByUrl('tds/masters/branches');
   }
 
+  getBranchDetails(BranchId: number) {
+    this.addBranchService.getBranchDetails(BranchId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.branchDetails = result.Value.Item1;
+          //this.branchDetails.BranchId = Number(this.editData.BranchId);
+          this.setParameter();
+          console.error('No data found for BranchId: ' + BranchId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving employee details:', error);
+
+      }
+    );
+  }
+
+  getAllStates() {
+    this.addBranchService.getAllStates().subscribe(
+      (result) => {
+        let data = result.Value;
+        this.StateList = data
+        this.setParameter();
+      }, (error) => {
+
+      });
+  }
+  
+  getAllCity() {
+    this.addBranchService.getAllCity().subscribe(
+      (result) => {
+        let data = result.Value;
+        this.CityList = data
+        this.setParameter();
+      }, (error) => {
+
+      });
+  }
+
+  navigate()
+  {
+    this.router.navigateByUrl('tds/masters/branches');
+  }
 }
+
+

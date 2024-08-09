@@ -18,6 +18,8 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
     {
         Task<ResponseCode> InsertBranchManagerDetails(BranchManagerDetailsModel branchmanagerDetailsModel);
         Task<List<BranchManagerDetailsResponseModel>> GetBranchManagerDetailsList();
+
+        Task<Tuple<BranchManagerDetailsModel?, ResponseCode>> GetBranchManagerDetails(long? BranchManagerId);
     }
     public class BranchManagerDetailsRepository : BaseRepository, IBranchManagerDetailsRepository
     {
@@ -38,8 +40,22 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<BranchManagerDetailsResponseModel>("PROC_GetBranchManagerDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<BranchManagerDetailsResponseModel>("PROC_GetBranchManagerDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<Tuple<BranchManagerDetailsModel?, ResponseCode>> GetBranchManagerDetails(long? BranchManagerId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@BranchManagerId", BranchManagerId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<BranchManagerDetailsModel?>("PROC_EditBranchManagerDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<BranchManagerDetailsModel?, ResponseCode>(result, responseCode));
             }
         }
     }

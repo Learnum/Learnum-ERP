@@ -15,7 +15,7 @@ namespace Learnum.ERP.Shared.Entities.Models
         public string Address { get; set; }
         public string City { get; set; }
         public string District { get; set; }
-        public string State { get; set; }
+        public long StateId { get; set; }
         public long PostalCode { get; set; }
         public string Country { get; set; }
         public bool IsActive { get; set; }

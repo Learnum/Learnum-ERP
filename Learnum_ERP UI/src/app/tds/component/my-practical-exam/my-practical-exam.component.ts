@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
@@ -19,7 +19,7 @@ export class MyPracticalExamComponent implements OnInit {
   declaredTableColumns: TableColumn[] = [
     {
       field: 'StudentId',
-      headerName: 'ID',
+      headerName: 'SR.NO',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 80
@@ -31,34 +31,20 @@ export class MyPracticalExamComponent implements OnInit {
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 100
     },
-    {
-      field: 'IsActive',
-      headerName: 'Status',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100,
-      valueFormatter: params => {
-        return params.value ? 'Active' : 'Inactive';
-      }
-    },
+    // {
+    //   field: 'IsActive',
+    //   headerName: 'Status',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: { buttons: ['reset', 'apply'] },
+    //   minWidth: 100,
+    //   valueFormatter: params => {
+    //     return params.value ? 'Active' : 'Inactive';
+    //   }
+    // },
     {
       field: 'addedBy',
-      headerName: 'AddedBy',
+      headerName: 'Added By',
       filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'addedTime',
-      headerName: 'AddedTime',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'updatedBy',
-      headerName: 'UpdatedBy',
-      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
@@ -68,30 +54,31 @@ export class MyPracticalExamComponent implements OnInit {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    },{
-      field: 'updatedDate',
-      headerName: 'UpdatedDate',
+    },
+    {
+      field: 'updatedBy',
+      headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
+    {
+      field: 'updatedTime',
+      headerName: 'Updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    }, 
   ];
 
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewPracticalExam',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
+      actionPage: 'ViewPracticalAnswer',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
-    {
-      action: 'edit',
-      actionPage: 'EditPracticalExam',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
   ];
 
   constructor(
@@ -106,31 +93,74 @@ export class MyPracticalExamComponent implements OnInit {
     this.getAllPracticalDetails();
   }
 
-  AddPracticalProblem() {
-    this.router.navigate(['tds/my-practical-exam/practical-problem-answer-sheet']);
-  }
-
   onRowAction(data: any) {
     let data1 = {
-      'source': data.action,
-      'StudentId': data.row.studentid
-    };
-    this.router.navigate(['/tds/my-practical-exam'], { queryParams: data1 });
+      'source': 'edit',
+      'StudentId': data.row.StudentId
+    }
+    this.router.navigate(['tds/my-practical-exam/practical-problem-answer-sheet'], { queryParams: data1 });
+  }
+  selectPracticalAnswer($event: any)
+   {
+    throw new Error('Method not implemented.');
   }
 
+  ActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewPracticalAnswer',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
+  onAddPracticalAnswer(answer?: any) {
+
+    let navigationExtras: NavigationExtras = {};
+    if (answer) {
+      navigationExtras = {
+        state: {
+          answerData: answer
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/my-practical-exam/practical-problem-answer-sheet')
+  }
   onActionButton(action: string) {
-    alert(action + ' action button clicked.');
+    alert(action + ' ' + 'action button clicked.');
   }
-
-  selectBusinessLead(leads: any) {
-    // Handle row selection logic
-  }
-
   getAllPracticalDetails() {
     this.practicalProblemAnswerSheetService.getPracticalList().subscribe((result: any) => {
       this. PracticalReturnList = result.Value;
       let  PracticalReturnList = result.Value;
     })
+  }
+  editPracticalAnswer(AnswerData: any) {
+    const studentId = AnswerData.questionId;
+    const index = this.PracticalReturnList.findIndex(answer => answer.studentId === studentId);
+
+    if (index !== -1) {
+
+
+      this.openEditForm(AnswerData).then((editedPracticalAnswerData: any) => {
+
+        this.PracticalReturnList[index] = editedPracticalAnswerData;
+        console.log('Edited PracticalAnswer:', editedPracticalAnswerData);
+
+      });
+    }
+  }
+  openEditForm(PracticalAnswerData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedPracticalAnswerData = { ...PracticalAnswerData };
+
+        editedPracticalAnswerData.Status = 'Edited';
+        resolve(editedPracticalAnswerData);
+      }, 1000);
+    });
   }
 
 }

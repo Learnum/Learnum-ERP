@@ -17,6 +17,9 @@ namespace Learnum.ERP.Repository.Master
     {
         Task<ResponseCode> InsertContentWriterDetails(ContentWriterDetailsModel contentwriterDetailsModel);
         Task<List<ContentWriterDetailsResponseModel>> GetContentWriterDetailsList();
+
+        Task<Tuple<ContentWriterDetailsModel?, ResponseCode>> GetContentWriterDetails(long? ContentWriterId);
+
     }
     public class ContentWriterDetailsRepository : BaseRepository, IContentWriterDetailsRepository
     {
@@ -26,7 +29,7 @@ namespace Learnum.ERP.Repository.Master
             {
                 var dbparams = new DynamicParameters(contentwriterDetailsModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_InsertContentWriterForSubject", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
@@ -37,10 +40,24 @@ namespace Learnum.ERP.Repository.Master
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<ContentWriterDetailsResponseModel>("PROC_GetContentWriterDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
-                return await Task.FromResult(result);
+                dbparams.Add("@Result", dbType: DbType.Int64, direction: ParameterDirection.Output);
+                var result = (await dbConnection.QueryAsync<ContentWriterDetailsResponseModel>("PROC_GetContentWriterForSubject", dbparams, commandType: CommandType.StoredProcedure)).ToList();
+                return result;
             }
         }
-    
-}
+
+
+        public async Task<Tuple<ContentWriterDetailsModel?, ResponseCode>> GetContentWriterDetails(long? ContentWriterId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@ContentWriterId", ContentWriterId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<ContentWriterDetailsModel?>("PROC_EditContentWriterDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<ContentWriterDetailsModel?, ResponseCode>(result, responseCode));
+            }
+        }
+    }
 }

@@ -11,7 +11,6 @@
 /Learnum.ERP.API.Shared/obj
 /Learnum.ERP.Repository/obj/Debug/net8.0
 /Learnum.ERP.Shared/obj/Debug/net8.0/Learnum.ERP.Shared.csproj.AssemblyReference.cache
-/Learnum.ERP.API/Controller/Masters/ClassroomDetailsController.cs
 /Learnum.ERP.Shared/obj/Learnum.ERP.Shared.csproj.nuget.dgspec.json
 /Learnum.ERP.Shared/obj/project.nuget.cache
 /Learnum.ERP.Shared/obj/Debug/net8.0/Learnum.ERP.Shared.AssemblyInfoInputs.cache

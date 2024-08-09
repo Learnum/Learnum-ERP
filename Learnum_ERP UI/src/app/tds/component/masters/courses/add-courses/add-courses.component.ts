@@ -20,8 +20,6 @@ export class AddCoursesComponent implements OnInit {
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
-  branchDetails: any;
   form = new FormGroup({});
 
   constructor(
@@ -36,12 +34,10 @@ export class AddCoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-   
-  }
-
-  
-  reset() {
-    throw new Error('Method not implemented.');
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.CourseId) {
+      this.getCourseDetails(this.editData.CourseId);
+    }
   }
 
   setParameter() {
@@ -50,78 +46,68 @@ export class AddCoursesComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
-
           {
-            className: 'col-md-6',
+            key: 'CourseId',
+          },
+          {
+            className: 'col-md-3',
             type: 'input',
-            key: 'courseName',
+            key: 'CourseName',
             templateOptions: {
               placeholder: 'Enter Courses Name',
               type: 'text',
               label: "CoursesName",
               required: true,
-
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
 
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
-            key: 'description',
+            key: 'Description',
             props: {
               placeholder: 'Enter Description',
               type: 'text',
               label: "Description",
               required: true,
-
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
-            // validation: {
-            //   messages: {
-            //     required: 'Description is required',
-
-            //   },
-            // },
           },
+         
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
-            key: 'isActive',
-            props: {
-              placeholder: 'Course Status',
+            key: 'IsActive',
+            templateOptions: {
+              label: 'Course Status',
+              //placeholder: 'Select Course Status',
               required: true,
-              type: 'text',
-              label: "Course Status",
               options: [
-                { label: 'Active', value: 'true' },
-                { label: 'Inactive', value: 'false' }
-              ]
+                { value: null, label: 'Select Course Status', disabled: true },  // Disabled placeholder option
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
+              ],
             },
-
-            // validation: {
-            //   messages: {
-            //     required: 'Course Status is required',
-
-            //   },
-            // },
+            defaultValue: null,  // Set default value to 'Active'
+            validation: {
+              messages: {
+                required: 'Please select a course status',
+              },
+            },
           },
           {
-            className: 'col-md-1',
+            className: 'col-md-2',
             type: 'file',
             key: 'file',
             props: {
               placeholder: 'select File',
-             // type: 'text',
-              label: "Upload Brochure",
-              required: true,
+              // type: 'text',
+              label: "Upload Brochure*",
+              //required: true,
 
             },
-            // validation: {
-            //   messages: {
-            //     required: 'Upload Brochure is required',
-
-            //   },
-            // },
-          }
+          },
         ],
       },
     ];
@@ -130,9 +116,9 @@ export class AddCoursesComponent implements OnInit {
   onCancleClick() {
     this.router.navigateByUrl('tds/masters/courses');
   }
-
-  
-
+  onResetClick() {
+    this.form.reset();
+  }
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
@@ -141,7 +127,7 @@ export class AddCoursesComponent implements OnInit {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
-   insertCourse() {
+  insertCourse() {
     this.addCoursesService.insertCourseData(this.coursesDetails).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;
@@ -159,6 +145,24 @@ export class AddCoursesComponent implements OnInit {
       }
     );
   }
+  getCourseDetails(CourseId: number) {
+    this.addCoursesService.getCourseDetails(CourseId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.coursesDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for CourseId: ' + CourseId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving Course details:', error);
 
+      }
+    );
+  }
 
+  navigate()
+  {
+    this.router.navigateByUrl('tds/masters/courses');
+  }
 }

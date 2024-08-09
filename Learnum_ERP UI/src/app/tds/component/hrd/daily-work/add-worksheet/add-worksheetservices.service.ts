@@ -12,6 +12,9 @@ export class AddWorksheetservices extends BaseService {
   private httpClientWithoutInterceptor: HttpClient;
 
   private urlInsertWorksheetDetails: string = "WorksheetDetails/InsertWorkSheetDetails";
+  private urlgetWorksheetList: string = "WorksheetDetails/getWorkSheetList";
+  private urlGetWorkSheet: string = "WorksheetDetails/getWorkSheetDetails";
+
 
   constructor(private apiService: APIService, private httpBackend: HttpBackend) {
     super();
@@ -22,5 +25,14 @@ export class AddWorksheetservices extends BaseService {
     //const URL = ConfigurationSettings.BASE_API_URL;
     return this.apiService.postBlob(this.urlInsertWorksheetDetails,WorksheetDetails);
   }
+ 
+  getworksheetList(){
+    return this.apiService.getData(this.urlgetWorksheetList);
+  }
+  
+  getWorksheetDetails(WorkId: number) {
+    return this.apiService.getData(this.urlGetWorkSheet+ '/' + WorkId);
+  }
+  }
 
-}
+

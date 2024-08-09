@@ -4,6 +4,11 @@ import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
+import { StudentcounsellingService } from './studentcounselling.service';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { StudentCounsellingDetails } from './studentcounselling.model';
+import { formatDate } from '@angular/common';
+
 @Component({
   selector: 'app-counselling-student',
   templateUrl: './counselling-student.component.html',
@@ -11,78 +16,81 @@ import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/for
 })
 export class CounsellingStudentComponent implements OnInit {
 
+  studentCounsellingDetails:StudentCounsellingDetails = new StudentCounsellingDetails();
   form = new FormGroup({});
-  model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
+  NowDate: any = new Date();
+  studentDetails:any;
+  branchDetails: any;
+  editData: any;
+
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder) { }
+    private alertService: AlertService,
+    private messageService: MessageService,
+    private activateRoute: ActivatedRoute,
+    private studentcounsellingService:StudentcounsellingService
+  ) { }
 
   ngOnInit(): void {
-    this.setFields();
-    this.createForm();
+    this.setParameter();
+    this.getStudentCallDetails();
+    this.getBranchDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.CounsellingId) {
+      this.getStudentCounsellingDetails(this.editData.CounsellingId);
+    }
   }
 
-  createForm(): void {
-    this.form = this.formBuilder.group({
-      studentName: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern(/^(\+\d{1,3}[- ]?)?\d{10}$/)]],
-      counsellingDate: ['', Validators.required],
-      counsellingTime: ['', Validators.required],
-      counsellingStatus: ['', Validators.required],
-      branchName: ['', Validators.required],
-      counsellingConversation: ['', Validators.required],
-    });
-  }
-
-  setFields() {
+  setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-6',
-            key: 'studentName',
-            type: 'input',
-            props: {
-              label: 'Student Name',
-              placeholder: 'Enter Student Name',
+            className: 'col-md-3',
+            type: 'select',
+            key: 'StudentId',
+            templateOptions: {
+              placeholder: 'Student Name',
+              type: 'text',
+              label: "Student Name",
               required: true,
-            },
-            validation: {
-              messages: {
-                required: 'Student Name is required',
-              },
+              options: this.studentDetails ? this.studentDetails.map(college => ({ label: college.StudentName, value: college.StudentId })) : [],
             },
           },
           {
-            className: 'col-md-6',
-            key: 'phone',
+            className: 'col-md-3',
+            key: 'Phone',
             type: 'input',
             props: {
               label: 'Phone',
               placeholder: 'Enter Phone Number',
+              type: 'number',
               required: true,
-              pattern: '^(\+\d{1,3}[- ]?)?\d{10}$',
+              pattern: '^[0-9]+$',
             },
             validation: {
               messages: {
                 required: 'Phone is required',
-                pattern: 'Enter a valid phone number',
+                pattern: 'Please Enter Valid Phone Number',
               },
             },
           },
           {
-            className: 'col-md-6',
-            key: 'counsellingDate',
+            className: 'col-md-3',
+            key: 'CounsellingDate',
             type: 'input',
             props: {
               label: 'Counselling Date',
               placeholder: 'Select Counselling Date',
               type: 'date',
               required: true,
+              attributes: {
+                max: formatDate(this.NowDate, 'YYYY-MM-dd', 'en-IN'),
+              },
             },
             validation: {
               messages: {
@@ -91,8 +99,8 @@ export class CounsellingStudentComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'counsellingTime',
+            className: 'col-md-3',
+            key: 'CounsellingTime',
             type: 'input',
             props: {
               label: 'Counselling Time',
@@ -107,8 +115,8 @@ export class CounsellingStudentComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'counsellingStatus',
+            className: 'col-md-3',
+            key: 'CounsellingStatus',
             type: 'select',
             props: {
               label: 'Counselling Status',
@@ -130,29 +138,26 @@ export class CounsellingStudentComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
-            key: 'branchName',
-            type: 'input',
-            props: {
-              label: 'Branch Name',
-              placeholder: 'Enter Branch Name',
+            className: 'col-md-3',
+            type: 'select',
+            key: 'BranchId',
+            templateOptions: {
+              placeholder: 'Branch Name',
+              type: 'text',
+              label: "Branch Name",
               required: true,
-            },
-            validation: {
-              messages: {
-                required: 'Branch Name is required',
-              },
+              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
             },
           },
           {
-            //className: 'col-md-6',
-            key: 'counsellingConversation',
+            className: 'col-md-6',
+            key: 'CounsellingConversation',
             type: 'textarea',
             props: {
               label: 'Counselling Conversation',
               placeholder: 'Enter Counselling Conversation',
               required: true,
-              rows: 10,
+              rows: 5,
             },
             validation: {
               messages: {
@@ -164,18 +169,82 @@ export class CounsellingStudentComponent implements OnInit {
       },
     ];
   }
-
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      // Handle form submission
+      this.InsertstudentcounsellingData();
     } else {
-      // Handle form errors
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
-  onCancelClick() {
+
+  onCancleClick() {
     this.router.navigateByUrl('tds/counsellor-dashboard/counselling-with-student');
   }
+  onResetClick() {
+    this.form.reset();
+  }
+  InsertstudentcounsellingData() {
+    this.studentCounsellingDetails.addedBy = 1;
+    this.studentCounsellingDetails.addedDate = new Date();
+    this.studentCounsellingDetails.updatedBy = 1;
+    this.studentCounsellingDetails.updatedDate = new Date();
+   // this.studentCounsellingDetails.counsellingId = 0;
 
+    this.studentcounsellingService.insertStudentCounsellingDetails(this.studentCounsellingDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+    this.router.navigateByUrl('tds/counsellor-dashboard/counselling-with-student');
+  }
+  getStudentCallDetails() {
+    this.studentcounsellingService.getStudentLeads().subscribe(
+      (data: any) => {
+        this.studentDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getBranchDetails() {
+    this.studentcounsellingService.getBranchList().subscribe(
+      (data: any) => {
+        this.branchDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+	getStudentCounsellingDetails(CounsellingId: number) {
+    this.studentcounsellingService.getStudentCounsellingList(CounsellingId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.studentCounsellingDetails = result.Value.Item1;
+          this.studentCounsellingDetails.counsellingDate = this.studentcounsellingService.formatDate(this.studentCounsellingDetails.counsellingDate);
+          this.setParameter();
+          console.error('No data found for CounsellingId: ' + CounsellingId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving StudentCounselling details:', error);
+      }
+    );
+  }
+  
 
 }

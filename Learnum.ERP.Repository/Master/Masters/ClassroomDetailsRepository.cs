@@ -17,28 +17,20 @@ namespace Learnum.ERP.Repository.Master
     {
         Task<ResponseCode> InsertClassroomDetails(ClassroomDetailsModel classroomDetailsModel);
         Task<List<ClassroomDetailsResponseModel>> GetClassroomDetailsList();
+        Task<Tuple<ClassroomDetailsModel?, ResponseCode>> GetClassroomDetails(long? ClassroomId);
     }
 
     public class ClassroomDetailsRepository : BaseRepository, IClassroomDetailsRepository
     {
         public async Task<ResponseCode> InsertClassroomDetails(ClassroomDetailsModel classroomDetailsModel)
         {
-            try
+            using (IDbConnection dbConnection = base.GetCoreConnection())
             {
-
-                using (IDbConnection dbConnection = base.GetCoreConnection())
-                {
-                    var dbparams = new DynamicParameters(classroomDetailsModel);
-                    dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                    dbConnection.Query<int>("PROC_InsertClassroomDetails", dbparams, commandType: CommandType.StoredProcedure);
-                    ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
-                    return await Task.FromResult(result);
-                }
-            }
-            catch (Exception ex)
-            {
-               
-                throw new Exception("An error occurred while retrieving the classroom details list.", ex);
+                var dbparams = new DynamicParameters(classroomDetailsModel);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                dbConnection.Query<int>("PROC_InsertClassroomDetails", dbparams, commandType: CommandType.StoredProcedure);
+                ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(result);
             }
         }
 
@@ -49,6 +41,19 @@ namespace Learnum.ERP.Repository.Master
                 var dbparams = new DynamicParameters();
                 var result = dbConnection.Query<ClassroomDetailsResponseModel>("PROC_GetClassroomDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<Tuple<ClassroomDetailsModel?, ResponseCode>> GetClassroomDetails(long? ClassroomId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@ClassroomId", ClassroomId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<ClassroomDetailsModel?>("PROC_GetClassroomDetailsList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<ClassroomDetailsModel?, ResponseCode>(result, responseCode));
             }
         }
     }

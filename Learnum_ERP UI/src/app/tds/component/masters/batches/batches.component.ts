@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AddBranchService } from '../branches/add-branch/add-branch.service';
@@ -14,23 +14,14 @@ import { AddBatchesService } from './add-batches/add-batches.service';
   styleUrls: ['./batches.component.scss']
 })
 export class BatchesComponent implements OnInit {
-  tdsReturnList: any[] = [];
-  form: FormGroup;
+  BatchDetails: any[] = [];
+  
 
   declaredTableColumns: TableColumn[] = [
+   
     {
-      field: 'Batch ID',
-      headerName: 'Batch ID',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 150
-
-    },
-    {
-      field: 'batch Name',
-      headerName: 'Batch Name',
+      field: 'BatchName',
+      headerName: 'BatchName',
       filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -39,14 +30,36 @@ export class BatchesComponent implements OnInit {
 
     },
     {
-      field: 'Classroom',
-      headerName: 'Classroom',
+      field: 'BranchName',
+      headerName: 'BranchName',
+      filter: 'agSetColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+
+    },
+    
+    {
+      field: 'ClassroomName',
+      headerName: 'ClassroomName',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
       minWidth: 150
     },
+    {
+      field: 'OneTimeCourseFees',
+      headerName: 'OneTimeCourseFees',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150
+    },
+
+
     {
       field: 'addedBy',
       headerName: 'Added By',
@@ -62,37 +75,30 @@ export class BatchesComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
+      field: 'updatedBy',
+      headerName: 'Updated By',
+      filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedTime',
+      headerName: 'updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    }, 
+    
   ];
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewCall',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
+      actionPage: 'ViewBranch',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
-    {
-      action: 'edit',
-      actionPage: 'EditCall',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
   ];
-  getEmployeeList: any;
 
 
 
@@ -105,58 +111,77 @@ export class BatchesComponent implements OnInit {
     private messageService: MessageService,
     private alertService: AlertService,
     private addBatchesService : AddBatchesService ,
-    private formBuilder: FormBuilder) {
-    {
-      this.form = this.formBuilder.group({
-      // Add more form controls as needed
-      });
-    }
-  }
-  selectBranch(branch: any) {
-
+    ) {
+   
   }
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'branchID': data.row.branchID
+      'BatchId': data.row.BatchId
     }
-    this.router.navigate(['/tds/masters/add-branch'], { queryParams: data1 });
+    this.router.navigate(['tds/masters/batches/add-batches'], { queryParams: data1 });
   }
-
-
-
+  selectBatch($event: any) 
+  { 
+    throw new Error('Method not implemented.'); 
+  }
   ActionColumn: any[] = [
     {
       action: 'view',
-      actionPage: 'ViewBranch',
+      actionPage: 'ViewBatch',
       actionIcon: 'uil uil-cog rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4'
     },
   ];
   
-  onAddBatch(branch?: any) {
-    // let navigationExtras: NavigationExtras = {};
-    // if (branch) {
-    //   navigationExtras = {
-    //     state: {
-    //       branchData: branch
-    //     }
-    //   };
-    // }
-    this.router.navigate(['tds/masters/batches/add-batches']);
-  }
+  onAddBatch(batch?: any) {
 
+    let navigationExtras: NavigationExtras = {};
+    if (batch) {
+      navigationExtras = {
+        state: {
+          batchData: batch
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/masters/batches/add-batches')
+  }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
-
-
   getAllBatchDetails() {
     this.addBatchesService.getBatchList().subscribe((result: any) => {
-      this.tdsReturnList = result.Value;
-      let tdsReturnList = result.Value;
+      this.BatchDetails = result.Value;
+      let BatchDetails = result.Value;
     })
+  }
+  editBatch(BatchData: any) {
+    const batchId = BatchData.batchId;
+    const index = this.BatchDetails.findIndex(batch => batch.batchId === batchId);
+
+    if (index !== -1) {
+
+
+      this.openEditForm(BatchData).then((editedBatchData: any) => {
+
+        this.BatchDetails[index] = editedBatchData;
+        console.log('Edited Branch:', editedBatchData);
+
+      });
+    }
+  }
+  openEditForm(batchData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedBatchData = { ...batchData };
+
+        editedBatchData.Status = 'Edited';
+        resolve(editedBatchData);
+      }, 1000);
+    });
   }
 
 }

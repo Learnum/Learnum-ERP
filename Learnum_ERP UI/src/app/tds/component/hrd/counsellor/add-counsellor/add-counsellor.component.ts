@@ -13,16 +13,16 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
   templateUrl: './add-counsellor.component.html',
   styleUrls: ['./add-counsellor.component.scss']
 })
-export class AddCounsellorComponent implements OnInit{
+export class AddCounsellorComponent implements OnInit {
   form = new FormGroup({});
   CounsellorDetails: CounsellorsPlaningModel = new CounsellorsPlaningModel();
-  reasonList: any[] = [];
+
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  GetEmployeeList: any;
   coOwners: any;
   NowDate: any = new Date();
+  branchDetails: any;
 
   constructor(
     private addcounsellorService: AddcounsellorService,
@@ -35,87 +35,78 @@ export class AddCounsellorComponent implements OnInit{
 
   ngOnInit(): void {
     this.setParameter();
+    this.getBranchDetails();
+
     this.editData = this.activateRoute.snapshot.queryParams;
-    if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
-   }
-  }
- 
-
-
- 
-  insertBranchManager() {
-    this.CounsellorDetails.addedBy = 1;
-    this.CounsellorDetails.addedDate = new Date();
-    this.CounsellorDetails.updatedBy = 1;
-    this.CounsellorDetails.updatedDate = new Date();
-    this.CounsellorDetails.isActive = true;
-
-    this.addcounsellorService.insertcounsellorData(this.CounsellorDetails).subscribe(
-      (result: any) => {
-        let serviceResponse = result.Value
-        if (result.Value === ResponseCode.Success) {
-          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-
-        }
-        else if (serviceResponse == ResponseCode.Update) {
-          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-        }
-        else {
-          this.alertService.ShowErrorMessage(this.messageService.serviceError);
-        }
-      },
-      (error: any) => {
-        this.alertService.ShowErrorMessage("Enter all required fields");
-      }
-    )
-    this.router.navigateByUrl('tds/hrd/add-counsellor');
+    if (this.editData.source === 'edit' && this.editData.CounsellorId) {
+      this.getCounsellorDetails(this.editData.CounsellorId);
+    }
   }
 
-
-
-
-
-setParameter() {
+  setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
-        // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
 
           {
-            className: 'col-md-4',
-            type: 'select',
+            key: 'CounsellorId'
+
+          },
+
+
+          {
+            className: 'col-md-3',
+            type: 'input',
             key: 'CounsellorName',
             templateOptions: {
-              placeholder: 'select',
-              type: 'text',
+              placeholder: 'Counsellor Name',
               label: "Counsellor Name",
               required: true,
-            },
-            },
-            {
-              className: 'col-md-4',
-              type: 'select',
-              key: 'BranchName',
-              templateOptions: {
-                placeholder: 'select',
-                type: 'text',
-                label: "Branch Name",
-                required: true,
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+              title: 'Only characters are allowed',
               },
+              validation: {
+                messages: {
+                  required: 'Name is required',
+                  pattern: 'Please enter a valid name ',
+                },
               },
-              {
-                className: 'col-md-4',
-                type: 'select',
-                key: 'Status',
-                templateOptions: {
-                  placeholder: 'select',
-                  type: 'text',
-                  label: "Status",
-                  required: true,
-                },
-                },
-                
+          },
+          {
+            className: 'col-md-3',
+            type: 'select',
+            key: 'BranchId',
+            templateOptions: {
+              placeholder: 'Branch Name',
+              type: 'text',
+              label: "Branch Name",
+              required: true,
+              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+            },
+
+          },
+          {
+            className: 'col-md-3',
+            type: 'select',
+            key: 'IsActive',
+            templateOptions: {
+              label: 'Counsellor Status',
+              //placeholder: 'Select Counsellor Status',
+              required: true,
+              options: [
+                { value: null, label: 'Select Counsellor Status', disabled: true },  // Disabled placeholder option
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
+              ],
+            },
+            defaultValue: null,  // Set default value to 'Active'
+            validation: {
+              messages: {
+                required: 'Please select a Counsellor status',
+              },
+            },
+          },
         ],
       },
     ]
@@ -125,23 +116,83 @@ setParameter() {
     this.router.navigateByUrl('tds/hrd/counsellor');
   }
 
-  get f()
+  navigate()
   {
+    this.router.navigateByUrl('tds/hrd/counsellor');
+  }
+
+  get f() {
     return this.form.controls;
   }
 
-  onSubmit():void {
+  onSubmit(): void {
+
     this.form.markAllAsTouched();
     if (this.form.valid) {
-    //  this.insertAddEmployee();
-      this.GetEmployeeList();
+   this.insertBranchCounsellor();
     }
     else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
 
- 
+  getBranchDetails() {
+    this.addcounsellorService.getBranchList().subscribe(
+      (data: any) => {
+        this.branchDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  insertBranchCounsellor() {
+    this.CounsellorDetails.addedBy = 1;
+    this.CounsellorDetails.addedDate = new Date();
+    this.CounsellorDetails.updatedBy = 1;
+    this.CounsellorDetails.updatedDate = new Date();
+    //this.CounsellorDetails.counsellorId = 0;
+
+    this.addcounsellorService.insertcounsellorData(this.CounsellorDetails).subscribe(
+      (result: any) => {
+        let serviceResponse = result.Value
+        if (result.Value === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/hrd/counsellor');
+
+        }
+        else if (serviceResponse == ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/hrd/counsellor');
+        }
+        else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage("Enter all required fields");
+      }
+    )
+    
+  }
 
 
+  getCounsellorDetails(CounsellorId: number) {
+    this.addcounsellorService.getCounsellorDetails(CounsellorId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.CounsellorDetails = result.Value.Item1;
+
+          this.setParameter();
+          console.error('No data found for CounsellorId: ' + CounsellorId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving Counsellor ID details:', error);
+
+      }
+    );
+  }
 }

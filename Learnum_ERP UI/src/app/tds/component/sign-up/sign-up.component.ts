@@ -5,11 +5,17 @@ import {
   Validators,
   NgForm,
 } from '@angular/forms';
+
+import { SignUpService } from './sign-up.service';
 //import { SignUpService } from './sign-up.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
-//import { RegistrationMaster } from './registration-master.model';
-import { Router } from '@angular/router';
+import { RegistrationMaster } from './registration-master.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from '../login/login.service';
+import { UserProfileService } from 'src/app/core/services/user-profile.service';
+import { RedirectService } from 'src/app/core/services/redirect.service';
+
 
 @Component({
   selector: 'app-sign-up',
@@ -19,20 +25,27 @@ import { Router } from '@angular/router';
 export class SignUpComponent implements OnInit {
 
   signUpForm: FormGroup;
-  EnterOTP: string;
+  //EnterOTP: string;
+  EnterOTP: any;
   isVerifyOTP: boolean = false;
   signUP: boolean = true;
   createPass: boolean = false;
-  //registrationModel = new RegistrationMaster();
+  createPassForm: FormGroup;
+  registrationModel = new RegistrationMaster();
   isShake: boolean = false;
   passwordTextType: boolean = false;
   repasswordTextType: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
-   // private signUpService: SignUpService,
+    private signUpService: SignUpService,
     private alertService: AlertService,
-    private router: Router
+    private loginService: LoginService,
+    private redirectService: RedirectService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private userProfileService: UserProfileService,
+    private _router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -68,33 +81,33 @@ export class SignUpComponent implements OnInit {
     );
   }
 
-  Home_Page() {
-    this.router.navigate(['/home']);
-  }
+  // Home_Page() {
+  //   this.router.navigate(['/home']);
+  // }
 
   onSignInClick() {
     this.router.navigate(['/login']);
   }
 
   onNextClick() {
-    // if (this.signUpForm.valid) {
-    //   let signUpFromData = this.signUpForm.value;
-    //   //this.registrationModel.userName = signUpFromData.UserName;
-    //   //this.registrationModel.emailId = signUpFromData.EmailId;
-    //  // this.registrationModel.mobileNo = signUpFromData.MobileNo;
-    //  // this.signUpService.Register(this.registrationModel).subscribe((result: any) => {
-    //    // let serviceResponse = result.Value;
-    //     //if (serviceResponse.ResponseCode == ResponseCode.Success) {
-    //       this.registrationModel.userId = serviceResponse.UserId;
-    //       this.alertService.ShowSuccessMessage('Successfully Registered');
-    //       this.isVerifyOTP = true;
-    //       this.signUP = false;
-    //     }
-    //   },
-    //   (error: any) => {
-    //     this.alertService.ShowErrorMessage(error.error);
-    //   });
-    // }
+    if (this.signUpForm.valid) {
+      let signUpFromData = this.signUpForm.value;
+      this.registrationModel.userName = signUpFromData.UserName;
+      this.registrationModel.emailId = signUpFromData.EmailId;
+     this.registrationModel.mobileNo = signUpFromData.MobileNo;
+     this.signUpService.Register(this.registrationModel).subscribe((result: any) => {
+       let serviceResponse = result.Value;
+        if (serviceResponse.ResponseCode == ResponseCode.Success) {
+          this.registrationModel.userId = serviceResponse.UserId;
+          this.alertService.ShowSuccessMessage('Successfully Registered');
+          this.isVerifyOTP = true;
+          this.signUP = false;
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error.error);
+      });
+    }
   }
 
   backToSignUp() {
@@ -109,33 +122,36 @@ export class SignUpComponent implements OnInit {
   }
 
   onClickVerifyOTP() {
-    // if (this.EnterOTP) {
-    //   this.signUpService.VerifyOTP(this.registrationModel.userId, this.EnterOTP).subscribe(
-    //     (result: any) => {
-    //       let serviceResponse = result.Value;
-    //       if (serviceResponse == ResponseCode.Success) {
-    //         this.alertService.ShowSuccessMessage('OTP Verified Successfully');
-    //         this.createPass = true;
-    //         this.isVerifyOTP = false;
-    //         this.signUP = false;
-    //       } else if (serviceResponse == ResponseCode.NotFound) {
-    //         this.isShake = true;
-    //         setTimeout(() => {
-    //           this.isShake = false;
-    //         }, 300);
-    //         this.alertService.ShowErrorMessage("Invalid OTP");
-    //       }
-    //     },
-    //     (error: any) => {
-    //       this.alertService.ShowErrorMessage(error.error);
-    //     });
-    // } else {
-    //   this.isShake = true;
-    //   setTimeout(() => {
-    //     this.isShake = false;
-    //   }, 300);
-    //   this.alertService.ShowErrorMessage("Please enter OTP");
-    // }
+    if (this.EnterOTP) {
+      this.signUpService.VerifyOTP(this.registrationModel.userId, this.EnterOTP).subscribe(
+        (result: any) => {
+          let serviceResponse = result.Value;
+          if (serviceResponse == ResponseCode.Success) {
+            //this.registrationModel.userId = serviceResponse.Item2
+            this.alertService.ShowSuccessMessage('OTP Verified Successfully');
+
+            this.createPass = true;
+            this.isVerifyOTP = false;
+            this.signUP = false;
+          } else if (serviceResponse == ResponseCode.NotFound) {
+            this.isShake = true
+            setTimeout(() => {
+              this.isShake = false
+            }, 300);
+            this.alertService.ShowErrorMessage("Invalid OTP");
+          }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error.error);
+      })
+    }
+    else {
+      this.isShake = true
+      setTimeout(() => {
+        this.isShake = false
+      }, 300);
+      this.alertService.ShowErrorMessage("Please enter OTP");
+    }
   }
 
   togglePasswordTextType() {
@@ -147,36 +163,36 @@ export class SignUpComponent implements OnInit {
   }
 
   setPassword(setPasswordForm: NgForm) {
-    // if (setPasswordForm) {
-    //   let password = setPasswordForm.value.password;
-    //   let confirmPassword = setPasswordForm.value.confirmPassword;
-
-    //   if (password.trim().length > 0 && confirmPassword.trim().length > 0) {
-    //     if (password === confirmPassword) {
-    //       if (password.length >= 8) {
-    //         this.registrationModel.passwordHash = password;
-    //         this.signUpService.SetPassword(this.registrationModel).subscribe(
-    //           (result: any) => {
-    //             let serviceResponse = result.Value;
-    //             if (serviceResponse.Item1 == ResponseCode.Success) {
-    //               this.alertService.ShowSuccessMessage('Password Saved Successfully');
-    //               this.loginService.setSession(serviceResponse.Item2);
-    //               document.getElementById('afterSignUp').click();
-    //             }
-    //           },
-    //         );
-    //       } else {
-    //         this.alertService.ShowErrorMessage("Please ensure your password contains at least 8 characters.");
-    //       }
-    //     } else {
-    //       this.alertService.ShowErrorMessage("Password & Re-Enter Password must be matched");
-    //     }
-    //   } else {
-    //     this.alertService.ShowErrorMessage("Please enter the given fields.");
-    //   }
-    // } else {
-    //   this.alertService.ShowErrorMessage("Please enter the given fields.");
-    // }
+    if (setPasswordForm) {
+      let password = setPasswordForm.value.password;
+      let confirmPassword = setPasswordForm.value.confirmPassword;
+  
+      if (password.trim().length > 0 && confirmPassword.trim().length > 0) {
+        if (password === confirmPassword) {
+          if (password.length >= 8) {
+            this.registrationModel.passwordHash = password;
+            this.signUpService.SetPassword(this.registrationModel).subscribe(
+              (result: any) => {
+                let serviceResponse = result.Value;
+                if (serviceResponse.Item1 == ResponseCode.Success) {
+                  this.alertService.ShowSuccessMessage('Password Saved Successfully');
+                  this.loginService.setSession(serviceResponse.Item2);
+                  document.getElementById('afterSignUp').click();
+                }
+              },
+            );
+          } else {
+            this.alertService.ShowErrorMessage("Please ensure your password contains at least 8 characters.");
+          }
+        } else {
+          this.alertService.ShowErrorMessage("Password & Re-Enter Password must be matched");
+        }
+      } else {
+        this.alertService.ShowErrorMessage("Please enter the given fields.");
+      }
+    } else {
+      this.alertService.ShowErrorMessage("Please enter the given fields.");
+    }
   }
 
   validateNumber(event) {

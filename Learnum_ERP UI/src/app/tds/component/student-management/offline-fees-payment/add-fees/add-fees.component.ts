@@ -4,6 +4,9 @@ import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
+import { addfeesModel } from './addfeesmodel';
+import { AddFeesService } from './add-fees.service';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
 @Component({
   selector: 'app-add-fees',
@@ -16,35 +19,36 @@ export class AddFeesComponent implements OnInit {
   model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
+  branchDetails:any;
+  OfflineFeesDetails: addfeesModel = new addfeesModel();
+  editData: any;
+  batchDetails: any;
+  courseDetails: any;
 
   constructor(
+    private addfeesService: AddFeesService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private alertService: AlertService,
+    private messageService: MessageService,
+    private activateRoute: ActivatedRoute,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
-    this.setFields();
-    this.createForm();
+    this.setParameter();
+    this.getCourseDetails();
+    this.getBatchDetails();
+    this.getBranchDetails();
+
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.offlineFeesPaymentId) {
+      this.getOfflineFeesDetails(this.editData.offlineFeesPaymentId);
+    }
   }
 
-  createForm(): void {
-    this.form = this.formBuilder.group({
-      dateOfPayment: ['', Validators.required],
-      modeOfPayment: ['', Validators.required],
-      referenceNumber: ['', Validators.required],
-      studentName: ['', Validators.required],
-      studentID: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      courseName: ['', Validators.required],
-      branchName: ['', Validators.required],
-      batchName: ['', Validators.required],
-      amountPaid: [0, Validators.required],
-      remarks: [''],
-      status: ['active', Validators.required]
-    });
-  }
+ 
 
-  setFields() {
+  setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
@@ -91,7 +95,7 @@ export class AddFeesComponent implements OnInit {
           {
             className: 'col-md-4',
             key: 'studentName',
-            type: 'input',
+            type:'input',
             templateOptions: {
               label: 'Student Name',
               placeholder: 'Enter Student Name',
@@ -100,7 +104,7 @@ export class AddFeesComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'studentID',
+            key: 'studentId',
             type: 'input',
             templateOptions: {
               label: 'Student ID',
@@ -120,52 +124,56 @@ export class AddFeesComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'courseName',
             type: 'select',
+            key: 'CourseId',
             templateOptions: {
-              label: 'Course Name',
-              placeholder: 'Select Course Name',
+              placeholder: 'Course Name',
+              type: 'text',
+              label: "course Name",
               required: true,
-              options: [
-                { value: 'course1', label: 'Course 1' },
-                { value: 'course2', label: 'Course 2' },
-                // Add more course options as needed
-              ],
-            }
+              options: this.courseDetails ? this.courseDetails.map(course => ({
+                label: course.CourseName
+                , value: course.CourseId
+              })) : [],
+            },
           },
           {
             className: 'col-md-4',
-            key: 'branchName',
             type: 'select',
+            key: 'BranchId',
             templateOptions: {
-              label: 'Branch Name',
-              placeholder: 'Select Branch Name',
+              placeholder: 'Branch Name',
+              type: 'text',
+              label: "Branch Name",
               required: true,
-              options: [
-                { value: 'branch1', label: 'Branch 1' },
-                { value: 'branch2', label: 'Branch 2' },
-                // Add more branch options as needed
-              ],
-            }
+              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+            },
+
           },
           {
             className: 'col-md-4',
-            key: 'batchName',
             type: 'select',
+            key: 'BatchId',
             templateOptions: {
-              label: 'Batch Name',
-              placeholder: 'Select Batch Name',
+              placeholder: 'Enter batch Name',
               required: true,
-              options: [
-                { value: 'batch1', label: 'Batch 1' },
-                { value: 'batch2', label: 'Batch 2' },
-                // Add more batch options as needed
-              ],
-            }
+              type: ' Batch Name',
+              label: "Batch Name",
+              options: this.batchDetails ? this.batchDetails.map(batch => ({
+                label: batch.BatchName
+                , value: batch.BatchId
+              })) : [],
+
+            },
+            validation: {
+              messages: {
+                required: 'This field is required',
+              },
+            },
           },
           {
             className: 'col-md-4',
-            key: 'amountPaid',
+            key: 'amountpaid',
             type: 'input',
             templateOptions: {
               label: 'Amount Paid',
@@ -184,31 +192,62 @@ export class AddFeesComponent implements OnInit {
             }
           },
           {
-            className: 'col-md-4',
-            key: 'status',
+            className: 'col-md-3',
             type: 'select',
+            key: 'IsActive',
             templateOptions: {
-              label: 'Status',
               placeholder: 'Select Status',
+              type: 'text',
+              label: "Status",
               required: true,
               options: [
-                { value: 'active', label: 'Active' },
-                { value: 'inactive', label: 'Inactive' }
-              ],
-            }
-          },
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
+              ]
+             },
+            },
         ],
       },
       
     ];
   }
 
+  insertfees() {
+    this.OfflineFeesDetails.addedBy = 1;
+    this.OfflineFeesDetails.addedDate = new Date();
+    this.OfflineFeesDetails.updatedBy = 1;
+    this.OfflineFeesDetails.updatedDate = new Date();
+    // this.branchManagerDetails.branchManagerId = 0;
+
+    this.addfeesService.insertfeesDetails(this.OfflineFeesDetails).subscribe(
+      (result: any) => {
+        let serviceResponse = result.Value
+        if (result.Value === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/student-management/offline-fees-payment');
+
+        }
+        else if (serviceResponse == ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/student-management/offline-fees-payment');
+        }
+        else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage("Enter all required fields");
+      }
+    )
+
+  }
+
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      // Handle form submission
+      this.insertfees();
     } else {
-      // Handle form errors
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
 
@@ -216,5 +255,52 @@ export class AddFeesComponent implements OnInit {
     this.router.navigateByUrl('tds/student-management/offline-fees-payment');
   }
 
-
+  getBranchDetails() {
+    this.addfeesService.getBranchList().subscribe(
+      (data: any) => {
+        this.branchDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getBatchDetails() {
+    this.addfeesService.getBatchList().subscribe(
+      (data: any) => {
+        this.batchDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getCourseDetails() {
+    this.addfeesService.getcourseList().subscribe(
+      (data: any) => {
+        this.courseDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  
+  getOfflineFeesDetails(offlineFeesPaymentId: number) {
+    this.addfeesService.getOfflineFessDetailsById(offlineFeesPaymentId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.OfflineFeesDetails = result.Value.Item1;
+          this.setParameter();
+          console.error('No data found for offlineFeesPaymentId: ' + offlineFeesPaymentId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving offlineFeesPayment details:', error);
+      }
+    );
+  }
 }

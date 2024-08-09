@@ -22,7 +22,7 @@ namespace Learnum.ERP.API.Controller.Branch
             branchDetailsRepository = _branchDetailsRepository;
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
 
         [HttpPost("InsertBranchDetails")]
         public async Task<IActionResult> InsertBranchDetails(BranchDetailsModel branchDetailsModel)
@@ -53,6 +53,22 @@ namespace Learnum.ERP.API.Controller.Branch
                 return Ok(data);
             }
             return NotFound("No record found");
+        }
+
+        [HttpGet("getBranchDetails/{BranchId}")]
+        public async Task<IActionResult> GetBranchDetails(long? BranchId)
+        {
+            if (BranchId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await branchDetailsRepository.GetBranchDetails(BranchId);
+            return Ok(result);
         }
     }
 }

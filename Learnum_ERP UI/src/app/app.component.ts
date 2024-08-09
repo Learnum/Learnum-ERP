@@ -17,7 +17,7 @@ export class AppComponent {
   ) {}
 
   ngOnInit() {
-    // this.CheckAuthentication();
+    //this.CheckAuthentication();
   }
 
   // CheckAuthentication() {

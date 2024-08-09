@@ -21,7 +21,7 @@ export class AddWorksheetComponent implements OnInit {
   tdsReturnList: any;
   NowDate: any = new Date();
   worksheetDetails: WorksheetDetailsModel = new WorksheetDetailsModel();
-
+  editData: any;
  
  
   constructor(
@@ -36,7 +36,10 @@ export class AddWorksheetComponent implements OnInit {
   ngOnInit(): void {
     this.setParameter();
     
-    
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.WorkId) {
+      this.getWorksheetDetails(this.editData.WorkId);
+    }
   }
  
 setParameter() {
@@ -46,40 +49,53 @@ setParameter() {
         
         fieldGroup: [
 
+           {
+            key:'WorkId',
+           },
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'name',
+            key: 'Name',
             templateOptions: {
-              placeholder: 'Enter  Name',
+              placeholder: 'Enter Name',
               type: 'text',
               label: "Name",
               required: true,
-            },
-          },
-          {
-            className: 'col-md-6',
-            type: 'input',
-            key: 'email',
-            props: {
-              placeholder: 'Email',
-              type: 'text',
-              label: "Email",
-              required: true,
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+              title: 'Only characters are allowed',
             },
             validation: {
               messages: {
-                required: 'Email is required',
-                pattern: 'Please enter a valid Email ',
+                required: 'Name is required',
+                pattern: 'Please enter a valid name ',
               },
             },
           },
           {
             className: 'col-md-6',
             type: 'input',
-            key: 'date',
+            key: 'Email',
+            props: {
+              placeholder: 'Email',
+              type: 'text',
+              label: "Email",
+              required: true,
+              pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
+            },
+            validation: {
+              messages: {
+                required: 'Email is required',
+                pattern: 'Please enter a valid Email',
+              },
+            
+            },
+          },
+          {
+            className: 'col-md-6',
+            type: 'input',
+            key: 'Date',
             templateOptions: {
-              label: 'Date of Birth',
+              label: 'Date',
               placeholder: 'Date',
               type: 'date',
               required: true,
@@ -96,23 +112,31 @@ setParameter() {
           {
             className: 'col-md-6',
             type: 'select',
-            key: 'role',
-            props: {
-              placeholder: 'select',
-              type: 'text',
-              label: "Role",
+            key: 'Role',
+            templateOptions: {
+              label: 'Role',
+              //placeholder: 'Select Role',
               required: true,
               options: [
-                { value: 'developer', label: 'Developer' },
-                { value: 'manager', label: 'Manager' }
-              ]
+                { value: null, label: 'Select Role', disabled: true },  // Placeholder option
+                { value: 1, label: 'Developer' },
+                { value: 2, label: 'Manager' }
+              ],
+            },
+            defaultValue: null,  // Optionally set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure that a valid value is selected
+                message: 'Role is required',
+              },
             },
             validation: {
               messages: {
                 required: 'Role is required',
               },
             },
-          },
+          }
+          ,
           {
             className: 'col-md-6',
             type: 'textarea',
@@ -140,41 +164,47 @@ setParameter() {
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/hrd/counsellor');
+    this.router.navigateByUrl("tds/hrd/daily-work"); 
   }
-
+  
+  navigate()
+  {
+    this.router.navigateByUrl("tds/hrd/daily-work"); 
+  }
   get f()
   {
     return this.form.controls;
   }
 
-  onSubmit():void {
+ 
+  onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-     this.insertAddWorksheet();
-      
-    }
-    else {
+      this.insertAddWorksheet();
+    } else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
+    
   }
 
   insertAddWorksheet() {
-    // Assuming worksheetDetails is a property in your component that holds the worksheet data
+   // Assuming worksheetDetails is a property in your component that holds the worksheet data
     this.worksheetDetails.addedBy = 1;
     this.worksheetDetails.addedDate = new Date();
     this.worksheetDetails.updatedBy = 1;
     this.worksheetDetails.updatedDate = new Date();
-    this.worksheetDetails.isActive = true;
+    this.worksheetDetails.workId = 0;
   
     this.addWorksheetservices.insertWorksheetData(this.worksheetDetails).subscribe(
       (result: any) => {
         let serviceResponse = result.Value;
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl("tds/hrd/daily-work"); 
         }
         else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl("tds/hrd/daily-work"); 
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
@@ -184,12 +214,29 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     );
-    this.router.navigateByUrl('tds/worksheet/employee'); 
+    
+  }
+
+  getWorksheetDetails(WorkId: number) {
+    this.addWorksheetservices.getWorksheetDetails(WorkId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.worksheetDetails = result.Value.Item1;
+
+          this.worksheetDetails.Date = this.addWorksheetservices.formatDate(this.worksheetDetails.Date);
+
+
+          this.setParameter();
+          console.error('No data found for ContentWriterId: ' + WorkId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving Content Writer details:', error);
+
+      }
+    );
   }
   
- 
- 
-
 
 }
 

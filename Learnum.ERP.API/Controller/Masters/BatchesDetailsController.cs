@@ -22,9 +22,9 @@ namespace Learnum.ERP.API.Controller
             batchesDetailsRepository = _batchesDetailsRepository;
         }
         [HttpPost("InsertBatchesDetails")]
-        public async Task<IActionResult> InsertBatchesDetails([FromBody] BatchesDetailsReqModel batchesDetailsReqModel)
+        public async Task<IActionResult> InsertBatchesDetails([FromBody] BatchDetailsPayload batchDetailsPayload)
         {
-            if (batchesDetailsReqModel == null)
+            if (batchDetailsPayload == null)
             {
                 return BadRequest("Object is null");
             }
@@ -33,7 +33,7 @@ namespace Learnum.ERP.API.Controller
                 return BadRequest("Invalid model object");
             }
 
-            var result = await batchesDetailsRepository.InsertBatchesDetails(batchesDetailsReqModel);
+            var result = await batchesDetailsRepository.InsertBatchesDetails(batchDetailsPayload);
             if (result == ResponseCode.Success || result == ResponseCode.Updated)
             {
                 return Ok(result);
@@ -52,5 +52,22 @@ namespace Learnum.ERP.API.Controller
             }
             return NotFound("No record found");
         }
+
+        [HttpGet("getBatchDetails/{BatchId}")]
+        public async Task<IActionResult> GetBatchDetails(long? BatchId)
+        {
+            if (BatchId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await batchesDetailsRepository.GetBatchDetails(BatchId);
+            return Ok(result);
+        }
+
     }
 }

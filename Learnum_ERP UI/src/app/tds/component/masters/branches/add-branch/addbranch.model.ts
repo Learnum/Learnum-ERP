@@ -3,7 +3,8 @@ export class BranchDetailsModel {
   branchName: string;
   address: string;
   city: string;
-  state: string;
+  StateName: string;
+  StateId: number;
   postalCode: number;
   isActive: boolean;
   addedBy: number | null;

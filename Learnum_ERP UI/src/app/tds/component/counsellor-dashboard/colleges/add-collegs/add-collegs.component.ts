@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
-import { MessageService } from 'src/app/core/services/message.service';
-import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddcollegesService } from './addcolleges.service';
+import { AddcollegesDetails, CollegeContactDetails, ContactDetails, DepartmentDetails } from './addcolleges.model';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { MessageService } from 'src/app/core/services/message.service';
 
 @Component({
   selector: 'app-add-collegs',
@@ -13,33 +16,41 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AddCollegsComponent implements OnInit {
 
+  collegeContactDetails: CollegeContactDetails = new CollegeContactDetails();
+
+  //contactForm = new FormGroup({});
+  collegeForm: FormGroup;
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
-  collegeDetails: any = {};
   contactForm: FormGroup;
-  departmentForm:FormGroup
-
+  departmentForm: FormGroup;
+  collegeDetails: any;
   contactDetails: any[] = [];
   departmentDetails: any[] = [];
+  contactFields: FormlyFieldConfig[];
+  departmentFields:FormlyFieldConfig[];
+  roleDetails: any;
+  collegeroleDetails:any;
 
   constructor(
     private router: Router,
     private alertService: AlertService,
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
+    private messageService: MessageService,
+    private addcollegesService: AddcollegesService
   ) { }
 
   ngOnInit(): void {
-  
     this.createContactForm();
     this.createDepartmentForm();
     this.setParameter();
-
+    this.getBranchDetails();
+    this.getJobroleList();
+    this.getCollegeList();
   }
-
- 
 
   setParameter() {
     this.fields = [
@@ -47,8 +58,8 @@ export class AddCollegsComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-4',
-            key: 'collegeName',
+            className: 'col-md-3',
+            key: 'CollegeName',
             type: 'input',
             props: {
               label: 'College Name',
@@ -62,12 +73,12 @@ export class AddCollegsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            key: 'collegeAddress',
+            className: 'col-md-3',
+            key: 'CollegeAddress',
             type: 'input',
             props: {
               label: 'College Address',
-              placeholder: 'College Address',
+              placeholder: 'Address Line 1',
               required: true,
             },
             validation: {
@@ -77,68 +88,81 @@ export class AddCollegsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            key: 'branchName',
+            className: 'col-md-3',
+            key: 'City',
             type: 'input',
             props: {
-              label: 'Branch Name',
-              placeholder: 'Branch Name',
+              label: 'City',
+              placeholder: 'City',
               required: true,
             },
             validation: {
               messages: {
-                required: 'Branch Name is required',
+                required: 'City is required',
               },
             },
           },
-          // {
-          //   className: 'col-md-4',
-          //   key: 'city',
-          //   type: 'input',
-          //   props: {
-          //     label: 'City',
-          //     placeholder: 'City',
-          //     required: true,
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'City is required',
-          //     },
-          //   },
-          // },
-          // {
-          //   className: 'col-md-4',
-          //   key: 'state',
-          //   type: 'input',
-          //   props: {
-          //     label: 'State',
-          //     placeholder: 'State',
-          //     required: true,
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'State is required',
-          //     },
-          //   },
-          // },
-          // {
-          //   className: 'col-md-4',
-          //   key: 'pincode',
-          //   type: 'input',
-          //   props: {
-          //     label: 'Pincode',
-          //     placeholder: 'Pincode',
-          //     required: true,
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'Pincode is required',
-          //     },
-          //   },
-          // },
           {
-            className: 'col-md-4',
-            key: 'collegeWebsite',
+            className: 'col-md-3',
+            key: 'District',
+            type: 'input',
+            props: {
+              label: 'District',
+              placeholder: 'District',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'City is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-3',
+            key: 'State',
+            type: 'input',
+            props: {
+              label: 'State',
+              placeholder: 'State',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'State is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-3',
+            key: 'Pincode',
+            type: 'input',
+            props: {
+              label: 'Pincode',
+              placeholder: 'Pincode',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'Pincode is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-3',
+            type: 'select',
+            key: 'BranchId',
+            templateOptions: {
+              placeholder: 'Branch Name',
+              type: 'text',
+              label: "Branch Name",
+              required: true,
+              options: this.collegeDetails ? this.collegeDetails.map(college => ({ label: college.BranchName, value: college.BranchId })) : [],
+            },
+          },
+          
+          {
+            className: 'col-md-3',
+            key: 'CollegeWebsite',
             type: 'input',
             props: {
               label: 'College Website',
@@ -152,8 +176,8 @@ export class AddCollegsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
-            key: 'branchName1',
+            className: 'col-md-3',
+            key: 'BranchName1',
             type: 'input',
             props: {
               label: 'Branch Name 1',
@@ -167,14 +191,14 @@ export class AddCollegsComponent implements OnInit {
             },
           },
           {
-            //className: 'col-md-4',
-            key: 'aboutCollege',
+            className: 'col-md-6',
+            key: 'AboutCollege',
             type: 'textarea',
             props: {
               label: 'About College',
               placeholder: 'About College',
               required: true,
-              rows:3
+              rows: 5
             },
             validation: {
               messages: {
@@ -185,13 +209,85 @@ export class AddCollegsComponent implements OnInit {
         ],
       },
     ];
+
+    this.contactFields = [{
+      fieldGroupClassName: 'row card-body p-2',
+      fieldGroup: [
+        {
+          key: 'Name',
+          className: 'col-4',
+         // type: 'input',
+          templateOptions: {
+            placeholder: 'Enter Name',
+            type: 'text',
+            required: true,
+          }
+        },
+        {
+          key: 'Phone',
+          className: 'col-4',
+          //type: 'input',
+          templateOptions: {
+            placeholder: 'Enter Phone Number',
+            type: 'number',
+            required: true,
+          }
+        },
+        {
+          key: 'Email',
+          className: 'col-4',
+         // type: 'input',
+          templateOptions: {
+            placeholder: 'Enter Email',
+            type: 'text',
+            required: true,
+          }
+        },
+        {
+          key: 'RoleId',
+          className: 'col-4',
+         // type: 'select',
+          templateOptions: {
+            placeholder: 'Enter Email',
+            type: 'text',
+            required: true,
+          }
+        },
+      ]
+    }];
+
+    this.departmentFields =[{
+      fieldGroupClassName: 'row card-body p-2',
+      fieldGroup: [
+        {
+          key: 'Name',
+          className: 'col-4',
+          //type: 'input',
+          templateOptions: {
+            placeholder: 'Enter Name',
+            type: 'text',
+            required: true,
+          }
+        },
+        {
+          key: 'CollegeRoleId',
+          className: 'col-4',
+          //type: 'select',
+          templateOptions: {
+            placeholder: 'Select College',
+            type: 'text',
+            required: true,
+          }
+        },
+      ]
+    }]
   }
 
   createContactForm(): void {
     this.contactForm = this.formBuilder.group({
       name: ['', Validators.required],
       phone: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       jobRole: ['', Validators.required],
     });
   }
@@ -202,7 +298,7 @@ export class AddCollegsComponent implements OnInit {
       this.contactForm.reset();
       this.modalService.dismissAll();
     } else {
-      
+      this.alertService.ShowErrorMessage("Please fill all required fields.");
     }
   }
 
@@ -214,20 +310,24 @@ export class AddCollegsComponent implements OnInit {
   }
 
   addDepartment(): void {
-    
     if (this.departmentForm.valid) {
       this.departmentDetails.push(this.departmentForm.value);
       this.departmentForm.reset();
       this.modalService.dismissAll();
       this.router.navigateByUrl('tds/counsellor-dashboard/colleges/add-collegs');
     } else {
-      
+      this.alertService.ShowErrorMessage("Please fill all required fields.");
     }
   }
 
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
+      this.insertCollegeDetails();
+      //this.combineFormData();
+      console.log(this.departmentDetails);
+      console.log( this.contactDetails);
+      console.log(this.collegeContactDetails)
     } else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
@@ -237,6 +337,61 @@ export class AddCollegsComponent implements OnInit {
     this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
   }
 
-  
-  
+  getBranchDetails() {
+    this.addcollegesService.getBranchList().subscribe(
+      (data: any) => {
+        this.collegeDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getJobroleList() {
+    this.addcollegesService.getroleList().subscribe(
+      (data: any) => {
+        this.roleDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getCollegeList() {
+    this.addcollegesService.getCollegeList().subscribe(
+      (data: any) => {
+        this.collegeroleDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  insertCollegeDetails() {
+    this.collegeContactDetails.addcollegesDetails.addedBy = 1;
+    this.collegeContactDetails.addcollegesDetails.addedDate = new Date();
+    this.collegeContactDetails.addcollegesDetails.updatedBy = 1;
+    this.collegeContactDetails.addcollegesDetails.updatedDate = new Date();
+    this.collegeContactDetails.addcollegesDetails.collegeId=0;
+
+    this.addcollegesService.insertCollegesData(this.collegeContactDetails).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+    this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
+  }
 }

@@ -1,4 +1,5 @@
-﻿using Learnum.ERP.Repository.Master.Student_Management;
+﻿using Learnum.ERP.Repository.Master;
+using Learnum.ERP.Repository.Master.Student_Management;
 using Learnum.ERP.Shared.Core;
 using Learnum.ERP.Shared.Entities.Models;
 using Microsoft.AspNetCore.Http;
@@ -41,15 +42,35 @@ namespace Learnum.ERP.API.Controller.Student_Management
             return BadRequest("Failed to Save");
         }
 
-        [HttpGet("GetStudentAdmissionsDetailsList")]
-        public async Task<IActionResult> GetStudentAdmissionsDetailsList()
+        [HttpGet("GetAllBranches")]
+        public async Task<IActionResult> GetBranchDetails()
         {
-            var data = await studentAdmissionsDetailsRepository.GetStudentAdmissionsDetailsList();
-            if (data != null)
+            var data = studentAdmissionsDetailsRepository.GetBranchDetails();
+            return Ok(data.Result);
+        }
+
+
+        [HttpGet("GetAllCourses")]
+        public async Task<IActionResult> GetCourseDetails()
+        {
+            var data = studentAdmissionsDetailsRepository.GetCourseDetails();
+            return Ok(data.Result);
+        }
+
+        [HttpGet("getBatchDetails/{BranchId}")]
+        public async Task<IActionResult> GetBatchDetailsbyBranchID(long? BranchId)
+        {
+            if (BranchId == null)
             {
-                return Ok(data);
+                return BadRequest("Object is null");
             }
-            return NotFound("No record found");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await studentAdmissionsDetailsRepository.GetBatchDetailsbyBranchID(BranchId);
+            return Ok(result);
         }
     }
 }

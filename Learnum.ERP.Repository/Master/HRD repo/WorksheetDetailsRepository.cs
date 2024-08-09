@@ -16,10 +16,25 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
     {
         Task<ResponseCode>InsertWorksheetDetails(WorksheetDetailsModel worksheetDetailsModel);
         Task<List<WorksheetDetailsResponseModel>> GetWorksheetDetailsList();
+
+        Task<Tuple<WorksheetDetailsModel?, ResponseCode>> GetWorkSheetDetails(long? WorkId);
+
     }
     public class WorksheetDetailsRepository : BaseRepository, IWorksheetDetailsRepository
     {
-        public async Task<ResponseCode> InsertIWorksheetDetails(WorksheetDetailsModel worksheetDetailsModel)
+        
+
+        public async Task<List<WorksheetDetailsResponseModel>> GetWorksheetDetailsList()
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                var result = dbConnection.Query<WorksheetDetailsResponseModel>("PROC_GetDailyWorkSheetList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<ResponseCode> InsertWorksheetDetails(WorksheetDetailsModel worksheetDetailsModel)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
@@ -31,19 +46,17 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
             }
         }
 
-        public async Task<List<WorksheetDetailsResponseModel>> GetWorksheetDetailsList()
+        public async Task<Tuple<WorksheetDetailsModel?, ResponseCode>> GetWorkSheetDetails(long? WorkId)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query <WorksheetDetailsResponseModel > ("PROC_GetDailyWorkSheetList", dbparams, commandType: CommandType.StoredProcedure).ToList();
-                return await Task.FromResult(result);
+                dbparams.Add("@WorkId", WorkId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<WorksheetDetailsModel?>("PROC_EditDailyWork", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<WorksheetDetailsModel?, ResponseCode>(result, responseCode));
             }
-        }
-
-        public Task<ResponseCode> InsertWorksheetDetails(WorksheetDetailsModel worksheetDetailsModel)
-        {
-            throw new NotImplementedException();
         }
     }
 }

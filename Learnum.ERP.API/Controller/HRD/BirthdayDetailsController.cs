@@ -50,5 +50,22 @@ namespace Learnum.ERP.API.Controller.HRD
             }
             return NotFound("No record found");
         }
+
+
+        [HttpGet("getBirthDayDetails/{BirthId}")]
+        public async Task<IActionResult> GetBirthdayDetails(long? BirthId)
+        {
+            if (BirthId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await birthdayDetailsRepository.GetBirthdayDetails(BirthId);
+            return Ok(result);
+        }
     }
 }

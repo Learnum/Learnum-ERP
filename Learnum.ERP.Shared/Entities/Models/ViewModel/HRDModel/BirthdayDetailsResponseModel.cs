@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models.ViewModel.HRDModel
 {
-    public class BirthdayDetailsResponseModel
+    public class BirthdayDetailsResponseModel : BaseModel
     {
-        public long BranchId { get; set; }
-        public string BranchName { get; set; }
-        public string Town { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public long PostalCode { get; set; }
-        public Boolean IsActive { get; set; }
+        public long? BirthId { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Role { get; set; }
+        public DateTime? Date { get; set; }
+        public string Day { get; set; }
+        public string Month { get; set; }
+        public bool IsActive { get; set; }
     }
 }
