@@ -12,6 +12,8 @@ export class StudentleadsService {
   private urlgetBranchList: string = "BranchDetails/getAllBranchList";
   private urlgetCollegesList: string = "AddColleges/getAllCollegesList";
   private urlGetStudentList: string = "StudentLeadDetails/getStudentDetails";
+  private getAllStatesURL : string = "ApplicationMaster/GetAllStates";
+
   
   constructor(private apiService: APIService) { }
 
@@ -30,4 +32,8 @@ export class StudentleadsService {
   getStudentDetails(studentId: number) {
     return this.apiService.getData(this.urlGetStudentList + '/' + studentId);
   }
+
+  getAllStates(){
+    return this.apiService.getData(this.getAllStatesURL);
+   }
 }

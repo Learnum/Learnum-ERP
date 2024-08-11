@@ -14,6 +14,16 @@ export class TrainerDashboardComponent implements OnInit {
 
   syllabusDetailsList: any[] = [];
 
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
+    },
+  ];
   declaredTableColumns: TableColumn[] = [
     {
       field: 'TrainerId',
@@ -79,24 +89,7 @@ export class TrainerDashboardComponent implements OnInit {
   ngOnInit(): void {
     this. getSyllabusDetails();
   }
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewBranch',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
-  ActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewEmployee',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
+ 
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',

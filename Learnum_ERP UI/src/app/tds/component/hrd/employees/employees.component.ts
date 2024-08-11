@@ -16,6 +16,17 @@ export class EmployeesComponent implements OnInit {
 
   form: FormGroup;
 
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
+    },
+  ];
+
   declaredTableColumns: TableColumn[] = [
     {
       field: 'EmployeeName',
@@ -166,15 +177,7 @@ export class EmployeesComponent implements OnInit {
   //   }
   }
 
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewBranch',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
+ 
   onAddEmployee(employee?: any) {
 
     // let navigationExtras: NavigationExtras = {};

@@ -195,17 +195,24 @@ export class AddBatchComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'select',
-            key: 'BatchStatus',
+            key: 'IsActive',
             templateOptions: {
-              placeholder: 'Enter Batch Status',
+              label: 'Batch Status',
+              //placeholder: 'Select Batch Status',
               required: true,
-              label: "Batch Status",
               options: [
-                { value: true, label: 'active' },
-                { value: false, label: 'inactive' },
+                { value: null, label: 'Select Batch Status', disabled: true },  // Disabled placeholder option
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
               ],
             },
-          },
+            defaultValue: null,  // Set default value to 'Active'
+            validation: {
+              messages: {
+                required: 'Please select a batch status',
+              },
+            },
+          },,
         ],
       },
     ];

@@ -21,6 +21,8 @@ import { TrainerComponent } from './trainer.component';
     SharedModule,
     FormsModule,
     FormlyModule.forRoot(),
-  ]
+  ],
+  providers: [],
+  exports: [],
 })
 export class TrainerModule { }

@@ -18,4 +18,5 @@ export interface ActionColumn {
     actionButtonName?: string;
     buttonClass?: string;
     colorClass?: string;
+    tooltip?: string;
 }

@@ -19,6 +19,18 @@ throw new Error('Method not implemented.');
   CounsellorList: any[] = [];
   form: FormGroup;
 
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewCounsellor',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Counsellor'
+    },
+  ];
+
+
   declaredTableColumns: TableColumn[] = [
     {
       field: 'CounsellorName',
@@ -115,15 +127,7 @@ throw new Error('Method not implemented.');
 
 
 
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewContentWriter',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
+  
   onAddcounsellor() {
 
     // let navigationExtras: NavigationExtras = {};

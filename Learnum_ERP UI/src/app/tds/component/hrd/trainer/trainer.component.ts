@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
-import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { ActionColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
 import { AddtrainerService } from './add-trainer/addtrainer.service';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
@@ -13,9 +14,36 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
   styleUrls: ['./trainer.component.scss']
 })
 export class TrainerComponent implements OnInit {
-  trainerList: any[] = [];
-  form: FormGroup;
+  selectedItems: any;
+  
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+    private alertService: AlertService,
+    private addtrainerService: AddtrainerService,
+    private formBuilder: FormBuilder
+  ) {}
 
+
+  ngOnInit(): void {
+    this.getAllTrainerDetails();
+  }
+
+  
+
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
+    },
+  ];
+
+  trainerList: any[] = [];
   declaredTableColumns: TableColumn[] = [
     // {
     //   field: 'TrainerId',
@@ -68,21 +96,21 @@ export class TrainerComponent implements OnInit {
     },
     {
       field: 'addedBy',
-      headerName: 'AddedBy',
+      headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
       field: 'addedTime',
-      headerName: 'AddedTime',
+      headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
       field: 'updatedBy',
-      headerName: 'UpdatedBy',
+      headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
@@ -97,37 +125,9 @@ export class TrainerComponent implements OnInit {
     
   ];
 
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewTrainer',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
-
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private messageService: MessageService,
-    private alertService: AlertService,
-    private addtrainerService: AddtrainerService,
-    private formBuilder: FormBuilder
-  ) {
-    this.form = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-    });
-  }
-
-  ngOnInit(): void {
-    this.getAllTrainerDetails();
-  }
-
   selectTrainer(trainer: any) {
-    // Implement this method based on your requirements
-  }
+    this.selectedItems = trainer;
+    console.log('Selected rows:', this.selectedItems);}
 
   onRowAction(data: any) {
     let data1 = {

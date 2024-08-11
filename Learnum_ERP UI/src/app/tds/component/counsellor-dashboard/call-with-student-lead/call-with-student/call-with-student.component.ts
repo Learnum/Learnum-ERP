@@ -52,28 +52,65 @@ export class CallWithStudentComponent implements OnInit {
             type: 'select',
             key: 'StudentId',
             templateOptions: {
-              placeholder: 'Student Name',
-              type: 'text',
               label: "Student Name",
+             // placeholder: 'Select Student Name',  // Placeholder for the dropdown
               required: true,
-              options: this.studentDetails ? this.studentDetails.map(college => ({ label: college.StudentName, value: college.StudentId })) : [],
+              options: [
+                { value: null, label: 'Select Student Name', disabled: true },  // Disabled placeholder option
+                ...this.studentDetails ? this.studentDetails.map(student => ({ label: student.StudentName, value: student.StudentId })) : [],
+              ]
             },
-          },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Student Name is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Student Name is required',
+              },
+            },
+          }
+          ,
           {
             className: 'col-md-3',
             key: 'Phone',
             type: 'input',
-            props: {
-              label: 'Phone',
+            templateOptions: {
+              label: 'Phone Number',
               placeholder: 'Enter Phone Number',
-              type: 'number',
               required: true,
-              pattern: '^[0-9]+$',
+              maxLength: 10,
+              minLength: 10,
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^0-9]/g, '');
+                  if (sanitizedValue !== value) {
+                    field.formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              },
+            },
+            validators: {
+              phoneNumber: {
+                expression: (c: AbstractControl) => {
+                  const value = c.value;
+                  // Ensure the value is exactly 10 digits long
+                  return value && /^[0-9]{10}$/.test(value);
+                },
+                message: (error: any, field: FormlyFieldConfig) => {
+                  return `"${field.formControl.value}" is not a valid 10-digit phone number`;
+                },
+              },
             },
             validation: {
               messages: {
-                required: 'Phone is required',
-                pattern: 'Please Enter Valid PhoneNumber',
+                required: 'Phone Number is required',
+                phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
               },
             },
           },
@@ -109,28 +146,56 @@ export class CallWithStudentComponent implements OnInit {
               },
             },
           },
+          // {
+          //   className: 'col-md-3',
+          //   type: 'select',
+          //   key: 'BranchId',
+          //   templateOptions: {
+          //     placeholder: 'Branch Name',
+          //     type: 'text',
+          //     label: "Branch Name",
+          //     required: true,
+          //     options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+          //   },
+
+          // },
           {
             className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
-              placeholder: 'Branch Name',
-              type: 'text',
               label: "Branch Name",
-              required: true,
-              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
-            },
-
-          },
-          {
-            className: 'col-md-3',
-            key: 'LeadStatus',
-            type: 'select',
-            props: {
-              label: 'Lead Status',
-              placeholder: 'Select Lead Status',
+            //  placeholder: 'Select Branch Name',  // Placeholder for the dropdown
               required: true,
               options: [
+                { value: null, label: 'Select Branch Name', disabled: true },  // Disabled placeholder option
+                ...this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+              ]
+            },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Branch Name is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Branch Name is required',
+              },
+            },
+          },
+          
+          {
+            className: 'col-md-3',
+            type: 'select',
+            key: 'LeadStatus',
+            templateOptions: {
+              label: 'Lead Status',
+             // placeholder: 'Select Lead Status',
+              required: true,
+              options: [
+                { value: null, label: 'Select Lead Status', disabled: true }, // Disabled placeholder option
                 { value: 'notConnected', label: 'Not Connected' },
                 { value: 'connectInFuture', label: 'Connect In Future' },
                 { value: 'junkLead', label: 'Junk Lead' },
@@ -140,12 +205,20 @@ export class CallWithStudentComponent implements OnInit {
                 { value: 'needToTalkToParents', label: 'Need To Talk To Parents' },
               ],
             },
+            defaultValue: null,
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Lead Status is required',
+              },
+            },
             validation: {
               messages: {
                 required: 'Lead Status is required',
               },
             },
-          },
+          }
+          ,
           {
             className: 'col-md-6',
             key: 'CallConversation',
