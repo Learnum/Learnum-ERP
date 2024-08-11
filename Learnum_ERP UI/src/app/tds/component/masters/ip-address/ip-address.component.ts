@@ -16,6 +16,17 @@ import { AddIpaddressService } from './add-ipaddress/add-ipaddress.service';
 export class IpAddressComponent {
 
   ipaddresList: any[] = [];
+
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
+    },
+  ];
   
   declaredTableColumns: TableColumn[] = [
 
@@ -91,16 +102,7 @@ export class IpAddressComponent {
     }, 
     
   ];
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewLocation',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
-
+ 
   ngOnInit(): void {
     this.getAllLocationDetails();
   }

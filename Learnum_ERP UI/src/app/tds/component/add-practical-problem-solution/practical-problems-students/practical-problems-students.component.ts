@@ -107,15 +107,22 @@ export class PracticalProblemsStudentsComponent implements OnInit {
             className: 'col-md-3',
             key: 'IsActive',
             type: 'select',
-            props: {
+            templateOptions: {  // Use templateOptions instead of props
               label: 'Practical Problem Status',
-              placeholder: 'Select Status',
+             // placeholder: 'Select Status',
               required: true,
               options: [
+                { value: null, label: 'Select Status', disabled: true },
                 { label: 'Active', value: true },
-                { label: 'Inactive', value: false}
+                { label: 'Inactive', value: false }
               ],
-              
+            },
+            defaultValue: null, 
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a status is selected
+                message: 'Practical Problem Status is required',
+              },
             },
             validation: {
               messages: {
@@ -123,8 +130,9 @@ export class PracticalProblemsStudentsComponent implements OnInit {
               },
             },
           },
+          
           {
-            className: 'col-md-3',
+            className: 'col-md-2',
             key: 'file',
             type: 'file',
             props: {

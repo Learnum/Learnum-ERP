@@ -17,6 +17,17 @@ export class AccountantComponent implements OnInit {
   accountantDetailsList: any[] = [];
   form: FormGroup;
 
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
+    },
+  ];
+  
   declaredTableColumns: TableColumn[] = [
 
     // {
@@ -124,15 +135,7 @@ export class AccountantComponent implements OnInit {
 
 
 
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewBranchAccountant',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
+ 
   onAddAccountant() {
 
     this.router.navigateByUrl('tds/hrd/accountant/add-accountant')
