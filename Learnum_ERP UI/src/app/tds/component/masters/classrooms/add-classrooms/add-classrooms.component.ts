@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { AlertService } from 'src/app/core/services/alertService';
@@ -55,20 +55,31 @@ constructor(
             type: 'select',
             key: 'BranchId',
             templateOptions: {
-              placeholder: 'Branch Name',
-              type: 'text',
               label: "Branch Name",
+              //placeholder: 'Select Branch',  // Placeholder for the dropdown
               required: true,
-              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
-            
-            },   
+              options: [
+                { value: null, label: 'Select Branch', disabled: true },  // Disabled placeholder option
+                ...this.branchDetails ? this.branchDetails.map(branch => ({
+                  label: branch.BranchName,
+                  value: branch.BranchId
+                })) : [],
+              ]
+            },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Branch selection is required',
+              },
+            },
             validation: {
               messages: {
-                required: 'Branch Name is required',
-
+                required: 'Branch selection is required',
               },
             },
           },
+          
           {
             className: 'col-md-3',
             type: 'input',
