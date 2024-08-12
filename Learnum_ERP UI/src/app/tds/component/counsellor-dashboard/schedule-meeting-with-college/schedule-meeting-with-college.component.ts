@@ -22,7 +22,7 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
       headerName: 'SR.NO',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 100
     },
     {
       field: 'CollegeName',
@@ -59,13 +59,13 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
-    {
-      field: 'MeetingAgenda',
-      headerName: 'Meeting Agenda',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
+    // {
+    //   field: 'MeetingAgenda',
+    //   headerName: 'Meeting Agenda',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: { buttons: ['reset', 'apply'] },
+    //   minWidth: 150
+    // },
     {
       field: 'addedBy',
       headerName: 'Added By',

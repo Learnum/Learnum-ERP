@@ -21,15 +21,15 @@ export class MyPracticalExamComponent implements OnInit {
       field: 'StudentId',
       headerName: 'SR.NO',
       filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 80
+      filterParams: {buttons: ['reset', 'apply'],},
+      minWidth: 100
     },
     {
       field: 'Answer',
       headerName: 'Student Answer',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
     // {
     //   field: 'IsActive',
