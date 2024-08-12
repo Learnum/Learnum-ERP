@@ -1,23 +1,22 @@
-<div style="margin-left: 5px;" class="row d-flex">
-    <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);">
-      <b>
-        <span data-toggle="tooltip" title="Close">
-          <i class="uil uil-multiply"></i> &nbsp;
-        </span>
-        Add Meeting
-      </b>
-    </h6>
-    <div>
-      <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">
-        <formly-form [model]="meetingDetails" [fields]="fields" [options]="options" [form]="form">
-        </formly-form>
-      </form>
-    </div>
+  <div style="margin-left: 5px;" class="row d-flex">
+  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);">
+    <b>
+      <span data-toggle="tooltip" title="Close">
+        <i class="uil uil-multiply" (click)="onCancleClick()"></i> &nbsp;
+      </span>
+      Add Meeting
+    </b>
+  </h6>
+  <div class="form-container" style="padding-bottom: 80px;"> <!-- Adjust padding as needed -->
+    <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <formly-form [model]="meetingDetails" [fields]="fields" [options]="options" [form]="form">
+      </formly-form>
+    </form>
   </div>
-  
-  <div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
-    <button class="btn btn-cloud me-2" (click)="onSubmit()" [disabled]="form.invalid">Save</button>
-    <button class="btn btn-fent-cloud me-2" (click)=" onResetClick()">Reset</button>
-    <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
-  </div>
-  
+</div>
+
+<div class="col-12 px-4 py-2 border-top buttons-container" style="position: fixed; bottom: 0; background-color: white; width: 100%; z-index: 1000;">
+  <button class="btn btn-cloud me-2" (click)="onSubmit()" [disabled]="form.invalid">Save</button>
+  <button class="btn btn-fent-cloud me-2" type="button" (click)="onResetClick()">Reset</button>
+  <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
+</div>

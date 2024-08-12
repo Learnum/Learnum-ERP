@@ -79,6 +79,9 @@ export class AddMeetingComponent implements OnInit {
             },
           },
           
+              options: this.collegeDetails ? this.collegeDetails.map(college => ({ label: college.CollegeName, value: college.CollegeId })) : [],
+            },
+          }, 
           {
             className: 'col-md-3',
             type: 'input',
@@ -86,17 +89,27 @@ export class AddMeetingComponent implements OnInit {
             props: {
               placeholder: 'Meeting with',
               type: 'text',
-              label: "Meeting with",
+              label: 'Meeting with',
               required: true,
-              pattern: '^[A-Za-z]+$',
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
             },
             validation: {
               messages: {
                 required: 'Meeting Name is required',
-                pattern: 'Please Enter Meeting with',
+                pattern: 'Please enter a valid name with letters only.',
               },
             },
-          },
+          },          
           {
             className: 'col-md-3',
             key: 'MeetingDate',
@@ -136,9 +149,20 @@ export class AddMeetingComponent implements OnInit {
             props: {
               label: 'Meeting Location',
               placeholder: 'Enter Meeting Location',
-              required: true,
               type:'text',
-              pattern: '^[A-Za-z]+$',
+              pattern: '^[A-Za-z ]+$', 
+              required: true,
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
             },
             validation: {
               messages: {
@@ -147,23 +171,6 @@ export class AddMeetingComponent implements OnInit {
               },
             },
           },
-          // {
-          //   className: 'col-md-6',
-          //   type: 'textarea',
-          //   key: 'MeetingAgenda',
-          //   templateOptions: {
-          //     placeholder: 'Enter Meeting Agenda',
-          //     label: 'Meeting Agenda',
-          //     required: true,
-          //     rows: 5,
-             
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'Meeting Agenda is required',
-          //     },
-          //   },
-          // },
           {
             className: 'col-md-6',
             key: 'MeetingAgenda',
@@ -214,8 +221,10 @@ export class AddMeetingComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/counsellor-dashboard/schedule-meeting-with-college');
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/counsellor-dashboard/schedule-meeting-with-college');
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
@@ -224,7 +233,6 @@ export class AddMeetingComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/counsellor-dashboard/schedule-meeting-with-college');
   }
 
   getCollegeDetails() {
