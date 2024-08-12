@@ -62,7 +62,7 @@ setParameter() {
           },
 
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'CourseId',
             templateOptions: {
@@ -76,7 +76,7 @@ setParameter() {
             },
             },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'SubjectId',
             templateOptions: {
@@ -94,7 +94,7 @@ setParameter() {
 
 
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
@@ -107,7 +107,7 @@ setParameter() {
 
           }, 
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'BatchId',
             templateOptions: {
@@ -127,24 +127,30 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'trainerName',
-            props: {
-              placeholder: 'Trainer Name',
-              required: true,
-              type: 'text',
+            templateOptions: {  // Use templateOptions instead of props
               label: "Trainer Name",
+              //placeholder: 'Select Trainer Name',
+              required: true,
               options: [
+                { value: null, label: 'Select Trainer', disabled: true },
                 { label: 'Trainer-1', value: 'Trainer-1' },
                 { label: 'Trainer-2', value: 'Trainer-2' }
               ],
-             },
-            
+            },
+            defaultValue: null, 
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'This field is required',
+              },
+            },
             validation: {
               messages: {
                 required: 'This field is required',
-                tds: 'Please enter a Trainer Name',
+                tds: 'Please enter a Trainer Name',  // Custom validation message if applicable
               },
             },
           },
@@ -154,16 +160,29 @@ setParameter() {
             type: 'select',
             key: 'IsActive',
             templateOptions: {
-              placeholder: 'Select Status',
-              type: 'text',
               label: "Status",
+             // placeholder: 'Select Status',  // Placeholder for the dropdown
               required: true,
               options: [
+                { value: null, label: 'Select Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
               ]
             },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Status is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Status is required',
+              },
+            },
           },
+          ,
          
         ],
       },
@@ -207,7 +226,7 @@ setParameter() {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-
+           
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);

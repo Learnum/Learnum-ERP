@@ -86,34 +86,58 @@ export class AddTrainerComponent implements OnInit {
             type: 'select',
             key: 'CourseId',
             templateOptions: {
-              placeholder: 'Select Course',
-              type: 'text',
               label: "Course Name",
+              //placeholder: 'Select Course',  // Placeholder for the dropdown
               required: true,
-              options: this.courseDetails ? this.courseDetails.map(course => ({
-                label: course.CourseName
-                , value: course.CourseId
-              })) : [],
-
+              options: [
+                { value: null, label: 'Select Course', disabled: true },  // Disabled placeholder option
+                ...this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
+              ]
+            },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Course selection is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Course selection is required',
+              },
             },
           },
+          
           {
             className: 'col-md-3',
             type: 'select',
             key: 'SubjectId',
             templateOptions: {
-              placeholder: ' Select Subject',
-              type: 'Text',
               label: "Subject Name",
+             // placeholder: 'Select Subject',  // Placeholder for the dropdown
               required: true,
-              options: this.subjectDetails ? this.subjectDetails.map(subject => ({
-                label: subject.SubjectName
-                , value: subject.SubjectId
-              })) : [],
-
+              options: [
+                { value: null, label: 'Select Subject', disabled: true },  // Disabled placeholder option
+                ...this.subjectDetails ? this.subjectDetails.map(subject => ({
+                  label: subject.SubjectName,
+                  value: subject.SubjectId
+                })) : [],
+              ]
             },
-
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Subject selection is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Subject selection is required',
+              },
+            },
           },
+          
 
 
           {
@@ -121,28 +145,53 @@ export class AddTrainerComponent implements OnInit {
             type: 'select',
             key: 'BranchId',
             templateOptions: {
-              placeholder: 'Select Branch ',
-              type: 'text',
               label: "Branch Name",
+             // placeholder: 'Select Branch',  // Placeholder for the dropdown
               required: true,
-              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+              options: [
+                { value: null, label: 'Select Branch', disabled: true },  // Disabled placeholder option
+                ...this.branchDetails ? this.branchDetails.map(branch => ({
+                  label: branch.BranchName,
+                  value: branch.BranchId
+                })) : [],
+              ]
             },
-
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Branch selection is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Branch selection is required',
+              },
+            },
           },
+          
           {
             className: 'col-md-3',
             type: 'select',
             key: 'BatchId',
             templateOptions: {
-              placeholder: 'Select Batch',
-              required: true,
-              type: 'text',
               label: "Batch Name",
-              options: this.batchDetails ? this.batchDetails.map(batch => ({
-                label: batch.BatchName
-                , value: batch.BatchId
-              })) : [],
-
+             // placeholder: 'Select Batch',  // Placeholder for the dropdown
+              required: true,
+              options: [
+                { value: null, label: 'Select Batch', disabled: true },  // Disabled placeholder option
+                ...this.batchDetails ? this.batchDetails.map(batch => ({
+                  label: batch.BatchName,
+                  value: batch.BatchId
+                })) : [],
+              ]
+            },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Batch selection is required',
+              },
             },
             validation: {
               messages: {
@@ -150,7 +199,8 @@ export class AddTrainerComponent implements OnInit {
               },
             },
           },
-          ,
+          
+          
 
           {
             className: 'col-md-3',

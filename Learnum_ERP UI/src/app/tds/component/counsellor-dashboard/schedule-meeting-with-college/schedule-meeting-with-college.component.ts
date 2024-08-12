@@ -16,6 +16,17 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
   meetingDetailsList: any[] = [];
   form: FormGroup;
 
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
+    },
+  ];
+
   declaredTableColumns: TableColumn[] = [
     {
       field: 'MeetingId',
@@ -112,15 +123,7 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
     this.getMeetingDetails();
   }
 
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'Edit',
-      actionPage: 'EditMeeting',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
+  
 
   onRowAction(data: any) {
     let data1 = {

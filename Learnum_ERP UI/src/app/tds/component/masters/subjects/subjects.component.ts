@@ -16,6 +16,17 @@ export class SubjectsComponent implements OnInit {
 
   subjectsList: any[] = [];
 
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
+    },
+  ];
+
   declaredTableColumns: TableColumn[] = [
     {
       field: 'SubjectId',
@@ -112,19 +123,6 @@ export class SubjectsComponent implements OnInit {
   { 
     throw new Error('Method not implemented.'); 
   }
-
-
-
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewSubject',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
-  
 
   onAddSubject(subject?: any) {
 

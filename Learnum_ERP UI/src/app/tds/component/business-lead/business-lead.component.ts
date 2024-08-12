@@ -15,6 +15,16 @@ import { AddBusinessLeadService } from './add-business-lead/add-business-lead.se
 export class BusinessLeadComponent {
   businessLeadList: any[] = [];
 
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
+    },
+  ];
   
   declaredTableColumns: TableColumn[] = [
     {
@@ -89,15 +99,6 @@ export class BusinessLeadComponent {
     
   ];
 
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewBusiness',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
 
   constructor(
     private router: Router,

@@ -13,7 +13,16 @@ import { BirthdayDetailsService } from './add-birthday/birthday-details.service'
 })
 export class BirthdaysComponent implements OnInit {
 
-
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
+    },
+  ];
 
   form: FormGroup;
   BirthdayList: any[] = [];
@@ -129,15 +138,7 @@ export class BirthdaysComponent implements OnInit {
 
 
 
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewContentWriter',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
+  
   onAddBirthday() {
 
     // let navigationExtras: NavigationExtras = {};

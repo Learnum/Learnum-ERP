@@ -16,7 +16,16 @@ export class BranchManagerComponent implements OnInit {
   BranchManagerList: any[] = [];
   form: FormGroup;
 
- 
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
+    },
+  ]; 
 
   declaredTableColumns: TableColumn[] = [
     {
@@ -81,16 +90,7 @@ export class BranchManagerComponent implements OnInit {
     
   ];
 
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewBranchManager',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-   
-  ];
+  
 
   getEmployeeList: any;
 

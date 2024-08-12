@@ -16,6 +16,17 @@ export class MyPracticalExamComponent implements OnInit {
 
   PracticalReturnList: any[] = [];
 
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
+    },
+  ];
+
   declaredTableColumns: TableColumn[] = [
     {
       field: 'StudentId',
@@ -71,15 +82,7 @@ export class MyPracticalExamComponent implements OnInit {
     }, 
   ];
 
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewPracticalAnswer',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
+  
 
   constructor(
     private router: Router,

@@ -21,7 +21,7 @@ export class AddStudentLeadsComponent implements OnInit {
   branchDetails: any;
   collegeDetails: any;
   editData: any;
-
+  StateList: any;
 
   constructor(
     private router: Router,
@@ -71,26 +71,58 @@ export class AddStudentLeadsComponent implements OnInit {
             type: 'select',
             key: 'CollegeId',
             templateOptions: {
-              placeholder: 'College Name',
-              type: 'text',
               label: "College Name",
+             // placeholder: 'Select College',  // Placeholder for the dropdown
               required: true,
-              options: this.collegeDetails ? this.collegeDetails.map(college => ({ label: college.CollegeName, value: college.CollegeId })) : [],
+              options: [
+                { value: null, label: 'Select College', disabled: true },  // Disabled placeholder option
+                ...this.collegeDetails ? this.collegeDetails.map(college => ({
+                  label: college.CollegeName,
+                  value: college.CollegeId
+                })) : [],
+              ]
+            },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'College selection is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'This field is required',
+              },
             },
           },
+          
           {
             className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
-              placeholder: 'Branch Name',
-              type: 'text',
               label: "Branch Name",
+              //placeholder: 'Select Branch Name',  // Placeholder for the dropdown
               required: true,
-              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+              options: [
+                { value: null, label: 'Select Branch Name', disabled: true },  // Disabled placeholder option
+                ...this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+              ]
             },
-
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Branch Name is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Branch Name is required',
+              },
+            },
           },
+          
           {
             className: 'col-md-3',
             key: 'StudentPhone',
@@ -136,7 +168,7 @@ export class AddStudentLeadsComponent implements OnInit {
             key: 'ParentPhone',
             type: 'input',
             templateOptions: {
-              label: 'Student Phone',
+              label: 'parent Phone',
               placeholder: 'Enter Phone Number',
               required: true,
               maxLength: 10,
@@ -209,37 +241,37 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'State',
-            type: 'input',
+            type: 'select',
+            key: 'StateId',
             props: {
-              label: 'State',
-              placeholder: 'Enter State',
+              options: this.StateList,
+              placeholder: 'Select State',
+              valueProp: 'StateId',
+              labelProp: 'StateName',
+              label: "State Name",
               required: true,
-              type: 'text',
-              pattern: '^[A-Za-z]+$',
             },
-            validation: {
-              messages: {
-                required: 'State is required',
-                pattern: 'Please Enter State',
-              },
-            },
+            // validation: {
+            //   messages: {
+            //     required: 'State is required',
+            //   },
+            // },
           },
           {
             className: 'col-md-3',
-            key: 'PostalCode',
             type: 'input',
+            key: 'PostalCode',
             props: {
-              label: 'PostalCode',
-              placeholder: 'Enter PostalCode',
+              placeholder: 'Enter postal code',
               required: true,
-              pattern: '^[0-9]+$',
-              type: 'number'
+              type: 'text',
+              label: "Postal Code",
+              pattern: "^[0-9]{6}$",
             },
             validation: {
               messages: {
-                required: 'PostalCode is required',
-                pattern: 'Please Enter Valid Pincode',
+                required: 'postal code is required',
+                pattern: "Postal code must be exactly 6 digits"
               },
             },
           },
@@ -439,5 +471,16 @@ export class AddStudentLeadsComponent implements OnInit {
         console.error('Error retrieving student details:', error);
       }
     );
+  }
+
+  getAllStates() {
+    this.studentleadsService.getAllStates().subscribe(
+      (result) => {
+        let data = result.Value;
+        this.StateList = data
+        this.setParameter();
+      }, (error) => {
+
+      });
   }
 }
