@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddcollegesService } from './addcolleges.service';
 import { AddcollegesDetails, CollegeContactDetails, ContactDetails, DepartmentDetails } from './addcolleges.model';
@@ -15,6 +15,7 @@ import { MessageService } from 'src/app/core/services/message.service';
   styleUrls: ['./add-collegs.component.scss']
 })
 export class AddCollegsComponent implements OnInit {
+  [x: string]: any;
 
   collegeContactDetails: CollegeContactDetails = new CollegeContactDetails();
 
@@ -33,6 +34,7 @@ export class AddCollegsComponent implements OnInit {
   departmentFields:FormlyFieldConfig[];
   roleDetails: any;
   collegeroleDetails:any;
+  StateList: any;
 
   constructor(
     private router: Router,
@@ -119,31 +121,73 @@ export class AddCollegsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'State',
-            type: 'input',
-            props: {
-              label: 'State',
-              placeholder: 'State',
+            type: 'select',
+            key: 'StateId',
+            templateOptions: {
+              label: "State Name",
+            //  placeholder: 'Select State',  // Placeholder for the dropdown
               required: true,
+              options: [
+                { value: null, label: 'Select State', disabled: true },  // Disabled placeholder option
+                ...this.StateList ? this.StateList.map(state => ({
+                  label: state.StateName,
+                  value: state.StateId
+                })) : [],
+              ],
+            },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'State is required',
+              },
             },
             validation: {
               messages: {
                 required: 'State is required',
               },
             },
-          },
+          }
+          ,
           {
             className: 'col-md-3',
             key: 'Pincode',
             type: 'input',
-            props: {
-              label: 'Pincode',
-              placeholder: 'Pincode',
+            templateOptions: {
+              label: 'Postal Code',
+              placeholder: 'Enter Postal Code',
               required: true,
+              type: 'tel', 
+              pattern: '^[0-9]{6}$', 
+              maxLength: 6, 
+              minLength: 6 
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^0-9]/g, '');
+                  if (sanitizedValue !== value) {
+                    field.formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              },
+            },
+            validators: {
+              phoneNumber: {
+                expression: (c: AbstractControl) => {
+                  const value = c.value;
+                  // Ensure the value is exactly 10 digits long
+                  return value && /^[0-9]{10}$/.test(value);
+                },
+                message: (error: any, field: FormlyFieldConfig) => {
+                  return `"${field.formControl.value}" is not a valid 06-digit Pincode`;
+                },
+              },
             },
             validation: {
               messages: {
-                required: 'Pincode is required',
+                required: 'Phone Number is required',
+                phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
               },
             },
           },
@@ -152,13 +196,31 @@ export class AddCollegsComponent implements OnInit {
             type: 'select',
             key: 'BranchId',
             templateOptions: {
-              placeholder: 'Branch Name',
-              type: 'text',
               label: "Branch Name",
+           //   placeholder: 'Select Branch',  // Placeholder for the dropdown
               required: true,
-              options: this.collegeDetails ? this.collegeDetails.map(college => ({ label: college.BranchName, value: college.BranchId })) : [],
+              options: [
+                { value: null, label: 'Select Branch', disabled: true },  // Disabled placeholder option
+                ...this.branchDetails ? this.branchDetails.map(branch => ({
+                  label: branch.BranchName,
+                  value: branch.BranchId
+                })) : [],
+              ]
             },
-          },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Branch selection is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Branch selection is required',
+              },
+            },
+          }
+          ,
           
           {
             className: 'col-md-3',
@@ -224,15 +286,45 @@ export class AddCollegsComponent implements OnInit {
           }
         },
         {
+          className: 'col-md-3',
           key: 'Phone',
-          className: 'col-4',
-          //type: 'input',
+          type: 'input',
           templateOptions: {
+            label: 'Phone Number',
             placeholder: 'Enter Phone Number',
-            type: 'number',
             required: true,
-          }
-        },
+            maxLength: 10,
+            minLength: 10,
+          },
+          hooks: {
+            onInit: (field) => {
+              field.formControl.valueChanges.subscribe(value => {
+                const sanitizedValue = value.replace(/[^0-9]/g, '');
+                if (sanitizedValue !== value) {
+                  field.formControl.setValue(sanitizedValue, { emitEvent: false });
+                }
+              });
+            },
+          },
+          validators: {
+            phoneNumber: {
+              expression: (c: AbstractControl) => {
+                const value = c.value;
+                // Ensure the value is exactly 10 digits long
+                return value && /^[0-9]{10}$/.test(value);
+              },
+              message: (error: any, field: FormlyFieldConfig) => {
+                return `"${field.formControl.value}" is not a valid 10-digit phone number`;
+              },
+            },
+          },
+          validation: {
+            messages: {
+              required: 'Phone Number is required',
+              phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
+            },
+          },
+        },,
         {
           key: 'Email',
           className: 'col-4',
@@ -370,6 +462,17 @@ export class AddCollegsComponent implements OnInit {
       }
     );
   }
+  getAllStates() {
+    this.addcollegesService.getAllStates().subscribe(
+      (result) => {
+        let data = result.Value;
+        this.StateList = data
+        this.setParameter();
+      }, (error) => {
+
+      });
+  }
+
   insertCollegeDetails() {
     this.collegeContactDetails.addcollegesDetails.addedBy = 1;
     this.collegeContactDetails.addcollegesDetails.addedDate = new Date();
