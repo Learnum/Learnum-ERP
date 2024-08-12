@@ -179,16 +179,15 @@ export class AddBranchComponent implements OnInit {
             type: 'input',
             key: 'PostalCode',
             props: {
-              placeholder: 'Enter postal code',
+              label: 'PIN code',
               required: true,
-              type: 'text',
-              label: "Postal Code",
-              pattern: "^[0-9]{6}$",
+              type: 'number',
+              placeholder: 'Postal Code',
             },
-            validation: {
-              messages: {
-                required: 'postal code is required',
-                pattern: "Postal code must be exactly 6 digits"
+            validators: {
+              ip: {
+                expression: (c: AbstractControl) => !c.value || /^[1-9][0-9]{5}$/.test(c.value),
+                message: (error: any, field: FormlyFieldConfig) => `"${field.formControl.value}" is not a valid Pincode`,
               },
             },
           },

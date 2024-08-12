@@ -54,10 +54,31 @@ export class AddMeetingComponent implements OnInit {
             type: 'select',
             key: 'CollegeId',
             templateOptions: {
-              placeholder: 'College Name',
-              type: 'text',
               label: "College Name",
+              //placeholder: 'Select College',  // Placeholder for the dropdown
               required: true,
+              options: [
+                { value: null, label: 'Select College', disabled: true },  // Disabled placeholder option
+                ...this.collegeDetails ? this.collegeDetails.map(college => ({
+                  label: college.CollegeName,
+                  value: college.CollegeId
+                })) : [],
+              ],
+            },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'College Name is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'College Name is required',
+              },
+            },
+          },
+          
               options: this.collegeDetails ? this.collegeDetails.map(college => ({ label: college.CollegeName, value: college.CollegeId })) : [],
             },
           }, 
