@@ -23,6 +23,7 @@ export class AddBusinessLeadComponent implements OnInit {
   businessDetails:BusinessDetails =new BusinessDetails();
   editData: any;
   stateDetails:any;
+  StateList: any;
 
   constructor(
     private addBusinessLeadService : AddBusinessLeadService,
@@ -35,11 +36,13 @@ export class AddBusinessLeadComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter(); 
-    this.getStateList()
+   
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.BusinessId) {
       this.getBusinessDetails(this.editData.BusinessId);
     }
+
+    this.getAllStates();
   }
 
   
@@ -206,22 +209,34 @@ export class AddBusinessLeadComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'StateId',
             type: 'select',
+            key: 'StateId',
             templateOptions: {
-              label: 'State',
-              placeholder: 'Select State',
-              type:'text',
+              label: "State Name",
+             // placeholder: 'Select State',  // Placeholder for the dropdown
               required: true,
-              options: this.stateDetails ? this.stateDetails.map(state => ({ label: state.StateName, value: state.StateId })) : [],
+              options: [
+                { value: null, label: 'Select State', disabled: true },  // Disabled placeholder option
+                ...this.StateList ? this.StateList.map(state => ({
+                  label: state.StateName,
+                  value: state.StateId
+                })) : [],
+              ],
+            },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'State is required',
+              },
             },
             validation: {
               messages: {
                 required: 'State is required',
-                pattern: 'Please Enter State'
               },
             },
           },
+          
           {
             className: 'col-md-3',
             key: 'PostalCode',
@@ -342,16 +357,15 @@ export class AddBusinessLeadComponent implements OnInit {
       }
     );
   }
-  getStateList() {
-    this.addBusinessLeadService.getStateList().subscribe(
-      (data: any) => {
-        this.stateDetails = data.Value;
-        this.setParameter();  
-      },
-      (error: any) => {
-        this.alertService.ShowErrorMessage(error);
-      }
-    );
+  getAllStates() {
+    this.addBusinessLeadService.getAllStates().subscribe(
+      (result) => {
+        let data = result.Value;
+        this.StateList = data
+        this.setParameter();
+      }, (error) => {
+
+      });
   }
 
 }

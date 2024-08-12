@@ -147,20 +147,32 @@ export class AddBranchComponent implements OnInit {
             className: 'col-md-3',
             type: 'select',
             key: 'StateId',
-            props: {
-              options: this.StateList,
-              placeholder: 'Select State',
-              valueProp: 'StateId',
-              labelProp: 'StateName',
+            templateOptions: {
               label: "State Name",
+             // placeholder: 'Select State',  // Placeholder for the dropdown
               required: true,
+              options: [
+                { value: null, label: 'Select State', disabled: true },  // Disabled placeholder option
+                ...this.StateList ? this.StateList.map(state => ({
+                  label: state.StateName,
+                  value: state.StateId
+                })) : [],
+              ],
             },
-            // validation: {
-            //   messages: {
-            //     required: 'State is required',
-            //   },
-            // },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'State is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'State is required',
+              },
+            },
           },
+          
           
           {
             className: 'col-md-3',

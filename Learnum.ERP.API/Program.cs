@@ -28,7 +28,7 @@ namespace Learnum.ERP.API
            ApplicationSettings.CoreConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("CoreConnection"));
 
             //ApplicationSettings.CRMConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("CRMConnection"));
-            ApplicationSettings.CoreConnectionString = Configuration.GetConnectionString("CoreConnection");
+          //  ApplicationSettings.CoreConnectionString = Configuration.GetConnectionString("CoreConnection");
             //ApplicationSettings.CMSConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("CMSConnection"));
             //ApplicationSettings.CommunicationConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("CommunicationConnection"));
             //ApplicationSettings.TransactionConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("TransactionConnection"));
