@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models.ViewModel.CounsellorDashboardModel
 {
-    public class StudentLeadDetailsResponseModel
+    public class StudentLeadDetailsResponseModel:BaseModel
     {
         public long StudentId { get; set; }
         public string StudentName { get; set; }
@@ -19,7 +19,9 @@ namespace Learnum.ERP.Shared.Entities.Models.ViewModel.CounsellorDashboardModel
         public long ParentPhone { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
-        public string State { get; set; }
+        public long StateId { get; set; }
+
+        public string StateName { get; set; }
         public long PostalCode { get; set; }
         public string LeadSource { get; set; }
         public string StudentEmail { get; set; }

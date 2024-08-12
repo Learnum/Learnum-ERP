@@ -18,12 +18,10 @@
 
 <div style="margin-left: 5px;" class="row d-flex">
   <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);">
-    <b>
-      <span data-toggle="tooltip" title="Close">
-        <i class="uil uil-multiply" (click)="onCancleClick()"></i> &nbsp;
-      </span>
-      Add Business Lead
-    </b>
+    <b> <span data-toggle="tooltip" title="Close">
+        <i class="uil uil-multiply" style="cursor: pointer;" (click)="navigate()"></i>
+        </span> 
+        Add Business Lead</b>
   </h6>
   <div class="form-container" style="padding-bottom: 80px;"> <!-- Adjust padding as needed -->
     <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">

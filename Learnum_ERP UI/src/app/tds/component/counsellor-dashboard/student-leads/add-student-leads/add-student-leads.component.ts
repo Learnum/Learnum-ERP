@@ -34,10 +34,12 @@ export class AddStudentLeadsComponent implements OnInit {
     this.setParameter();
     this.getBranchDetails();
     this.getCollegeDetails();
+    this.getAllStates();
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.StudentId) {
       this.getStudentDetails(this.editData.StudentId);
     }
+   
   }
 
   setParameter() {
@@ -52,20 +54,30 @@ export class AddStudentLeadsComponent implements OnInit {
             className: 'col-md-3',
             key: 'StudentName',
             type: 'input',
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const validPattern = /^[A-Za-z ]*$/;
+                  if (!validPattern.test(value)) {
+                    field.formControl.setErrors({ pattern: true });
+                  }
+                });
+              },
+            },
             props: {
               label: 'Student Name',
               placeholder: 'Enter Student Name',
-              type: 'text',
               required: true,
-              pattern: '^[A-Za-z]+$',
             },
             validation: {
               messages: {
                 required: 'Student Name is required',
-                pattern: 'Please Enter Student FullName',
+                pattern: 'Please enter a valid Student Name',
               },
             },
           },
+          
+          
           {
             className: 'col-md-3',
             type: 'select',
@@ -168,7 +180,7 @@ export class AddStudentLeadsComponent implements OnInit {
             key: 'ParentPhone',
             type: 'input',
             templateOptions: {
-              label: 'parent Phone',
+              label: 'Parent Phone',
               placeholder: 'Enter Phone Number',
               required: true,
               maxLength: 10,
@@ -212,12 +224,12 @@ export class AddStudentLeadsComponent implements OnInit {
               placeholder: 'Enter Address',
               type: 'text',
               required: true,
-              pattern: '^[A-Za-z]+$',
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
             validation: {
               messages: {
                 required: 'Address is required',
-                pattern: 'Please Enter Full Address',
+                pattern: 'Please Enter Address',
               },
             },
           },
@@ -226,7 +238,7 @@ export class AddStudentLeadsComponent implements OnInit {
             key: 'City',
             type: 'input',
             props: {
-              label: 'City / District',
+              label: 'City',
               placeholder: 'Enter City',
               type: 'text',
               pattern: '^[A-Za-z]+$',
@@ -243,35 +255,45 @@ export class AddStudentLeadsComponent implements OnInit {
             className: 'col-md-3',
             type: 'select',
             key: 'StateId',
-            props: {
-              options: this.StateList,
-              placeholder: 'Select State',
-              valueProp: 'StateId',
-              labelProp: 'StateName',
+            templateOptions: {
               label: "State Name",
+             // placeholder: 'Select State',  // Placeholder for the dropdown
               required: true,
+              options: [
+                { value: null, label: 'Select State', disabled: true },  // Disabled placeholder option
+                ...this.StateList ? this.StateList.map(state => ({
+                  label: state.StateName,
+                  value: state.StateId
+                })) : [],
+              ],
             },
-            // validation: {
-            //   messages: {
-            //     required: 'State is required',
-            //   },
-            // },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'State is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'State is required',
+              },
+            },
           },
           {
             className: 'col-md-3',
             type: 'input',
             key: 'PostalCode',
             props: {
-              placeholder: 'Enter postal code',
+              label: 'PIN code',
               required: true,
-              type: 'text',
-              label: "Postal Code",
-              pattern: "^[0-9]{6}$",
+              type: 'number',
+              placeholder: 'Postal Code',
             },
-            validation: {
-              messages: {
-                required: 'postal code is required',
-                pattern: "Postal code must be exactly 6 digits"
+            validators: {
+              ip: {
+                expression: (c: AbstractControl) => !c.value || /^[1-9][0-9]{5}$/.test(c.value),
+                message: (error: any, field: FormlyFieldConfig) => `"${field.formControl.value}" is not a valid Pincode`,
               },
             },
           },
@@ -316,6 +338,7 @@ export class AddStudentLeadsComponent implements OnInit {
               label: 'Student Email',
               placeholder: 'Enter Student Email',
               required: true,
+             
             },
             validation: {
               messages: {
@@ -411,6 +434,11 @@ export class AddStudentLeadsComponent implements OnInit {
     this.form.reset();
   }
 
+  navigate()
+  {
+    this.router.navigateByUrl('tds/counsellor-dashboard/student-leads');
+  }
+
   InsertStudentLeads() {
     this.studentLeadDetails.addedBy = 1;
     this.studentLeadDetails.addedDate = new Date();
@@ -423,8 +451,12 @@ export class AddStudentLeadsComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/counsellor-dashboard/student-leads');
+
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/counsellor-dashboard/student-leads');
+
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
@@ -433,7 +465,6 @@ export class AddStudentLeadsComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/counsellor-dashboard/student-leads');
   }
 
   getBranchDetails() {

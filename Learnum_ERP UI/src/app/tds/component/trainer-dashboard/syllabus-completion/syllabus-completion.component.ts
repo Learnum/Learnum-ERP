@@ -20,6 +20,7 @@ export class SyllabusCompletionComponent implements OnInit {
   fields: FormlyFieldConfig[];
   statusDetails: any;
   editData: any;
+  branchDetails: any;
 
   constructor(
     private router: Router,
@@ -47,17 +48,32 @@ export class SyllabusCompletionComponent implements OnInit {
             key:'trainerId',
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
-              placeholder: 'Branch Name',
-              type: 'text',
               label: "Branch Name",
+             // placeholder: 'Select Branch Name',  // Placeholder for the dropdown
               required: true,
-              options: this.statusDetails ? this.statusDetails.map(status => ({ label: status.BranchName, value: status.BranchId })) : [],
+              options: [
+                { value: null, label: 'Select Branch Name', disabled: true },  // Disabled placeholder option
+                ...this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+              ]
+            },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Branch Name is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Branch Name is required',
+              },
             },
           }
+          
         ],
       },
     ];

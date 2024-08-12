@@ -121,7 +121,7 @@ export class BranchesComponent {
     },
     {
       field: 'updatedTime',
-      headerName: 'updated Time',
+      headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150

@@ -67,9 +67,11 @@ export class CounsellingStudentComponent implements OnInit {
             key: 'StudentId',
             templateOptions: {
               label: 'Student Name',
-             placeholder: 'Select Student Name',
               required: true,
-              options: this.studentDetails ? this.studentDetails.map(student => ({ label: student.StudentName, value: student.StudentId })) : [],
+              options: [
+                { label: 'Select Student Name', value: '', disabled: true },
+                ...this.studentDetails ? this.studentDetails.map(student => ({ label: student.StudentName, value: student.StudentId })) : []
+              ],
             },
             defaultValue: '',  
             validators: {
@@ -84,6 +86,7 @@ export class CounsellingStudentComponent implements OnInit {
               },
             },
           },
+          
           
           {
             className: 'col-md-3',
@@ -197,13 +200,31 @@ export class CounsellingStudentComponent implements OnInit {
             type: 'select',
             key: 'BranchId',
             templateOptions: {
-              placeholder: 'Branch Name',
-              type: 'text',
               label: "Branch Name",
+              //placeholder: 'Select Branch',  // Placeholder for the dropdown
               required: true,
-              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+              options: [
+                { value: null, label: 'Select Branch', disabled: true },  // Disabled placeholder option
+                ...this.branchDetails ? this.branchDetails.map(branch => ({
+                  label: branch.BranchName,
+                  value: branch.BranchId
+                })) : [],
+              ]
             },
-          },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Branch selection is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Branch selection is required',
+              },
+            },
+          }
+          ,
           {
             className: 'col-md-6',
             key: 'CounsellingConversation',
