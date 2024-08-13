@@ -236,7 +236,6 @@ export class AddBusinessLeadComponent implements OnInit {
               },
             },
           },
-          
           {
             className: 'col-md-3',
             key: 'PostalCode',
