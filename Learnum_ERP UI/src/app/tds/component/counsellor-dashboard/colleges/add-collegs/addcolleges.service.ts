@@ -12,7 +12,7 @@ export class AddcollegesService {
   private urlgetBranchList: string = "BranchDetails/getAllBranchList";
   private urlgetJobRoleList: string = "ApplicationMaster/GetAllJobrole";
   private urlgetCollegeList: string = "ApplicationMaster/GetAllColleges";
-  private getAllStatesURL : string = "ApplicationMaster/GetAllStates";
+  private getAllStatesURL: string = "ApplicationMaster/GetAllStates";
 
 
   constructor(private apiService: APIService) { }
@@ -28,9 +28,8 @@ export class AddcollegesService {
   }
   getCollegeList() {
     return this.apiService.getData(this.urlgetCollegeList);
-  }
-
-  getAllStates(){
+  }s
+  getAllStates() {
     return this.apiService.getData(this.getAllStatesURL);
-   }
+  }
 }

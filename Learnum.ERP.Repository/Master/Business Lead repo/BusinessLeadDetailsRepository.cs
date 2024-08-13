@@ -18,7 +18,6 @@ namespace Learnum.ERP.Repository.Master.Business_Lead_repo
     {
         Task<ResponseCode> InsertBusinessLeadDetails(BuisnessLeadDetailsModel buisnessLeadDetailsModel);
         Task<List<BuisnessLeadDetailsResponseModel>> GetBuisnessDetailsList();
-
         Task<Tuple<BuisnessLeadDetailsModel?, ResponseCode>> GetBuisnessDetails(long? BusinessId);
     }
 
@@ -29,8 +28,9 @@ namespace Learnum.ERP.Repository.Master.Business_Lead_repo
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters(buisnessLeadDetailsModel);
+                dbparams.Add("@Action", "InsertBusinessLeadDetails");
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("PROC_InsertBusinessLeadDetails", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_BusinessLead", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
@@ -41,7 +41,9 @@ namespace Learnum.ERP.Repository.Master.Business_Lead_repo
              using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<BuisnessLeadDetailsResponseModel>("PROC_GetBusinessLeadDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                dbparams.Add("@Action", "GetBusinessLeadDetails");
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<BuisnessLeadDetailsResponseModel>("PROC_BusinessLead", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }
@@ -52,9 +54,10 @@ namespace Learnum.ERP.Repository.Master.Business_Lead_repo
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
+                dbparams.Add("@Action", "GetBusinessLeadDetailsByBusinessId");
                 dbparams.Add("@BusinessId", BusinessId);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                var result = dbConnection.Query<BuisnessLeadDetailsModel?>("PROC_GetBusinessLeadList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var result = dbConnection.Query<BuisnessLeadDetailsModel?>("PROC_BusinessLead", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(new Tuple<BuisnessLeadDetailsModel?, ResponseCode>(result, responseCode));
             }
