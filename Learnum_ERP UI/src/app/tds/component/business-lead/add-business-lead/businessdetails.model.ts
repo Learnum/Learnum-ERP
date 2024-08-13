@@ -2,12 +2,12 @@ export class BusinessDetails {
     businessId: number;
     name: string;
     phoneNumber: number;
-    address: string;
+    addressLine1: string;
+    addressLine2: string;
     city: string;
-    district: string;
-    stateId: string;
     postalCode: number;
-    country: string;
+    stateId: number;
+    countryId: number;
     isActive: boolean;
     addedBy: number | null;
     addedDate: Date | null;
@@ -15,4 +15,6 @@ export class BusinessDetails {
     updatedDate: Date | null;
     computerName: string;
 }
+
+
 

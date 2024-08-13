@@ -49,42 +49,83 @@ export class CounsellingStudentComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
-          // {
-          //   className: 'col-md-3',
-          //   type: 'select',
-          //   key: 'StudentId',
-          //   templateOptions: {
-          //     placeholder: 'Student Name',
-          //     type: 'text',
-          //     label: "Student Name",
-          //     required: true,
-          //     options: this.studentDetails ? this.studentDetails.map(college => ({ label: college.StudentName, value: college.StudentId })) : [],
-          //   },
-          // },
           {
             className: 'col-md-3',
             type: 'select',
             key: 'StudentId',
             templateOptions: {
-              label: 'Student Name',
-             placeholder: 'Select Student Name',
+              placeholder: 'Student Name',
+              type: 'text',
+              label: "Student Name",
               required: true,
-              options: this.studentDetails ? this.studentDetails.map(student => ({ label: student.StudentName, value: student.StudentId })) : [],
-            },
-            defaultValue: '',  
-            validators: {
-              required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
-                message: 'Student Name is required',
-              },
-            },
-            validation: {
-              messages: {
-                required: 'Student Name is required',
-              },
+              options: this.studentDetails ? this.studentDetails.map(college => ({ label: college.StudentName, value: college.StudentId })) : [],
             },
           },
+          // {
+          //   className: 'col-md-3',
+          //   type: 'select',
+          //   key: 'StudentId',
+          //   templateOptions: {
+          //     label: 'Student Name',
+          //    placeholder: 'Select Student Name',
+          //     required: true,
+          //     options: this.studentDetails ? this.studentDetails.map(student => ({ label: student.StudentName, value: student.StudentId })) : [],
+          //   },
+          //   defaultValue: '',  
+          //   validators: {
+          //     required: {
+          //       expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+          //       message: 'Student Name is required',
+          //     },
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'Student Name is required',
+          //     },
+          //   },
+          // },
           
+          // {
+          //   className: 'col-md-3',
+          //   key: 'Phone',
+          //   type: 'input',
+          //   templateOptions: {
+          //     label: 'Phone Number',
+          //     placeholder: 'Enter Phone Number',
+          //     required: true,
+          //     pattern: '^[0-9]{10}$',
+          //     maxLength: 10,
+          //     minLength: 10,
+          //   },
+          //   hooks: {
+          //     onInit: (field) => {
+          //       field.formControl.valueChanges.subscribe(value => {
+          //         const sanitizedValue = value.replace(/[^0-9]/g, '');
+          //         if (sanitizedValue !== value) {
+          //           field.formControl.setValue(sanitizedValue, { emitEvent: false });
+          //         }
+          //       });
+          //     },
+          //   },
+          //   validators: {
+          //     phoneNumber: {
+          //       expression: (c: AbstractControl) => {
+          //         const value = c.value;
+          //         // Ensure the value is exactly 10 digits long
+          //         return value && /^[0-9]{10}$/.test(value);
+          //       },
+          //       message: (error: any, field: FormlyFieldConfig) => {
+          //         return `"${field.formControl.value}" is not a valid 10-digit phone number`;
+          //       },
+          //     },
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'Phone Number is required',
+          //       phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
+          //     },
+          //   },
+          // },
           {
             className: 'col-md-3',
             key: 'Phone',
@@ -205,14 +246,17 @@ export class CounsellingStudentComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'CounsellingConversation',
             type: 'textarea',
             props: {
               label: 'Counselling Conversation',
               placeholder: 'Enter Counselling Conversation',
               required: true,
-              rows: 5,
+              attributes: {
+                style: 'overflow:hidden; resize:none;',
+                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+              }
             },
             validation: {
               messages: {
