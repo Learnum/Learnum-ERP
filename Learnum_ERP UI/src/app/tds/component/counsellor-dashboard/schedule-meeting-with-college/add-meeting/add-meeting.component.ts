@@ -7,21 +7,18 @@ import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/for
 import { CollegemeetingService } from './collegemeeting.service';
 import { MeetingDetails } from './collegemeeting.model';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
-
 @Component({
   selector: 'app-add-meeting',
   templateUrl: './add-meeting.component.html',
   styleUrls: ['./add-meeting.component.scss']
 })
 export class AddMeetingComponent implements OnInit {
-
   meetingDetails:MeetingDetails=new MeetingDetails();
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   collegeDetails:any;
   editData: any;
-
   constructor(
     private router: Router,
     private alertService: AlertService,
@@ -30,7 +27,6 @@ export class AddMeetingComponent implements OnInit {
     private fb: FormBuilder,
     private collegemeetingService:CollegemeetingService
   ) { }
-
   ngOnInit(): void {
     this.setParameter();
     this.getCollegeDetails();
@@ -39,13 +35,11 @@ export class AddMeetingComponent implements OnInit {
       this.getMettingDetails(this.editData.MeetingId);
     }
   }
-
-
   setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
-        fieldGroup: [ 
+        fieldGroup: [
           {
             key:'meetingId',
           },
@@ -54,34 +48,13 @@ export class AddMeetingComponent implements OnInit {
             type: 'select',
             key: 'CollegeId',
             templateOptions: {
+              placeholder: 'College Name',
+              type: 'text',
               label: "College Name",
-              //placeholder: 'Select College',  // Placeholder for the dropdown
               required: true,
-              options: [
-                { value: null, label: 'Select College', disabled: true },  // Disabled placeholder option
-                ...this.collegeDetails ? this.collegeDetails.map(college => ({
-                  label: college.CollegeName,
-                  value: college.CollegeId
-                })) : [],
-              ],
-            },
-            defaultValue: null,  // Optional: set a default value if needed
-            validators: {
-              required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
-                message: 'College Name is required',
-              },
-            },
-            validation: {
-              messages: {
-                required: 'College Name is required',
-              },
-            },
-          },
-          
               options: this.collegeDetails ? this.collegeDetails.map(college => ({ label: college.CollegeName, value: college.CollegeId })) : [],
             },
-          }, 
+          },
           {
             className: 'col-md-3',
             type: 'input',
@@ -109,7 +82,7 @@ export class AddMeetingComponent implements OnInit {
                 pattern: 'Please enter a valid name with letters only.',
               },
             },
-          },          
+          },
           {
             className: 'col-md-3',
             key: 'MeetingDate',
@@ -150,7 +123,7 @@ export class AddMeetingComponent implements OnInit {
               label: 'Meeting Location',
               placeholder: 'Enter Meeting Location',
               type:'text',
-              pattern: '^[A-Za-z ]+$', 
+              pattern: '^[A-Za-z ]+$',
               required: true,
             },
             hooks: {
@@ -208,14 +181,12 @@ export class AddMeetingComponent implements OnInit {
   onResetClick() {
     this.form.reset();
   }
-  
   InsertMeetingDetails() {
     this.meetingDetails.addedBy = 1;
     this.meetingDetails.addedDate = new Date();
     this.meetingDetails.updatedBy = 1;
     this.meetingDetails.updatedDate = new Date();
   //  this.meetingDetails.meetingId = 0;
-
     this.collegemeetingService.insertMeetingDetails(this.meetingDetails).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;
@@ -234,20 +205,18 @@ export class AddMeetingComponent implements OnInit {
       }
     );
   }
-
   getCollegeDetails() {
     this.collegemeetingService.getCollegeList().subscribe(
       (data: any) => {
         this.collegeDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
       }
     );
   }
-
-	getMettingDetails(MeetingId: number) {
+  getMettingDetails(MeetingId: number) {
     this.collegemeetingService.getMettingDetails(MeetingId).subscribe(
       (result: any) => {
         if (result && result.Value) {
@@ -261,5 +230,9 @@ export class AddMeetingComponent implements OnInit {
       }
     );
   }
-
 }
+
+
+
+
+

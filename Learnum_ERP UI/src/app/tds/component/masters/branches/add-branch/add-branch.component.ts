@@ -41,7 +41,7 @@ export class AddBranchComponent implements OnInit {
       this.getBranchDetails(this.editData.BranchId);
     }
     this.getAllStates();
-    this.getAllCity();
+    //.getAllCity();
   
   }
 
@@ -127,19 +127,19 @@ export class AddBranchComponent implements OnInit {
           // },
           {
             className: 'col-md-3',
-            type: 'select',
-            key: 'CityId',
+            key: 'City',
+            type: 'input',
             props: {
-              options: this.CityList,
-              placeholder: 'Select City',
-              valueProp: 'CityId',
-              labelProp: 'CityName',
-              label: "City Name",
+              label: 'City',
+              placeholder: 'Enter City',
+              type: 'text',
+              pattern: '^[A-Za-z]+$',
               required: true,
             },
             validation: {
               messages: {
                 required: 'City is required',
+                pattern: 'Please Enter City',
               },
             },
           },
@@ -287,16 +287,16 @@ export class AddBranchComponent implements OnInit {
       });
   }
   
-  getAllCity() {
-    this.addBranchService.getAllCity().subscribe(
-      (result) => {
-        let data = result.Value;
-        this.CityList = data
-        this.setParameter();
-      }, (error) => {
+  // getAllCity() {
+  //   this.addBranchService.getAllCity().subscribe(
+  //     (result) => {
+  //       let data = result.Value;
+  //       this.CityList = data
+  //       this.setParameter();
+  //     }, (error) => {
 
-      });
-  }
+  //     });
+  // }
 
   navigate()
   {
