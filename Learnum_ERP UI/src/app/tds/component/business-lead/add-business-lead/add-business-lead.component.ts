@@ -378,6 +378,12 @@ export class AddBusinessLeadComponent implements OnInit {
     this.form.reset();
   }
 
+  navigate()
+  {
+    this.router.navigateByUrl('tds/business-lead');
+
+  }
+
   insertBusinessDetails() {
     this.businessDetails.addedBy = 1;
     this.businessDetails.addedDate = new Date();

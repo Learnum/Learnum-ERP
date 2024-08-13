@@ -103,14 +103,14 @@ export class AddSubjectsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-12',
+            className: 'col-md-6',
             type: 'textarea',
             key: 'SubjectDescription',
             props: {
               placeholder: 'Enter Subject Description',
               label: 'Subject Description',
               required: true,
-              rows: 10,
+              rows: 5,
             },
             validation: {
               messages: {
@@ -168,8 +168,10 @@ export class AddSubjectsComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/masters/subjects');
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/masters/subjects');
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
@@ -178,7 +180,7 @@ export class AddSubjectsComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/masters/subjects');
+    
   }
 
   getSubjectDetails(SubjectId: number) {

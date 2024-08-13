@@ -2,7 +2,8 @@ export class BranchDetailsModel {
   branchId: number;
   branchName: string;
   address: string;
-  city: string;
+  City: string;
+  //CityId: number;
   StateName: string;
   StateId: number;
   postalCode: number;

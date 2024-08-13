@@ -70,28 +70,65 @@ export class AddWebsiteComponent implements OnInit {
             type: 'select',
             key: 'CourseId',
             templateOptions: {
-              placeholder: 'Select',
-              type: 'text',
               label: "Course Name",
+             // placeholder: 'Select Course',  // Placeholder for the dropdown
               required: true,
-              options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
+              options: [
+                { value: null, label: 'Select Course', disabled: true },  // Disabled placeholder option
+                ...this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
+              ]
             },
-          },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Course selection is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Course selection is required',
+              },
+            },
+          }
+          ,
           {
             className: 'col-md-3',
             key: 'Phone',
             type: 'input',
-            props: {
-              label: 'Phone',
+            templateOptions: {
+              label: 'parent Phone',
               placeholder: 'Enter Phone Number',
-              type: 'number',
               required: true,
-              pattern: '^[0-9]+$',
+              maxLength: 10,
+              minLength: 10,
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^0-9]/g, '');
+                  if (sanitizedValue !== value) {
+                    field.formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              },
+            },
+            validators: {
+              phoneNumber: {
+                expression: (c: AbstractControl) => {
+                  const value = c.value;
+                  // Ensure the value is exactly 10 digits long
+                  return value && /^[0-9]{10}$/.test(value);
+                },
+                message: (error: any, field: FormlyFieldConfig) => {
+                  return `"${field.formControl.value}" is not a valid 10-digit phone number`;
+                },
+              },
             },
             validation: {
               messages: {
-                required: 'Phone is required',
-                pattern: 'Please Enter Valid PhoneNumber',
+                required: 'Phone Number is required',
+                phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
               },
             },
           },

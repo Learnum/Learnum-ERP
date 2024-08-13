@@ -6,8 +6,9 @@ export class StudentLeadDetails {
     studentPhone: number;
     parentPhone: number;
     address: string;
-    city: string;
-    state: string;
+    City: string;
+    StateName: string;
+    StateId: number;
     postalCode: number;
     leadSource: string;
     studentEmail: string;

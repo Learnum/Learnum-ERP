@@ -55,14 +55,31 @@ export class AddSeminarComponent implements OnInit {
             type: 'select',
             key: 'CollegeId',
             templateOptions: {
-              placeholder: 'College Name',
-              type: 'text',
               label: "College Name",
+              placeholder: 'Select College',  // Placeholder for the dropdown
               required: true,
-              options: this.collegeDetails ? this.collegeDetails.map(college => ({ label: college.CollegeName, value: college.CollegeId })) : [],
+              options: [
+                { value: null, label: 'Select College', disabled: true },  // Disabled placeholder option
+                ...this.collegeDetails ? this.collegeDetails.map(college => ({
+                  label: college.CollegeName,
+                  value: college.CollegeId
+                })) : [],
+              ],
             },
-
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'College Name is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'College Name is required',
+              },
+            },
           },
+          
           {
             className: 'col-md-3',
             key: 'SpockPerson',

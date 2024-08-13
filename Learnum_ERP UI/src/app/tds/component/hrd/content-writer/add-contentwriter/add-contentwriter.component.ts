@@ -57,7 +57,7 @@ export class AddContentwriterComponent {
           },
 
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'ContentWriterName',
             templateOptions: {
