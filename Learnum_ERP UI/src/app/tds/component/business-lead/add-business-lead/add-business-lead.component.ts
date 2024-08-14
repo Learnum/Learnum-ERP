@@ -398,6 +398,8 @@ export class AddBusinessLeadComponent implements OnInit {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+        } else if (serviceResponse === ResponseCode.AlreadyExists) {
+          this.alertService.ShowErrorMessage("Mobile Number already exists");
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
