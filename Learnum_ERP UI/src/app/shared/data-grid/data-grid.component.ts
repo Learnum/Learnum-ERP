@@ -20,7 +20,7 @@ export class DataGridComponent implements OnInit {
   @Input() tableColumns: TableColumn[] = [];
   @Input() actionColumns: ActionColumn[] = [];
   @Input() actionButtons: ActionColumn[] = [];
-  @Input() defaultPageSize: number;
+  @Input() defaultPageSize: number = 10;
   @Input() frameworkComponents: any;
 
 

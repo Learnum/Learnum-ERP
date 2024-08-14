@@ -28,13 +28,13 @@ namespace Learnum.ERP.API
            ApplicationSettings.CoreConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("CoreConnection"));
 
             //ApplicationSettings.CRMConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("CRMConnection"));
-           // ApplicationSettings.CoreConnectionString = Configuration.GetConnectionString("CoreConnection");
+          //  ApplicationSettings.CoreConnectionString = Configuration.GetConnectionString("CoreConnection");
             //ApplicationSettings.CMSConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("CMSConnection"));
             //ApplicationSettings.CommunicationConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("CommunicationConnection"));
             //ApplicationSettings.TransactionConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("TransactionConnection"));
 
             //string encrypt = EncryptionHelper.Decrypt("amHlro5hyOdjl+JCTA2sSRRxpUcfaf3hbkthPHWNvo8=");
-          //  string encrypt = EncryptionHelper.Encrypt(@"Server=184.168.120.110;initial catalog=TaxBlock.Core_Dev;integrated security=true");
+           //string encrypt = EncryptionHelper.Encrypt(@"Server=164.52.197.68;Database=Learnum.ERP_UAT;user=UdChalo_Live;pwd=UdChalo#2425");
             //string encrypt = EncryptionHelper.Encrypt(@"Server=184.168.120.110;Initial Catalog=Taxblock.CMS_UAT;Integrated Security=false;User Id=sa;Password=Taxblock@2020;");
             //SQLMapper.DBConnection = ApplicationSettings.ConnectionString;
             //TaxBlock.Communication.Shared.Core.ApplicationSettings.CRMConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("CRMConnection"));

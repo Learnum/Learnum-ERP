@@ -41,7 +41,7 @@ export class AddBranchComponent implements OnInit {
       this.getBranchDetails(this.editData.BranchId);
     }
     this.getAllStates();
-    this.getAllCity();
+    //.getAllCity();
   
   }
 
@@ -127,19 +127,19 @@ export class AddBranchComponent implements OnInit {
           // },
           {
             className: 'col-md-3',
-            type: 'select',
-            key: 'CityId',
+            key: 'City',
+            type: 'input',
             props: {
-              options: this.CityList,
-              placeholder: 'Select City',
-              valueProp: 'CityId',
-              labelProp: 'CityName',
-              label: "City Name",
+              label: 'City',
+              placeholder: 'Enter City',
+              type: 'text',
+              pattern: '^[A-Za-z]+$',
               required: true,
             },
             validation: {
               messages: {
                 required: 'City is required',
+                pattern: 'Please Enter City',
               },
             },
           },
@@ -147,36 +147,47 @@ export class AddBranchComponent implements OnInit {
             className: 'col-md-3',
             type: 'select',
             key: 'StateId',
-            props: {
-              options: this.StateList,
-              placeholder: 'Select State',
-              valueProp: 'StateId',
-              labelProp: 'StateName',
+            templateOptions: {
               label: "State Name",
+             // placeholder: 'Select State',  // Placeholder for the dropdown
               required: true,
+              options: [
+                { value: null, label: 'Select State', disabled: true },  // Disabled placeholder option
+                ...this.StateList ? this.StateList.map(state => ({
+                  label: state.StateName,
+                  value: state.StateId
+                })) : [],
+              ],
             },
-            // validation: {
-            //   messages: {
-            //     required: 'State is required',
-            //   },
-            // },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'State is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'State is required',
+              },
+            },
           },
+          
           
           {
             className: 'col-md-3',
             type: 'input',
             key: 'PostalCode',
             props: {
-              placeholder: 'Enter postal code',
+              label: 'PIN code',
               required: true,
-              type: 'text',
-              label: "Postal Code",
-              pattern: "^[0-9]{6}$",
+              type: 'number',
+              placeholder: 'Postal Code',
             },
-            validation: {
-              messages: {
-                required: 'postal code is required',
-                pattern: "Postal code must be exactly 6 digits"
+            validators: {
+              ip: {
+                expression: (c: AbstractControl) => !c.value || /^[1-9][0-9]{5}$/.test(c.value),
+                message: (error: any, field: FormlyFieldConfig) => `"${field.formControl.value}" is not a valid Pincode`,
               },
             },
           },
@@ -276,16 +287,16 @@ export class AddBranchComponent implements OnInit {
       });
   }
   
-  getAllCity() {
-    this.addBranchService.getAllCity().subscribe(
-      (result) => {
-        let data = result.Value;
-        this.CityList = data
-        this.setParameter();
-      }, (error) => {
+  // getAllCity() {
+  //   this.addBranchService.getAllCity().subscribe(
+  //     (result) => {
+  //       let data = result.Value;
+  //       this.CityList = data
+  //       this.setParameter();
+  //     }, (error) => {
 
-      });
-  }
+  //     });
+  // }
 
   navigate()
   {

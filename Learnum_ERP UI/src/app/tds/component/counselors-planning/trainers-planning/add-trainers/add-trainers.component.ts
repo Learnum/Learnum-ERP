@@ -62,89 +62,147 @@ setParameter() {
           },
 
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'CourseId',
             templateOptions: {
-              placeholder: 'Course Name',
-              type: 'text',
-              label: "course Name",
+              label: "Course Name",
+             // placeholder: 'Select Course',  // Placeholder for the dropdown
               required: true,
-              options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName
-                , value: course.CourseId })) : [],
-             
+              options: [
+                { value: null, label: 'Select Course', disabled: true },  // Disabled placeholder option
+                ...this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
+              ]
             },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Course selection is required',
+              },
             },
+            validation: {
+              messages: {
+                required: 'Course selection is required',
+              },
+            },
+          },
+          
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'SubjectId',
             templateOptions: {
-              placeholder: 'subject Name',
-              type: 'subject Name',
               label: "Subject Name",
+             // placeholder: 'Select Subject',  // Placeholder for the dropdown
               required: true,
-              options: this.subjectDetails ? this.subjectDetails.map(subject => ({ label: subject.SubjectName
-                , value: subject.SubjectId
-              })) : [],
-              
+              options: [
+                { value: null, label: 'Select Subject', disabled: true },  // Disabled placeholder option
+                ...this.subjectDetails ? this.subjectDetails.map(subject => ({
+                  label: subject.SubjectName,
+                  value: subject.SubjectId
+                })) : [],
+              ]
             },
-
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Subject selection is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Subject selection is required',
+              },
+            },
           },
+          
 
 
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
-              placeholder: 'Branch Name',
-              type: 'text',
               label: "Branch Name",
+             // placeholder: 'Select Branch Name',  // Placeholder for the dropdown
               required: true,
-              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+              options: [
+                { value: null, label: 'Select Branch Name', disabled: true },  // Disabled placeholder option
+                ...this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+              ]
             },
-
-          }, 
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Branch Name is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Branch Name is required',
+              },
+            },
+          }
+          , 
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'BatchId',
             templateOptions: {
-              placeholder: 'Enter batch Name',
-              required: true,
-              type: ' Batch Name',
               label: "Batch Name",
-              options: this.batchDetails ? this.batchDetails.map(batch => ({ label: batch.BatchName
-                , value: batch.BatchId
-              })) : [],
-            
+             // placeholder: 'Select Batch',  // Placeholder for the dropdown
+              required: true,
+              options: [
+                { value: null, label: 'Select Batch', disabled: true },  // Disabled placeholder option
+                ...this.batchDetails ? this.batchDetails.map(batch => ({
+                  label: batch.BatchName,
+                  value: batch.BatchId
+                })) : [],
+              ]
+            },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Batch selection is required',
               },
+            },
             validation: {
               messages: {
                 required: 'This field is required',
               },
             },
-          },
+          }
+          ,
+
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'trainerName',
-            props: {
-              placeholder: 'Trainer Name',
-              required: true,
-              type: 'text',
+            templateOptions: {  // Use templateOptions instead of props
               label: "Trainer Name",
+              //placeholder: 'Select Trainer Name',
+              required: true,
               options: [
+                { value: null, label: 'Select Trainer', disabled: true },
                 { label: 'Trainer-1', value: 'Trainer-1' },
                 { label: 'Trainer-2', value: 'Trainer-2' }
               ],
-             },
-            
+            },
+            defaultValue: null, 
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'This field is required',
+              },
+            },
             validation: {
               messages: {
                 required: 'This field is required',
-                tds: 'Please enter a Trainer Name',
+                tds: 'Please enter a Trainer Name',  // Custom validation message if applicable
               },
             },
           },
@@ -154,16 +212,29 @@ setParameter() {
             type: 'select',
             key: 'IsActive',
             templateOptions: {
-              placeholder: 'Select Status',
-              type: 'text',
               label: "Status",
+             // placeholder: 'Select Status',  // Placeholder for the dropdown
               required: true,
               options: [
+                { value: null, label: 'Select Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
               ]
             },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Status is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Status is required',
+              },
+            },
           },
+          ,
          
         ],
       },
@@ -207,7 +278,7 @@ setParameter() {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-
+           
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);

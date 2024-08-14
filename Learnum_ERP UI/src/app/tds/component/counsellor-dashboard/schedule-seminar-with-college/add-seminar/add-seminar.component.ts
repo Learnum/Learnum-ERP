@@ -55,14 +55,31 @@ export class AddSeminarComponent implements OnInit {
             type: 'select',
             key: 'CollegeId',
             templateOptions: {
-              placeholder: 'College Name',
-              type: 'text',
               label: "College Name",
+              placeholder: 'Select College',  // Placeholder for the dropdown
               required: true,
-              options: this.collegeDetails ? this.collegeDetails.map(college => ({ label: college.CollegeName, value: college.CollegeId })) : [],
+              options: [
+                { value: null, label: 'Select College', disabled: true },  // Disabled placeholder option
+                ...this.collegeDetails ? this.collegeDetails.map(college => ({
+                  label: college.CollegeName,
+                  value: college.CollegeId
+                })) : [],
+              ],
             },
-
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'College Name is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'College Name is required',
+              },
+            },
           },
+          
           {
             className: 'col-md-3',
             key: 'SpockPerson',
@@ -72,7 +89,18 @@ export class AddSeminarComponent implements OnInit {
               placeholder: 'Enter Spock Person Name',
               required: true,
               type: 'text',
-              pattern: '^[A-Za-z]+$',
+            }, hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  // Remove any numbers from the input
+                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  // Capitalize the first letter of each word
+                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase()); 
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
             },
             validation: {
               messages: {
@@ -122,7 +150,20 @@ export class AddSeminarComponent implements OnInit {
               placeholder: 'Enter Seminar Location',
               required: true,
               type:'text',
-              pattern: '^[A-Za-z]+$',
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  // Remove any numbers from the input
+                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  // Capitalize the first letter of each word
+                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+                  
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
             },
             validation: {
               messages: {
@@ -193,8 +234,10 @@ export class AddSeminarComponent implements OnInit {
               placeholder: 'Enter Seminar Agenda',
               label: 'Seminar Agenda',
               required: true,
-              rows: 5,
-
+              attributes: {
+                style: 'overflow:hidden; resize:none;',
+                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+              }
             },
             validation: {
               messages: {
@@ -232,8 +275,10 @@ export class AddSeminarComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/counsellor-dashboard/schedule-seminar-with-college');
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/counsellor-dashboard/schedule-seminar-with-college');
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
@@ -242,7 +287,7 @@ export class AddSeminarComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/counsellor-dashboard/schedule-seminar-with-college');
+    
   }
 
   getCollegeDetails() {

@@ -17,6 +17,17 @@ export class BranchesComponent {
 
   branchList: any[] = [];
 
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
+    },
+  ];
+
   declaredTableColumns: TableColumn[] = [
     {
       field: 'BranchId',
@@ -25,7 +36,7 @@ export class BranchesComponent {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150,
+      minWidth: 100,
       headerTooltip: 'Serial Number of the branch'
     },
     {
@@ -55,7 +66,7 @@ export class BranchesComponent {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 100
     },
     {
       field: 'StateName',
@@ -64,7 +75,7 @@ export class BranchesComponent {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 100
     },
     {
       field: 'PostalCode',
@@ -73,7 +84,7 @@ export class BranchesComponent {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 100
     },
     // {
     //   field: 'IsActive',
@@ -110,22 +121,14 @@ export class BranchesComponent {
     },
     {
       field: 'updatedTime',
-      headerName: 'updated Time',
+      headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     }
     
   ];
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewBranch',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
+  
 
   ngOnInit(): void {
     this.getAllBranchDetails();

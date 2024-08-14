@@ -16,7 +16,7 @@ namespace Learnum.ERP.Shared.Entities.Models
         public long ParentPhone { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
-        public string State { get; set; }
+        public long StateId { get; set; }
         public long PostalCode { get; set; }
         public string LeadSource { get; set; }
         public string StudentEmail { get; set; }

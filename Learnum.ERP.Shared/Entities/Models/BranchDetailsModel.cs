@@ -13,10 +13,12 @@ namespace Learnum.ERP.Shared.Entities.Models
 	public string BranchName {get;set;}
 	public string Address {get;set;}
     public long StateId { get; set; }
+   
+    //public long CityId { get; set; }
+
     public string City { get; set; }
 
-     public long StateName { get; set; }
-     public long PostalCode {get;set;}
+    public long PostalCode {get;set;}
 	public bool IsActive {get;set;}
 
     }

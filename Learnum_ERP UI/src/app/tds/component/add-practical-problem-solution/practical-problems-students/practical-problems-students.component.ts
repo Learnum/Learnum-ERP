@@ -92,54 +92,37 @@ export class PracticalProblemsStudentsComponent implements OnInit {
             props: {
               label: 'Marks',
               placeholder: 'Enter Marks',
-              type: 'number',
+              type: 'text',
               required: true,
-              pattern: '^[0-9]+$'
+              pattern: '^([1-9][0-9]|100)(\\.00)?%?$'  // Matches numbers like 99, 99.00, 90.00%, etc.
             },
             validation: {
               messages: {
                 required: 'Marks are required',
-                min: 'Marks must be at least 0',
-                max: 'Marks cannot be more than 100',
-                pattern: 'Please Enter Marks'
+                pattern: 'Please enter a valid mark (e.g., 99, 99.00, 90.00%, etc.)'
               },
             },
-          },
-          // {
-          //   className: 'col-md-3',
-          //   key: 'Marks',
-          //   type: 'input',
-          //   props: {
-          //     label: 'Marks',
-          //     placeholder: 'Enter Marks',
-          //     type: 'number',
-          //     required: true,
-          //     min: 10,
-          //     max: 99,
-          //     pattern: '^[0-9]{2}$'
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'Marks are required',
-          //       min: 'Marks must be at least 10',
-          //       max: 'Marks cannot be more than 99',
-          //       pattern: 'Marks must be exactly two digits'
-          //     },
-          //   },
-          // },                   
+          },                
           {
             className: 'col-md-3',
             key: 'IsActive',
             type: 'select',
-            props: {
+            templateOptions: {  // Use templateOptions instead of props
               label: 'Practical Problem Status',
-              placeholder: 'Select Status',
+             // placeholder: 'Select Status',
               required: true,
               options: [
+                { value: null, label: 'Select Status', disabled: true },
                 { label: 'Active', value: true },
-                { label: 'Inactive', value: false}
+                { label: 'Inactive', value: false }
               ],
-              
+            },
+            defaultValue: null, 
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a status is selected
+                message: 'Practical Problem Status is required',
+              },
             },
             validation: {
               messages: {
@@ -147,8 +130,9 @@ export class PracticalProblemsStudentsComponent implements OnInit {
               },
             },
           },
+          
           {
-            className: 'col-md-3',
+            className: 'col-md-2',
             key: 'file',
             type: 'file',
             props: {

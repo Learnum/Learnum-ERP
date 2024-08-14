@@ -16,7 +16,17 @@ import { AddBatchesService } from './add-batches/add-batches.service';
 export class BatchesComponent implements OnInit {
   BatchDetails: any[] = [];
   
-
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
+    },
+  ];
+  
   declaredTableColumns: TableColumn[] = [
    
     {
@@ -90,16 +100,7 @@ export class BatchesComponent implements OnInit {
     }, 
     
   ];
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewBranch',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
-
+ 
 
 
   ngOnInit(): void {
@@ -125,15 +126,7 @@ export class BatchesComponent implements OnInit {
   { 
     throw new Error('Method not implemented.'); 
   }
-  ActionColumn: any[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewBatch',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
+  
   
   onAddBatch(batch?: any) {
 

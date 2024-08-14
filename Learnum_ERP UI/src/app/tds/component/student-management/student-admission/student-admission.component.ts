@@ -69,20 +69,15 @@ export class StudentAdmissionComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewStudentAdmission',
-      actionIcon: 'uil uil-eye rounded text-secondary mb-0',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
     },
-    {
-      action: 'edit',
-      actionPage: 'EditStudentAdmission',
-      actionIcon: 'uil uil-edit rounded text-primary mb-0',
-      buttonClass: 'btn btn-sm btn-primary',
-      colorClass: 'text-primary h4'
-    }
   ];
 
+  
   constructor(
     private router: Router,
     private route: ActivatedRoute,

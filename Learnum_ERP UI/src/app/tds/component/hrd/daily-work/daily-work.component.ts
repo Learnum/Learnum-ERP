@@ -16,6 +16,16 @@ export class DailyWorkComponent implements OnInit {
  worksheetList: any[] = [];
   form: FormGroup;
 
+  declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewTrainer',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Trainer'
+    },
+  ];
   declaredTableColumns: TableColumn[] = [
     {
       field: 'Name',
@@ -124,15 +134,7 @@ export class DailyWorkComponent implements OnInit {
 
 
 
-   declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewContentWriter',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
+  
   onAddDailywork() {
 
     // let navigationExtras: NavigationExtras = {};

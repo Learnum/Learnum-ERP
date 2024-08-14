@@ -57,7 +57,7 @@ export class AddContentwriterComponent {
           },
 
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'input',
             key: 'ContentWriterName',
             templateOptions: {
@@ -78,36 +78,63 @@ export class AddContentwriterComponent {
           },
 
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'CourseId',
             templateOptions: {
-              placeholder: 'Course Name',
-              type: 'text',
               label: "Course Name",
+            //  placeholder: 'Select Course',  // Placeholder for the dropdown
               required: true,
-              options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName
-                , value: course.CourseId })) : [],
+              options: [
+                { value: null, label: 'Select Course', disabled: true },  // Disabled placeholder option
+                ...this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
+              ]
             },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Course selection is required',
+              },
             },
-
+            validation: {
+              messages: {
+                required: 'Course selection is required',
+              },
+            },
+          },
+          
           
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'SubjectId',
             templateOptions: {
-              placeholder: 'Subject Name',
-              type: 'subject Name',
               label: "Subject Name",
+            //  placeholder: 'Select Subject',  // Placeholder for the dropdown
               required: true,
-              options: this.subjectDetails ? this.subjectDetails.map(subject => ({ label: subject.SubjectName
-                , value: subject.SubjectId
-              })) : [],
-              
+              options: [
+                { value: null, label: 'Select Subject', disabled: true },  // Disabled placeholder option
+                ...this.subjectDetails ? this.subjectDetails.map(subject => ({
+                  label: subject.SubjectName,
+                  value: subject.SubjectId
+                })) : [],
+              ]
             },
-
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Subject selection is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Subject selection is required',
+              },
+            },
           },
+          
           {
             className: 'col-md-3',
             type: 'select',

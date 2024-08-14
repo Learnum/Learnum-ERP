@@ -3,7 +3,7 @@ export class BusinessDetails {
     name: string;
     phoneNumber: number;
     address: string;
-    city: string;
+    City: string;
     district: string;
     stateId: string;
     postalCode: number;

@@ -49,33 +49,82 @@ export class CounsellingStudentComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
+          // {
+          //   className: 'col-md-3',
+          //   type: 'select',
+          //   key: 'StudentId',
+          //   templateOptions: {
+          //     placeholder: 'Student Name',
+          //     type: 'text',
+          //     label: "Student Name",
+          //     required: true,
+          //     options: this.studentDetails ? this.studentDetails.map(college => ({ label: college.StudentName, value: college.StudentId })) : [],
+          //   },
+          // },
           {
             className: 'col-md-3',
             type: 'select',
             key: 'StudentId',
             templateOptions: {
-              placeholder: 'Student Name',
-              type: 'text',
-              label: "Student Name",
+              label: 'Student Name',
               required: true,
-              options: this.studentDetails ? this.studentDetails.map(college => ({ label: college.StudentName, value: college.StudentId })) : [],
+              options: [
+                { label: 'Select Student Name', value: '', disabled: true },
+                ...this.studentDetails ? this.studentDetails.map(student => ({ label: student.StudentName, value: student.StudentId })) : []
+              ],
+            },
+            defaultValue: '',  
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Student Name is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Student Name is required',
+              },
             },
           },
+          
+          
           {
             className: 'col-md-3',
             key: 'Phone',
             type: 'input',
-            props: {
-              label: 'Phone',
+            templateOptions: {
+              label: 'Phone Number',
               placeholder: 'Enter Phone Number',
-              type: 'number',
               required: true,
-              pattern: '^[0-9]+$',
+              maxLength: 10,
+              minLength: 10,
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^0-9]/g, '');
+                  if (sanitizedValue !== value) {
+                    field.formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              },
+            },
+            validators: {
+              phoneNumber: {
+                expression: (c: AbstractControl) => {
+                  const value = c.value;
+                  // Ensure the value is exactly 10 digits long
+                  return value && /^[0-9]{10}$/.test(value);
+                },
+                message: (error: any, field: FormlyFieldConfig) => {
+                  return `"${field.formControl.value}" is not a valid 10-digit phone number`;
+                },
+              },
             },
             validation: {
               messages: {
-                required: 'Phone is required',
-                pattern: 'Please Enter Valid Phone Number',
+                required: 'Phone Number is required',
+                phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
               },
             },
           },
@@ -116,39 +165,66 @@ export class CounsellingStudentComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'CounsellingStatus',
             type: 'select',
-            props: {
+            key: 'CounsellingStatus',
+            templateOptions: {
               label: 'Counselling Status',
-              placeholder: 'Select Counselling Status',
+              //placeholder: 'Select Counselling Status',
               required: true,
               options: [
+                { value: null, label: 'Select Counselling Status', disabled: true }, // Disabled placeholder option
                 { value: 'qualified', label: 'Qualified' },
                 { value: 'notQualified', label: 'Not Qualified' },
-                { value: 'jnnkLead', label: 'Jnnk Lead' },
+                { value: 'junkLead', label: 'Junk Lead' }, // Corrected spelling from 'jnnkLead' to 'junkLead'
                 { value: 'notInterested', label: 'Not Interested' },
                 { value: 'willJoinInFuture', label: 'Will Join in Future' },
                 { value: 'needToTalkWithParents', label: 'Need to Talk With Parents' },
               ],
+            },
+            defaultValue: null,  
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Counselling Status is required',
+              },
             },
             validation: {
               messages: {
                 required: 'Counselling Status is required',
               },
             },
-          },
+          }
+          ,
           {
             className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
-              placeholder: 'Branch Name',
-              type: 'text',
               label: "Branch Name",
+              //placeholder: 'Select Branch',  // Placeholder for the dropdown
               required: true,
-              options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+              options: [
+                { value: null, label: 'Select Branch', disabled: true },  // Disabled placeholder option
+                ...this.branchDetails ? this.branchDetails.map(branch => ({
+                  label: branch.BranchName,
+                  value: branch.BranchId
+                })) : [],
+              ]
             },
-          },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Branch selection is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Branch selection is required',
+              },
+            },
+          }
+          ,
           {
             className: 'col-md-6',
             key: 'CounsellingConversation',

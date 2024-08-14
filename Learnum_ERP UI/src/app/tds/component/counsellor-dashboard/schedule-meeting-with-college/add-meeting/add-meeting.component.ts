@@ -7,21 +7,18 @@ import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/for
 import { CollegemeetingService } from './collegemeeting.service';
 import { MeetingDetails } from './collegemeeting.model';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
-
 @Component({
   selector: 'app-add-meeting',
   templateUrl: './add-meeting.component.html',
   styleUrls: ['./add-meeting.component.scss']
 })
 export class AddMeetingComponent implements OnInit {
-
   meetingDetails:MeetingDetails=new MeetingDetails();
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   collegeDetails:any;
   editData: any;
-
   constructor(
     private router: Router,
     private alertService: AlertService,
@@ -30,7 +27,6 @@ export class AddMeetingComponent implements OnInit {
     private fb: FormBuilder,
     private collegemeetingService:CollegemeetingService
   ) { }
-
   ngOnInit(): void {
     this.setParameter();
     this.getCollegeDetails();
@@ -39,13 +35,11 @@ export class AddMeetingComponent implements OnInit {
       this.getMettingDetails(this.editData.MeetingId);
     }
   }
-
-
   setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
-        fieldGroup: [ 
+        fieldGroup: [
           {
             key:'meetingId',
           },
@@ -60,7 +54,6 @@ export class AddMeetingComponent implements OnInit {
               required: true,
               options: this.collegeDetails ? this.collegeDetails.map(college => ({ label: college.CollegeName, value: college.CollegeId })) : [],
             },
-
           },
           {
             className: 'col-md-3',
@@ -69,14 +62,24 @@ export class AddMeetingComponent implements OnInit {
             props: {
               placeholder: 'Meeting with',
               type: 'text',
-              label: "Meeting with",
+              label: 'Meeting with',
               required: true,
-              pattern: '^[A-Za-z]+$',
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
             },
             validation: {
               messages: {
                 required: 'Meeting Name is required',
-                pattern: 'Please Enter Meeting with',
+                pattern: 'Please enter a valid name with letters only.',
               },
             },
           },
@@ -119,9 +122,20 @@ export class AddMeetingComponent implements OnInit {
             props: {
               label: 'Meeting Location',
               placeholder: 'Enter Meeting Location',
-              required: true,
               type:'text',
-              pattern: '^[A-Za-z]+$',
+              pattern: '^[A-Za-z ]+$',
+              required: true,
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
             },
             validation: {
               messages: {
@@ -132,14 +146,16 @@ export class AddMeetingComponent implements OnInit {
           },
           {
             className: 'col-md-6',
-            type: 'textarea',
             key: 'MeetingAgenda',
-            templateOptions: {
-              placeholder: 'Enter Meeting Agenda',
+            type: 'textarea',
+            props: {
               label: 'Meeting Agenda',
+              placeholder: 'Enter Meeting Agenda',
               required: true,
-              rows: 5,
-             
+              attributes: {
+                style: 'overflow:hidden; resize:none;',
+                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+              }
             },
             validation: {
               messages: {
@@ -165,21 +181,21 @@ export class AddMeetingComponent implements OnInit {
   onResetClick() {
     this.form.reset();
   }
-  
   InsertMeetingDetails() {
     this.meetingDetails.addedBy = 1;
     this.meetingDetails.addedDate = new Date();
     this.meetingDetails.updatedBy = 1;
     this.meetingDetails.updatedDate = new Date();
   //  this.meetingDetails.meetingId = 0;
-
     this.collegemeetingService.insertMeetingDetails(this.meetingDetails).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/counsellor-dashboard/schedule-meeting-with-college');
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/counsellor-dashboard/schedule-meeting-with-college');
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
@@ -188,22 +204,19 @@ export class AddMeetingComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/counsellor-dashboard/schedule-meeting-with-college');
   }
-
   getCollegeDetails() {
     this.collegemeetingService.getCollegeList().subscribe(
       (data: any) => {
         this.collegeDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
       }
     );
   }
-
-	getMettingDetails(MeetingId: number) {
+  getMettingDetails(MeetingId: number) {
     this.collegemeetingService.getMettingDetails(MeetingId).subscribe(
       (result: any) => {
         if (result && result.Value) {
@@ -217,5 +230,9 @@ export class AddMeetingComponent implements OnInit {
       }
     );
   }
-
 }
+
+
+
+
+
