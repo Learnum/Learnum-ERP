@@ -40,7 +40,7 @@ namespace Learnum.ERP.API.Controller.Business_Lead
             }
 
             var result = await businessLeadDetailsRepository.InsertBusinessLeadDetails(buisnessLeadDetailsModel);
-            if (result == ResponseCode.Success || result == ResponseCode.Updated)
+            if (result == ResponseCode.Success || result == ResponseCode.Updated || result == ResponseCode.AlreadyExists)
             {
                 return Ok(result);
             }

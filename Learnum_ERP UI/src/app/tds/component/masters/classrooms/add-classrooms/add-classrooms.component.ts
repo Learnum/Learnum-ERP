@@ -78,8 +78,7 @@ constructor(
                 required: 'Branch selection is required',
               },
             },
-          },
-          
+          }, 
           {
             className: 'col-md-3',
             type: 'input',
@@ -87,19 +86,31 @@ constructor(
             props: {
               placeholder: 'Classroom Name',
               type: 'text',
-              label: "Classroom Name",
+              label: 'Classroom Name',
               required: true,
-               pattern: '^[\\w\\s\\W]+$',
-              // options: this.classroomDetails ? this.classroomDetails.map(classroom => ({ label: classroom.classroomName, value: classroom.classroomId })) : [],
-            
+              pattern: '^[A-Za-z ]+$', // Only letters and spaces are allowed
             },
             validation: {
               messages: {
                 required: 'Classroom Name is required',
-
+                pattern: 'Classroom Name must contain only letters and spaces', // Validation message for pattern
               },
             },
-          },
+            hooks: {
+              onInit: (field) => {
+                const formControl = field.formControl;
+                formControl.valueChanges.subscribe(value => {
+                  if (value) {
+                    // Remove any non-letter characters except spaces
+                    let sanitizedValue = value.replace(/[^A-Za-z\s]/g, '');
+                    // Capitalize the first letter of each word
+                    sanitizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+                    formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }
+          },          
           {
             className: 'col-md-3',
             type: 'input',
@@ -107,19 +118,29 @@ constructor(
             props: {
               placeholder: 'Student Capacity',
               required: true,
-              type: 'text',
-              pattern: '^[0-9]+$',
-              label: "Student Capacity",
+              type: 'number', // Input type set to number
+              label: 'Student Capacity',
+              // Remove pattern for numeric input since the type is 'number'
             },
-
             validation: {
               messages: {
                 required: 'Student Capacity is required',
-                pattern: 'Please enter a valid number for Student Capacity',
-
+                pattern: 'Please enter a valid positive number for Student Capacity', // Optional since type number handles it
               },
             },
-          },
+            hooks: {
+              onInit: (field) => {
+                const formControl = field.formControl;
+                formControl.valueChanges.subscribe(value => {
+                  if (value) {
+                    // Remove any non-digit characters (optional, but good for extra safety)
+                    const sanitizedValue = value.toString().replace(/[^0-9]/g, ''); 
+                    formControl.setValue(sanitizedValue ? parseInt(sanitizedValue, 10) : '', { emitEvent: false });
+                  }
+                });
+              }
+            }
+          },   
           {
             className: 'col-md-3',
             type: 'select',
