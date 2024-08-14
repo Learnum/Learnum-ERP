@@ -14,14 +14,15 @@ import { BusinessDetails } from './businessdetails.model';
 export class AddBusinessLeadService {
 
   private urlInsertBusinessDetails: string = "BusinessLeadDetails/InsertBusinessLeadDetails";
-  private urlgeBusinesstList: string = "BusinessLeadDetails/getAllBusinessList";
-  private urlGetBusinessDetails: string = "BusinessLeadDetails/getBuisnessDetails";
-  private getAllStatesURL : string = "ApplicationMaster/GetAllStates";
+  private urlgeBusinesstList: string = "BusinessLeadDetails/GetAllBusinessLeadDetails";
+  private urlGetBusinessDetails: string = "BusinessLeadDetails/getBusinessLeadDetails";
+  private getAllStatesURL: string = "ApplicationMaster/GetAllStates";
+  private getAllCountriesURL: string = "ApplicationMaster/getAllCountry";
 
-  constructor(private apiService: APIService) {}
+  constructor(private apiService: APIService) { }
 
   InsertBusinessDetails(businessLeadDetails: BusinessDetails) {
-    return this.apiService.postBlob(this.urlInsertBusinessDetails,businessLeadDetails);
+    return this.apiService.postBlob(this.urlInsertBusinessDetails, businessLeadDetails);
   }
   getBusinessList() {
     return this.apiService.getData(this.urlgeBusinesstList);
@@ -29,7 +30,10 @@ export class AddBusinessLeadService {
   getBusinessDetails(BusinessId: number) {
     return this.apiService.getData(this.urlGetBusinessDetails + '/' + BusinessId);
   }
-  getAllStates(){
+  getAllStates() {
     return this.apiService.getData(this.getAllStatesURL);
-   }
+  }
+  getAllCountries() {
+    return this.apiService.getData(this.getAllCountriesURL);
+  }
 }

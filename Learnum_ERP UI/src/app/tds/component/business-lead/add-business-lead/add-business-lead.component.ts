@@ -24,6 +24,7 @@ export class AddBusinessLeadComponent implements OnInit {
   editData: any;
   stateDetails:any;
   StateList: any;
+  CountriesList:any;
 
   constructor(
     private addBusinessLeadService : AddBusinessLeadService,
@@ -43,6 +44,7 @@ export class AddBusinessLeadComponent implements OnInit {
     }
 
     this.getAllStates();
+    this.getAllCountries();
   }
 
   
@@ -123,11 +125,41 @@ export class AddBusinessLeadComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'Address',
+            key: 'AddressLine1',
             type: 'input',
             templateOptions: {
-              label: 'Address',
-              placeholder: 'Enter Address',
+              label: 'Address Line 1',
+              placeholder: 'Enter Address Line 1',
+              required: true,
+              type: 'text',
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  if (value) {
+                    // Capitalize the first letter of each word
+                    const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+                    if (capitalizedValue !== value) {
+                      field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                    }
+                  }
+                });
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Address is required',
+                pattern: 'Please Enter a valid Address',
+              },
+            },
+          },
+          {
+            className: 'col-md-3',
+            key: 'AddressLine2',
+            type: 'input',
+            templateOptions: {
+              label: 'Address Line 2',
+              placeholder: 'Enter Address Line 2',
               required: true,
               type: 'text',
             },
@@ -156,7 +188,7 @@ export class AddBusinessLeadComponent implements OnInit {
             key: 'City',
             type: 'input',
             templateOptions: {
-              label: 'City',
+              label: 'City / District',
               placeholder: 'Enter City',
               required: true,
               type:'text',
@@ -179,34 +211,34 @@ export class AddBusinessLeadComponent implements OnInit {
               }
             }
           },
-          {
-            className: 'col-md-3',
-            key: 'District',
-            type: 'input',
-            templateOptions: {
-              label: 'District',
-              placeholder: 'Enter District',
-              required: true,
-              pattern: '^[A-Za-z ]+$',
-              type:'text',
-            },
-            validation: {
-              messages: {
-                required: 'District is required',
-                pattern: 'Please Enter District'
-              },
-            },
-            hooks: {
-              onInit: (field) => {
-                field.formControl.valueChanges.subscribe(value => {
-                  const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
-                  if (value !== capitalizedValue) {
-                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
-                  }
-                });
-              }
-            }
-          },
+          // {
+          //   className: 'col-md-3',
+          //   key: 'District',
+          //   type: 'input',
+          //   templateOptions: {
+          //     label: 'District',
+          //     placeholder: 'Enter District',
+          //     required: true,
+          //     pattern: '^[A-Za-z ]+$',
+          //     type:'text',
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'District is required',
+          //       pattern: 'Please Enter District'
+          //     },
+          //   },
+          //   hooks: {
+          //     onInit: (field) => {
+          //       field.formControl.valueChanges.subscribe(value => {
+          //         const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+          //         if (value !== capitalizedValue) {
+          //           field.formControl.setValue(capitalizedValue, { emitEvent: false });
+          //         }
+          //       });
+          //     }
+          //   }
+          // },
           {
             className: 'col-md-3',
             type: 'select',
@@ -244,10 +276,10 @@ export class AddBusinessLeadComponent implements OnInit {
               label: 'Postal Code',
               placeholder: 'Enter Postal Code',
               required: true,
-              type: 'tel', 
-              pattern: '^[0-9]{6}$', 
-              maxLength: 6, 
-              minLength: 6 
+              type: 'tel',
+              pattern: '^[0-9]{6}$',
+              maxLength: 6,
+              minLength: 6
             },
             hooks: {
               onInit: (field) => {
@@ -260,39 +292,68 @@ export class AddBusinessLeadComponent implements OnInit {
               },
             },
             validators: {
-              phoneNumber: {
+              postalCode: {
                 expression: (c: AbstractControl) => {
                   const value = c.value;
-                  // Ensure the value is exactly 10 digits long
-                  return value && /^[0-9]{10}$/.test(value);
+                  // Ensure the value is exactly 6 digits long
+                  return value && /^[0-9]{6}$/.test(value);
                 },
                 message: (error: any, field: FormlyFieldConfig) => {
-                  return `"${field.formControl.value}" is not a valid 06-digit Pincode`;
+                  return `"${field.formControl.value}" is not a valid 6-digit Postal Code`;
                 },
               },
             },
             validation: {
               messages: {
-                required: 'Phone Number is required',
-                phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
+                required: 'Postal Code is required',
+                postalCode: 'Please enter a valid 6-digit Postal Code',
               },
             },
           },
+          // {
+          //   className: 'col-md-3',
+          //   key: 'CountryId',
+          //   type: 'select',
+          //   templateOptions: {
+          //     label: 'Country',
+          //     placeholder: 'Enter Country',
+          //     required: true,
+          //     //pattern: '^[A-Za-z]+$',
+          //     //type:'text',
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'Country is required',
+          //       pattern: 'Please Enter Country'
+          //     },
+          //   },
+          // },
           {
             className: 'col-md-3',
-            key: 'Country',
-            type: 'input',
+            type: 'select',
+            key: 'CountryId',
             templateOptions: {
-              label: 'Country',
-              placeholder: 'Enter Country',
+              label: "Country Name",
+             // placeholder: 'Select State',  // Placeholder for the dropdown
               required: true,
-              pattern: '^[A-Za-z]+$',
-              type:'text',
+              options: [
+                { value: null, label: 'Select Country', disabled: true },  // Disabled placeholder option
+                ...this.CountriesList ? this.CountriesList.map(country => ({
+                  label: country.CountryName,
+                  value: country.CountryId
+                })) : [],
+              ],
+            },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Country is required',
+              },
             },
             validation: {
               messages: {
-                required: 'Country is required',
-                pattern: 'Please Enter Country'
+                required: 'State is required',
               },
             },
           },
@@ -367,6 +428,16 @@ export class AddBusinessLeadComponent implements OnInit {
       (result) => {
         let data = result.Value;
         this.StateList = data
+        this.setParameter();
+      }, (error) => {
+
+      });
+  }
+  getAllCountries() {
+    this.addBusinessLeadService.getAllCountries().subscribe(
+      (result) => {
+        let data = result.Value;
+        this.CountriesList = data
         this.setParameter();
       }, (error) => {
 
