@@ -13,8 +13,7 @@ namespace Learnum.ERP.Shared.Entities.Models
         public string Email { get; set; }
         public string Role { get; set; }
         public DateTime? Date { get; set; }
-        public string Day { get; set; }
-        public string Month { get; set; }
+      
         public bool IsActive { get; set; }
     }
 }
