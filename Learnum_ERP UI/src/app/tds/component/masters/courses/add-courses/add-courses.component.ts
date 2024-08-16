@@ -54,14 +54,33 @@ export class AddCoursesComponent implements OnInit {
             type: 'input',
             key: 'CourseName',
             templateOptions: {
-              placeholder: 'Enter Courses Name',
+              placeholder: 'Enter Course Name',
               type: 'text',
-              label: "CoursesName",
+              label: 'Course Name',
               required: true,
-              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+              pattern: '^[A-Za-z ]+$', // Only letters and spaces are allowed
             },
-
-          },
+            validation: {
+              messages: {
+                required: 'Course Name is required',
+                pattern: 'Course Name must contain only letters and spaces', // Validation message for pattern
+              },
+            },
+            hooks: {
+              onInit: (field) => {
+                const formControl = field.formControl;
+                formControl.valueChanges.subscribe(value => {
+                  if (value) {
+                    // Remove any non-letter characters except spaces
+                    let sanitizedValue = value.replace(/[^A-Za-z\s]/g, '');
+                    // Capitalize the first letter of each word
+                    sanitizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+                    formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }
+          },          
           {
             className: 'col-md-3',
             type: 'input',
@@ -74,7 +93,6 @@ export class AddCoursesComponent implements OnInit {
               pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
           },
-         
           {
             className: 'col-md-3',
             type: 'select',

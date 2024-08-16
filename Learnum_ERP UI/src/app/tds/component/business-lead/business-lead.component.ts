@@ -89,7 +89,7 @@ export class BusinessLeadComponent {
       minWidth: 150
     },
     {
-      field: 'UpdatedDate',
+      field: 'UpdatedtTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },

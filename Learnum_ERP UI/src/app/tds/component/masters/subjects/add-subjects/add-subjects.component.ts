@@ -72,7 +72,7 @@ export class AddSubjectsComponent implements OnInit {
               placeholder: 'Subject Name',
               type: 'text',
               label: "Subject Name",
-              pattern: '^[A-Za-z0-9\\s\\W]+$',
+              pattern: '^[A-Za-z ]+$', // Only letters and spaces are allowed
               required: true,
             },
             validation: {
@@ -80,6 +80,20 @@ export class AddSubjectsComponent implements OnInit {
                 required: 'Subject Name is required',
               },
             },
+            hooks: {
+              onInit: (field) => {
+                const formControl = field.formControl;
+                formControl.valueChanges.subscribe(value => {
+                  if (value) {
+                    // Remove any non-letter characters except spaces
+                    let sanitizedValue = value.replace(/[^A-Za-z\s]/g, '');
+                    // Capitalize the first letter of each word
+                    sanitizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+                    formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }
           },
           {
             className: 'col-md-3',
@@ -103,21 +117,37 @@ export class AddSubjectsComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'textarea',
             key: 'SubjectDescription',
             props: {
               placeholder: 'Enter Subject Description',
               label: 'Subject Description',
               required: true,
-              rows: 5,
+              attributes: {
+                style: 'overflow:hidden; resize:none;',
+                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+              }
+            },
+            hooks: {
+              onInit: (field) => {
+                const formControl = field.formControl;
+          
+                setTimeout(() => {
+                  const textarea = document.querySelector(`[name="${field.key}"]`) as HTMLTextAreaElement;
+                  if (textarea) {
+                    textarea.style.height = 'auto'; // Reset height
+                    textarea.style.height = textarea.scrollHeight + 'px'; // Adjust height based on content
+                  }
+                }, 0);
+              }
             },
             validation: {
               messages: {
                 required: 'Subject Description is required',
               },
             },
-          },
+          }        
         ],
       },
     ];
