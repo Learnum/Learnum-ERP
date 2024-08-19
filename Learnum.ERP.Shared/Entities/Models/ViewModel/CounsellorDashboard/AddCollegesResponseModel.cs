@@ -13,11 +13,13 @@ namespace Learnum.ERP.Shared.Entities.Models.ViewModel.CounsellorDashboard
         public string CollegeName { get; set; }
         public string CollegeAddress { get; set; }
         public string City { get; set; }
-        public string State { get; set; }
         public long PostalCode { get; set; }
         public string CollegeWebsite { get; set; }
-        public string BranchName { get; set; }
         public string AboutCollege { get; set; }
+        public bool IsActive { get; set; }
+        public string District { get; set; }
+        public string BranchName1 { get; set; }
+        public long StateId { get; set; }
     }
 
 }
