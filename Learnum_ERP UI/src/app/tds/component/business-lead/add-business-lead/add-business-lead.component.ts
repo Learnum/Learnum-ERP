@@ -88,8 +88,8 @@ export class AddBusinessLeadComponent implements OnInit {
             key: 'PhoneNumber',
             type: 'input',
             templateOptions: {
-              label: 'Phone Number',
-              placeholder: 'Enter Phone Number',
+              label: 'Mobile Number',
+              placeholder: 'Enter Mobile Number',
               required: true,
               maxLength: 10,
               minLength: 10,

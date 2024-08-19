@@ -138,7 +138,8 @@ export class PracticalProblemsStudentsComponent implements OnInit {
             props: {
               label: 'Attachment*',
               placeholder: 'Upload Attachment',
-              type: 'number',
+              type: 'number', 
+              required: true,
             },
             validation: {
               messages: {

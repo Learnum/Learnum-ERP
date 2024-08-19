@@ -1,19 +1,23 @@
-
-export class AddcollegesDetails{
-    collegeId: number;
-    branchId: number;
-    collegeName: string;
-    collegeAddress: string;
-    collegeWebsite: string;
-    branchName: string;
-    aboutCollege: string;
-    isActive: boolean;
-    addedBy: number | null;
-    addedDate: Date | null;
-    updatedBy: number | null;
-    updatedDate: Date | null;
-    computerName: string;
+export class AddcollegesDetails {
+  collegeId: number;
+  branchId: number;
+  collegeName: string;
+  collegeAddress: string;
+  city: string;
+  postalCode: number;
+  collegeWebsite: string;
+  aboutCollege: string;
+  district: string;
+  branchName1: string;
+  stateId: number;
+  isActive: boolean;
+  addedBy: number | null;
+  addedDate: Date | null;
+  updatedBy: number | null;
+  updatedDate: Date | null;
+  computerName: string;
 }
+
 export class ContactDetails {
   contactId: number;
   collegeId: number;
@@ -23,7 +27,7 @@ export class ContactDetails {
   roleId: number;
 }
 
-export class DepartmentDetails{
+export class DepartmentDetails {
   departmentId: number;
   collegeId: number;
   courseId: number;
@@ -35,5 +39,6 @@ export class CollegeContactDetails {
   addcollegesDetails: AddcollegesDetails;
   contactDetails: ContactDetails[];
   departmentDetails: DepartmentDetails[];
-  }
+}
+
 

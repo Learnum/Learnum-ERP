@@ -8,18 +8,17 @@ namespace Learnum.ERP.Shared.Entities.Models
 {
     public class AddCollegesDetails : BaseModel
     {
+        public long CollegeId { get; set; }
         public long BranchId { get; set; }
-        public string? CollegeName { get; set; }
-        public string? CollegeAddress { get; set; }
-        public string? City { get; set; }
-        public string? State { get; set; }
+        public string CollegeName { get; set; }
+        public string CollegeAddress { get; set; }
+        public string City { get; set; }
         public long PostalCode { get; set; }
-        public string? CollegeWebsite { get; set; }
-        public string? BranchName { get; set; }
-        public string? AboutCollege { get; set; }
-       /* public long AddedBy { get; set; }
-        public DateTime AddedDate { get; set; }
-        public long UpdatedBy { get; set; }
-        public DateTime UpdatedDate { get; set; }*/
+        public string CollegeWebsite { get; set; }
+        public string AboutCollege { get; set; }
+        public bool IsActive { get; set; }
+        public string District { get; set; }
+        public string BranchName1 { get; set; }
+        public long StateId { get; set; }
     }
 }
