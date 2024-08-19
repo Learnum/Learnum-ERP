@@ -17,7 +17,7 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
         Task<ResponseCode> InsertAttendenceSheetDetails(AttendenceSheetDetailsModel attendenceSheetDetailsModel);
         Task<List<AttendenceSheetDetailsResponseModel>> GetAttendenceSheetDetailsList();
 
-        Task<Tuple<AttendenceSheetDetailsModel?, ResponseCode>> GetAttendenceDetailsDetailsById(long? AttendenceID);
+        Task<Tuple<AttendenceSheetDetailsModel?, ResponseCode>> GetAttendenceDetailsDetailsById(long? AttendenceId);
 
     }
 
@@ -45,12 +45,12 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
             }
         }
 
-        public async Task<Tuple<AttendenceSheetDetailsModel?, ResponseCode>> GetAttendenceDetailsDetailsById(long? AttendenceID)
+        public async Task<Tuple<AttendenceSheetDetailsModel?, ResponseCode>> GetAttendenceDetailsDetailsById(long? AttendenceId)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                dbparams.Add("@AttendenceID", AttendenceID);
+                dbparams.Add("@AttendenceId", AttendenceId);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
                 var result = dbConnection.Query<AttendenceSheetDetailsModel?>("PROC_GetAttendenceDetailsList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");

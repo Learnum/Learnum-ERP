@@ -56,7 +56,7 @@ namespace Learnum.ERP.API.Controller.HRD
 
 
         [HttpGet("getAttendenceDetailsDetailsById/{AttendenceId}")]
-        public async Task<IActionResult> GetBranchAccountantDetailsById(long? AttendenceId)
+        public async Task<IActionResult> GetAttendenceDetailsById(long? AttendenceId)
         {
             if (AttendenceId == null)
             {

@@ -8,9 +8,10 @@ namespace Learnum.ERP.Shared.Entities.Models.ViewModel.HRDModel
 {
     public class AttendenceSheetDetailsResponseModel:BaseModel
     {
+        public long? AttendenceId { get; set; }
         public string Name { get; set; }
         public string Role { get; set; }
-        public DateTime DateIn { get; set; }
-        public TimeSpan Time { get; set; }
+        public DateTime? Date { get; set; }
+        public DateTime? Time { get; set; }
     }
 }
