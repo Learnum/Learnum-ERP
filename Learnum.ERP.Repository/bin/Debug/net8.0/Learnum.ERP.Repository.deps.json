@@ -691,7 +691,10 @@
           "System.Net.Http": "4.3.4"
         },
         "runtime": {
-          "Learnum.ERP.Shared.dll": {}
+          "Learnum.ERP.Shared.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

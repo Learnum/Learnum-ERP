@@ -17,8 +17,8 @@ export class AddcollegesService {
 
   constructor(private apiService: APIService) { }
 
-  insertCollegesData(collegeContactDetails: CollegeContactDetails) {
-    return this.apiService.postData(this.urlInsertCollegesDetails,collegeContactDetails);
+  insertCollegesData(data: any) {
+    return this.apiService.postData(this.urlInsertCollegesDetails,data);
   }
   getroleList() {
     return this.apiService.getData(this.urlgetJobRoleList);
