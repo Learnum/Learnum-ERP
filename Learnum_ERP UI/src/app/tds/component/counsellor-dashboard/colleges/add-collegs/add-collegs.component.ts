@@ -207,7 +207,7 @@ export class AddCollegsComponent implements OnInit {
             key: 'Pincode',
             type: 'input',
             templateOptions: {
-              label: 'Postal Code',
+              label: 'PIN Code',
               placeholder: 'Enter Postal Code',
               required: true,
               maxLength: 6,

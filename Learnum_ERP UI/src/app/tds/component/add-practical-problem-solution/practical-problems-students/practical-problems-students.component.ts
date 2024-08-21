@@ -133,7 +133,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
           
           {
             className: 'col-md-2',
-            key: 'file',
+            key: 'FilePath',
             type: 'file',
             props: {
               label: 'Attachment*',
