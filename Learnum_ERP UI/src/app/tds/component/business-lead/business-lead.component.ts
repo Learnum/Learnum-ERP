@@ -49,7 +49,7 @@ export class BusinessLeadComponent {
       minWidth: 150
     },
     {
-      field: 'Address',
+      field: 'AddressLine1',
       headerName: 'Address',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -89,7 +89,7 @@ export class BusinessLeadComponent {
       minWidth: 150
     },
     {
-      field: 'updatedTime',
+      field: 'UpdatedtTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },

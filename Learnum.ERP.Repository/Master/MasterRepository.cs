@@ -69,7 +69,7 @@ namespace Learnum.ERP.Repository.Master
             }
         }
 
-        public async Task<List<CountryMaster>> GetAllCountries()
+       /* public async Task<List<CountryMaster>> GetAllCountries()
         {
 
             using (IDbConnection dbConnection = base.GetTDSConnection())
@@ -81,6 +81,16 @@ namespace Learnum.ERP.Repository.Master
                 return await Task.FromResult(result);
             }
 
+        }*/
+        public async Task<List<CountryMaster>> GetAllCountries()
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                DynamicParameters param = new DynamicParameters();
+                param.Add("@Action", "GetAllCountries");
+                var result = dbConnection.Query<CountryMaster>("PROC_GetSelectList", param, commandType: CommandType.StoredProcedure).ToList();
+                return await Task.FromResult(result);
+            }
         }
 
     }

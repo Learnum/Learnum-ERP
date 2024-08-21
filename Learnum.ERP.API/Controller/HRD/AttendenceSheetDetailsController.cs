@@ -53,5 +53,22 @@ namespace Learnum.ERP.API.Controller.HRD
             }
             return NotFound("No record found");
         }
+
+
+        [HttpGet("getAttendenceDetailsDetailsById/{AttendenceId}")]
+        public async Task<IActionResult> GetAttendenceDetailsById(long? AttendenceId)
+        {
+            if (AttendenceId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await attendencesheetDetailsRepository.GetAttendenceDetailsDetailsById(AttendenceId);
+            return Ok(result);
+        }
     }
 }

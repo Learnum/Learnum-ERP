@@ -3,6 +3,7 @@ using Learnum.ERP.API.Controller.Counsellor_Dashboard;
 using Learnum.ERP.Repository.Master;
 using Learnum.ERP.Repository.Master.Business_Lead_repo;
 using Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo;
+using Learnum.ERP.Repository.Master.Student_Management;
 using Learnum.ERP.Shared.Core;
 using Learnum.ERP.Shared.Entities.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -26,8 +27,6 @@ namespace Learnum.ERP.API.Controller.Business_Lead
             businessLeadDetailsRepository = _businessLeadDetailsRepository;
         }
 
-        [AllowAnonymous]
-
         [HttpPost("InsertBusinessLeadDetails")]
         public async Task<IActionResult> InsertBusinessLeadDetails(BuisnessLeadDetailsModel buisnessLeadDetailsModel)
         {
@@ -41,25 +40,22 @@ namespace Learnum.ERP.API.Controller.Business_Lead
             }
 
             var result = await businessLeadDetailsRepository.InsertBusinessLeadDetails(buisnessLeadDetailsModel);
-            if (result == ResponseCode.Success || result == ResponseCode.Updated)
+            if (result == ResponseCode.Success || result == ResponseCode.Updated || result == ResponseCode.AlreadyExists)
             {
                 return Ok(result);
             }
             return BadRequest("Failed to Save");
         }
 
-        [HttpGet("getAllBusinessList")]
+        [HttpGet("GetAllBusinessLeadDetails")]
         public async Task<IActionResult> GetBuisnessDetailsList()
         {
-            var data = await businessLeadDetailsRepository.GetBuisnessDetailsList();
-            if (data != null)
-            {
-                return Ok(data);
-            }
-            return NotFound("No record found");
+            var data = businessLeadDetailsRepository.GetBuisnessDetailsList();
+            return Ok(data.Result);
         }
 
-        [HttpGet("getBuisnessDetails/{BusinessId}")]
+
+        [HttpGet("getBusinessLeadDetails/{BusinessId}")]
         public async Task<IActionResult> GetBuisnessDetails(long? BusinessId)
         {
             if (BusinessId == null)

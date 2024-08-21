@@ -16,6 +16,9 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
     {
         Task<ResponseCode> InsertAttendenceSheetDetails(AttendenceSheetDetailsModel attendenceSheetDetailsModel);
         Task<List<AttendenceSheetDetailsResponseModel>> GetAttendenceSheetDetailsList();
+
+        Task<Tuple<AttendenceSheetDetailsModel?, ResponseCode>> GetAttendenceDetailsDetailsById(long? AttendenceId);
+
     }
 
     public class AttendenceSheetDetailsRepository : BaseRepository, IAttendenceSheetDetailsRepository
@@ -26,7 +29,7 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
             {
                 var dbparams = new DynamicParameters(attendenceSheetDetailsModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("PROC_InsertAttendenceSheetDetails", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_InsertAttendenceDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
@@ -37,8 +40,21 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<AttendenceSheetDetailsResponseModel>("PROC_GetAttendenceSheetDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                var result = dbConnection.Query<AttendenceSheetDetailsResponseModel>("PROC_GetAttendenceDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<Tuple<AttendenceSheetDetailsModel?, ResponseCode>> GetAttendenceDetailsDetailsById(long? AttendenceId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@AttendenceId", AttendenceId);
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<AttendenceSheetDetailsModel?>("PROC_GetAttendenceDetailsList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<AttendenceSheetDetailsModel?, ResponseCode>(result, responseCode));
             }
         }
     }

@@ -54,20 +54,21 @@ export class AddStudentLeadsComponent implements OnInit {
             className: 'col-md-3',
             key: 'StudentName',
             type: 'input',
-            hooks: {
-              onInit: (field) => {
-                field.formControl.valueChanges.subscribe(value => {
-                  const validPattern = /^[A-Za-z ]*$/;
-                  if (!validPattern.test(value)) {
-                    field.formControl.setErrors({ pattern: true });
-                  }
-                });
-              },
-            },
             props: {
               label: 'Student Name',
               placeholder: 'Enter Student Name',
+              pattern: '^[A-Za-z ]+$',
               required: true,
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  let sanitizedValue = value.replace(/[0-9]/g, '').replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== sanitizedValue) {
+                    field.formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              }
             },
             validation: {
               messages: {
@@ -75,9 +76,7 @@ export class AddStudentLeadsComponent implements OnInit {
                 pattern: 'Please enter a valid Student Name',
               },
             },
-          },
-          
-          
+          },   
           {
             className: 'col-md-3',
             type: 'select',
@@ -215,6 +214,24 @@ export class AddStudentLeadsComponent implements OnInit {
               },
             },
           },
+          // {
+          //   className: 'col-md-3',
+          //   key: 'Address',
+          //   type: 'input',
+          //   props: {
+          //     label: 'Address',
+          //     placeholder: 'Enter Address',
+          //     type: 'text',
+          //     required: true,
+          //     pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'Address is required',
+          //       pattern: 'Please Enter Address',
+          //     },
+          //   },
+          // },
           {
             className: 'col-md-3',
             type: 'input',
@@ -224,32 +241,53 @@ export class AddStudentLeadsComponent implements OnInit {
               type: 'text',
               label: "Address",
               required: true,
-              pattern: "^[\\s\\S]*$", // Updated pattern to accept all symbols.
+              pattern: "^[A-Za-z0-9\\s.,#-]*$", // Updated pattern to allow letters, numbers, spaces, and common symbols
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  // Capitalize the first letter of each word
+                  const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
             },
             validation: {
               messages: {
                 required: 'Address is required',
+                pattern: 'Please enter a valid Address',
               },
             },
-          },
-          ,
+          },                 
           {
             className: 'col-md-3',
             key: 'City',
             type: 'input',
-            props: {
-              label: 'City',
+            templateOptions: {
+              label: 'City / District',
               placeholder: 'Enter City',
-              type: 'text',
-              pattern: "^[\\s\\S]*$",
               required: true,
+              type:'text',
+              pattern: '^[A-Za-z ]+$', 
             },
             validation: {
               messages: {
                 required: 'City is required',
-                pattern: 'Please Enter City',
+                pattern: 'Please Enter City'
               },
             },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }
           },
           {
             className: 'col-md-3',
@@ -280,20 +318,62 @@ export class AddStudentLeadsComponent implements OnInit {
               },
             },
           },
+          // {
+          //   className: 'col-md-3',
+          //   type: 'input',
+          //   key: 'PostalCode',
+          //   props: {
+          //     label: 'PIN code',
+          //     required: true,
+          //     type: 'number',
+          //     placeholder: 'Postal Code',
+          //   },
+          //   validators: {
+          //     ip: {
+          //       expression: (c: AbstractControl) => !c.value || /^[1-9][0-9]{5}$/.test(c.value),
+          //       message: (error: any, field: FormlyFieldConfig) => `"${field.formControl.value}" is not a valid Pincode`,
+          //     },
+          //   },
+          // },
           {
             className: 'col-md-3',
+            key: 'PostalCode',
             type: 'input',
-            key: 'postalCode',
-            props: {
-              label: 'PIN code',
+            templateOptions: {
+              label: 'Postal Code',
+              placeholder: 'Enter Postal Code',
               required: true,
-              type: 'number',
-              placeholder: 'Postal Code',
+              type: 'tel',
+              pattern: '^[0-9]{6}$',
+              maxLength: 6,
+              minLength: 6
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^0-9]/g, '');
+                  if (sanitizedValue !== value) {
+                    field.formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              },
             },
             validators: {
-              ip: {
-                expression: (c: AbstractControl) => !c.value || /^[1-9][0-9]{5}$/.test(c.value),
-                message: (error: any, field: FormlyFieldConfig) => `"${field.formControl.value}" is not a valid Pincode`,
+              postalCode: {
+                expression: (c: AbstractControl) => {
+                  const value = c.value;
+                  // Ensure the value is exactly 6 digits long
+                  return value && /^[0-9]{6}$/.test(value);
+                },
+                message: (error: any, field: FormlyFieldConfig) => {
+                  return `"${field.formControl.value}" is not a valid 6-digit Postal Code`;
+                },
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Postal Code is required',
+                postalCode: 'Please enter a valid 6-digit Postal Code',
               },
             },
           },
@@ -328,8 +408,23 @@ export class AddStudentLeadsComponent implements OnInit {
                 required: 'Lead Source is required',
               },
             },
-          }
-          ,
+          },
+          // {
+          //   className: 'col-md-3',
+          //   key: 'StudentEmail',
+          //   type: 'input',
+          //   props: {
+          //     label: 'Student Email',
+          //     placeholder: 'Enter Student Email',
+          //     required: true,
+             
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'Student Email is required',
+          //     },
+          //   },
+          // },
           {
             className: 'col-md-3',
             key: 'StudentEmail',
@@ -338,11 +433,12 @@ export class AddStudentLeadsComponent implements OnInit {
               label: 'Student Email',
               placeholder: 'Enter Student Email',
               required: true,
-             
+              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, // Regex pattern for validating email
             },
             validation: {
               messages: {
                 required: 'Student Email is required',
+                pattern: 'Please enter a valid email address', // Custom message for invalid email
               },
             },
           },

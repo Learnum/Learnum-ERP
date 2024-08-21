@@ -15,7 +15,6 @@ import { MessageService } from 'src/app/core/services/message.service';
   styleUrls: ['./add-collegs.component.scss']
 })
 export class AddCollegsComponent implements OnInit {
-  [x: string]: any;
 
   collegeContactDetails: CollegeContactDetails = new CollegeContactDetails();
 
@@ -31,10 +30,11 @@ export class AddCollegsComponent implements OnInit {
   contactDetails: any[] = [];
   departmentDetails: any[] = [];
   contactFields: FormlyFieldConfig[];
-  departmentFields:FormlyFieldConfig[];
+  departmentFields: FormlyFieldConfig[];
   roleDetails: any;
-  collegeroleDetails:any;
+  collegeroleDetails: any;
   StateList: any;
+  branchDetails: any;
 
   constructor(
     private router: Router,
@@ -43,7 +43,9 @@ export class AddCollegsComponent implements OnInit {
     private modalService: NgbModal,
     private messageService: MessageService,
     private addcollegesService: AddcollegesService
-  ) { }
+  ) { 
+    this.createContactForm();
+  }
 
   ngOnInit(): void {
     this.createContactForm();
@@ -62,13 +64,25 @@ export class AddCollegsComponent implements OnInit {
         fieldGroup: [
           {
             className: 'col-md-3',
-            key: 'CollegeName',
             type: 'input',
+            key: 'CollegeName',
             props: {
-              label: 'College Name',
               placeholder: 'College Name',
+              type: 'text',
+              label: 'College Name',
               required: true,
             },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }, 
             validation: {
               messages: {
                 required: 'College Name is required',
@@ -83,6 +97,17 @@ export class AddCollegsComponent implements OnInit {
               label: 'College Address',
               placeholder: 'Address Line 1',
               required: true,
+            },
+            hooks: {
+              onInit: (field) => {
+                const formControl = field.formControl;
+                formControl.valueChanges.subscribe(value => {
+                  const formattedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+                  if (formattedValue !== value) {
+                    formControl.setValue(formattedValue, { emitEvent: false });
+                  }
+                });
+              }
             },
             validation: {
               messages: {
@@ -99,6 +124,20 @@ export class AddCollegsComponent implements OnInit {
               placeholder: 'City',
               required: true,
             },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  // Remove any numbers from the input
+                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  // Capitalize the first letter of each word
+                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            },
             validation: {
               messages: {
                 required: 'City is required',
@@ -114,6 +153,20 @@ export class AddCollegsComponent implements OnInit {
               placeholder: 'District',
               required: true,
             },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  // Remove any numbers from the input
+                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  // Capitalize the first letter of each word
+                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            },
             validation: {
               messages: {
                 required: 'City is required',
@@ -126,7 +179,7 @@ export class AddCollegsComponent implements OnInit {
             key: 'StateId',
             templateOptions: {
               label: "State Name",
-            //  placeholder: 'Select State',  // Placeholder for the dropdown
+              //  placeholder: 'Select State',  // Placeholder for the dropdown
               required: true,
               options: [
                 { value: null, label: 'Select State', disabled: true },  // Disabled placeholder option
@@ -148,18 +201,15 @@ export class AddCollegsComponent implements OnInit {
                 required: 'State is required',
               },
             },
-          }
-          ,
+          },
           {
             className: 'col-md-3',
             key: 'Pincode',
             type: 'input',
             templateOptions: {
-              label: 'Postal Code',
+              label: 'PIN Code',
               placeholder: 'Enter Postal Code',
               required: true,
-              type: 'tel',
-              pattern: '^[0-9]{6}$',
               maxLength: 6,
               minLength: 6
             },
@@ -174,31 +224,49 @@ export class AddCollegsComponent implements OnInit {
               },
             },
             validators: {
-              postalCode: {
+              pincode: {
                 expression: (c: AbstractControl) => {
                   const value = c.value;
                   // Ensure the value is exactly 6 digits long
                   return value && /^[0-9]{6}$/.test(value);
                 },
                 message: (error: any, field: FormlyFieldConfig) => {
-                  return `"${field.formControl.value}" is not a valid 6-digit Postal Code`;
+                  return `"${field.formControl.value}" is not a valid 6-digit Pincode`;
                 },
               },
             },
             validation: {
               messages: {
-                required: 'Postal Code is required',
-                postalCode: 'Please enter a valid 6-digit Postal Code',
+                required: 'Pincode is required',
+                pincode: 'The Pincode must contain only numbers and be exactly 6 digits long',
               },
             },
-          },,
+          },
+          {
+            className: 'col-md-3',
+            key: 'CollegeWebsite',
+            type: 'input',
+            props: {
+              label: 'College Website',
+              placeholder: 'College Website',
+              required: true,
+              pattern: '^(https?:\\/\\/)?([\\da-z.-]+)\\.([a-z.]{2,6})([\\/\\w .-]*)*\\/?$', // Pattern to match website URL
+             // description: 'Enter a valid website URL.',
+            },
+            validation: {
+              messages: {
+                required: 'College Website is required',
+                pattern: 'Please enter a valid website URL',
+              },
+            },
+          },
           {
             className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
               label: "Branch Name",
-           //   placeholder: 'Select Branch',  // Placeholder for the dropdown
+              //placeholder: 'Select Branch',  // Placeholder for the dropdown
               required: true,
               options: [
                 { value: null, label: 'Select Branch', disabled: true },  // Disabled placeholder option
@@ -220,24 +288,7 @@ export class AddCollegsComponent implements OnInit {
                 required: 'Branch selection is required',
               },
             },
-          }
-          ,
-          
-          {
-            className: 'col-md-3',
-            key: 'CollegeWebsite',
-            type: 'input',
-            props: {
-              label: 'College Website',
-              placeholder: 'College Website',
-              required: true,
-            },
-            validation: {
-              messages: {
-                required: 'College Website is required',
-              },
-            },
-          },
+          }, 
           {
             className: 'col-md-3',
             key: 'BranchName1',
@@ -246,22 +297,26 @@ export class AddCollegsComponent implements OnInit {
               label: 'Branch Name 1',
               placeholder: 'Branch Name 1',
               required: true,
+              pattern: '^[a-zA-Z0-9]+$', // Allows only letters and numbers, no spaces
             },
             validation: {
               messages: {
-                required: 'Branch Name 1 is required',
+                required: 'Branch Name1 is required',
               },
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'AboutCollege',
             type: 'textarea',
             props: {
               label: 'About College',
               placeholder: 'About College',
               required: true,
-              rows: 5
+              attributes: {
+                style: 'overflow:hidden; resize:none;',
+                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+              }
             },
             validation: {
               messages: {
@@ -279,7 +334,7 @@ export class AddCollegsComponent implements OnInit {
         {
           key: 'Name',
           className: 'col-4',
-         // type: 'input',
+          // type: 'input',
           templateOptions: {
             placeholder: 'Enter Name',
             type: 'text',
@@ -325,11 +380,11 @@ export class AddCollegsComponent implements OnInit {
               phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
             },
           },
-        },,
+        }, ,
         {
           key: 'Email',
           className: 'col-4',
-         // type: 'input',
+          // type: 'input',
           templateOptions: {
             placeholder: 'Enter Email',
             type: 'text',
@@ -339,7 +394,7 @@ export class AddCollegsComponent implements OnInit {
         {
           key: 'RoleId',
           className: 'col-4',
-         // type: 'select',
+          // type: 'select',
           templateOptions: {
             placeholder: 'Enter Email',
             type: 'text',
@@ -349,7 +404,7 @@ export class AddCollegsComponent implements OnInit {
       ]
     }];
 
-    this.departmentFields =[{
+    this.departmentFields = [{
       fieldGroupClassName: 'row card-body p-2',
       fieldGroup: [
         {
@@ -378,8 +433,8 @@ export class AddCollegsComponent implements OnInit {
 
   createContactForm(): void {
     this.contactForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      phone: ['', Validators.required],
+      name: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s]+$/)]],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       email: ['', [Validators.required, Validators.email]],
       jobRole: ['', Validators.required],
     });
@@ -416,10 +471,11 @@ export class AddCollegsComponent implements OnInit {
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
+
       this.insertCollegeDetails();
       //this.combineFormData();
       console.log(this.departmentDetails);
-      console.log( this.contactDetails);
+      console.log(this.contactDetails);
       console.log(this.collegeContactDetails)
     } else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
@@ -433,8 +489,8 @@ export class AddCollegsComponent implements OnInit {
   getBranchDetails() {
     this.addcollegesService.getBranchList().subscribe(
       (data: any) => {
-        this.collegeDetails = data.Value;
-        this.setParameter();
+        this.branchDetails = data.Value;
+        this.setParameter();  
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -479,9 +535,15 @@ export class AddCollegsComponent implements OnInit {
     this.collegeContactDetails.addcollegesDetails.addedDate = new Date();
     this.collegeContactDetails.addcollegesDetails.updatedBy = 1;
     this.collegeContactDetails.addcollegesDetails.updatedDate = new Date();
-    this.collegeContactDetails.addcollegesDetails.collegeId=0;
+    this.collegeContactDetails.addcollegesDetails.collegeId = 0;
 
-    this.addcollegesService.insertCollegesData(this.collegeContactDetails).subscribe(
+    const data: CollegeContactDetails = {
+      addcollegesDetails: this.form.value,
+      contactDetails: this.contactDetails,
+      departmentDetails: this.departmentDetails
+    };
+
+    this.addcollegesService.insertCollegesData(data).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {

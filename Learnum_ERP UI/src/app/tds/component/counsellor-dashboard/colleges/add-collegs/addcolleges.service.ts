@@ -9,19 +9,16 @@ export class AddcollegesService {
 
   
   private urlInsertCollegesDetails: string = "AddColleges/InsertCollegesDetails";
-  private urlgetBranchList: string = "BranchDetails/getAllBranchList";
   private urlgetJobRoleList: string = "ApplicationMaster/GetAllJobrole";
   private urlgetCollegeList: string = "ApplicationMaster/GetAllColleges";
-  private getAllStatesURL : string = "ApplicationMaster/GetAllStates";
+  private getAllStatesURL: string = "ApplicationMaster/GetAllStates";
+  private urlgetBranchList: string = "BranchDetails/getAllBranchList";
 
 
   constructor(private apiService: APIService) { }
 
-  insertCollegesData(collegeContactDetails: CollegeContactDetails) {
-    return this.apiService.postData(this.urlInsertCollegesDetails,collegeContactDetails);
-  }
-  getBranchList() {
-    return this.apiService.getData(this.urlgetBranchList);
+  insertCollegesData(data: any) {
+    return this.apiService.postData(this.urlInsertCollegesDetails,data);
   }
   getroleList() {
     return this.apiService.getData(this.urlgetJobRoleList);
@@ -29,8 +26,10 @@ export class AddcollegesService {
   getCollegeList() {
     return this.apiService.getData(this.urlgetCollegeList);
   }
-
-  getAllStates(){
+  getAllStates() {
     return this.apiService.getData(this.getAllStatesURL);
-   }
+  }
+  getBranchList() {
+    return this.apiService.getData(this.urlgetBranchList);
+  }
 }

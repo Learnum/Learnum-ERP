@@ -64,12 +64,24 @@ export class AddBranchComponent implements OnInit {
               type: 'text',
               label: 'Branch Name',
               required: true,
-              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  if (value) {
+                    // Capitalize the first letter of each word
+                    const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+                    
+                    if (capitalizedValue !== value) {
+                      field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                    }
+                  }
+                });
+              }
             },
             validation: {
               messages: {
                 required: 'Branch Name is required',
-                // pattern: 'Branch Name should only contain letters',
               },
             },
             hooks: {

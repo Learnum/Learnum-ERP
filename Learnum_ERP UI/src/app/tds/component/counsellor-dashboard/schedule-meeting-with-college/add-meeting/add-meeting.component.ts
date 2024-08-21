@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
-import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { CollegemeetingService } from './collegemeeting.service';
 import { MeetingDetails } from './collegemeeting.model';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
@@ -15,11 +15,11 @@ import { BaseService } from 'src/app/core/services/baseService';
   styleUrls: ['./add-meeting.component.scss']
 })
 export class AddMeetingComponent implements OnInit {
-  meetingDetails:MeetingDetails=new MeetingDetails();
+  meetingDetails: MeetingDetails = new MeetingDetails();
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
-  collegeDetails:any;
+  collegeDetails: any;
   editData: any;
   NowDate: any = new Date();
   seminarForm: any;
@@ -46,7 +46,7 @@ export class AddMeetingComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            key:'meetingId',
+            key: 'meetingId',
           },
           {
             className: 'col-md-3',
@@ -148,7 +148,7 @@ export class AddMeetingComponent implements OnInit {
             props: {
               label: 'Meeting Location',
               placeholder: 'Enter Meeting Location',
-              type:'text',
+              type: 'text',
               pattern: '^[A-Za-z ]+$',
               required: true,
             },
@@ -180,7 +180,8 @@ export class AddMeetingComponent implements OnInit {
               required: true,
               attributes: {
                 style: 'overflow:hidden; resize:none;',
-                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';",
+                onfocus: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';" // Trigger resize on focus
               }
             },
             validation: {
@@ -196,7 +197,7 @@ export class AddMeetingComponent implements OnInit {
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-       this.InsertMeetingDetails();
+      this.InsertMeetingDetails();
     } else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
@@ -212,7 +213,7 @@ export class AddMeetingComponent implements OnInit {
     this.meetingDetails.addedDate = new Date();
     this.meetingDetails.updatedBy = 1;
     this.meetingDetails.updatedDate = new Date();
-  //  this.meetingDetails.meetingId = 0;
+    //  this.meetingDetails.meetingId = 0;
     this.collegemeetingService.insertMeetingDetails(this.meetingDetails).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;

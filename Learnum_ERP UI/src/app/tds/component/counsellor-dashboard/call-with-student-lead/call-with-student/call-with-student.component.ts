@@ -72,8 +72,7 @@ export class CallWithStudentComponent implements OnInit {
                 required: 'Student Name is required',
               },
             },
-          }
-          ,
+          },
           {
             className: 'col-md-3',
             key: 'Phone',
@@ -220,14 +219,17 @@ export class CallWithStudentComponent implements OnInit {
           }
           ,
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'CallConversation',
             type: 'textarea',
             props: {
               label: 'Call Conversation',
               placeholder: 'Enter Call Conversation',
               required: true,
-              rows:5
+              attributes: {
+                style: 'overflow:hidden; resize:none;',
+                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+              }
             },
             validation: {
               messages: {

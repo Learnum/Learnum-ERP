@@ -49,18 +49,6 @@ export class CounsellingStudentComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
-          // {
-          //   className: 'col-md-3',
-          //   type: 'select',
-          //   key: 'StudentId',
-          //   templateOptions: {
-          //     placeholder: 'Student Name',
-          //     type: 'text',
-          //     label: "Student Name",
-          //     required: true,
-          //     options: this.studentDetails ? this.studentDetails.map(college => ({ label: college.StudentName, value: college.StudentId })) : [],
-          //   },
-          // },
           {
             className: 'col-md-3',
             type: 'select',
@@ -73,19 +61,30 @@ export class CounsellingStudentComponent implements OnInit {
                 ...this.studentDetails ? this.studentDetails.map(student => ({ label: student.StudentName, value: student.StudentId })) : []
               ],
             },
-            defaultValue: '',  
-            validators: {
-              required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
-                message: 'Student Name is required',
-              },
-            },
-            validation: {
-              messages: {
-                required: 'Student Name is required',
-              },
-            },
           },
+          // {
+          //   className: 'col-md-3',
+          //   type: 'select',
+          //   key: 'StudentId',
+          //   templateOptions: {
+          //     label: 'Student Name',
+          //    placeholder: 'Select Student Name',
+          //     required: true,
+          //     options: this.studentDetails ? this.studentDetails.map(student => ({ label: student.StudentName, value: student.StudentId })) : [],
+          //   },
+          //   defaultValue: '',  
+          //   validators: {
+          //     required: {
+          //       expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+          //       message: 'Student Name is required',
+          //     },
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'Student Name is required',
+          //     },
+          //   },
+          // },
           
           
           {
@@ -226,14 +225,17 @@ export class CounsellingStudentComponent implements OnInit {
           }
           ,
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'CounsellingConversation',
             type: 'textarea',
             props: {
               label: 'Counselling Conversation',
               placeholder: 'Enter Counselling Conversation',
               required: true,
-              rows: 5,
+              attributes: {
+                style: 'overflow:hidden; resize:none;',
+                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+              }
             },
             validation: {
               messages: {
