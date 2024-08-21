@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { APIService } from 'src/app/core/services/apiService';
 import {SeminarDetailsModel } from './collegeseminar.model';
+import { BaseService } from 'src/app/core/services/baseService';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class CollegeseminarService {
+export class CollegeseminarService  {
+ 
 
   private urlInsertSeminarDetails: string = "ScheduleSeminarDetails/InsertScheduleSeminarDetails";
   private getSeminarList: string = "ScheduleSeminarDetails/getAllScheduleSeminarList";

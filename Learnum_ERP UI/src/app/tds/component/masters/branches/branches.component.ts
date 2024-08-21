@@ -17,7 +17,7 @@ export class BranchesComponent {
 
   branchList: any[] = [];
 
-  declaredActionColumns: ActionColumn[] = [
+  declaredActionColumns: ActionColumn[] = [ 
     {
       action: 'view',
       actionPage: 'ViewTrainer',

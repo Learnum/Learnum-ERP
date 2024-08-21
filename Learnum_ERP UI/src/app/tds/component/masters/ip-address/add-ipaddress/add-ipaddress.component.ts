@@ -72,18 +72,31 @@ export class AddIpaddressComponent implements OnInit {
             props: {
               placeholder: 'Enter Location IP',
               type: 'text',
-              label: "Location IP",
+              label: 'Location IP',
               required: true,
               pattern: "^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$",
-
             },
             validation: {
               messages: {
-                required: 'location IP is required',
-                pattern: "Please enter a valid address"
+                required: 'Location IP is required',
+                pattern: 'Please enter a valid IP address',
               },
             },
-          },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe((value: string) => {
+                  const sanitizedValue = value.replace(/[^0-9.]/g, '');
+                  if (sanitizedValue !== value) {
+                    field.formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              },
+            },
+          }
+          
+        
+        ,
+        
           {
             className: 'col-md-3',
             type: 'select',

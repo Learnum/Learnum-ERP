@@ -7,6 +7,8 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { CollegemeetingService } from './collegemeeting.service';
 import { MeetingDetails } from './collegemeeting.model';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { formatDate } from '@angular/common';
+import { BaseService } from 'src/app/core/services/baseService';
 @Component({
   selector: 'app-add-meeting',
   templateUrl: './add-meeting.component.html',
@@ -19,13 +21,16 @@ export class AddMeetingComponent implements OnInit {
   fields: FormlyFieldConfig[];
   collegeDetails: any;
   editData: any;
+  NowDate: any = new Date();
+  seminarForm: any;
   constructor(
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
     private fb: FormBuilder,
-    private collegemeetingService: CollegemeetingService
+    private collegemeetingService:CollegemeetingService,
+    private baseservice: BaseService
   ) { }
   ngOnInit(): void {
     this.setParameter();
@@ -48,11 +53,28 @@ export class AddMeetingComponent implements OnInit {
             type: 'select',
             key: 'CollegeId',
             templateOptions: {
-              placeholder: 'College Name',
-              type: 'text',
               label: "College Name",
+              // placeholder: 'Select College',  // Placeholder for the dropdown
               required: true,
-              options: this.collegeDetails ? this.collegeDetails.map(college => ({ label: college.CollegeName, value: college.CollegeId })) : [],
+              options: [
+                { value: null, label: 'Select College', disabled: true },  // Disabled placeholder option
+                ...this.collegeDetails ? this.collegeDetails.map(college => ({
+                  label: college.CollegeName,
+                  value: college.CollegeId
+                })) : [],
+              ],
+            },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'College Name is required',
+              },
+            },
+            validation: {
+              messages: {
+                required: 'College Name is required',
+              },
             },
           },
           {
@@ -92,6 +114,9 @@ export class AddMeetingComponent implements OnInit {
               placeholder: 'Select Meeting Date',
               type: 'date',
               required: true,
+              attributes: {
+                max: formatDate(this.NowDate, 'YYYY-MM-dd', 'en-IN'),
+              },
             },
             validation: {
               messages: {
@@ -108,7 +133,7 @@ export class AddMeetingComponent implements OnInit {
               placeholder: 'Select Meeting Time',
               type: 'time',
               required: true,
-              defaultValue: '00:00',
+              defaultValue: '12:00',
             },
             validation: {
               messages: {
@@ -223,6 +248,17 @@ export class AddMeetingComponent implements OnInit {
       (result: any) => {
         if (result && result.Value) {
           this.meetingDetails = result.Value.Item1;
+
+          this.meetingDetails.MeetingDate = this.baseservice.formatDate(this.meetingDetails.MeetingDate);
+
+          this.meetingDetails.MeetingTime = this.baseservice.extractTime(this.meetingDetails.MeetingTime);
+
+
+          this.seminarForm.patchValue({
+
+            SeminarTime: this.meetingDetails.MeetingTime
+          });
+
           this.setParameter();
           console.error('No data found for MeetingId: ' + MeetingId);
         }

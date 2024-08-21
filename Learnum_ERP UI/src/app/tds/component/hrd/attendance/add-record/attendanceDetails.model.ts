@@ -1,12 +1,10 @@
-export class BirthdayDetailsModel  {
-    birthId: number | null;
-    name: string;
-    email: string;
+export class AttendenceSheetDetailsModel 
+ {
+    AttendenceId: number | null;
+    Name: string;
     Role: string;
     Date: string;
-    day: string;
-    month: string;
-    isActive: boolean;
+    Time: string;
     addedBy: number | null;
     addedDate: Date | null;
     updatedBy: number | null;

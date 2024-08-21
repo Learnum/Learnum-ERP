@@ -48,8 +48,8 @@ export class BirthdaysComponent implements OnInit {
 
     },
     {
-      field: 'date',
-      headerName: 'date',
+      field: 'Date',
+      headerName: 'Date',
       filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -57,7 +57,17 @@ export class BirthdaysComponent implements OnInit {
       minWidth: 150
 
     },
+     
+    {
+      field: 'Role',
+      headerName: 'Role',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 100
 
+    },
     {
       field: 'IsActive',
       headerName: 'Status',

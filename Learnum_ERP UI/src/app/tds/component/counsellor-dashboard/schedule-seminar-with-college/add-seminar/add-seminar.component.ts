@@ -7,6 +7,9 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { CollegeseminarService } from './collegeseminar.service';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { SeminarDetailsModel } from './collegeseminar.model';
+import { formatDate } from '@angular/common';
+import { BaseService } from 'src/app/core/services/baseService';
+
 
 
 
@@ -18,12 +21,14 @@ import { SeminarDetailsModel } from './collegeseminar.model';
 export class AddSeminarComponent implements OnInit {
 
 
-  seminarDetailsModel: SeminarDetailsModel= new SeminarDetailsModel();
+  seminarDetailsModel: SeminarDetailsModel = new SeminarDetailsModel();
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   collegeDetails: any;
   editData: any;
+  NowDate: any = new Date();
+  seminarForm: any;
 
   constructor(
     private router: Router,
@@ -31,7 +36,8 @@ export class AddSeminarComponent implements OnInit {
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
     private fb: FormBuilder,
-    private collegeseminarService: CollegeseminarService) { }
+    private collegeseminarService: CollegeseminarService,
+    private baseservice: BaseService) { }
 
   ngOnInit(): void {
     this.setParameter();
@@ -48,7 +54,7 @@ export class AddSeminarComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            key:'seminarId'
+            key: 'seminarId'
           },
           {
             className: 'col-md-3',
@@ -56,7 +62,7 @@ export class AddSeminarComponent implements OnInit {
             key: 'CollegeId',
             templateOptions: {
               label: "College Name",
-              placeholder: 'Select College',  // Placeholder for the dropdown
+              // placeholder: 'Select College',  // Placeholder for the dropdown
               required: true,
               options: [
                 { value: null, label: 'Select College', disabled: true },  // Disabled placeholder option
@@ -79,7 +85,7 @@ export class AddSeminarComponent implements OnInit {
               },
             },
           },
-          
+
           {
             className: 'col-md-3',
             key: 'SpockPerson',
@@ -95,7 +101,7 @@ export class AddSeminarComponent implements OnInit {
                   // Remove any numbers from the input
                   const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
                   // Capitalize the first letter of each word
-                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase()); 
+                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
                   if (value !== capitalizedValue) {
                     field.formControl.setValue(capitalizedValue, { emitEvent: false });
                   }
@@ -118,6 +124,9 @@ export class AddSeminarComponent implements OnInit {
               placeholder: 'Select Seminar Date',
               type: 'date',
               required: true,
+              attributes: {
+                max: formatDate(this.NowDate, 'YYYY-MM-dd', 'en-IN'),
+              },
             },
             validation: {
               messages: {
@@ -125,6 +134,25 @@ export class AddSeminarComponent implements OnInit {
               },
             },
           },
+          // {
+          //   className: 'col-md-6',
+          //   type: 'input',
+          //   key: 'Date',
+          //   templateOptions: {
+          //     label: 'Date',
+          //     placeholder: 'Date',
+          //     type: 'date',
+          //     required: true,
+          //     attributes: {
+          //       max: formatDate(this.NowDate, 'YYYY-MM-dd', 'en-IN'),
+          //     },
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'This field is required',
+          //     },
+          //   },
+          // },
           {
             className: 'col-md-3',
             key: 'SeminarTime',
@@ -134,13 +162,15 @@ export class AddSeminarComponent implements OnInit {
               placeholder: 'Select Seminar Time',
               type: 'time',
               required: true,
+              defaultValue: '12:00', // Default time value (12:00 PM)
             },
             validation: {
               messages: {
                 required: 'Seminar Time is required',
               },
             },
-          },
+          }
+          ,
           {
             className: 'col-md-3',
             key: 'SeminarLocation',
@@ -149,7 +179,7 @@ export class AddSeminarComponent implements OnInit {
               label: 'Seminar Location',
               placeholder: 'Enter Seminar Location',
               required: true,
-              type:'text',
+              type: 'text',
             },
             hooks: {
               onInit: (field) => {
@@ -158,7 +188,7 @@ export class AddSeminarComponent implements OnInit {
                   const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
                   // Capitalize the first letter of each word
                   const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
-                  
+
                   if (value !== capitalizedValue) {
                     field.formControl.setValue(capitalizedValue, { emitEvent: false });
                   }
@@ -234,6 +264,7 @@ export class AddSeminarComponent implements OnInit {
               placeholder: 'Enter Seminar Agenda',
               label: 'Seminar Agenda',
               required: true,
+          
               attributes: {
                 style: 'overflow:hidden; resize:none;',
                 oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
@@ -268,7 +299,7 @@ export class AddSeminarComponent implements OnInit {
     this.seminarDetailsModel.addedDate = new Date();
     this.seminarDetailsModel.updatedBy = 1;
     this.seminarDetailsModel.updatedDate = new Date();
-   // this.seminarDetailsModel.seminarId = 0;
+    // this.seminarDetailsModel.seminarId = 0;
 
     this.collegeseminarService.insertSeminarDetails(this.seminarDetailsModel).subscribe(
       (result: any) => {
@@ -287,7 +318,7 @@ export class AddSeminarComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    
+
   }
 
   getCollegeDetails() {
@@ -306,6 +337,16 @@ export class AddSeminarComponent implements OnInit {
       (result: any) => {
         if (result && result.Value) {
           this.seminarDetailsModel = result.Value.Item1;
+
+          this.seminarDetailsModel.SeminarDate = this.baseservice.formatDate(this.seminarDetailsModel.SeminarDate);
+
+          this.seminarDetailsModel.SeminarTime = this.baseservice.extractTime(this.seminarDetailsModel.SeminarTime);
+
+
+          this.seminarForm.patchValue({
+
+            SeminarTime: this.seminarDetailsModel.SeminarTime
+          });
           this.setParameter();
           console.error('No data found for SeminarId: ' + SeminarId);
         }
@@ -315,4 +356,5 @@ export class AddSeminarComponent implements OnInit {
       }
     );
   }
+
 }

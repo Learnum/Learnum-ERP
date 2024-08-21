@@ -58,7 +58,7 @@ setParameter() {
             key:'BirthId',
            },
             {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'Name',
             templateOptions: {
@@ -77,7 +77,7 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
             key: 'Email',
             props: {
@@ -99,11 +99,11 @@ setParameter() {
           
           
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'input',
-            key: 'date',
+            key: 'Date',
             templateOptions: {
-              label: 'Date of Birth',
+              label: 'Date',
               placeholder: 'Date',
               type: 'date',
               required: true,
@@ -118,25 +118,14 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-6',
-            type: 'select',
+            className: 'col-md-4',
+            type: 'input',
             key: 'Role',
             templateOptions: {
               label: 'Role',
-              //placeholder: 'Select Role',
+              placeholder: 'Select Role',
               required: true,
-              options: [
-                { value: null, label: 'Select Role', disabled: true },  // Placeholder option
-                { value: 1, label: 'Developer' },
-                { value: 2, label: 'Manager' }
-              ],
-            },
-            defaultValue: null,  // Optionally set a default value if needed
-            validators: {
-              required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure that a valid value is selected
-                message: 'Role is required',
-              },
+             
             },
             validation: {
               messages: {
@@ -147,7 +136,7 @@ setParameter() {
           ,
          
           {
-            className: 'col-md-3',
+            className: 'col-md-4',
             type: 'select',
             key: 'IsActive',
             templateOptions: {

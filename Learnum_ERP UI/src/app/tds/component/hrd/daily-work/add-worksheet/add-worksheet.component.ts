@@ -53,7 +53,7 @@ setParameter() {
             key:'WorkId',
            },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
             key: 'Name',
             templateOptions: {
@@ -62,7 +62,7 @@ setParameter() {
               label: "Name",
               required: true,
               pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
-              title: 'Only characters are allowed',
+              
             },
             validation: {
               messages: {
@@ -72,7 +72,7 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
             key: 'Email',
             props: {
@@ -91,7 +91,7 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'input',
             key: 'Date',
             templateOptions: {
@@ -110,7 +110,7 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             type: 'select',
             key: 'Role',
             templateOptions: {
@@ -119,8 +119,8 @@ setParameter() {
               required: true,
               options: [
                 { value: null, label: 'Select Role', disabled: true },  // Placeholder option
-                { value: 1, label: 'Developer' },
-                { value: 2, label: 'Manager' }
+                { value:'Developer', label: 'Developer' },
+                { value: 'Manager', label: 'Manager' }
               ],
             },
             defaultValue: null,  // Optionally set a default value if needed
@@ -147,10 +147,7 @@ setParameter() {
               label: "Today's work",
               required: true,
               rows:5,
-              style: {
-                height: '150px', 
-                width: '100%',   
-              },
+            
             },
             validation: {
               messages: {

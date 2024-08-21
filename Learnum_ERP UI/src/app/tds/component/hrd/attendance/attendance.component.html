@@ -1,7 +1,7 @@
 
 <h6 class="mt-2 pb-2 border-bottom">
-    <b>
-      <i class="uil uil-multiply" style="cursor: pointer;"></i>
+  <b class="ms-3">
+      <!-- <i class="uil uil-multiply" style="cursor: pointer;"></i> -->
       Attendance Sheet   
      </b>
   </h6>
@@ -15,7 +15,7 @@
     </div>
   </div>
   <!-- ag-grid -->
-  <app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="tdsReturnList" [tableColumns]="declaredTableColumns"
+  <app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="AttendanceList" [tableColumns]="declaredTableColumns"
     [actionColumns]="declaredActionColumns" [isEditable]="false" [isSortable]="true" [isFilterable]="false"
     [isColumnFilterable]="false" [isResizable]="false" [isPageable]="true" [defaultPageSize]="12"
     (selectedRows)="selectBranch($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">

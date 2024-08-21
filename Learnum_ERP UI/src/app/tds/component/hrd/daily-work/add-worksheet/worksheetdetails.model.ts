@@ -3,7 +3,7 @@ export class WorksheetDetailsModel {
     name: string;
     email: string;
     Date: string;
-    role: number;
+    Role: string;
     TodaysWork :string;
     isActive: boolean | null;
     addedBy: number | null;

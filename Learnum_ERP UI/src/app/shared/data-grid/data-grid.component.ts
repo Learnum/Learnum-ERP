@@ -139,7 +139,7 @@ export class DataGridComponent implements OnInit {
 
     // show select and actions icon
     if (this.rowSelection?.length && this.actionColumns?.length) {
-      this.displayedColumns = [selectColumn,actionsColumn, ...this.tableColumns, ];
+      this.displayedColumns = [selectColumn,actionsColumn, ...this.tableColumns];
     }
     // show select only
     else if (this.rowSelection?.length) {
