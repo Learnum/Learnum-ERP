@@ -2,6 +2,7 @@
 using Learnum.ERP.API.Controller.Branch;
 using Learnum.ERP.API.Helpers;
 using Learnum.ERP.Repository.Master;
+using Learnum.ERP.Repository.Master.Student_Management;
 using Learnum.ERP.Shared.Core;
 using Learnum.ERP.Shared.Entities;
 using Learnum.ERP.Shared.Entities.Models;
@@ -18,7 +19,7 @@ namespace Learnum.ERP.API.Controller.HRD
 
     public class EmployeeDetailsController : ControllerBase
     {
-       /* private readonly IEmployeeDetailsRepository employeeDetailsRepository;
+        private readonly IEmployeeDetailsRepository employeeDetailsRepository;
         private readonly ILogger<EmployeeDetailsController> logger;
 
         public EmployeeDetailsController(
@@ -30,17 +31,17 @@ namespace Learnum.ERP.API.Controller.HRD
         }
 
         [HttpPost("InsertEmployeeDetails")]
-        public async Task<IActionResult> InsertEmployeeDetails([FromForm] EmployeeDetailsModel employeeDetailsModel)
+        public async Task<IActionResult> InsertEmployeeDetails([FromForm] EmployeeFormData employeeFormData)
         {
 
-            //EmployeeDetailsModel? employeeDetailsModel = JsonConvert.DeserializeObject<EmployeeDetailsModel>(employeeFormData.employeeFormData);
+            EmployeeDetailsModel? employeeDetailsModel = JsonConvert.DeserializeObject<EmployeeDetailsModel>(employeeFormData.EmployeeDetailsModel);
 
             var files = Request.Form.Files;
 
-            //if (employeeFormData == null)
-            //{
-            //    return BadRequest("Object is null");
-            //}
+            if (employeeFormData == null)
+            {
+                return BadRequest("Object is null");
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest("Invalid model object");
@@ -70,10 +71,10 @@ namespace Learnum.ERP.API.Controller.HRD
             fileUpload.BloodGroup = employeeDetailsModel.BloodGroup;
             fileUpload.Gender = employeeDetailsModel.Gender;
             fileUpload.Qualification = employeeDetailsModel.Qualification;
-            //fileUpload.Address = employeeDetailsModel.Address;
-            //fileUpload.City = employeeDetailsModel.City;
-            //fileUpload.State = employeeDetailsModel.State;
-            //fileUpload.PostalCode = employeeDetailsModel.PostalCode;
+            fileUpload.Address = employeeDetailsModel.Address;
+            fileUpload.City = employeeDetailsModel.City;
+            fileUpload.State = employeeDetailsModel.State;
+            fileUpload.PostalCode = employeeDetailsModel.PostalCode;
             fileUpload.Role = employeeDetailsModel.Role;
             fileUpload.IsActive = employeeDetailsModel.IsActive;
             fileUpload.AddedBy = base.User.Identity.GetUserId();
@@ -82,7 +83,7 @@ namespace Learnum.ERP.API.Controller.HRD
             fileUpload.UpdatedDate = DateTime.Now;
 
 
-            var result = await employeeDetailsRepository.InsertEmployeeDetails(employeeDetailsModel);
+            var result = await employeeDetailsRepository.InsertEmployeeDetails(fileUpload);
             if (result == ResponseCode.Success || result == ResponseCode.Updated)
             {
                 return Ok(result);
@@ -99,6 +100,24 @@ namespace Learnum.ERP.API.Controller.HRD
                 return Ok(data);
             }
             return NotFound("No record found");
-        }*/
+        }
+
+        [HttpGet("getemployeeDetailsById/{EmployeeId}")]
+        public async Task<IActionResult> GetemployeeDetailsById(long? EmployeeId)
+        {
+            if (EmployeeId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await employeeDetailsRepository.GetemployeeDetailsById(EmployeeId);
+            return Ok(result);
+        }
+
     }
 }
+
