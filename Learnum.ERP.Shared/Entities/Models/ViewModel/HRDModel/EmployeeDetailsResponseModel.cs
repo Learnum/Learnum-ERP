@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Learnum.ERP.Shared.Entities.Models
+namespace Learnum.ERP.Shared.Entities.Models.ViewModel.HRDModel
 {
-    public class EmployeeDetailsModel : BaseModel
+    public class EmployeeDetailsResponseModel
     {
         public long EmployeeId { get; set; }
         public string EmployeeName { get; set; }
@@ -26,17 +23,10 @@ namespace Learnum.ERP.Shared.Entities.Models
         public long PostalCode { get; set; }
         public string Role { get; set; }
         public bool IsActive { get; set; }
-        //public string FilePath { get; set; }
-        //public string DocumentName { get; set; }
-        //public string FileName { get; set; }
-        //public string MimeType { get; set; }
+        public string FilePath { get; set; }
+        public string DocumentName { get; set; }
+        public string FileName { get; set; }
+        public string MimeType { get; set; }
       
-    }
-
-    public class EmployeeFormData
-    {
-        public string EmployeeDetailsModel { get; set; }
-        public IFormFile File { get; set; }
-
     }
 }
