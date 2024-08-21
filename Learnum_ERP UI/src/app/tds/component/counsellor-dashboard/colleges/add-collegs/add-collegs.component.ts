@@ -15,7 +15,6 @@ import { MessageService } from 'src/app/core/services/message.service';
   styleUrls: ['./add-collegs.component.scss']
 })
 export class AddCollegsComponent implements OnInit {
-  [x: string]: any;
 
   collegeContactDetails: CollegeContactDetails = new CollegeContactDetails();
 
@@ -35,6 +34,7 @@ export class AddCollegsComponent implements OnInit {
   roleDetails: any;
   collegeroleDetails: any;
   StateList: any;
+  branchDetails: any;
 
   constructor(
     private router: Router,
@@ -43,7 +43,9 @@ export class AddCollegsComponent implements OnInit {
     private modalService: NgbModal,
     private messageService: MessageService,
     private addcollegesService: AddcollegesService
-  ) { }
+  ) { 
+    this.createContactForm();
+  }
 
   ngOnInit(): void {
     this.createContactForm();
@@ -73,21 +75,17 @@ export class AddCollegsComponent implements OnInit {
             hooks: {
               onInit: (field) => {
                 field.formControl.valueChanges.subscribe(value => {
-                  // Remove any numbers from the input
                   const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
-                  // Capitalize the first letter of each word
                   const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
-
                   if (value !== capitalizedValue) {
                     field.formControl.setValue(capitalizedValue, { emitEvent: false });
                   }
                 });
               }
-            },
+            }, 
             validation: {
               messages: {
                 required: 'College Name is required',
-                pattern: 'Please enter a valid name with letters only.',
               },
             },
           },
@@ -209,7 +207,7 @@ export class AddCollegsComponent implements OnInit {
             key: 'Pincode',
             type: 'input',
             templateOptions: {
-              label: 'Postal Code',
+              label: 'PIN Code',
               placeholder: 'Enter Postal Code',
               required: true,
               maxLength: 6,
@@ -246,11 +244,29 @@ export class AddCollegsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
+            key: 'CollegeWebsite',
+            type: 'input',
+            props: {
+              label: 'College Website',
+              placeholder: 'College Website',
+              required: true,
+              pattern: '^(https?:\\/\\/)?([\\da-z.-]+)\\.([a-z.]{2,6})([\\/\\w .-]*)*\\/?$', // Pattern to match website URL
+             // description: 'Enter a valid website URL.',
+            },
+            validation: {
+              messages: {
+                required: 'College Website is required',
+                pattern: 'Please enter a valid website URL',
+              },
+            },
+          },
+          {
+            className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
               label: "Branch Name",
-              //   placeholder: 'Select Branch',  // Placeholder for the dropdown
+              //placeholder: 'Select Branch',  // Placeholder for the dropdown
               required: true,
               options: [
                 { value: null, label: 'Select Branch', disabled: true },  // Disabled placeholder option
@@ -272,25 +288,7 @@ export class AddCollegsComponent implements OnInit {
                 required: 'Branch selection is required',
               },
             },
-          },
-          {
-            className: 'col-md-3',
-            key: 'CollegeWebsite',
-            type: 'input',
-            props: {
-              label: 'College Website',
-              placeholder: 'College Website',
-              required: true,
-              pattern: '^(https?:\\/\\/)?([\\da-z.-]+)\\.([a-z.]{2,6})([\\/\\w .-]*)*\\/?$', // Pattern to match website URL
-              description: 'Enter a valid website URL.',
-            },
-            validation: {
-              messages: {
-                required: 'College Website is required',
-                pattern: 'Please enter a valid website URL',
-              },
-            },
-          },
+          }, 
           {
             className: 'col-md-3',
             key: 'BranchName1',
@@ -303,8 +301,7 @@ export class AddCollegsComponent implements OnInit {
             },
             validation: {
               messages: {
-                required: 'Branch Name 1 is required',
-                pattern: 'Branch Name 1 can only contain letters and numbers, without spaces',
+                required: 'Branch Name1 is required',
               },
             },
           },
@@ -436,8 +433,8 @@ export class AddCollegsComponent implements OnInit {
 
   createContactForm(): void {
     this.contactForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      phone: ['', Validators.required],
+      name: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s]+$/)]],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       email: ['', [Validators.required, Validators.email]],
       jobRole: ['', Validators.required],
     });
@@ -474,6 +471,11 @@ export class AddCollegsComponent implements OnInit {
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
+      const data: CollegeContactDetails = {
+        addcollegesDetails: this.form.value,
+        contactDetails: this.contactDetails,
+        departmentDetails: this.departmentDetails
+      };
       this.insertCollegeDetails();
       //this.combineFormData();
       console.log(this.departmentDetails);
@@ -491,8 +493,8 @@ export class AddCollegsComponent implements OnInit {
   getBranchDetails() {
     this.addcollegesService.getBranchList().subscribe(
       (data: any) => {
-        this.collegeDetails = data.Value;
-        this.setParameter();
+        this.branchDetails = data.Value;
+        this.setParameter();  
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -557,560 +559,3 @@ export class AddCollegsComponent implements OnInit {
     this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
   }
 }
-
-// import { Component, OnInit } from '@angular/core';
-// import { Router } from '@angular/router';
-// import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-// import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
-// import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-// import { AddcollegesService } from './addcolleges.service';
-// import { AddcollegesDetails, CollegeContactDetails, ContactDetails, DepartmentDetails } from './addcolleges.model';
-// import { AlertService } from 'src/app/core/services/alertService';
-// import { MessageService } from 'src/app/core/services/message.service';
-// import { ResponseCode } from 'src/app/core/models/responseObject.model';
-
-// @Component({
-//   selector: 'app-add-collegs',
-//   templateUrl: './add-collegs.component.html',
-//   styleUrls: ['./add-collegs.component.scss']
-// })
-// export class AddCollegsComponent implements OnInit {
-//   collegeContactDetails: CollegeContactDetails = new CollegeContactDetails();
-//   collegeForm: FormGroup;
-//   contactForm: FormGroup;
-//   departmentForm: FormGroup;
-//   form = new FormGroup({});
-//   model: any = {};
-//   options: FormlyFormOptions = {};
-//   fields: FormlyFieldConfig[];
-//   contactFields: FormlyFieldConfig[];
-//   departmentFields: FormlyFieldConfig[];
-//   branchDetails: any;
-//   roleDetails: any;
-//   StateList: any;
-// contactDetails: any[] = [];
-//departmentDetails: any[] = [];
-// collegeroleDetails: any[] = [];
-// contactDetails: ContactDetails[] = [];
-// departmentDetails: DepartmentDetails[] = [];
-
-// constructor(
-//   private router: Router,
-//   private formBuilder: FormBuilder,
-//   private modalService: NgbModal,
-//   private alertService: AlertService,
-//   private messageService: MessageService,
-//   private addcollegesService: AddcollegesService
-// ) { }
-
-// ngOnInit(): void {
-//   this.createContactForm();
-//   this.createDepartmentForm();
-//   this.getBranchDetails();
-//   this.getJobroleList();
-//   this.getCollegeList();
-//   this.getAllStates();
-// }
-
-// setParameter() {
-//   this.fields = [
-//     {
-//       fieldGroupClassName: 'row card-body p-2',
-//       fieldGroup: [
-//         {
-//           className: 'col-md-3',
-//           type: 'input',
-//           key: 'CollegeName',
-//           props: {
-//             placeholder: 'College Name',
-//             type: 'text',
-//             label: 'College Name',
-//             required: true,
-//           },
-//           hooks: {
-//             onInit: (field) => {
-//               field.formControl.valueChanges.subscribe(value => {
-//                 const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
-//                 const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
-//                 if (value !== capitalizedValue) {
-//                   field.formControl.setValue(capitalizedValue, { emitEvent: false });
-//                 }
-//               });
-//             }
-//           },
-//           validation: {
-//             messages: {
-//               required: 'College Name is required',
-//               pattern: 'Please enter a valid name with letters only.',
-//             },
-//           },
-//         },
-//         {
-//           className: 'col-md-3',
-//           key: 'CollegeAddress',
-//           type: 'input',
-//           props: {
-//             label: 'College Address',
-//             placeholder: 'Address Line 1',
-//             required: true,
-//           },
-//           hooks: {
-//             onInit: (field) => {
-//               field.formControl.valueChanges.subscribe(value => {
-//                 const formattedValue = value.replace(/\b\w/g, char => char.toUpperCase());
-//                 if (formattedValue !== value) {
-//                   field.formControl.setValue(formattedValue, { emitEvent: false });
-//                 }
-//               });
-//             }
-//           },
-//           validation: {
-//             messages: {
-//               required: 'College Address is required',
-//             },
-//           },
-//         },
-//         {
-//           className: 'col-md-3',
-//           key: 'City',
-//           type: 'input',
-//           props: {
-//             label: 'City',
-//             placeholder: 'City',
-//             required: true,
-//           },
-//           hooks: {
-//             onInit: (field) => {
-//               field.formControl.valueChanges.subscribe(value => {
-//                 const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
-//                 const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
-//                 if (value !== capitalizedValue) {
-//                   field.formControl.setValue(capitalizedValue, { emitEvent: false });
-//                 }
-//               });
-//             }
-//           },
-//           validation: {
-//             messages: {
-//               required: 'City is required',
-//             },
-//           },
-//         },
-//         {
-//           className: 'col-md-3',
-//           key: 'District',
-//           type: 'input',
-//           props: {
-//             label: 'District',
-//             placeholder: 'District',
-//             required: true,
-//           },
-//           hooks: {
-//             onInit: (field) => {
-//               field.formControl.valueChanges.subscribe(value => {
-//                 const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
-//                 const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
-//                 if (value !== capitalizedValue) {
-//                   field.formControl.setValue(capitalizedValue, { emitEvent: false });
-//                 }
-//               });
-//             }
-//           },
-//           validation: {
-//             messages: {
-//               required: 'District is required',
-//             },
-//           },
-//         },
-//         {
-//           className: 'col-md-3',
-//           type: 'select',
-//           key: 'StateId',
-//           props: {
-//             label: 'State Name',
-//             required: true,
-//             options: [
-//               { value: null, label: 'Select State', disabled: true },
-//               ...this.StateList ? this.StateList.map(state => ({
-//                 label: state.StateName,
-//                 value: state.StateId
-//               })) : [],
-//             ],
-//           },
-//           defaultValue: null,
-//           validators: {
-//             required: {
-//               expression: (c: AbstractControl) => c.value !== null && c.value !== '',
-//               message: 'State is required',
-//             },
-//           },
-//           validation: {
-//             messages: {
-//               required: 'State is required',
-//             },
-//           },
-//         },
-//         {
-//           className: 'col-md-3',
-//           key: 'Pincode',
-//           type: 'input',
-//           props: {
-//             label: 'Postal Code',
-//             placeholder: 'Enter Postal Code',
-//             required: true,
-//             maxLength: 6,
-//             minLength: 6
-//           },
-//           hooks: {
-//             onInit: (field) => {
-//               field.formControl.valueChanges.subscribe(value => {
-//                 const sanitizedValue = value.replace(/[^0-9]/g, '');
-//                 if (sanitizedValue !== value) {
-//                   field.formControl.setValue(sanitizedValue, { emitEvent: false });
-//                 }
-//               });
-//             },
-//           },
-//           validators: {
-//             pincode: {
-//               expression: (c: AbstractControl) => {
-//                 const value = c.value;
-//                 return value && /^[0-9]{6}$/.test(value);
-//               },
-//               message: (error: any, field: FormlyFieldConfig) => {
-//                 return `"${field.formControl.value}" is not a valid 6-digit Pincode`;
-//               },
-//             },
-//           },
-//           validation: {
-//             messages: {
-//               required: 'Postal Code is required',
-//             },
-//           },
-//         },
-//       ],
-//     }
-//   ];
-
-//   this.contactFields = [
-//     {
-//       fieldGroupClassName: 'row',
-//       fieldGroup: [
-//         {
-//           className: 'col-md-3',
-//           type: 'input',
-//           key: 'Name',
-//           props: {
-//             label: 'Name',
-//             required: true,
-//           },
-//           hooks: {
-//             onInit: (field) => {
-//               field.formControl.valueChanges.subscribe(value => {
-//                 const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
-//                 const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
-//                 if (value !== capitalizedValue) {
-//                   field.formControl.setValue(capitalizedValue, { emitEvent: false });
-//                 }
-//               });
-//             }
-//           },
-//           validation: {
-//             messages: {
-//               required: 'Name is required',
-//             },
-//           },
-//         },
-//         {
-//           className: 'col-md-3',
-//           type: 'input',
-//           key: 'PhoneNumber',
-//           props: {
-//             label: 'Phone Number',
-//             placeholder: 'Enter Phone Number',
-//             required: true,
-//             maxLength: 10,
-//             minLength: 10
-//           },
-//           hooks: {
-//             onInit: (field) => {
-//               field.formControl.valueChanges.subscribe(value => {
-//                 const sanitizedValue = value.replace(/[^0-9]/g, '');
-//                 if (sanitizedValue !== value) {
-//                   field.formControl.setValue(sanitizedValue, { emitEvent: false });
-//                 }
-//               });
-//             },
-//           },
-//           validators: {
-//             phone: {
-//               expression: (c: AbstractControl) => {
-//                 const value = c.value;
-//                 return value && /^[0-9]{10}$/.test(value);
-//               },
-//               message: (error: any, field: FormlyFieldConfig) => {
-//                 return `"${field.formControl.value}" is not a valid 10-digit phone number`;
-//               },
-//             },
-//           },
-//           validation: {
-//             messages: {
-//               required: 'Phone Number is required',
-//             },
-//           },
-//         },
-//         {
-//           className: 'col-md-3',
-//           type: 'input',
-//           key: 'Email',
-//           props: {
-//             label: 'Email',
-//             required: true,
-//           },
-//           validation: {
-//             messages: {
-//               required: 'Email is required',
-//               email: 'Please enter a valid email address.',
-//             },
-//           },
-//         },
-//         {
-//           className: 'col-md-3',
-//           type: 'select',
-//           key: 'RoleId',
-//           props: {
-//             label: 'Role Name',
-//             required: true,
-//             options: [
-//               { value: null, label: 'Select Role', disabled: true },
-//               ...this.roleDetails ? this.roleDetails.map(role => ({
-//                 label: role.JobRoleName,
-//                 value: role.RoleId
-//               })) : [],
-//             ],
-//           },
-//           defaultValue: null,
-//           validators: {
-//             required: {
-//               expression: (c: AbstractControl) => c.value !== null && c.value !== '',
-//               message: 'Role is required',
-//             },
-//           },
-//           validation: {
-//             messages: {
-//               required: 'Role is required',
-//             },
-//           },
-//         },
-//       ]
-//     }
-//   ];
-
-//   this.departmentFields = [
-//     {
-//       fieldGroupClassName: 'row',
-//       fieldGroup: [
-//         {
-//           className: 'col-md-3',
-//           type: 'select',
-//           key: 'CourseId',
-//           props: {
-//             label: 'Course Name',
-//             required: true,
-//             options: [
-//               { value: null, label: 'Select Course', disabled: true },
-//               ...this.branchDetails ? this.branchDetails.map(branch => ({
-//                 label: branch.BranchName,
-//                 value: branch.BranchId
-//               })) : [],
-//             ],
-//           },
-//           defaultValue: null,
-//           validators: {
-//             required: {
-//               expression: (c: AbstractControl) => c.value !== null && c.value !== '',
-//               message: 'Course is required',
-//             },
-//           },
-//           validation: {
-//             messages: {
-//               required: 'Course is required',
-//             },
-//           },
-//         },
-//         {
-//           className: 'col-md-3',
-//           type: 'input',
-//           key: 'Seats',
-//           props: {
-//             label: 'Seats',
-//             required: true,
-//           },
-//           validation: {
-//             messages: {
-//               required: 'Seats are required',
-//             },
-//           },
-//         }
-//       ]
-//     }
-//   ];
-// }
-
-// getBranchDetails() {
-//   this.addcollegesService.getBranchList().subscribe(
-//     (result: any) => {
-//       this.branchDetails = result;
-//       this.setParameter();
-//     },
-//     (error: any) => {
-//       this.alertService.ShowErrorMessage(error);
-//     }
-//   );
-// }
-
-// getJobroleList() {
-//   this.addcollegesService.getroleList().subscribe(
-//     (result: any) => {
-//       this.roleDetails = result;
-//       this.setParameter();
-//     },
-//     (error: any) => {
-//       this.alertService.ShowErrorMessage(error);
-//     }
-//   );
-// }
-
-// getCollegeList() {
-//   this.addcollegesService.getCollegeList().subscribe(
-//     (result: any) => {
-//       this.setParameter();
-//     },
-//     (error: any) => {
-//       this.alertService.ShowErrorMessage(error);
-//     }
-//   );
-// }
-
-// getAllStates() {
-//   this.addcollegesService.getAllStates().subscribe(
-//     (result) => {
-//       let data = result.Value;
-//       this.StateList = data
-//       this.setParameter();
-//     }, (error) => {
-
-//     });
-// }
-
-// createContactForm() {
-//   this.contactForm = this.formBuilder.group({
-//     ContactArray: this.formBuilder.array([]),
-//   });
-// }
-
-// addContact(): void {
-//   if (this.contactForm.valid) {
-//     this.contactDetails.push(this.contactForm.value);
-//     this.contactForm.reset();
-//     this.modalService.dismissAll();
-//   } else {
-//     this.alertService.ShowErrorMessage("Please fill all required fields.");
-//   }
-// }
-
-// createDepartmentForm() {
-//   this.departmentForm = this.formBuilder.group({
-//     DepartmentArray: this.formBuilder.array([]),
-//   });
-// }
-
-// addDepartment(): void {
-//   if (this.departmentForm.valid) {
-//     this.departmentDetails.push(this.departmentForm.value);
-//     this.departmentForm.reset();
-//     this.modalService.dismissAll();
-//     this.router.navigateByUrl('tds/counsellor-dashboard/colleges/add-collegs');
-//   } else {
-//     this.alertService.ShowErrorMessage("Please fill all required fields.");
-//   }
-// }
-// getJobroleList() {
-//   this.addcollegesService.getroleList().subscribe(
-//     (data: any) => {
-//       this.roleDetails = data.Value;
-//       this.setParameter();
-//     },
-//     (error: any) => {
-//       this.alertService.ShowErrorMessage(error);
-//     }
-//   );
-// }
-// getCollegeList() {
-//   this.addcollegesService.getCollegeList().subscribe(
-//     (data: any) => {
-//       this.collegeroleDetails = data.Value;
-//       this.setParameter();
-//     },
-//     (error: any) => {
-//       this.alertService.ShowErrorMessage(error);
-//     }
-//   );
-// }
-
-// onSubmit(): void {
-//   this.form.markAllAsTouched();
-//   if (this.form.valid) {
-//     console.log(this.departmentDetails);
-//     console.log( this.contactDetails);
-//      console.log(this.collegeContactDetails)
-//     this.insertCollegeDetails();
-//   } else {
-//     this.alertService.ShowErrorMessage('Please fill in all required fields.');
-//   }
-// }
-
-// onCancelClick() {
-//   this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
-// }
-// insertCollegeDetails() {
-//   // this.collegeContactDetails.addcollegesDetails = new AddcollegesDetails();
-//   // this.collegeContactDetails.addcollegesDetails.addedBy = 1;
-//   // this.collegeContactDetails.addcollegesDetails.addedDate = new Date();
-//   // this.collegeContactDetails.addcollegesDetails.updatedBy = 1;
-//   // this.collegeContactDetails.addcollegesDetails.updatedDate = new Date();
-//   // this.collegeContactDetails.addcollegesDetails.collegeId = 0;
-
-//   const addcollegesDetails = new AddcollegesDetails();
-//   addcollegesDetails.addedBy = 1;
-//   addcollegesDetails.addedDate = new Date();
-//   addcollegesDetails.updatedBy = 1;
-//   addcollegesDetails.updatedDate = new Date();
-//   addcollegesDetails.collegeId = 0;
-
-//   const collegeContactDetails = {
-//     addcollegesDetails: addcollegesDetails,
-//     contactDetails: this.contactDetails,
-//     departmentDetails: this.departmentDetails,
-//   };
-
-//   this.addcollegesService.insertCollegesData(this.collegeContactDetails).subscribe(
-//     (result: any) => {
-//       const serviceResponse = result.Value;
-//       if (serviceResponse === ResponseCode.Success) {
-//         this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-//       } else {
-//         this.alertService.ShowErrorMessage('An error occurred');
-//       }
-//     },
-//     (error: any) => {
-//       this.alertService.ShowErrorMessage(error);
-//     }
-//   );
-// }
-
-//   backToList() {
-//     this.router.navigate(['institute/institute-list']);
-//   }
-// }
-// }
