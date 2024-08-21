@@ -1,9 +1,14 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
+import { AttendenceSheetDetailsModel } from './attendanceDetails.model';
+import { AddrecordService } from './addrecord.service';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { BaseService } from 'src/app/core/services/baseService';
 
 @Component({
   selector: 'app-add-record',
@@ -13,19 +18,17 @@ import { MessageService } from 'src/app/core/services/message.service';
 export class AddRecordComponent implements OnInit {
 
   form = new FormGroup({});
-  //employeeDetails: EmployeeDetails = new EmployeeDetails();
-  reasonList: any[] = [];
-  fields: FormlyFieldConfig[];
+  attendenceDetails: AttendenceSheetDetailsModel = new AttendenceSheetDetailsModel();
+ fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
-  GetEmployeeList: any;
-  coOwners: any;
   NowDate: any = new Date();
-employeeDetails: any;
+  attendenceForm: any;
+
  
   constructor(
-    //private addEmployeeService: AddEmployeeService,
+    private addrecordService: AddrecordService,
+    private baseservice : BaseService,
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -35,66 +38,13 @@ employeeDetails: any;
 
   ngOnInit(): void {
     this.setParameter();
-  //  this.getReason();
-    this.createForm();
+ 
     this.editData = this.activateRoute.snapshot.queryParams;
-    if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
-   //   this.getEmployeeDetails(this.editData.EmployeeDetailId);
+    if (this.editData.source === 'edit' && this.editData.AttendenceId) {
+      this.getAttendanceDetails(this.editData.AttendenceId);
     }
     
   }
-  createForm(): void {
-    this.form = this.fb.group({
-      EMPID: ['', Validators.required], 
-      Name: ['', Validators.required], 
-      PANNo: ['', Validators.required], 
-      
-    });
-  }
-
-
-  // getReason() {
-  //   this.addEmployeeService.getReason().subscribe(
-  //     (result: any) => {
-  //       this.reasonList = result.Value;
-  //       this.setParameter();
-  //     },
-  //     (error) => {
-  //       // Handle error
-  //     }
-  //   );
-  // }
-
-  // getEmployeeDetails(EmployeeDetailId: number) {
-  //   this.addEmployeeService.getEmployeeDetails(EmployeeDetailId).subscribe(
-  //     (result: any) => {
-  //       if (result && result.Value && result.Value.Item1) {
-  //         this.employeeDetails = result.Value.Item1;
-          
-  //         //DateofPayment && DateOfDeduction
-  //         this.employeeDetails.DateOfPayment = this.addEmployeeService.formatDate(this.employeeDetails.DateOfPayment);
-  //         this.employeeDetails.DateOfDeduction = this.addEmployeeService.formatDate(this.employeeDetails.DateOfDeduction);
-
-  //         this.setParameter();
-  //       } else {
-  //         console.error('No data found for EmployeeDetailId: ' + EmployeeDetailId);
-
-  //       }
-  //     },
-  //     (error: any) => {
-  //       console.error('Error retrieving employee details:', error);
-
-  //       if (error && error.status === 404) {
-  //         console.error('Employee not found.');
-
-  //       } else {
-  //         console.error('An unexpected error occurred. Please try again later.');
-
-  //       }
-  //     }
-  //   );
-  // }
-
 
 setParameter() {
     this.fields = [
@@ -104,34 +54,95 @@ setParameter() {
         fieldGroup: [
 
           {
-            className: 'col-md-3',
+            key:'AttendenceId',
+           },
+            {
+            className: 'col-md-4',
             type: 'input',
-            key: 'EMPID',
+            key: 'Name',
             templateOptions: {
-              placeholder: 'Enter Employee ID',
+              placeholder: 'Enter Name',
               type: 'text',
-              label: "Employee ID",
+              label: "Name",
               required: true,
-              attributes: {
-                style: 'text-transform: uppercase'
-              }
-
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+              title: 'Only characters are allowed',
             },
-            validators: {
-              name: {
-                expression: (c: AbstractControl) => !c.value || /^[a-zA-Z0-9]+$/.test(c.value),
-                message: (error: any, field: FormlyFieldConfig) => `Please enter a valid ID.`,
+            validation: {
+              messages: {
+                required: 'Name is required',
+                pattern: 'Please enter a valid name ',
               },
             },
+          },
+          {
+            className: 'col-md-4',
+            type: 'input',
+            key: 'Date',
+            templateOptions: {
+              label: 'Date',
+              placeholder: 'Date',
+              type: 'date',
+              required: true,
+              attributes: {
+                max: formatDate(this.NowDate, 'YYYY-MM-dd', 'en-IN'),
+              },
             },
+            validation: {
+              messages: {
+                required: 'This field is required',
+              },
+            },
+          },
+          {
+            className: 'col-md-4',
+            type: 'input',
+            key: 'Role',
+            templateOptions: {
+              label: 'Role',
+              placeholder: 'Select Role',
+              required: true,
+             
+            },
+            validation: {
+              messages: {
+                required: 'Role is required',
+              },
+            },
+          },
           
+          {
+            className: 'col-md-3',
+            key: 'Time',
+            type: 'input',
+            props: {
+              label: 'InTime',
+              placeholder: 'Select InTime',
+              type: 'time',
+              required: true,
+            },
+            validation: {
+              messages: {
+                required: 'Phone InTime is required',
+              },
+            },
+          },
+         
+         
         ],
       },
     ]
   }
+       
+  
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/hrd/accountant');
+    this.router.navigateByUrl('tds/hrd/attendance');
+  }
+
+  navigate()
+  {
+    this.router.navigateByUrl('tds/hrd/attendance');
   }
 
   get f()
@@ -142,41 +153,68 @@ setParameter() {
   onSubmit():void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-    //  this.insertAddEmployee();
-      this.GetEmployeeList();
-    }
+     this.insertAddAttendence() ;
+      }
     else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
 
-  // insertAddEmployee() {
-  //   this.employeeDetails.AddedBy = 1;
-  //   this.employeeDetails.AddedDate = new Date();
-  //   this.employeeDetails.UpdatedBy = 1;
-  //   this.employeeDetails.UpdatedDate = new Date();
-  //   this.employeeDetails.IsActive = true;
+  insertAddAttendence() {
+    this.attendenceDetails.addedBy = 1;
+    this.attendenceDetails.addedDate = new Date();
+    this.attendenceDetails.updatedBy = 1;
+    this.attendenceDetails.updatedDate = new Date();
+    //this.attendenceDetails.attendenceId = 0;
 
-  //   this.addEmployeeService.insertEmployeeData(this.employeeDetails).subscribe(
-  //     (result: any) => {
-  //       let serviceResponse = result.Value
-  //       if (result.Value === ResponseCode.Success) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+    this.addrecordService.insertrecordsData(this.attendenceDetails).subscribe(
+      (result: any) => {
+        let serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/hrd/attendance');
+        }
+         else if (serviceResponse == ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/hrd/attendance');
+        } 
+        else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage("Enter all required fields");
+      }
+    );
+    
+  }
 
-  //       }
-  //       else if (serviceResponse == ResponseCode.Update) {
-  //         this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-  //       }
-  //       else {
-  //         this.alertService.ShowErrorMessage(this.messageService.serviceError);
-  //       }
-  //     },
-  //     (error: any) => {
-  //       this.alertService.ShowErrorMessage("Enter all required fields");
-  //     }
-  //   )
-  //   this.router.navigateByUrl('tds/tds-return/employee');
-  // }
+  getAttendanceDetails(AttendenceId: number) {
+    this.addrecordService.getAttendenceDetails(AttendenceId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.attendenceDetails = result.Value.Item1;
+
+          this.attendenceDetails.Date = this.addrecordService.formatDate(this.attendenceDetails.Date);
+ 
+          this.attendenceDetails.Time = this.baseservice.extractTime(this.attendenceDetails.Time);
+
+
+          this.attendenceForm.patchValue({
+
+            Time: this.attendenceDetails.Time
+          });
+
+          this.setParameter();
+          console.error('No data found for BirthId: ' + AttendenceId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving birthday details:', error);
+
+      }
+    );
+  }
 
 
 

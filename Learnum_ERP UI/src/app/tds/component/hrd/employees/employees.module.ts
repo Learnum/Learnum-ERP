@@ -20,7 +20,8 @@ import { FormlyModule } from '@ngx-formly/core';
     ReactiveFormsModule,
     SharedModule,
     FormlyBootstrapModule,
-    FormlyModule
+    FormlyModule,
+    FormlyModule.forRoot(),
   ]
 })
 export class EmployeesModule { }

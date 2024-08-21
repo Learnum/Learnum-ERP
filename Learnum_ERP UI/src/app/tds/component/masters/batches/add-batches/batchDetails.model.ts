@@ -1,6 +1,6 @@
 export class BatchesDetailsModel {
     batchId: number;
-   BatchTd:number;
+    BatchTd:number;
     BranchId: number;
     CourseId: number;
     ClassRoomId: number;

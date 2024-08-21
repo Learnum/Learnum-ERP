@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddrecordService } from './add-record/addrecord.service';
 
 @Component({
   selector: 'app-attendance',
@@ -12,86 +13,58 @@ import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-g
 })
 export class AttendanceComponent implements OnInit {
 
-  tdsReturnList: any[] = [];
+  AttendanceList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'EmployeeDetailId',
-      headerName: 'SR NO',
+      field: 'Name',
+      headerName: 'Name',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 80
+      minWidth: 150
     },
     {
-      field: 'BranchID',
-      headerName: 'BranchID',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 100
-
-    },
-    {
-      field: 'Branch Name',
-      headerName: 'Branch Name',
+      field: 'Date',
+      headerName: 'Date',
       filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 100
-
-    },
-    {
-      field: 'Address',
-      headerName: 'Address',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 100
-
-    },
-    {
-      field: 'state',
-      headerName: 'state',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 100
-
-    },
-    {
-      field: 'city ',
-      headerName: 'city ',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
       minWidth: 150
 
     },
+     
     {
-      field: 'postal code ',
-      headerName: 'postal code ',
+      field: 'Role',
+      headerName: 'Role',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 100
 
     },
-
+    // {
+    //   field: 'IsActive',
+    //   headerName: 'Status',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: {
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   minWidth: 200,
+    //   valueFormatter: params => {
+    //     return params.value ? 'Active' : 'Inactive';
+    //   }
+    // },
     {
       field: 'addedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 150
     },
     {
       field: 'addedTime',
@@ -101,82 +74,52 @@ export class AttendanceComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedBy',
+      headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
-    }
+    },
+    {
+      field: 'updatedTime',
+      headerName: 'Updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150
+    }, 
+    
   ];
 
 
 
   
-  getEmployeeList: any;
+
 
 
 
   ngOnInit(): void {
-    //this.GetbranchList();
+    this.GetAttendanceList();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    //private addEmployeeService: AddEmployeeService,
-   // private addBranchService: AddBranchService,
-    private formBuilder: FormBuilder) {
-    {
-      this.form = this.formBuilder.group({
-        // Define form controls with validators as needed
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        // Add more form controls as needed
-      });
+    private addrecordService: AddrecordService,
+   private formBuilder: FormBuilder) {
     }
-  }
+
   selectBranch(branch: any) {
 
   }
-  // editEmploy(employeeData: any) {
 
-  //   const employeeId = employeeData.EmpID;
-  //   const index = this.tdsReturnList.findIndex(emp => emp.EmpID === employeeId);
-  //   if (index !== -1) {
-  //   this.openEditForm(employeeData).then((editedEmployeeData: any) => {
-  //   this.tdsReturnList[index] = editedEmployeeData;
-  //   console.log('Edited Employee:', editedEmployeeData);
-  // });
-  //   }
-  // }
-
-  // openEditForm(employeeData: any): Promise<any> {
-
-  //   return new Promise((resolve, reject) => {
-
-  //     setTimeout(() => {
-  //       const editedEmployeeData = { ...employeeData };
-
-  //       editedEmployeeData.Status = 'Edited';
-  //       resolve(editedEmployeeData);
-  //     }, 1000);
-  //   });
-  // }
 
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'branchID': data.row.branchID
+      'AttendenceId': data.row.AttendenceId
     }
-    this.router.navigate(['/tds/hrd/add-trainer'], { queryParams: data1 });
+    this.router.navigate(['/tds/hrd/attendance/add-record'], { queryParams: data1 });
   }
 
 
@@ -184,10 +127,11 @@ export class AttendanceComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewBranch',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      actionPage: 'Viewattendence',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
+      colorClass: 'text-secondary h4',
+      tooltip:'Edit Attendence'
     },
   ];
   onAddAttendence() {
@@ -202,38 +146,54 @@ export class AttendanceComponent implements OnInit {
     // }
     this.router.navigateByUrl('tds/hrd/attendance/add-record')
   }
-  // onAddBranch(branch?:any)
-  // {
-  //   let navigationExtras: NavigationExtras = {};
-  //   if (branch) {
-  //     navigationExtras = {
-  //       state: {
-  //         branchData: branch
-  //       }
-  //     };
-  //   }
-  //   this.router.navigate(['tds/masters/branches/add-branch']);
-  // }
+ 
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
 
 
-  // GetbranchList() {
-  //   this.addBranchService.getBranchDetails().subscribe(
-  //     (result: any) => {
-  //       this.tdsReturnList = result.Value;
-  //       let tdsReturnList = result.Value;
-  //     },
-  //     (error: any) => {
-  //       console.error("Error occurred while fetching employee details:", error);
-  //       this.alertService.ShowErrorMessage("An error occurred while fetching employee details. Please try again later.");
-  //     }
-  //   );
-  // }
+  GetAttendanceList() {
+    this.addrecordService.getAttendanceDetails().subscribe(
+      (result: any) => {
+        this. AttendanceList = result.Value;
+        let  AttendanceList = result.Value;
+      },
+      (error: any) => {
+        console.error("Error occurred while fetching employee details:", error);
+        this.alertService.ShowErrorMessage("An error occurred while fetching employee details. Please try again later.");
+      }
+    );
+  
+  }
 
 
 
+  editAttendance(AttendanceData: any) {
+    const AttendenceId = AttendanceData.AttendenceId;
+    const index = this. AttendanceList.findIndex(Attendance => Attendance.AttendenceId === AttendenceId);
 
+    if (index !== -1) {
+      this.openEditForm(AttendanceData).then((editedAttendanceData: any) => {
+        this. AttendanceList[index] =editedAttendanceData;
+        console.log('Edited Attendance:', editedAttendanceData);
+      });
+    }
+  }
+
+  openEditForm(AttendanceData: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const editedAttendanceData = { ...AttendanceData };
+        editedAttendanceData.Status = 'Edited';
+        resolve(editedAttendanceData);
+      }, 1000);
+    });
+  }
 }
+  
+
+
+
+
+

@@ -82,15 +82,16 @@ export class AddBatchesComponent implements OnInit {
               type: 'text',
               label: "Batch Name",
               required: true,
-              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+              pattern: "^[\\w\\s\\W]*$", // Updated pattern to accept letters, numbers, and symbols.
             },
             validation: {
               messages: {
-                required: 'BatchName is required',
-                pattern: "Please enter a valid BatchName"
+                required: 'Batch Name is required',
+                pattern: 'Please enter a valid Batch Name',
               },
             },
-          },
+          }
+          ,
           {
             className: 'col-md-3',
             type: 'select',
@@ -358,12 +359,15 @@ export class AddBatchesComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/masters/batches');
+
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/masters/batches');
+
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
-        this.router.navigateByUrl('tds/masters/batches');
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);

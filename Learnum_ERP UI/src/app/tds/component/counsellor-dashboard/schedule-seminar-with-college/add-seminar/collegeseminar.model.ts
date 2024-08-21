@@ -1,9 +1,11 @@
+import { Time } from "@angular/common";
+
 export class SeminarDetailsModel  {
     seminarId: number;
     collegeId: number;
     spockPerson: string;
-    seminarDate: string;
-    seminarTime: string;
+    SeminarDate: string;
+    SeminarTime: string;
     seminarLocation: string;
     seminarStatus: string;
     seminarAgenda: string;

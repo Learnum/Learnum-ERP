@@ -42,6 +42,7 @@ export class AddBranchComponent implements OnInit {
     }
     this.getAllStates();
     //.getAllCity();
+
   
   }
 
@@ -71,6 +72,16 @@ export class AddBranchComponent implements OnInit {
                 // pattern: 'Branch Name should only contain letters',
               },
             },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }
           },
           {
             className: 'col-md-3',
@@ -81,15 +92,16 @@ export class AddBranchComponent implements OnInit {
               type: 'text',
               label: "Address",
               required: true,
-              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+              pattern: "^[\\s\\S]*$", // Updated pattern to accept all symbols.
             },
             validation: {
               messages: {
                 required: 'Address is required',
-
               },
             },
           },
+          
+          
           // {
           //   className: 'col-md-3',
           //   type: 'input',
@@ -133,7 +145,7 @@ export class AddBranchComponent implements OnInit {
               label: 'City',
               placeholder: 'Enter City',
               type: 'text',
-              pattern: '^[A-Za-z]+$',
+              pattern: "^[\\s\\S]*$",
               required: true,
             },
             validation: {
@@ -176,18 +188,43 @@ export class AddBranchComponent implements OnInit {
           
           {
             className: 'col-md-3',
-            type: 'input',
             key: 'PostalCode',
-            props: {
-              label: 'PIN code',
+            type: 'input',
+            templateOptions: {
+              label: 'Postal Code',
+              placeholder: 'Enter Postal Code',
               required: true,
-              type: 'number',
-              placeholder: 'Postal Code',
+              type: 'tel',
+              pattern: '^[0-9]{6}$',
+              maxLength: 6,
+              minLength: 6
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^0-9]/g, '');
+                  if (sanitizedValue !== value) {
+                    field.formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              },
             },
             validators: {
-              ip: {
-                expression: (c: AbstractControl) => !c.value || /^[1-9][0-9]{5}$/.test(c.value),
-                message: (error: any, field: FormlyFieldConfig) => `"${field.formControl.value}" is not a valid Pincode`,
+              postalCode: {
+                expression: (c: AbstractControl) => {
+                  const value = c.value;
+                  // Ensure the value is exactly 6 digits long
+                  return value && /^[0-9]{6}$/.test(value);
+                },
+                message: (error: any, field: FormlyFieldConfig) => {
+                  return `"${field.formControl.value}" is not a valid 6-digit Postal Code`;
+                },
+              },
+            },
+            validation: {
+              messages: {
+                required: 'Postal Code is required',
+                postalCode: 'Please enter a valid 6-digit Postal Code',
               },
             },
           },

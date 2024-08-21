@@ -217,22 +217,22 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'Address',
             type: 'input',
+            key: 'Address',
             props: {
-              label: 'Address',
-              placeholder: 'Enter Address',
+              placeholder: 'Enter Your Address',
               type: 'text',
+              label: "Address",
               required: true,
-              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+              pattern: "^[\\s\\S]*$", // Updated pattern to accept all symbols.
             },
             validation: {
               messages: {
                 required: 'Address is required',
-                pattern: 'Please Enter Address',
               },
             },
           },
+          ,
           {
             className: 'col-md-3',
             key: 'City',
@@ -241,7 +241,7 @@ export class AddStudentLeadsComponent implements OnInit {
               label: 'City',
               placeholder: 'Enter City',
               type: 'text',
-              pattern: '^[A-Za-z]+$',
+              pattern: "^[\\s\\S]*$",
               required: true,
             },
             validation: {
@@ -283,7 +283,7 @@ export class AddStudentLeadsComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'input',
-            key: 'PostalCode',
+            key: 'postalCode',
             props: {
               label: 'PIN code',
               required: true,

@@ -2,8 +2,8 @@ export class MeetingDetails {
     meetingId: number;
     collegeId: number;
     meetingwith: string;
-    meetingDate: string;
-    meetingTime: string;
+    MeetingDate: string;
+    MeetingTime: string;
     meetingLocation: string;
     meetingAgenda: string;
     isActive: boolean;

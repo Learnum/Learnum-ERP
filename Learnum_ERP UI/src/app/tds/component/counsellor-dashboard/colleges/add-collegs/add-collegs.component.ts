@@ -52,6 +52,7 @@ export class AddCollegsComponent implements OnInit {
     this.getBranchDetails();
     this.getJobroleList();
     this.getCollegeList();
+    this.getAllStates();
   }
 
   setParameter() {
@@ -157,10 +158,10 @@ export class AddCollegsComponent implements OnInit {
               label: 'Postal Code',
               placeholder: 'Enter Postal Code',
               required: true,
-              type: 'tel', 
-              pattern: '^[0-9]{6}$', 
-              maxLength: 6, 
-              minLength: 6 
+              type: 'tel',
+              pattern: '^[0-9]{6}$',
+              maxLength: 6,
+              minLength: 6
             },
             hooks: {
               onInit: (field) => {
@@ -173,24 +174,24 @@ export class AddCollegsComponent implements OnInit {
               },
             },
             validators: {
-              phoneNumber: {
+              postalCode: {
                 expression: (c: AbstractControl) => {
                   const value = c.value;
-                  // Ensure the value is exactly 10 digits long
-                  return value && /^[0-9]{10}$/.test(value);
+                  // Ensure the value is exactly 6 digits long
+                  return value && /^[0-9]{6}$/.test(value);
                 },
                 message: (error: any, field: FormlyFieldConfig) => {
-                  return `"${field.formControl.value}" is not a valid 06-digit Pincode`;
+                  return `"${field.formControl.value}" is not a valid 6-digit Postal Code`;
                 },
               },
             },
             validation: {
               messages: {
-                required: 'Phone Number is required',
-                phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
+                required: 'Postal Code is required',
+                postalCode: 'Please enter a valid 6-digit Postal Code',
               },
             },
-          },
+          },,
           {
             className: 'col-md-3',
             type: 'select',

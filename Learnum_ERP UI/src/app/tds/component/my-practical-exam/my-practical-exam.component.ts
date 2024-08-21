@@ -30,10 +30,10 @@ export class MyPracticalExamComponent implements OnInit {
   declaredTableColumns: TableColumn[] = [
     {
       field: 'StudentId',
-      headerName: 'SR.NO',
+      headerName: 'Student ID',
       filter: 'agTextColumnFilter',
       filterParams: {buttons: ['reset', 'apply'],},
-      minWidth: 100
+      minWidth: 150
     },
     {
       field: 'Answer',
