@@ -471,11 +471,7 @@ export class AddCollegsComponent implements OnInit {
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      const data: CollegeContactDetails = {
-        addcollegesDetails: this.form.value,
-        contactDetails: this.contactDetails,
-        departmentDetails: this.departmentDetails
-      };
+
       this.insertCollegeDetails();
       //this.combineFormData();
       console.log(this.departmentDetails);
@@ -541,7 +537,13 @@ export class AddCollegsComponent implements OnInit {
     this.collegeContactDetails.addcollegesDetails.updatedDate = new Date();
     this.collegeContactDetails.addcollegesDetails.collegeId = 0;
 
-    this.addcollegesService.insertCollegesData(this.collegeContactDetails).subscribe(
+    const data: CollegeContactDetails = {
+      addcollegesDetails: this.form.value,
+      contactDetails: this.contactDetails,
+      departmentDetails: this.departmentDetails
+    };
+
+    this.addcollegesService.insertCollegesData(data).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
