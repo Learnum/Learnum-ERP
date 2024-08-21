@@ -62,27 +62,29 @@ export class AddBusinessLeadComponent implements OnInit {
             type: 'input',
             props: {
               label: 'Name',
-              placeholder: 'Name',
-              pattern: '^[A-Za-z ]+$', 
+              placeholder: 'Enter Name',
+              //pattern: '^[A-Za-z ]+$',
               required: true,
-            },
-            validation: {
-              messages: {
-                required: 'First Name is required',
-                pattern: 'Please Enter Full Name'
-              },
             },
             hooks: {
               onInit: (field) => {
                 field.formControl.valueChanges.subscribe(value => {
-                  const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
-                  if (value !== capitalizedValue) {
-                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  if (value) { 
+                    const sanitizedValue = value.replace(/[^A-Za-z\s]/g, '');
+                    const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+                    if (capitalizedValue !== value) {
+                      field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                    }
                   }
                 });
               }
-            }
-          },
+            },
+            validation: {
+              messages: {
+                required: 'Name is required',
+              },
+            },
+          },                   
           {
             className: 'col-md-3',
             key: 'PhoneNumber',
@@ -398,6 +400,7 @@ export class AddBusinessLeadComponent implements OnInit {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          window.location.reload();
         } else if (serviceResponse === ResponseCode.AlreadyExists) {
           this.alertService.ShowErrorMessage("Mobile Number already exists");
         } else {
