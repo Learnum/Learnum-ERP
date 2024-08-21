@@ -7,17 +7,16 @@ export class EmployeeDetailsModel {
     DateOfBirth: string | null;
     Qualification: string;
     BloodGroup: string;
-    gendGenderer: string;
-    filePath: string;
-    employeePhoto: string;
+    Gender: string;
+    // filePath: string;
+    // employeePhoto: string;
     file: File;
     Address: string;
     City: string;
     State: string;
     PostalCode: number;
     Role: string;
-    IsActive
-       : boolean;
+    IsActive: boolean;
     addedBy: number | null;
     addedDate: Date | null;
     updatedBy: number | null;

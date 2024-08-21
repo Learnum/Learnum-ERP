@@ -115,7 +115,7 @@ export class AddMeetingComponent implements OnInit {
               type: 'date',
               required: true,
               attributes: {
-                max: formatDate(this.NowDate, 'YYYY-MM-dd', 'en-IN'),
+                min: formatDate(new Date(), 'yyyy-MM-dd', 'en-IN'), // Sets today's date as the minimum
               },
             },
             validation: {
@@ -135,12 +135,19 @@ export class AddMeetingComponent implements OnInit {
               required: true,
               defaultValue: '12:00',
             },
+            validators: {
+              timeValidation: {
+                expression: (control: AbstractControl) => control.value !== '00:00', // Custom validation to block '00:00'
+                message: '00:00 is not a valid time. Please select a different time.',
+              },
+            },
             validation: {
               messages: {
                 required: 'Meeting Time is required',
               },
             },
-          },
+          }
+          ,
           {
             className: 'col-md-3',
             key: 'MeetingLocation',

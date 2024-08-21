@@ -372,7 +372,7 @@ export class AddBatchComponent implements OnInit {
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
-        this.router.navigateByUrl('tds/masters/batches');
+        this.router.navigateByUrl('tds/counselors-planning/batches-planning');
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);

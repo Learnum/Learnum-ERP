@@ -3,7 +3,7 @@ export class BatchesDetailsModel {
     BatchTd:number;
     BranchId: number;
     CourseId: number;
-    ClassRoomId: number;
+    ClassroomId: number;
     //batchName: string;
     BatchName:string;
     CourseName:string;

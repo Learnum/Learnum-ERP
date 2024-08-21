@@ -31,7 +31,7 @@ export class BatchesComponent implements OnInit {
    
     {
       field: 'BatchName',
-      headerName: 'BatchName',
+      headerName: 'Batch Name',
       filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -41,7 +41,7 @@ export class BatchesComponent implements OnInit {
     },
     {
       field: 'BranchName',
-      headerName: 'BranchName',
+      headerName: 'Branch Name',
       filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -52,7 +52,7 @@ export class BatchesComponent implements OnInit {
     
     {
       field: 'ClassroomName',
-      headerName: 'ClassroomName',
+      headerName: 'Classroom Name',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -61,7 +61,7 @@ export class BatchesComponent implements OnInit {
     },
     {
       field: 'OneTimeCourseFees',
-      headerName: 'OneTimeCourseFees',
+      headerName: 'One Time Course Fees',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
