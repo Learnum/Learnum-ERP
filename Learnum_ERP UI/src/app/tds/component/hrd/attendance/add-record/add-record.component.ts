@@ -95,21 +95,33 @@ setParameter() {
             },
           },
           {
-            className: 'col-md-4',
-            type: 'input',
+            className: 'col-md-3',
+            type: 'select',
             key: 'Role',
             templateOptions: {
               label: 'Role',
-              placeholder: 'Select Role',
+              //placeholder: 'Select Role',
               required: true,
-             
+              options: [
+                { value: null, label: 'Select Role', disabled: true },  // Placeholder option
+                { value:'Developer', label: 'Developer' },
+                { value: 'Manager', label: 'Manager' }
+              ],
+            },
+            defaultValue: null,  // Optionally set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure that a valid value is selected
+                message: 'Role is required',
+              },
             },
             validation: {
               messages: {
                 required: 'Role is required',
               },
             },
-          },
+          }
+          ,
           
           {
             className: 'col-md-3',

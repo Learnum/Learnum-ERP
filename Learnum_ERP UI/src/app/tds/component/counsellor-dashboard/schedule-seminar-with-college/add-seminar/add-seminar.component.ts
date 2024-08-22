@@ -125,7 +125,7 @@ export class AddSeminarComponent implements OnInit {
               type: 'date',
               required: true,
               attributes: {
-                max: formatDate(this.NowDate, 'YYYY-MM-dd', 'en-IN'),
+                min: formatDate(new Date(), 'yyyy-MM-dd', 'en-IN'), // Sets today's date as the minimum
               },
             },
             validation: {
@@ -134,25 +134,7 @@ export class AddSeminarComponent implements OnInit {
               },
             },
           },
-          // {
-          //   className: 'col-md-6',
-          //   type: 'input',
-          //   key: 'Date',
-          //   templateOptions: {
-          //     label: 'Date',
-          //     placeholder: 'Date',
-          //     type: 'date',
-          //     required: true,
-          //     attributes: {
-          //       max: formatDate(this.NowDate, 'YYYY-MM-dd', 'en-IN'),
-          //     },
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'This field is required',
-          //     },
-          //   },
-          // },
+          
           {
             className: 'col-md-3',
             key: 'SeminarTime',
@@ -162,15 +144,21 @@ export class AddSeminarComponent implements OnInit {
               placeholder: 'Select Seminar Time',
               type: 'time',
               required: true,
-              defaultValue: '12:00', // Default time value (12:00 PM)
+              defaultValue: '12:00',
+            },
+            validators: {
+              timeValidation: {
+                expression: (control: AbstractControl) => control.value !== '00:00', // Custom validation to block '00:00'
+                message: '00:00 is not a valid time. Please select a different time.',
+              },
             },
             validation: {
               messages: {
                 required: 'Seminar Time is required',
               },
             },
-          }
-          ,
+          },
+          
           {
             className: 'col-md-3',
             key: 'SeminarLocation',
@@ -231,31 +219,7 @@ export class AddSeminarComponent implements OnInit {
                 required: 'Seminar Status is required',
               },
             },
-          }
-          ,
-          // {
-          //   className: 'col-md-3',
-          //   type: 'select',
-          //   key: 'seminarStatus',
-          //   props: {
-          //     label: 'Seminar Status',
-          //     placeholder: 'Select Seminar Status',
-          //     required: true,
-          //     options: [
-          //       { label: 'Select Seminar Status', value: '', disabled: true }, // Default disabled option
-          //       { value: 'scheduled', label: 'Scheduled' },
-          //       { value: 'inProgress', label: 'In Progress' },
-          //       { value: 'confirmed', label: 'Confirmed' },
-          //       { value: 'completed', label: 'Completed' },
-          //       { value: 'canceled', label: 'Canceled' },
-          //     ],
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'Seminar Status is required',
-          //     },
-          //   },
-          // },
+          },
           {
             className: 'col-md-6',
             type: 'textarea',
@@ -264,7 +228,6 @@ export class AddSeminarComponent implements OnInit {
               placeholder: 'Enter Seminar Agenda',
               label: 'Seminar Agenda',
               required: true,
-          
               attributes: {
                 style: 'overflow:hidden; resize:none;',
                 oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"

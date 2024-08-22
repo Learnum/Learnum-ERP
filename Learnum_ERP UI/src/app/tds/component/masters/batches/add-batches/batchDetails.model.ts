@@ -1,9 +1,9 @@
 export class BatchesDetailsModel {
     batchId: number;
-    BatchTd:number;
+    BatchId:number;
     BranchId: number;
     CourseId: number;
-    ClassRoomId: number;
+    ClassroomId: number;
     //batchName: string;
     BatchName:string;
     CourseName:string;
@@ -11,11 +11,10 @@ export class BatchesDetailsModel {
     ClassroomName:string;
     courseFeesInstallment: number;
     oneTimeCourseFees: string;
-    startOn: string;
-    endOn: string;
+    StartOn: string;
+    EndOn: string;
     isActive: boolean;
-    startTime: Date;
-    endTime: Date;
+   
     addedBy: number | null;
     addedDate: Date | null;
     updatedBy: number | null;
@@ -24,10 +23,10 @@ export class BatchesDetailsModel {
 }
 
 export class InstallMentDetailsModel {
-    installmentId: number;
-    installmentNumber: number;
-    dueDate: string;
-    installmentAmount: number;
+    InstallmentId: number;
+    InstallmentNumber: number;
+    DueDate: string;
+    InstallmentAmount: number;
 }
 
 export class BatchesDetailsReqModel

@@ -83,6 +83,7 @@ export class AddBranchComponent implements OnInit {
               },
             },
           },
+           
           {
             className: 'col-md-3',
             type: 'input',
