@@ -38,8 +38,7 @@ export class AddEmployeeComponent implements OnInit {
  
 
   ngOnInit(): void {
-    this.setParameter();
-    this.addSameAsCurrentAddressListener();
+    this.setParameter();    //this.addSameAsCurrentAddressListener();
   }
 
   setParameter() {
@@ -47,10 +46,14 @@ export class AddEmployeeComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
+
+          {
+            key: 'EmployeeId'
+          },
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'employeeName',
+            key: 'EmployeeName',
             templateOptions: {
               placeholder: 'Enter Employee Name',
               type: 'text',
@@ -61,7 +64,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'email',
+            key: 'Email',
             templateOptions: {
               placeholder: 'Enter Email',
               type: 'email',
@@ -79,7 +82,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'employeePhone',
+            key: 'EmployeePhone',
             templateOptions: {
               placeholder: 'Enter Employee Phone',
               required: true,
@@ -89,7 +92,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'aadharNumber',
+            key: 'AadharNumber',
             templateOptions: {
               placeholder: 'Enter AADHAAR Number',
               required: true,
@@ -99,7 +102,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'dateOfBirth',
+            key: 'DateOfBirth',
             templateOptions: {
               label: 'Date of Birth',
               placeholder: 'Date',
@@ -118,7 +121,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'select',
-            key: 'bloodGroup',
+            key: 'BloodGroup',
             templateOptions: {
               label: 'Blood Group',
              // placeholder: 'Select Blood Group',
@@ -148,7 +151,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'select',
-            key: 'gender',
+            key: 'Gender',
             templateOptions: {
               label: 'Gender',
               //placeholder: 'Select Gender',
@@ -176,7 +179,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-4',
             type: 'input',
-            key: 'qualification',
+            key: 'Qualification',
             templateOptions: {
               placeholder: 'Qualification',
               required: true,
@@ -219,7 +222,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'input',
-            key: 'address',
+            key: 'Address',
             templateOptions: {
               label: 'Address ',
               placeholder: 'Enter Address ',
@@ -234,7 +237,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'select',
-            key: 'city',
+            key: 'City',
             templateOptions: {
               label: 'City / District',
               placeholder: 'Enter City / District',
@@ -253,7 +256,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'select',
-            key: 'state',
+            key: 'State',
             templateOptions: {
               label: 'State / Province',
               placeholder: 'Enter State / Province',
@@ -309,7 +312,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'input',
-            key: 'address',
+            key: 'Address',
             templateOptions: {
               label: 'Address Line',
               placeholder: 'Enter Address ',
@@ -324,7 +327,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'select',
-            key: 'city',
+            key: 'City',
             templateOptions: {
               label: 'City / District',
               placeholder: 'Enter City ',
@@ -343,7 +346,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'select',
-            key: 'state',
+            key: 'State',
             templateOptions: {
               label: 'State',
               placeholder: 'Enter State',
@@ -362,7 +365,7 @@ export class AddEmployeeComponent implements OnInit {
           {
             className: 'col-md-3',
             type: 'input',
-            key: 'postalCode',
+            key: 'PostalCode',
             templateOptions: {
               label: 'Postal Code',
               placeholder: 'Enter Postal Code',
@@ -382,7 +385,7 @@ export class AddEmployeeComponent implements OnInit {
         {
           className: 'col-md-2',
           type: 'select',
-          key: 'role',
+          key: 'Role',
           templateOptions: {
             placeholder: 'select',
             type: 'text',
@@ -453,21 +456,25 @@ export class AddEmployeeComponent implements OnInit {
     this.router.navigateByUrl('tds/hrd/employees');
   }
 
-  addSameAsCurrentAddressListener() {
-    this.form.get('AddressDetails.SameAsCurrentAddress').valueChanges.subscribe((checked: boolean) => {
-      if (checked) {
-        const currentAddress = this.form.get('AddressDetails').value;
-        this.form.get('PermanentAddress').setValue({
-          address: currentAddress.Address,
-          city: currentAddress.City,
-          state: currentAddress.State,
-          postalCode: currentAddress.PinCode
-        });
-      } else {
-        this.form.get('PermanentAddress').reset();
-      }
-    });
+  onResetClick() {
+    this.form.reset();
   }
+
+  // addSameAsCurrentAddressListener() {
+  //   this.form.get('AddressDetails.SameAsCurrentAddress').valueChanges.subscribe((checked: boolean) => {
+  //     if (checked) {
+  //       const currentAddress = this.form.get('AddressDetails').value;
+  //       this.form.get('PermanentAddress').setValue({
+  //         address: currentAddress.Address,
+  //         city: currentAddress.City,
+  //         state: currentAddress.State,
+  //         postalCode: currentAddress.PinCode
+  //       });
+  //     } else {
+  //       this.form.get('PermanentAddress').reset();
+  //     }
+  //   });
+  // }
 
   onSubmit(): void {
     this.form.markAllAsTouched();
@@ -492,8 +499,12 @@ export class AddEmployeeComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/hrd/employee');
+
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/hrd/employee');
+
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
@@ -502,6 +513,5 @@ export class AddEmployeeComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/hrd/employee');
 }
 }

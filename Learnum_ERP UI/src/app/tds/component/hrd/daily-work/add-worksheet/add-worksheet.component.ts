@@ -100,7 +100,7 @@ setParameter() {
               type: 'date',
               required: true,
               attributes: {
-                max: formatDate(this.NowDate, 'YYYY-MM-dd', 'en-IN'),
+                min: formatDate(new Date(), 'yyyy-MM-dd', 'en-IN'), // Sets today's date as the minimum
               },
             },
             validation: {
@@ -115,10 +115,10 @@ setParameter() {
             key: 'Role',
             templateOptions: {
               label: 'Role',
-              //placeholder: 'Select Role',
+              
               required: true,
               options: [
-                { value: null, label: 'Select Role', disabled: true },  // Placeholder option
+                { value: null, label: 'Select Role', disabled: true, className: 'placeholder-option'}, // Placeholder option
                 { value:'Developer', label: 'Developer' },
                 { value: 'Manager', label: 'Manager' }
               ],

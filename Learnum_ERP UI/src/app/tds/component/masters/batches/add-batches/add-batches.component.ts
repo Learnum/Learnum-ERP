@@ -9,6 +9,8 @@ import { tap } from 'rxjs/operators';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { AddBatchesService } from './add-batches.service';
 import { BatchesDetailsModel, BatchesDetailsReqModel, InstallMentDetailsModel } from './batchDetails.model';
+import { formatDate } from '@angular/common';
+import { BaseService } from 'src/app/core/services/baseService';
 
 @Component({
   selector: 'app-add-batches',
@@ -39,10 +41,13 @@ export class AddBatchesComponent implements OnInit {
 
   installmentModel: { Installments: InstallMentDetailsModel[] } = {
     Installments: [],
+    
   };
   installmentOptions: FormlyFormOptions = {};
   installmentFields: FormlyFieldConfig[];
   model: any;
+  InstallMentDetailsModel: any;
+  Installments: any;
 
   constructor(
     private router: Router,
@@ -50,6 +55,7 @@ export class AddBatchesComponent implements OnInit {
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
+    private baseservice: BaseService,
     private fb: FormBuilder
   ) { }
 
@@ -191,6 +197,7 @@ export class AddBatchesComponent implements OnInit {
               inputMode: 'numeric', 
               min: 0, 
               step: 0.01,
+              readonly: true, // Make the field non-editable
             },
             validation: {
               messages: {
@@ -199,6 +206,7 @@ export class AddBatchesComponent implements OnInit {
               },
             },
           },
+      ,
           {
             className: 'col-md-3',
             type: 'input',
@@ -229,6 +237,9 @@ export class AddBatchesComponent implements OnInit {
               type: 'date',
               required: true,
               label: "Start On",
+              attributes: {
+                min: formatDate(new Date(), 'yyyy-MM-dd', 'en-IN'), // Sets today's date as the minimum
+              },
             },
           },
           {
@@ -240,6 +251,9 @@ export class AddBatchesComponent implements OnInit {
               type: 'date',
               required: true,
               label: "End On",
+              attributes: {
+                min: formatDate(new Date(), 'yyyy-MM-dd', 'en-IN'), // Sets today's date as the minimum
+              },
             },
           },
           {
@@ -251,7 +265,7 @@ export class AddBatchesComponent implements OnInit {
               //placeholder: 'Select Batch Status',
               required: true,
               options: [
-                { value: null, label: 'Select Batch Status', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
               ],
@@ -279,7 +293,7 @@ export class AddBatchesComponent implements OnInit {
           fieldGroupClassName: 'row',
           fieldGroup: [
             {
-              key: 'installmentNumber',
+              key: 'InstallmentNumber',
               className: 'col-4',
               type: 'input',
               templateOptions: {
@@ -289,17 +303,21 @@ export class AddBatchesComponent implements OnInit {
               },
             },
             {
-              key: 'dueDate',
+              key: 'DueDate',
               className: 'col-4',
               type: 'input',
               templateOptions: {
                 placeholder: 'Due Date',
                 type: 'date',
                 required: true,
+                attributes: {
+                  min: formatDate(new Date(), 'yyyy-MM-dd', 'en-IN'), // Sets today's date as the minimum
+                },
               },
+             
             },
             {
-              key: 'installmentAmount',
+              key: 'InstallmentAmount',
               className: 'col-4',
               type: 'input',
               templateOptions: {
@@ -339,7 +357,7 @@ export class AddBatchesComponent implements OnInit {
   get f() {
     return this.form.controls;
   }
-
+  
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
@@ -378,7 +396,7 @@ export class AddBatchesComponent implements OnInit {
     if (this.installmentModel.Installments.length > 0) {
       let totalInstallments = 0;
       this.installmentModel.Installments.forEach(element => {
-        totalInstallments += element.installmentAmount || 0;
+        totalInstallments += element.InstallmentAmount || 0;
       });
       this.batchDetails.courseFeesInstallment = totalInstallments;
       this.form.get('CourseFeesInstallment').setValue(totalInstallments);
@@ -423,7 +441,19 @@ export class AddBatchesComponent implements OnInit {
     this.addBatchService.getBatchDetails(BatchId).subscribe(
       (result: any) => {
         if (result && result.Value) {
-          this.batchDetails = result.Value.Item1;
+          // this.batchesDetailsReq.batchesDetailsModel = result.Value.Item1.BatchDetails;
+          // this.batchesDetailsReq.installMentDetailsModel = result.Value.Item1.InstallmentDetails;
+          this.installmentModel.Installments = result.Value.Item1.InstallmentDetails;
+          this.batchDetails = result.Value.Item1.BatchDetails;
+
+        
+          this.batchDetails.StartOn = this.baseservice.formatDate(this.batchDetails.StartOn);
+          this.batchDetails.EndOn = this.baseservice.formatDate(this.batchDetails.EndOn);
+
+          this.installmentModel.Installments.forEach( item => {
+            item.DueDate = this.baseservice.formatDate(item.DueDate);
+          })
+
           this.setParameter();
           console.error('No data found for BatchId: ' + BatchId);
         }

@@ -17,7 +17,7 @@ namespace Learnum.ERP.Repository.Master
 {
     public interface IEmployeeDetailsRepository
     {
-        Task<ResponseCode> InsertEmployeeDetails(EmployeePhotoupload employeePhotoupload);
+        Task<ResponseCode> InsertEmployeeDetails(EmployeePhotoupload fileUpload);
         Task<List<EmployeeDetailsResponseModel>> GetEmployeeDetailsList();
 
         Task<Tuple<EmployeePhotoupload?, ResponseCode>> GetemployeeDetailsById(long? EmployeeId);
@@ -25,11 +25,11 @@ namespace Learnum.ERP.Repository.Master
     }
     public class EmployeeDetailsRepository : BaseRepository, IEmployeeDetailsRepository
     {
-        public async Task<ResponseCode> InsertEmployeeDetails(EmployeePhotoupload employeePhotoupload)
+        public async Task<ResponseCode> InsertEmployeeDetails(EmployeePhotoupload fileUpload)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
-                var dbparams = new DynamicParameters(employeePhotoupload);
+                var dbparams = new DynamicParameters(fileUpload);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
                 dbConnection.Query<int>("PROC_InsertAddEmployeeDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");

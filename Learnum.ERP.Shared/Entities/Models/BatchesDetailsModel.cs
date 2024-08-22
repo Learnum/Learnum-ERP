@@ -13,7 +13,7 @@ namespace Learnum.ERP.Shared.Entities.Models
 
         public long CourseId { get; set; }
 
-        public long classroomId { get; set; }   
+        public long ClassroomId { get; set; }   
 
         public string BatchName { get; set; }
 

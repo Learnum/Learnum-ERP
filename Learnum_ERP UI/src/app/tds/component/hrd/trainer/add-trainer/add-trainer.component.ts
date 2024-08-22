@@ -234,6 +234,9 @@ export class AddTrainerComponent implements OnInit {
   get f() {
     return this.form.controls;
   }
+  onResetClick() {
+    this.form.reset();
+  }
 
   onSubmit(): void {
     this.form.markAllAsTouched();

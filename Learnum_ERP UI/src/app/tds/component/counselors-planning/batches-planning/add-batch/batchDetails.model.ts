@@ -1,33 +1,32 @@
 export class BatchesDetailsModel {
     batchId: number;
+    BatchId:number;
     BranchId: number;
     CourseId: number;
-    ClassRoomId: number;
-    batchName: string;
+    ClassroomId: number;
+    //batchName: string;
+    BatchName:string;
     CourseName:string;
     BranchName:string;
     ClassroomName:string;
     courseFeesInstallment: number;
     oneTimeCourseFees: string;
-    startOn: string;
-    endOn: string;
+    StartOn: string;
+    EndOn: string;
     isActive: boolean;
-    startTime: Date;
-    endTime: Date;
+   
     addedBy: number | null;
     addedDate: Date | null;
     updatedBy: number | null;
     updatedDate: Date | null;
     computerName: string;
-    // step:number;
-    // type:number;
 }
 
 export class InstallMentDetailsModel {
-    installmentId: number;
-    installmentNumber: number;
-    dueDate: string;
-    installmentAmount: number;
+    InstallmentId: number;
+    InstallmentNumber: number;
+    DueDate: string;
+    InstallmentAmount: number;
 }
 
 export class BatchesDetailsReqModel

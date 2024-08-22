@@ -17,7 +17,6 @@ namespace Learnum.ERP.Shared.Entities
         public string BloodGroup { get; set; }
         public string Gender { get; set; }
         public string Qualification { get; set; }
-
         public string Address { get; set; }
         public string City { get; set; }
         public string State { get; set; }

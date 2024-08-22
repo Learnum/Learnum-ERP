@@ -28,12 +28,14 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
   ];
 
   declaredTableColumns: TableColumn[] = [
+    
     {
       field: 'MeetingId',
       headerName: 'SR.NO',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 100,
+    
     },
     {
       field: 'CollegeName',

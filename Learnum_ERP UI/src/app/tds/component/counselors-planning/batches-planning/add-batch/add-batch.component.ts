@@ -9,6 +9,7 @@ import { tap } from 'rxjs/operators';
 import { BatchesDetailsModel, BatchesDetailsReqModel, InstallMentDetailsModel } from './batchDetails.model';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { AddbatchService } from './addbatch.service';
+import { BaseService } from 'src/app/core/services/baseService';
 @Component({
   selector: 'app-add-batch',
   templateUrl: './add-batch.component.html',
@@ -50,6 +51,8 @@ export class AddBatchComponent implements OnInit {
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
+    private baseservice: BaseService,
+
     private fb: FormBuilder
   ) { }
 
@@ -58,6 +61,10 @@ export class AddBatchComponent implements OnInit {
     this.getBranchDetails();
     this.getClassroomDetails();
     this.getCourseDetails();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.BatchId) {
+      this.getBatchDetails(this.editData.BatchId);
+    }
   }
 
 
@@ -295,7 +302,7 @@ export class AddBatchComponent implements OnInit {
           fieldGroupClassName: 'row',
           fieldGroup: [
             {
-              key: 'installmentNumber',
+              key: 'InstallmentNumber',
               className: 'col-4',
               type: 'input',
               templateOptions: {
@@ -305,7 +312,7 @@ export class AddBatchComponent implements OnInit {
               },
             },
             {
-              key: 'dueDate',
+              key: 'DueDate',
               className: 'col-4',
               type: 'input',
               templateOptions: {
@@ -315,7 +322,7 @@ export class AddBatchComponent implements OnInit {
               },
             },
             {
-              key: 'installmentAmount',
+              key: 'InstallmentAmount',
               className: 'col-4',
               type: 'input',
               templateOptions: {
@@ -355,6 +362,10 @@ export class AddBatchComponent implements OnInit {
     return this.form.controls;
   }
 
+  onResetClick() {
+    this.form.reset();
+  }
+
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
@@ -379,7 +390,7 @@ export class AddBatchComponent implements OnInit {
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
-        this.router.navigateByUrl('tds/masters/batches');
+        this.router.navigateByUrl('tds/counselors-planning/batches-planning');
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -392,7 +403,7 @@ export class AddBatchComponent implements OnInit {
     if (this.installmentModel.Installments.length > 0) {
       let totalInstallments = 0;
       this.installmentModel.Installments.forEach(element => {
-        totalInstallments += element.installmentAmount || 0;
+        totalInstallments += element.InstallmentAmount || 0;
       });
       this.batchDetails.courseFeesInstallment = totalInstallments;
       this.form.get('CourseFeesInstallment').setValue(totalInstallments);
@@ -440,7 +451,19 @@ export class AddBatchComponent implements OnInit {
     this.addbatchService.getBatchDetails(BatchId).subscribe(
       (result: any) => {
         if (result && result.Value) {
-          this.batchDetails = result.Value.Item1;
+          // this.batchesDetailsReq.batchesDetailsModel = result.Value.Item1.BatchDetails;
+          // this.batchesDetailsReq.installMentDetailsModel = result.Value.Item1.InstallmentDetails;
+          this.installmentModel.Installments = result.Value.Item1.InstallmentDetails;
+          this.batchDetails = result.Value.Item1.BatchDetails;
+
+        
+          this.batchDetails.StartOn = this.baseservice.formatDate(this.batchDetails.StartOn);
+          this.batchDetails.EndOn = this.baseservice.formatDate(this.batchDetails.EndOn);
+
+          this.installmentModel.Installments.forEach( item => {
+            item.DueDate = this.baseservice.formatDate(item.DueDate);
+          })
+
           this.setParameter();
           console.error('No data found for BatchId: ' + BatchId);
         }

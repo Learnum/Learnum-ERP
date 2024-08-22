@@ -11,6 +11,7 @@ using System.Data;
 using Learnum.ERP.Repository.Core;
 using Learnum.ERP.Shared.Entities;
 using Learnum.ERP.Shared.Helpers;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Learnum.ERP.Repository.Master
 {
@@ -60,9 +61,12 @@ namespace Learnum.ERP.Repository.Master
                 var dbparams = new DynamicParameters();
                 dbparams.Add("@BatchId", BatchId);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                var result = dbConnection.Query<BatchDetailsPayload?>("PROC_GetBatchesDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var result = dbConnection.QueryMultiple("PROC_GetBatchesDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
-                return await Task.FromResult(new Tuple<BatchDetailsPayload?, ResponseCode>(result, responseCode));
+                var response = new BatchDetailsPayload();
+                response.BatchDetails = result.Read<BatchesDetailsModel>().FirstOrDefault();
+                response.InstallmentDetails = result.Read<InstallMentModel>().ToList();
+                return await Task.FromResult(new Tuple<BatchDetailsPayload?, ResponseCode>(response, responseCode));
             }
         }
     }
