@@ -179,9 +179,18 @@ export class AddBatchComponent implements OnInit {
               required: true,
               label: "Course Fees in Installment",
               pattern: '^[0-9]+(\\.[0-9]{1,2})?$',
-              inputMode: 'numeric', 
-              min: 0, 
-              step: 0.01,
+              // inputMode: 'numeric', 
+              type: 'number',
+            },
+            hooks: {
+              onInit: (field) => {
+                const form = field.parent.formControl;
+                field.formControl.valueChanges.pipe(
+                  tap(() => {
+                    this.calculateInstallment();
+                  }),
+                ).subscribe();
+              },
             },
             validation: {
               messages: {
@@ -197,12 +206,21 @@ export class AddBatchComponent implements OnInit {
             templateOptions: {
               placeholder: '₹',
               required: true,
-              type: 'text',
+              
               label: 'One Time Course Fees',
               pattern: '^[0-9]+(\\.[0-9]{1,2})?$', 
-              inputMode: 'numeric', 
-              min: 0, 
-              step: 0.01,
+              //inputMode: 'numeric', 
+              type: 'number',
+            },
+            hooks: {
+              onInit: (field) => {
+                const form = field.parent.formControl;
+                field.formControl.valueChanges.pipe(
+                  tap(() => {
+                    this.calculateInstallment();
+                  }),
+                ).subscribe();
+              },
             },
             validation: {
               messages: {

@@ -137,8 +137,7 @@ export class EmployeesComponent implements OnInit {
     }
   ];
 
-  getEmployeeList: any;
-  addEmployeeService: any;
+ 
    employeeList: any;
 
 
@@ -152,16 +151,7 @@ export class EmployeesComponent implements OnInit {
     private messageService: MessageService,
     private alertService: AlertService,
     
-    private formBuilder: FormBuilder) {
-    {
-      this.form = this.formBuilder.group({
-       
-        // Add more form controls as needed
-        firstName: ['', Validators.required],
-          lastName: ['', Validators.required],
-      });
-    }
-  }
+    private formBuilder: FormBuilder) { }
  
   
  

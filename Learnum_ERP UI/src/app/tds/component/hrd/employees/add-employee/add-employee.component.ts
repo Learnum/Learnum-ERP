@@ -485,7 +485,7 @@ export class AddEmployeeComponent implements OnInit {
     this.employeeDetails.addedDate = new Date();
     this.employeeDetails.updatedBy = 1;
     this.employeeDetails.updatedDate = new Date();
-    this.employeeDetails.employeeId = 0;
+    //this.employeeDetails.employeeId = 0;
 
     this.addemployeeService.insertEmployeeData(this.employeeDetails).subscribe(
       (result: any) => {

@@ -56,16 +56,16 @@ export class DailyWorkComponent implements OnInit {
       minWidth: 150
 
     },
-    // {
-    //   field: 'Role',
-    //   headerName: 'Role',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: {
-    //     buttons: ['reset', 'apply'],
-    //   },
-    //   minWidth: 100
+    {
+      field: 'Role',
+      headerName: 'Role',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 100
 
-    // },
+    },
     {
       field: 'addedBy',
       headerName: 'Added By',

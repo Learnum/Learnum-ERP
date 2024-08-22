@@ -216,12 +216,12 @@ export class AddStudentLeadsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'Address',
             type: 'input',
+            key: 'Address',
             props: {
-              label: 'Address',
-              placeholder: 'Enter Address',
+              placeholder: 'Enter Your Address',
               type: 'text',
+              label: "Address",
               required: true,
               pattern: '^[A-Za-z0-9\\s.,#-]*$',
             },
