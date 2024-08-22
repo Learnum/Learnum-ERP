@@ -136,7 +136,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
             key: 'FilePath',
             type: 'file',
             props: {
-              label: 'Attachment*',
+              label: 'Attachment',
               placeholder: 'Upload Attachment',
               type: 'number', 
               required: true,

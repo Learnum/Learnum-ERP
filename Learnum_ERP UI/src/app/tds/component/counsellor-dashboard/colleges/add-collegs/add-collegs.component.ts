@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
@@ -16,7 +16,7 @@ import { MessageService } from 'src/app/core/services/message.service';
 })
 export class AddCollegsComponent implements OnInit {
 
-  collegeContactDetails: CollegeContactDetails = new CollegeContactDetails();
+  collegeContactDetails: AddcollegesDetails = new AddcollegesDetails();
 
   //contactForm = new FormGroup({});
   collegeForm: FormGroup;
@@ -35,6 +35,7 @@ export class AddCollegsComponent implements OnInit {
   collegeroleDetails: any;
   StateList: any;
   branchDetails: any;
+  contact: { [key: string]: AbstractControl; };
 
   constructor(
     private router: Router,
@@ -438,6 +439,7 @@ export class AddCollegsComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       jobRole: ['', Validators.required],
     });
+    this.contact = this.contactForm.controls;
   }
 
   addContact(): void {
@@ -448,6 +450,8 @@ export class AddCollegsComponent implements OnInit {
     } else {
       this.alertService.ShowErrorMessage("Please fill all required fields.");
     }
+    // this.modalService.dismissAll();
+    // this.contactForm.reset();
   }
 
   createDepartmentForm(): void {
@@ -471,7 +475,6 @@ export class AddCollegsComponent implements OnInit {
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-
       this.insertCollegeDetails();
       //this.combineFormData();
       console.log(this.departmentDetails);
@@ -531,11 +534,11 @@ export class AddCollegsComponent implements OnInit {
   }
 
   insertCollegeDetails() {
-    this.collegeContactDetails.addcollegesDetails.addedBy = 1;
-    this.collegeContactDetails.addcollegesDetails.addedDate = new Date();
-    this.collegeContactDetails.addcollegesDetails.updatedBy = 1;
-    this.collegeContactDetails.addcollegesDetails.updatedDate = new Date();
-    this.collegeContactDetails.addcollegesDetails.collegeId = 0;
+    this.collegeContactDetails.addedBy = 1;
+    this.collegeContactDetails.addedDate = new Date();
+    this.collegeContactDetails.updatedBy = 1;
+    this.collegeContactDetails.updatedDate = new Date();
+    this.collegeContactDetails.collegeId = 0;
 
     const data: CollegeContactDetails = {
       addcollegesDetails: this.form.value,

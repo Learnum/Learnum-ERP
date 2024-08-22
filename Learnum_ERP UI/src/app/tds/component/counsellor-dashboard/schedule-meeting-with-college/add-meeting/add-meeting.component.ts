@@ -156,7 +156,7 @@ export class AddMeetingComponent implements OnInit {
               attributes: {
                 style: 'overflow:hidden; resize:none;',
                 oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';",
-                onfocus: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';" // Trigger resize on focus
+                onfocus: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';" 
               }
             },
             validation: {
