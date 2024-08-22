@@ -238,6 +238,7 @@ export class AddBatchComponent implements OnInit {
               type: 'date',
               required: true,
               label: "Start On",
+             // min: new Date().toISOString().split('T')[0] as unknown as number
             },
           },
           {
@@ -249,6 +250,12 @@ export class AddBatchComponent implements OnInit {
               type: 'date',
               required: true,
               label: "End On",
+              min: new Date().toISOString().split('T')[0] as unknown as number
+            },
+            expressionProperties: {
+              'templateOptions.minDate': (model) => {
+                return model.StartOn ? new Date(model.StartOn).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+              },
             },
           },
           {

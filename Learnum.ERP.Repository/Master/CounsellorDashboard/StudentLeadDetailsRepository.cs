@@ -26,8 +26,9 @@ namespace Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters(studentleadDetailsModel);
+                dbparams.Add("@Action", "InsertStudentLeadsDetails");
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("PROC_InsertStudentLeads", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_StudentLeads", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
@@ -38,7 +39,9 @@ namespace Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<StudentLeadDetailsResponseModel>("PROC_GetStudentLeadsDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                dbparams.Add("@Action", "GetStudentLeadsDetails");
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<StudentLeadDetailsResponseModel>("PROC_StudentLeads", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }
@@ -48,8 +51,9 @@ namespace Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo
             {
                 var dbparams = new DynamicParameters();
                 dbparams.Add("@StudentId", StudentId);
+                dbparams.Add("@Action", "GetStudentLeadsDetailsByStudentId");
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                var result = dbConnection.Query<StudentLeadDetailsModel?>("PROC_GetStudentLeadList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var result = dbConnection.Query<StudentLeadDetailsModel?>("PROC_StudentLeads", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(new Tuple<StudentLeadDetailsModel?, ResponseCode>(result, responseCode));
             }

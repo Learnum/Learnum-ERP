@@ -45,7 +45,8 @@
 </div>
 
 <!-- Modal for Contact Details -->
-<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalTitle" aria-hidden="true">
+ 
+<!-- <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="color: #fff;">
@@ -57,19 +58,20 @@
       <div class="modal-body">
         <form [formGroup]="contactForm">
           <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter Name">
+            <label for="name">Name *</label>
+            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter Name" required>
+            <div class="denger" *ngIf="contact.name.errors.required"></div>
           </div>
           <div class="form-group">
             <label for="phone">Phone</label>
-            <input type="text" class="form-control" id="phone" formControlName="phone" placeholder="Enter Phone">
+            <input type="text" class="form-control" id="phone" formControlName="phone" placeholder="Enter Phone" required>
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter Email">
+            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter Email" required>
           </div>
           <div class="form-group">
-            <label for="jobRole">Job Role</label>
+            <label for="jobRole">Job Role</label> -->
             <!-- <select class="form-control" id="jobRole" formControlName="jobRole">
               <option value="" disabled selected>Select Job Role</option>
               <option value="principle">Principle</option>
@@ -81,7 +83,7 @@
               <option value="office-boy">Office Boy</option>
               <option value="other">Other</option>
             </select> -->
-            <select class="form-control" id="jobRole" formControlName="jobRole">
+            <!-- <select class="form-control" id="jobRole" formControlName="jobRole">
               <option value="" disabled selected>Select Job Role</option>
               <option *ngFor="let role of roleDetails" [value]="role.Name">{{ role.Name }}</option>
             </select>
@@ -94,7 +96,70 @@
       </div>
     </div>
   </div>
+</div> -->
+
+<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalTitle" aria-hidden="true" #contactModal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="color: #fff;">
+        <h5 class="modal-title" id="contactModalTitle">Add Contact Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="contactForm" (ngSubmit)="addContact()">
+          <!-- Name Field -->
+          <div class="form-group">
+            <label for="name">Name *</label>
+            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter Name" required>
+            <div *ngIf="contactForm.get('name').invalid && (contactForm.get('name').dirty || contactForm.get('name').touched)" class="text-danger">
+              <div *ngIf="contactForm.get('name').errors.required">Name is required.</div>
+              <div *ngIf="contactForm.get('name').errors.pattern">Name can only contain letters and spaces.</div>
+            </div>
+          </div>
+
+          <!-- Phone Field -->
+          <div class="form-group">
+            <label for="phone">Phone *</label>
+            <input type="text" class="form-control" id="phone" formControlName="phone" placeholder="Enter Phone" required>
+            <div *ngIf="contactForm.get('phone').invalid && (contactForm.get('phone').dirty || contactForm.get('phone').touched)" class="text-danger">
+              <div *ngIf="contactForm.get('phone').errors.required">Phone number is required.</div>
+              <div *ngIf="contactForm.get('phone').errors.pattern">Phone number must be 10 digits.</div>
+            </div>
+          </div>
+
+          <!-- Email Field -->
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter Email" required>
+            <div *ngIf="contactForm.get('email').invalid && (contactForm.get('email').dirty || contactForm.get('email').touched)" class="text-danger">
+              <div *ngIf="contactForm.get('email').errors.required">Email is required.</div>
+              <div *ngIf="contactForm.get('email').errors.email">Please enter a valid email address.</div>
+            </div>
+          </div>
+
+          <!-- Job Role Field -->
+          <div class="form-group">
+            <label for="jobRole">Job Role *</label>
+            <select class="form-control" id="jobRole" formControlName="jobRole">
+              <option value="" disabled selected>Select Job Role</option>
+              <option *ngFor="let role of roleDetails" [value]="role.Name">{{ role.Name }}</option>
+            </select>
+            <div *ngIf="contactForm.get('jobRole').invalid && (contactForm.get('jobRole').dirty || contactForm.get('jobRole').touched)" class="text-danger">
+              <div *ngIf="contactForm.get('jobRole').errors.required">Job role is required.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cloud me-2 mt-2" [disabled]="contactForm.invalid" (click)="addContact()">Add</button>
+        <button type="button" class="btn btn-fent-cloud" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
+
 
 <!-- Department Details -->
 <div style="margin-left: 5px;" class="row d-flex">

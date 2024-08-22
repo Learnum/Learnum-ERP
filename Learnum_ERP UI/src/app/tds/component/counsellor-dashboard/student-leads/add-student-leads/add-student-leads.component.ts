@@ -214,24 +214,6 @@ export class AddStudentLeadsComponent implements OnInit {
               },
             },
           },
-          // {
-          //   className: 'col-md-3',
-          //   key: 'Address',
-          //   type: 'input',
-          //   props: {
-          //     label: 'Address',
-          //     placeholder: 'Enter Address',
-          //     type: 'text',
-          //     required: true,
-          //     pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'Address is required',
-          //       pattern: 'Please Enter Address',
-          //     },
-          //   },
-          // },
           {
             className: 'col-md-3',
             type: 'input',
@@ -241,12 +223,11 @@ export class AddStudentLeadsComponent implements OnInit {
               type: 'text',
               label: "Address",
               required: true,
-              pattern: "^[A-Za-z0-9\\s.,#-]*$", // Updated pattern to allow letters, numbers, spaces, and common symbols
+              pattern: '^[A-Za-z0-9\\s.,#-]*$',
             },
             hooks: {
               onInit: (field) => {
                 field.formControl.valueChanges.subscribe(value => {
-                  // Capitalize the first letter of each word
                   const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
                   if (value !== capitalizedValue) {
                     field.formControl.setValue(capitalizedValue, { emitEvent: false });
@@ -260,7 +241,7 @@ export class AddStudentLeadsComponent implements OnInit {
                 pattern: 'Please enter a valid Address',
               },
             },
-          },                 
+          },                       
           {
             className: 'col-md-3',
             key: 'City',
