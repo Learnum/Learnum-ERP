@@ -15,6 +15,7 @@ import { AddBatchesService } from './add-batches/add-batches.service';
 })
 export class BatchesComponent implements OnInit {
   BatchDetails: any[] = [];
+  batchesDetailsReq:any[] = [];
   
   declaredActionColumns: ActionColumn[] = [
     {
@@ -100,6 +101,8 @@ export class BatchesComponent implements OnInit {
     }, 
     
   ];
+  batchForm: FormGroup;
+ 
  
 
 
@@ -113,6 +116,7 @@ export class BatchesComponent implements OnInit {
     private alertService: AlertService,
     private addBatchesService : AddBatchesService ,
     ) {
+      
    
   }
   onRowAction(data: any) {
@@ -145,31 +149,31 @@ export class BatchesComponent implements OnInit {
   }
   getAllBatchDetails() {
     this.addBatchesService.getBatchList().subscribe((result: any) => {
-      this.BatchDetails = result.Value;
-      let BatchDetails = result.Value;
+      this.batchesDetailsReq = result.Value;
+      //let BatchDetails = result.Value;
     })
   }
   editBatch(BatchData: any) {
-    const batchId = BatchData.batchId;
-    const index = this.BatchDetails.findIndex(batch => batch.batchId === batchId);
+    const BatchId = BatchData.BatchId;
+    const index = this.batchesDetailsReq.findIndex(batch => batch.BatchId === BatchId);
 
     if (index !== -1) {
 
 
       this.openEditForm(BatchData).then((editedBatchData: any) => {
 
-        this.BatchDetails[index] = editedBatchData;
+        this.batchesDetailsReq[index] = editedBatchData;
         console.log('Edited Branch:', editedBatchData);
 
       });
     }
   }
-  openEditForm(batchData: any): Promise<any> {
+  openEditForm(BatchData: any): Promise<any> {
 
     return new Promise((resolve, reject) => {
 
       setTimeout(() => {
-        const editedBatchData = { ...batchData };
+        const editedBatchData = { ...BatchData };
 
         editedBatchData.Status = 'Edited';
         resolve(editedBatchData);
@@ -177,4 +181,5 @@ export class BatchesComponent implements OnInit {
     });
   }
 
+ 
 }
