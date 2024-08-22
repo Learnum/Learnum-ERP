@@ -25,7 +25,7 @@ export class PracticalProblemsStudentsService {
     const formData: FormData = new FormData();
     formData.append('PracticalProblemsSubform', JSON.stringify(practicalProblemSubform));
    
-    formData.append('File', practicalProblemSubform.file[0]);
+    formData.append('File', practicalProblemSubform.FilePath[0]);
     console.log(formData);
     return this.apiService.postBlob(this.urlInsertProblemDetails,formData);
   } 

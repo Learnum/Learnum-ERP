@@ -26,8 +26,9 @@ namespace Learnum.ERP.Repository.Master.My_Practical_Exam
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters(myPracticalExamModel);
+                dbparams.Add("@Action", "PROC_InsertProblemAnswerDetails");
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("PROC_InsertProblemAnswerDetails", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_MyPracticalExam", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
@@ -38,7 +39,9 @@ namespace Learnum.ERP.Repository.Master.My_Practical_Exam
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<MyPracticalExamResposeModel>("PROC_GetProblemAnswerDetails", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                dbparams.Add("@Action", "GetProblemAnswerDetails");
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<MyPracticalExamResposeModel>("PROC_MyPracticalExam", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }
@@ -49,8 +52,9 @@ namespace Learnum.ERP.Repository.Master.My_Practical_Exam
             {
                 var dbparams = new DynamicParameters();
                 dbparams.Add("@StudentId", StudentId);
+                dbparams.Add("@Action", "PROC_GetProblemAnswerByStudentId");
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                var result = dbConnection.Query<MyPracticalExamModel?>("PROC_GetProblemAnswerList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var result = dbConnection.Query<MyPracticalExamModel?>("PROC_MyPracticalExam", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(new Tuple<MyPracticalExamModel?, ResponseCode>(result, responseCode));
             }

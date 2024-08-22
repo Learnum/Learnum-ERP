@@ -69,9 +69,7 @@ export class AddBranchComponent implements OnInit {
               onInit: (field) => {
                 field.formControl.valueChanges.subscribe(value => {
                   if (value) {
-                    // Capitalize the first letter of each word
                     const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
-                    
                     if (capitalizedValue !== value) {
                       field.formControl.setValue(capitalizedValue, { emitEvent: false });
                     }
@@ -84,16 +82,6 @@ export class AddBranchComponent implements OnInit {
                 required: 'Branch Name is required',
               },
             },
-            hooks: {
-              onInit: (field) => {
-                field.formControl.valueChanges.subscribe(value => {
-                  const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
-                  if (value !== capitalizedValue) {
-                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
-                  }
-                });
-              }
-            }
           },
           {
             className: 'col-md-3',
