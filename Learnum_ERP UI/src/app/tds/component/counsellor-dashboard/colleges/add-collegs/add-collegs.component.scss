@@ -2,3 +2,33 @@
    // background-color: rgb(133, 33, 133);
    background-color: rgb(168, 45, 168);
 }
+
+/* Container to position the select and custom arrow */
+// .custom-select-wrapper {
+//    position: relative;
+//    display: inline-block;
+//    width: 100%;
+//  }
+ 
+//  /* Style the select element */
+//  .custom-select {
+//    appearance: none; /* Removes the default dropdown arrow */
+//    width: 100%;
+//    padding: 0.5rem 2.5rem 0.5rem 1rem; /* Add padding to accommodate the custom arrow */
+//    border: 1px solid #ced4da;
+//    border-radius: 0.25rem;
+//    background-color: #fff; /* Background color for the select field */
+//    font-size: 1rem;
+//    color: #6c757d; /* Default text color */
+//    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgdmlld0JveD0iMCAwIDEwIDEwIj48cGF0aCBkPSJNMyw2TDIuNSw2IDAsMCA0LjUsNCA2LjcsMyIvPjwvc3ZnPg=='); /* Custom dropdown arrow */
+//    background-repeat: no-repeat;
+//    background-position: right 1rem center; /* Position the arrow on the right side */
+//    background-size: 1rem; /* Adjust the size of the arrow */
+//  }
+ 
+//  /* Style for select element focus */
+//  .custom-select:focus {
+//    outline: none; /* Removes default focus outline */
+//    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Adds a shadow for focus effect */
+//  }
+ 
