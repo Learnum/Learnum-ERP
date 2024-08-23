@@ -31,7 +31,7 @@
       <tbody>
         <tr *ngFor="let contact of contactDetails">
           <td>{{ contact.name }}</td>
-          <td>{{ contact.phone }}</td>
+          <td>{{ contact.phoneNumber }}</td>
           <td>{{ contact.email }}</td>
           <td>{{ contact.jobRole }}</td>
       </tbody>
@@ -121,11 +121,11 @@
 
           <!-- Phone Field -->
           <div class="form-group">
-            <label for="phone">Phone *</label>
-            <input type="text" class="form-control" id="phone" formControlName="phone" placeholder="Enter Phone" required>
-            <div *ngIf="contactForm.get('phone').invalid && (contactForm.get('phone').dirty || contactForm.get('phone').touched)" class="text-danger">
-              <div *ngIf="contactForm.get('phone').errors.required">Phone number is required.</div>
-              <div *ngIf="contactForm.get('phone').errors.pattern">Phone number must be 10 digits.</div>
+            <label for="phoneNumber">Phone *</label>
+            <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber" placeholder="Enter phoneNumber" required>
+            <div *ngIf="contactForm.get('phoneNumber').invalid && (contactForm.get('phoneNumber').dirty || contactForm.get('phoneNumber').touched)" class="text-danger">
+              <div *ngIf="contactForm.get('phoneNumber').errors.required">phoneNumber number is required.</div>
+              <div *ngIf="contactForm.get('phoneNumber').errors.pattern">phoneNumber number must be 10 digits.</div>
             </div>
           </div>
 
@@ -144,7 +144,7 @@
             <label for="jobRole">Job Role *</label>
             <select class="form-control" id="jobRole" formControlName="jobRole">
               <option value="" disabled selected>Select Job Role</option>
-              <option *ngFor="let role of roleDetails" [value]="role.Name">{{ role.Name }}</option>
+              <option *ngFor="let role of roleDetails" [value]="role.roleId">{{ role.Name }}</option>
             </select>
             <div *ngIf="contactForm.get('jobRole').invalid && (contactForm.get('jobRole').dirty || contactForm.get('jobRole').touched)" class="text-danger">
               <div *ngIf="contactForm.get('jobRole').errors.required">Job role is required.</div>

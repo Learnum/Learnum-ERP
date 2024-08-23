@@ -435,7 +435,7 @@ export class AddCollegsComponent implements OnInit {
   createContactForm(): void {
     this.contactForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s]+$/)]],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       email: ['', [Validators.required, Validators.email]],
       jobRole: ['', Validators.required],
     });
