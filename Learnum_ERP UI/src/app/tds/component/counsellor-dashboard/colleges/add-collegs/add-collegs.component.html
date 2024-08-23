@@ -17,7 +17,8 @@
 
 <!-- Contact Details -->
 <div style="margin-left: 5px;" class="row d-flex">
-  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip" title="Close"> &nbsp;</span>Contact Details</b></h6>
+  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip" title="Close"> &nbsp;</span>
+    Contact Details</b></h6>
   <div>
     <table class="table">
       <thead>
@@ -46,64 +47,14 @@
 
 <!-- Modal for Contact Details -->
  
-<!-- <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header" style="color: #fff;">
-        <h5 class="modal-title" id="contactModalTitle">Add Contact Details</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="contactForm">
-          <div class="form-group">
-            <label for="name">Name *</label>
-            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter Name" required>
-            <div class="denger" *ngIf="contact.name.errors.required"></div>
-          </div>
-          <div class="form-group">
-            <label for="phone">Phone</label>
-            <input type="text" class="form-control" id="phone" formControlName="phone" placeholder="Enter Phone" required>
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter Email" required>
-          </div>
-          <div class="form-group">
-            <label for="jobRole">Job Role</label> -->
-            <!-- <select class="form-control" id="jobRole" formControlName="jobRole">
-              <option value="" disabled selected>Select Job Role</option>
-              <option value="principle">Principle</option>
-              <option value="vice-principle">Vice Principle</option>
-              <option value="HOD">Head of Department</option>
-              <option value="senior-teacher">Senior Teacher</option>
-              <option value="junior-teacher">Junior Teacher</option>
-              <option value="accountant">Accountant</option>
-              <option value="office-boy">Office Boy</option>
-              <option value="other">Other</option>
-            </select> -->
-            <!-- <select class="form-control" id="jobRole" formControlName="jobRole">
-              <option value="" disabled selected>Select Job Role</option>
-              <option *ngFor="let role of roleDetails" [value]="role.Name">{{ role.Name }}</option>
-            </select>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-cloud me-2 mt-2" (click)="addContact()">Add</button>
-        <button type="button" class="btn btn-fent-cloud" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div> -->
 
-<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalTitle" aria-hidden="true" #contactModal>
+<!-- Modal for Contact Details -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="color: #fff;">
         <h5 class="modal-title" id="contactModalTitle">Add Contact Details</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"  >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -142,7 +93,7 @@
           <!-- Job Role Field -->
           <div class="form-group">
             <label for="jobRole">Job Role *</label>
-            <select class="form-control" id="jobRole" formControlName="jobRole">
+            <select class="form-select" id="jobRole" formControlName="jobRole">
               <option value="" disabled selected>Select Job Role</option>
               <option *ngFor="let role of roleDetails" [value]="role.Name">{{ role.Name }}</option>
             </select>
@@ -153,12 +104,13 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-cloud me-2 mt-2" [disabled]="contactForm.invalid" (click)="addContact()">Add</button>
-        <button type="button" class="btn btn-fent-cloud" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-cloud me-2 mt-2"  (click)="addContact()" data-dismiss="modal">Add</button>
+        <button type="button" class="btn btn-fent-cloud" data-dismiss="modal" (click)="onCloseModal()">Close</button>
       </div>
     </div>
   </div>
 </div>
+
 
 
 <!-- Department Details -->
@@ -194,7 +146,7 @@
     <div class="modal-content">
       <div class="modal-header" style="color: #fff;">
         <h5 class="modal-title" id="departmentModalTitle">Department Seats</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"  >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -208,7 +160,7 @@
               <option value="sy">SY B.com</option>
               <option value="ty">TY B.com</option>
             </select> -->
-            <select class="form-control" id="coursename" formControlName="coursename">
+            <select class="form-select" id="coursename" formControlName="coursename">
               <option value="" disabled selected>Select Job Role</option>
               <option *ngFor="let college of collegeroleDetails" [value]="college.Name">{{ college.Name }}</option>
             </select>
@@ -220,8 +172,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-cloud me-2 mt-2" (click)="addDepartment()">Add</button>
-        <button type="button" class="btn btn-fent-cloud" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-cloud me-2 mt-2" (click)="addDepartment()" data-dismiss="modal">Add</button>
+        <button type="button" class="btn btn-fent-cloud"  data-dismiss="modal" (click)="onCloseDepartmentModal()">Close</button>
       </div>
     </div>
   </div>

@@ -133,6 +133,12 @@ setParameter() {
               type: 'time',
               required: true,
             },
+            validators: {
+              timeValidation: {
+                expression: (control: AbstractControl) => control.value !== '00:00', // Custom validation to block '00:00'
+                message: '00:00 is not a valid time. Please select a different time.',
+              },
+            },
             validation: {
               messages: {
                 required: 'Phone InTime is required',
