@@ -15,12 +15,11 @@ export class AddIpaddressService extends BaseService {
   private urlGetipdetails: string = "LocationDetails/getAllLocationList";
   private urlGetLocation: string = "LocationDetails/getLocationDetails";
 
-
-  constructor(private apiService: APIService) {
-    super();
-   }
+   constructor(private apiService: APIService) {
+    super();}
+    
   insertIPAddress(locationDetails: IPAddressDetailsModel) {
-    return this.apiService.postBlob(this.urlIPDetails,locationDetails);
+    return this.apiService.postBlob(this.urlIPDetails, locationDetails);
   }
   getLocationList() {
     return this.apiService.getData(this.urlGetipdetails);
@@ -28,5 +27,5 @@ export class AddIpaddressService extends BaseService {
   getLocationDetails(locationId: number) {
     return this.apiService.getData(this.urlGetLocation + '/' + locationId);
   }
-  
+
 }

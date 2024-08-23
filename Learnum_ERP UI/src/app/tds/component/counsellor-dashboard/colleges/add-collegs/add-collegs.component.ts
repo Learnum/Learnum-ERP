@@ -637,24 +637,3 @@ export class AddCollegsComponent implements OnInit {
     
   }
 }
-      this.addcollegesService.insertCollegesData(data).subscribe(
-        (result: any) => {
-          const serviceResponse = result.Value;
-          if (serviceResponse === ResponseCode.Success) {
-            this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          } else if (serviceResponse === ResponseCode.Update) {
-            this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          } else {
-            this.alertService.ShowErrorMessage(this.messageService.serviceError);
-          }
-        },
-        (error: any) => {
-          this.alertService.ShowErrorMessage(error);
-        }
-      );
-      this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
-    }
-
-
-
-  }

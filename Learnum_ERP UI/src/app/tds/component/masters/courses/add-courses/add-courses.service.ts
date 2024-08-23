@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AddCoursesService extends BaseService{
+export class AddCoursesService extends BaseService {
 
   private httpClientWithoutInterceptor: HttpClient;
 
@@ -20,24 +20,24 @@ export class AddCoursesService extends BaseService{
     super();
   }
 
-  insertCourseData(coursesDetails: coursesDetailsModel) : Observable<any> {
-     let coursesDetailsModel1 : coursesDetailsModel = new coursesDetailsModel()
-     coursesDetailsModel1.courseName = coursesDetails.courseName ;
-     coursesDetailsModel1.description = coursesDetails.description ;
-     coursesDetailsModel1.isActive = coursesDetails.isActive ;
+  insertCourseData(coursesDetails: coursesDetailsModel): Observable<any> {
+    let coursesDetailsModel1: coursesDetailsModel = new coursesDetailsModel()
+    coursesDetailsModel1.courseName = coursesDetails.courseName;
+    coursesDetailsModel1.description = coursesDetails.description;
+    coursesDetailsModel1.isActive = coursesDetails.isActive;
 
     const formData: FormData = new FormData();
     formData.append('CourseDetailsModel', JSON.stringify(coursesDetails));
-   
+
     formData.append('File', coursesDetails.file[0]);
     console.log(formData);
-    return this.apiService.postBlob(this.urlInsertCourseDetails,formData);
-  } 
+    return this.apiService.postBlob(this.urlInsertCourseDetails, formData);
+  }
   getCourseList() {
     return this.apiService.getData(this.urlgetCourseList);
   }
   getCourseDetails(courseId: number) {
     return this.apiService.getData(this.urlGetCourseDetails + '/' + courseId);
   }
-  
+
 }

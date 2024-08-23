@@ -18,11 +18,11 @@ export class CoursesComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'Viewcourse',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip:'Edit Course'
     },
   ];
 
@@ -56,16 +56,6 @@ export class CoursesComponent implements OnInit {
 
     },
     // {
-    //   field: 'file',
-    //   headerName: 'Upload Brochure',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: {
-    //     buttons: ['reset', 'apply'],
-    //   },
-    //   minWidth: 150
-
-    // },
-    // {
     //   field: 'IsActive',
     //   headerName: 'Course Status',
     //   filter: 'agTextColumnFilter',
@@ -73,10 +63,8 @@ export class CoursesComponent implements OnInit {
     //     buttons: ['reset', 'apply'],
     //   },
     //   minWidth: 150,
-    //   valueFormatter: params => {
-    //     return params.value ? 'Active' : 'Inactive';
-    //   }
     // },
+
     {
       field: 'addedBy',
       headerName: 'Added By',
@@ -127,17 +115,7 @@ export class CoursesComponent implements OnInit {
     this.router.navigate(['tds/masters/courses/add-courses'], { queryParams: data1 });
   }
 
-  ActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewCourse',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
-
-  onAddCourse(course?: any) {
+   onAddCourse(course?: any) {
     let navigationExtras: NavigationExtras = {};
     if (course) {
       navigationExtras = {
@@ -159,27 +137,8 @@ export class CoursesComponent implements OnInit {
   getAllCoursesDetails() {
     this.addCoursesService.getCourseList().subscribe((result: any) => {
       this.courseList = result.Value;
-      let courseList = result.Value;
     })
   }
-  editCourse(CourseData: any) {
-    const courseId = CourseData.courseId;
-    const index = this.courseList.findIndex(course => course.courseId === courseId);
-    if (index !== -1) {
-      this.openEditForm(CourseData).then((editedCourseData: any) => {
-        this.courseList[index] = editedCourseData;
-        console.log('Edited course:', editedCourseData);
-      });
-    }
-  }
-  openEditForm(courseData: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const editedcourseData = { ...courseData };
-        editedcourseData.Status = 'Edited';
-        resolve(editedcourseData);
-      }, 1000);
-    });
-  }
-
 }
+
+

@@ -1,5 +1,4 @@
 export class IPAddressDetailsModel {
-
   locationId: number;
   location: string;
   locationIP: string;
