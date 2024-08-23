@@ -28,9 +28,7 @@ export class AddIpaddressComponent implements OnInit {
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
-    private fb: FormBuilder
-
-  ) { }
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.setParameter();
@@ -92,11 +90,7 @@ export class AddIpaddressComponent implements OnInit {
                 });
               },
             },
-          }
-          
-        
-        ,
-        
+          },
           {
             className: 'col-md-3',
             type: 'select',
@@ -111,7 +105,7 @@ export class AddIpaddressComponent implements OnInit {
                 { value: false, label: 'Inactive' }
               ],
             },
-            defaultValue: null,  
+            defaultValue: null,
             validation: {
               messages: {
                 required: 'Please select a IP status',
@@ -121,6 +115,10 @@ export class AddIpaddressComponent implements OnInit {
         ],
       },
     ];
+  }
+
+  navigate() {
+    this.router.navigateByUrl('tds/masters/ip-address');
   }
 
   onCancleClick() {
@@ -175,13 +173,7 @@ export class AddIpaddressComponent implements OnInit {
       },
       (error: any) => {
         console.error('Error retrieving location details:', error);
-
       }
     );
-  }
- 
-  navigate()
-  {
-    this.router.navigateByUrl('tds/masters/ip-address');
   }
 }

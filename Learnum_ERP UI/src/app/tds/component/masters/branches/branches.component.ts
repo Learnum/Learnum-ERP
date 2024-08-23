@@ -17,18 +17,19 @@ export class BranchesComponent {
 
   branchList: any[] = [];
 
-  declaredActionColumns: ActionColumn[] = [ 
+  declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'ViewBranch',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip: 'Edit Branch'
     },
   ];
 
   declaredTableColumns: TableColumn[] = [
+
     {
       field: 'BranchId',
       headerName: 'SR.No',
@@ -37,8 +38,9 @@ export class BranchesComponent {
         buttons: ['reset', 'apply'],
       },
       minWidth: 100,
-      headerTooltip: 'Serial Number of the branch'
+      tooltipValueGetter: (params) => `Branch ID: ${params.value}`,
     },
+
     {
       field: 'BranchName',
       headerName: 'Branch Name',
@@ -47,7 +49,7 @@ export class BranchesComponent {
         buttons: ['reset', 'apply'],
       },
       minWidth: 150,
-      headerTooltip: 'Branch Name of the branch'
+      tooltipField: 'Branch Name of the branch'
 
     },
     {
@@ -126,10 +128,9 @@ export class BranchesComponent {
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     }
-    
-  ];
-  
 
+  ];
+   
   ngOnInit(): void {
     this.getAllBranchDetails();
 
@@ -141,7 +142,7 @@ export class BranchesComponent {
     private addBranchService: AddBranchService,) {
 
   }
-  
+
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
@@ -149,20 +150,15 @@ export class BranchesComponent {
     }
     this.router.navigate(['tds/masters/branches/add-branch'], { queryParams: data1 });
   }
-  selectBranch($event: any) 
-  { throw new Error('Method not implemented.'); 
 
+  selectBranch($event: any) {
+    throw new Error('Method not implemented.');
   }
 
-  ActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewEmployee',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
+   onActionButton(action: string) {
+    alert(action + ' ' + 'action button clicked.');
+  }
+
   onAddBranch(branch?: any) {
 
     let navigationExtras: NavigationExtras = {};
@@ -176,42 +172,9 @@ export class BranchesComponent {
     this.router.navigateByUrl('tds/masters/branches/add-branch')
   }
 
-  onActionButton(action: string) {
-    alert(action + ' ' + 'action button clicked.');
-  }
-
   getAllBranchDetails() {
     this.addBranchService.getBranchList().subscribe((result: any) => {
       this.branchList = result.Value;
-      let branchList = result.Value;
     })
   }
-  editBranch(BranchData: any) {
-    const branchId = BranchData.branchId;
-    const index = this.branchList.findIndex(branch => branch.branchId === branchId);
-
-    if (index !== -1) {
-
-
-      this.openEditForm(BranchData).then((editedBranchData: any) => {
-
-        this.branchList[index] = editedBranchData;
-        console.log('Edited Branch:', editedBranchData);
-
-      });
-    }
-  }
-  openEditForm(branchData: any): Promise<any> {
-
-    return new Promise((resolve, reject) => {
-
-      setTimeout(() => {
-        const editedBranchData = { ...branchData };
-
-        editedBranchData.Status = 'Edited';
-        resolve(editedBranchData);
-      }, 1000);
-    });
-  }
-
 }

@@ -44,7 +44,6 @@ export class AddCoursesComponent implements OnInit {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
-        // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
           {
             key: 'CourseId',
@@ -58,12 +57,12 @@ export class AddCoursesComponent implements OnInit {
               type: 'text',
               label: 'Course Name',
               required: true,
-              pattern: '^[A-Za-z ]+$', // Only letters and spaces are allowed
+              pattern: '^[A-Za-z ]+$', 
             },
             validation: {
               messages: {
                 required: 'Course Name is required',
-                pattern: 'Course Name must contain only letters and spaces', // Validation message for pattern
+                pattern: 'Course Name must contain only letters and spaces', 
               },
             },
             hooks: {
@@ -71,16 +70,14 @@ export class AddCoursesComponent implements OnInit {
                 const formControl = field.formControl;
                 formControl.valueChanges.subscribe(value => {
                   if (value) {
-                    // Remove any non-letter characters except spaces
                     let sanitizedValue = value.replace(/[^A-Za-z\s]/g, '');
-                    // Capitalize the first letter of each word
                     sanitizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
                     formControl.setValue(sanitizedValue, { emitEvent: false });
                   }
                 });
               }
             }
-          },          
+          },
           {
             className: 'col-md-3',
             type: 'input',
@@ -102,12 +99,12 @@ export class AddCoursesComponent implements OnInit {
               //placeholder: 'Select Course Status',
               required: true,
               options: [
-                { value: null, label: 'Select Course Status', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Course Status', disabled: true },
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
               ],
             },
-            defaultValue: null,  // Set default value to 'Active'
+            defaultValue: null,  
             validation: {
               messages: {
                 required: 'Please select a course status',
@@ -120,15 +117,16 @@ export class AddCoursesComponent implements OnInit {
             key: 'file',
             props: {
               placeholder: 'select File',
-              // type: 'text',
               label: "Upload Brochure*",
-              //required: true,
-
-            },
+             },
           },
         ],
       },
     ];
+  }
+
+  navigate() {
+    this.router.navigateByUrl('tds/masters/courses');
   }
 
   onCancleClick() {
@@ -174,13 +172,7 @@ export class AddCoursesComponent implements OnInit {
       },
       (error: any) => {
         console.error('Error retrieving Course details:', error);
-
       }
     );
-  }
-
-  navigate()
-  {
-    this.router.navigateByUrl('tds/masters/courses');
   }
 }
