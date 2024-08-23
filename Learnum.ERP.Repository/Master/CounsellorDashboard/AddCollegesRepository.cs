@@ -23,38 +23,23 @@ namespace Learnum.ERP.Repository.Master.CounsellorDashboard
     }
     public class AddCollegesRepository : BaseRepository, IAddCollegesRepository
     {
-        /*public async Task<ResponseCode> InsertCollegesDetails(CollegeContactDetails collegeContactDetails)
-        {
-            using (IDbConnection dbConnection = base.GetCoreConnection())
-            {
-                var dbparams = new DynamicParameters(collegeContactDetails);
-                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("PROC_InsertCollegeDetails", dbparams, commandType: CommandType.StoredProcedure);
-                ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
-                return await Task.FromResult(result);
-            }
-        }
-*/
         public async Task<ResponseCode> InsertCollegesDetails(CollegeContactDetails collegeContactDetails)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters(collegeContactDetails.addCollegesDetails);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                dbparams.Add("@Action", "InsertADDCollegeDetails");
 
-                DataTable contactDetailsTable = new ListConverter().ToDataTable<ContactDetails>(collegeContactDetails.contactDetails);
-                contactDetailsTable.SetTypeName("ContactDetailsType");
-                dbparams.Add("@ContactDetails", contactDetailsTable.AsTableValuedParameter("ContactDetailsType"));
+                DataTable ContactDetailsTable = new ListConverter().ToDataTable<ContactDetails>(collegeContactDetails.contactDetails);
+                ContactDetailsTable.SetTypeName("ContactDetailsType");
+                dbparams.Add("@ContactDetailsType", ContactDetailsTable.AsTableValuedParameter("ContactDetailsType"));
 
-                // Convert the department details list to a DataTable
-                DataTable departmentDetailsTable = new ListConverter().ToDataTable<DepartmentDetails>(collegeContactDetails.departmentDetails);
-                departmentDetailsTable.SetTypeName("DepartmentDetailsType");
-                dbparams.Add("@DepartmentDetails", departmentDetailsTable.AsTableValuedParameter("DepartmentDetailsType"));
+                DataTable DepartmentDetailsTable = new ListConverter().ToDataTable<DepartmentDetails>(collegeContactDetails.departmentDetails);
+                DepartmentDetailsTable.SetTypeName("DepartmentDetailsType");
+                dbparams.Add("@DepartmentDetailsType", DepartmentDetailsTable.AsTableValuedParameter("DepartmentDetailsType"));
 
-                // Execute the stored procedure
-                dbConnection.Execute("PROC_InsertCollegeDetails", dbparams, commandType: CommandType.StoredProcedure);
-
-                // Get the result
+                dbConnection.Query<int>("PROC_ADDCollege", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }

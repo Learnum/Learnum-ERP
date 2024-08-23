@@ -208,7 +208,7 @@ export class AddCollegsComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'Pincode',
+            key: 'PostalCode',
             type: 'input',
             templateOptions: {
               label: 'PIN Code',
@@ -347,7 +347,7 @@ export class AddCollegsComponent implements OnInit {
         },
         {
           className: 'col-md-3',
-          key: 'Phone',
+          key: 'PhoneNumber',
           type: 'input',
           templateOptions: {
             label: 'Phone Number',
@@ -390,19 +390,19 @@ export class AddCollegsComponent implements OnInit {
           className: 'col-4',
           // type: 'input',
           templateOptions: {
-            placeholder: 'Enter Email',
-            type: 'text',
-            required: true,
+           placeholder: 'Enter Email',
+           type: 'text',
+           required: true,
           }
         },
         {
           key: 'RoleId',
           className: 'col-4',
-          // type: 'select',
+          type: 'select',
           templateOptions: {
-            placeholder: 'Enter Email',
-            type: 'text',
-            required: true,
+            //placeholder: 'Enter Email',
+           // type: 'text',
+            //required: true,
           }
         },
       ]
@@ -617,6 +617,26 @@ export class AddCollegsComponent implements OnInit {
         departmentDetails: this.departmentDetails
       };
 
+    this.addcollegesService.insertCollegesData(data).subscribe(
+      (result: any) => {
+        const serviceResponse = result.Value;
+        if (serviceResponse === ResponseCode.Success) {
+          this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
+        } else if (serviceResponse === ResponseCode.Update) {
+          this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
+        } else {
+          this.alertService.ShowErrorMessage(this.messageService.serviceError);
+        }
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+    
+  }
+}
       this.addcollegesService.insertCollegesData(data).subscribe(
         (result: any) => {
           const serviceResponse = result.Value;

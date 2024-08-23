@@ -4,7 +4,7 @@ export class problemDetailsModel{
     modelAnswer: string;
     marks: number;
     isActive: boolean;
-    file: File;
+    FilePath: File;
     //mimeType: string;
     //documentName: string;
     //fileName: string;

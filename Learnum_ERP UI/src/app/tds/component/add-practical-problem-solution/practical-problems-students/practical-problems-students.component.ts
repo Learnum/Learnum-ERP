@@ -92,9 +92,9 @@ export class PracticalProblemsStudentsComponent implements OnInit {
             props: {
               label: 'Marks',
               placeholder: 'Enter Marks',
-              type: 'text',
+              type: 'number',
               required: true,
-              pattern: '^([1-9][0-9]|100)(\\.00)?%?$'  // Matches numbers like 99, 99.00, 90.00%, etc.
+              pattern: '^([1-9][0-9]|100)(\\.00)?%?$' 
             },
             validation: {
               messages: {

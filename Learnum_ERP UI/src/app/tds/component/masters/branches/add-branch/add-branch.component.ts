@@ -69,9 +69,7 @@ export class AddBranchComponent implements OnInit {
               onInit: (field) => {
                 field.formControl.valueChanges.subscribe(value => {
                   if (value) {
-                    // Capitalize the first letter of each word
                     const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
-                    
                     if (capitalizedValue !== value) {
                       field.formControl.setValue(capitalizedValue, { emitEvent: false });
                     }
