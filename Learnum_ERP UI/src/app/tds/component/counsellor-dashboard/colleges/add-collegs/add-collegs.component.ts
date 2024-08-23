@@ -8,7 +8,8 @@ import { AddcollegesService } from './addcolleges.service';
 import { AddcollegesDetails, CollegeContactDetails, ContactDetails, DepartmentDetails } from './addcolleges.model';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { MessageService } from 'src/app/core/services/message.service';
-
+import { ModalService } from 'src/app/core/services/modal.service';
+import * as bootstrap from 'bootstrap';
 @Component({
   selector: 'app-add-collegs',
   templateUrl: './add-collegs.component.html',
@@ -17,7 +18,6 @@ import { MessageService } from 'src/app/core/services/message.service';
 export class AddCollegsComponent implements OnInit {
 
   collegeContactDetails: AddcollegesDetails = new AddcollegesDetails();
-
   //contactForm = new FormGroup({});
   collegeForm: FormGroup;
   form = new FormGroup({});
@@ -36,17 +36,20 @@ export class AddCollegsComponent implements OnInit {
   StateList: any;
   branchDetails: any;
   contact: { [key: string]: AbstractControl; };
-
+  
   constructor(
     private router: Router,
     private alertService: AlertService,
     private formBuilder: FormBuilder,
-    private modalService: NgbModal,
+    //private modalService: NgbModal,
     private messageService: MessageService,
-    private addcollegesService: AddcollegesService
-  ) { 
+    private addcollegesService: AddcollegesService,
+    public modalService: ModalService
+  ) {
     this.createContactForm();
   }
+  @ViewChild('contactModal', { static: false }) contactModal: ElementRef;
+
 
   ngOnInit(): void {
     this.createContactForm();
@@ -83,7 +86,7 @@ export class AddCollegsComponent implements OnInit {
                   }
                 });
               }
-            }, 
+            },
             validation: {
               messages: {
                 required: 'College Name is required',
@@ -252,7 +255,7 @@ export class AddCollegsComponent implements OnInit {
               placeholder: 'College Website',
               required: true,
               pattern: '^(https?:\\/\\/)?([\\da-z.-]+)\\.([a-z.]{2,6})([\\/\\w .-]*)*\\/?$', // Pattern to match website URL
-             // description: 'Enter a valid website URL.',
+              // description: 'Enter a valid website URL.',
             },
             validation: {
               messages: {
@@ -289,7 +292,7 @@ export class AddCollegsComponent implements OnInit {
                 required: 'Branch selection is required',
               },
             },
-          }, 
+          },
           {
             className: 'col-md-3',
             key: 'BranchName1',
@@ -442,18 +445,46 @@ export class AddCollegsComponent implements OnInit {
     this.contact = this.contactForm.controls;
   }
 
-  addContact(): void {
-    if (this.contactForm.valid) {
-      this.contactDetails.push(this.contactForm.value);
-      this.contactForm.reset();
-      this.modalService.dismissAll();
-    } else {
-      this.alertService.ShowErrorMessage("Please fill all required fields.");
-    }
-    // this.modalService.dismissAll();
-    // this.contactForm.reset();
+  // addContact(): void {
+  //   if (this.contactForm.valid) {
+  //     this.contactDetails.push(this.contactForm.value);
+  //     this.contactForm.reset();
+  //     this.modalService.close();
+  //   } else {
+  //     this.alertService.ShowErrorMessage("Please fill all required fields.");
+  //   }
+    //this.modalService.dismissAll();
+  //   // this.contactForm.reset();
+  // }
+  closeModal(): void {
+    this.modalService.close();
   }
 
+  addContact(): void {
+    if (this.contactForm.valid) {
+      // Add contact details if form is valid
+      this.contactDetails.push(this.contactForm.value);
+      this.contactForm.reset();
+      // Manually close the modal if needed, or rely on Bootstrap's data-dismiss attribute
+      const contactModal = document.getElementById('contactModal');
+      if (contactModal) {
+        const modalInstance = bootstrap.Modal.getInstance(contactModal);
+        modalInstance?.hide(); // Close the modal
+      }
+    } else {
+      // Show an alert message if form is invalid
+      this.alertService.ShowErrorMessage("Please fill all required fields.");
+      
+    }
+  }
+  onCloseModal(): void {
+    // Manually close the modal
+    const contactModal = document.getElementById('contactModal');
+    if (contactModal) {
+      const modalInstance = bootstrap.Modal.getInstance(contactModal);
+      modalInstance?.hide(); // Close the modal
+    }
+  }
   createDepartmentForm(): void {
     this.departmentForm = this.formBuilder.group({
       coursename: ['', Validators.required],
@@ -461,14 +492,41 @@ export class AddCollegsComponent implements OnInit {
     });
   }
 
+  // addDepartment(): void {
+  //   if (this.departmentForm.valid) {
+  //     this.departmentDetails.push(this.departmentForm.value);
+  //     this.departmentForm.reset();
+  //     this.modalService.close();
+  //     this.router.navigateByUrl('tds/counsellor-dashboard/colleges/add-collegs');
+  //   } else {
+  //     this.alertService.ShowErrorMessage("Please fill all required fields.");
+  //   }
+  // }
+
   addDepartment(): void {
     if (this.departmentForm.valid) {
+      // Add department details if form is valid
       this.departmentDetails.push(this.departmentForm.value);
       this.departmentForm.reset();
-      this.modalService.dismissAll();
-      this.router.navigateByUrl('tds/counsellor-dashboard/colleges/add-collegs');
+  
+      // Close the modal programmatically
+      const departmentModal = document.getElementById('departmentModal');
+      if (departmentModal) {
+        const modalInstance = bootstrap.Modal.getInstance(departmentModal);
+        modalInstance?.hide(); // Close the modal
+      }
     } else {
+      // Show an alert message if form is invalid
       this.alertService.ShowErrorMessage("Please fill all required fields.");
+      // Prevent closing by not using data-dismiss or handling manually
+    }
+  }
+  onCloseDepartmentModal(): void {
+    // Manually close the department modal
+    const departmentModal = document.getElementById('departmentModal');
+    if (departmentModal) {
+      const modalInstance = bootstrap.Modal.getInstance(departmentModal);
+      modalInstance?.hide(); // Close the modal
     }
   }
 
@@ -489,62 +547,75 @@ export class AddCollegsComponent implements OnInit {
     this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
   }
 
-  getBranchDetails() {
-    this.addcollegesService.getBranchList().subscribe(
-      (data: any) => {
-        this.branchDetails = data.Value;
-        this.setParameter();  
-      },
-      (error: any) => {
-        this.alertService.ShowErrorMessage(error);
-      }
-    );
+  onCloseNavigate()
+  {
+    this.router.navigate(['tds/counsellor-dashboard/colleges/add-collegs']);
   }
-  getJobroleList() {
-    this.addcollegesService.getroleList().subscribe(
-      (data: any) => {
-        this.roleDetails = data.Value;
-        this.setParameter();
-      },
-      (error: any) => {
-        this.alertService.ShowErrorMessage(error);
-      }
-    );
-  }
-  getCollegeList() {
-    this.addcollegesService.getCollegeList().subscribe(
-      (data: any) => {
-        this.collegeroleDetails = data.Value;
-        this.setParameter();
-      },
-      (error: any) => {
-        this.alertService.ShowErrorMessage(error);
-      }
-    );
-  }
-  getAllStates() {
-    this.addcollegesService.getAllStates().subscribe(
-      (result) => {
-        let data = result.Value;
-        this.StateList = data
-        this.setParameter();
-      }, (error) => {
+  // closeModal(): void {
+  //   const modalElement = document.getElementById('contactModal');
+  //   if (modalElement) {
+  //     // Ensure the modal instance is created properly
+  //     const modalInstance = (window as any).bootstrap.Modal.getInstance(modalElement) ||
+  //                           new (window as any).bootstrap.Modal(modalElement);
+  //     modalInstance.hide();
+  //   }
+  // }
+    getBranchDetails() {
+      this.addcollegesService.getBranchList().subscribe(
+        (data: any) => {
+          this.branchDetails = data.Value;
+          this.setParameter();
+        },
+        (error: any) => {
+          this.alertService.ShowErrorMessage(error);
+        }
+      );
+    }
+    getJobroleList() {
+      this.addcollegesService.getroleList().subscribe(
+        (data: any) => {
+          this.roleDetails = data.Value;
+          this.setParameter();
+        },
+        (error: any) => {
+          this.alertService.ShowErrorMessage(error);
+        }
+      );
+    }
+    getCollegeList() {
+      this.addcollegesService.getCollegeList().subscribe(
+        (data: any) => {
+          this.collegeroleDetails = data.Value;
+          this.setParameter();
+        },
+        (error: any) => {
+          this.alertService.ShowErrorMessage(error);
+        }
+      );
+    }
+    getAllStates() {
+      this.addcollegesService.getAllStates().subscribe(
+        (result) => {
+          let data = result.Value;
+          this.StateList = data
+          this.setParameter();
+        }, (error) => {
 
-      });
-  }
+        });
+    }
 
-  insertCollegeDetails() {
-    this.collegeContactDetails.addedBy = 1;
-    this.collegeContactDetails.addedDate = new Date();
-    this.collegeContactDetails.updatedBy = 1;
-    this.collegeContactDetails.updatedDate = new Date();
-    this.collegeContactDetails.collegeId = 0;
+    insertCollegeDetails() {
+      this.collegeContactDetails.addedBy = 1;
+      this.collegeContactDetails.addedDate = new Date();
+      this.collegeContactDetails.updatedBy = 1;
+      this.collegeContactDetails.updatedDate = new Date();
+      this.collegeContactDetails.collegeId = 0;
 
-    const data: CollegeContactDetails = {
-      addcollegesDetails: this.form.value,
-      contactDetails: this.contactDetails,
-      departmentDetails: this.departmentDetails
-    };
+      const data: CollegeContactDetails = {
+        addcollegesDetails: this.form.value,
+        contactDetails: this.contactDetails,
+        departmentDetails: this.departmentDetails
+      };
 
     this.addcollegesService.insertCollegesData(data).subscribe(
       (result: any) => {
@@ -566,3 +637,24 @@ export class AddCollegsComponent implements OnInit {
     
   }
 }
+      this.addcollegesService.insertCollegesData(data).subscribe(
+        (result: any) => {
+          const serviceResponse = result.Value;
+          if (serviceResponse === ResponseCode.Success) {
+            this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          } else if (serviceResponse === ResponseCode.Update) {
+            this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          } else {
+            this.alertService.ShowErrorMessage(this.messageService.serviceError);
+          }
+        },
+        (error: any) => {
+          this.alertService.ShowErrorMessage(error);
+        }
+      );
+      this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
+    }
+
+
+
+  }
