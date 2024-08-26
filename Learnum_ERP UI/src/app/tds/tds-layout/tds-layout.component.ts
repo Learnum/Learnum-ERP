@@ -184,27 +184,19 @@ export class TDSLayoutComponent implements OnInit {
 
       {
         id: 50, title: 'Practical Problem Exams', url: '/tds/practical-problem-exams', type: 'no',
-        // submenu: [
-        //   { id: 51, title: 'Schedule Practical Problem', url: '/tds/practical-problem-exams/schedule-practical-problem', type: 'no' },
-        // ]
+       
       },
 
       {
         id: 52, title: 'My Practical Exam', url: '/tds/my-practical-exam', type: 'no',
-        // submenu: [
-        //   { id: 53, title: 'Practical Problem Answer Sheet ', url: '/tds/my-practical-exam/practical-problem-answer-sheet', type: 'no' },
-        //   { id: 54, title: 'My Practical Exam Reports ', url: '/tds/my-practical-exam/my-practical-exam-reports', type: 'no' },
-        // ]
+       
       },
 
       { id: 55, title: 'Add Practical Problems Subform', url: '/tds/add-practical-problem-solution', type: 'no' },
 
       {
         id: 56, title: 'Business Leads', url: '/tds/business-lead', type: 'no',
-        // submenu: [
-        //   { id: 53, title: 'Add Business Leads', url: '/tds/business-lead/add-business-lead', type: 'no' },
-        //   { id: 54, title: 'All Business Leads', url: '/tds/business-lead/all-business-lead', type: 'no' },
-        // ]
+       
       },
 
       // {
@@ -648,7 +640,11 @@ export class TDSLayoutComponent implements OnInit {
     //   // Your code to run since DOM is loaded and ready
     // });
   }
+  activeMenuId: number | null = null; // Tracks the currently active menu
 
+  toggleMenu(menuId: number): void {
+    this.activeMenuId = this.activeMenuId === menuId ? null : menuId;
+  }
 
 
   ngOnInit() {
