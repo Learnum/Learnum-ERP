@@ -12,6 +12,7 @@ using System.Data;
 using Learnum.ERP.Repository.Core;
 using Learnum.ERP.Shared.Entities;
 using Learnum.ERP.Shared.Helpers;
+using Learnum.ERP.Shared.Entities.Models.ViewModel.BuisnessLeadModel;
 
 namespace Learnum.ERP.Repository.Master.CounsellorDashboard
 {
@@ -45,13 +46,14 @@ namespace Learnum.ERP.Repository.Master.CounsellorDashboard
             }
         }
 
-
         public async Task<List<AddCollegesResponseModel>> GetCollegesDetailsList()
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<AddCollegesResponseModel>("PROC_GetCollegeDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                dbparams.Add("@Action", "GetADDCollegeDetails");
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<AddCollegesResponseModel>("PROC_ADDCollege", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }

@@ -14,11 +14,6 @@ using System.Collections.Generic;
         public List<DepartmentDetails>? departmentDetails { get; set; }
 
     }
-    //public class CollegeContactDetails
-    //{
-    //    public AddcollegesDetails AddcollegesDetails { get; set; }
-    //    public List<ContactDetails> ContactDetails { get; set; }
-    //    public List<DepartmentDetails> DepartmentDetails { get; set; }
-    //}
+    
 }
    

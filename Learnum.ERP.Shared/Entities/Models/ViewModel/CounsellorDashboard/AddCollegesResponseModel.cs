@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models.ViewModel.CounsellorDashboard
 {
-    public class AddCollegesResponseModel
+    public class AddCollegesResponseModel : BaseModel
     {
         public long CollegeId { get; set; }
         public long BranchId { get; set; }

@@ -45,7 +45,7 @@ namespace Learnum.ERP.API.Controller.CounsellorDashboard
         }
 
 
-        [HttpGet("getAllCollegesList")]
+        [HttpGet("getAllCollegeList")]
         public async Task<IActionResult> GetCollegesDetailsList()
         {
             var data = await addCollegesRepository.GetCollegesDetailsList();

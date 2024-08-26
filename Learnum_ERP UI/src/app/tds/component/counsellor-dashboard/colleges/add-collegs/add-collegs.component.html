@@ -17,8 +17,7 @@
 
 <!-- Contact Details -->
 <div style="margin-left: 5px;" class="row d-flex">
-  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip" title="Close"> &nbsp;</span>
-    Contact Details</b></h6>
+  <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip" title="Close"> &nbsp;</span>Contact Details</b></h6>
   <div>
     <table class="table">
       <thead>
@@ -32,7 +31,7 @@
       <tbody>
         <tr *ngFor="let contact of contactDetails">
           <td>{{ contact.name }}</td>
-          <td>{{ contact.phone }}</td>
+          <td>{{ contact.phoneNumber }}</td>
           <td>{{ contact.email }}</td>
           <td>{{ contact.jobRole }}</td>
       </tbody>
@@ -46,15 +45,13 @@
 </div>
 
 <!-- Modal for Contact Details -->
- 
 
-<!-- Modal for Contact Details -->
-<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalTitle" aria-hidden="true">
+<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalTitle" aria-hidden="true" #contactModal>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="color: #fff;">
         <h5 class="modal-title" id="contactModalTitle">Add Contact Details</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"  >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -72,11 +69,11 @@
 
           <!-- Phone Field -->
           <div class="form-group">
-            <label for="phone">Phone *</label>
-            <input type="text" class="form-control" id="phone" formControlName="phone" placeholder="Enter Phone" required>
-            <div *ngIf="contactForm.get('phone').invalid && (contactForm.get('phone').dirty || contactForm.get('phone').touched)" class="text-danger">
-              <div *ngIf="contactForm.get('phone').errors.required">Phone number is required.</div>
-              <div *ngIf="contactForm.get('phone').errors.pattern">Phone number must be 10 digits.</div>
+            <label for="phoneNumber">Phone *</label>
+            <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber" placeholder="Enter phone number" maxlength="10" required>
+            <div *ngIf="contactForm.get('phoneNumber').invalid && (contactForm.get('phoneNumber').dirty || contactForm.get('phoneNumber').touched)" class="text-danger">
+              <div *ngIf="contactForm.get('phoneNumber').errors?.required">Phone number is required.</div>
+              <div *ngIf="contactForm.get('phoneNumber').errors?.pattern">Phone number must be exactly 10 digits.</div>
             </div>
           </div>
 
@@ -95,12 +92,13 @@
             <label for="jobRole">Job Role *</label>
             <select class="form-select" id="jobRole" formControlName="jobRole">
               <option value="" disabled selected>Select Job Role</option>
-              <option *ngFor="let role of roleDetails" [value]="role.Name">{{ role.Name }}</option>
+              <option *ngFor="let role of roleDetails" [value]="role.roleId">{{ role.Name }}</option>
             </select>
             <div *ngIf="contactForm.get('jobRole').invalid && (contactForm.get('jobRole').dirty || contactForm.get('jobRole').touched)" class="text-danger">
               <div *ngIf="contactForm.get('jobRole').errors.required">Job role is required.</div>
             </div>
           </div>
+          
         </form>
       </div>
       <div class="modal-footer">
@@ -110,7 +108,6 @@
     </div>
   </div>
 </div>
-
 
 
 <!-- Department Details -->
@@ -138,15 +135,13 @@
   </div>
 </div>
 
-
-
 <!-- Modal for Department Details -->
 <div class="modal fade" id="departmentModal" tabindex="-1" role="dialog" aria-labelledby="departmentModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="color: #fff;">
         <h5 class="modal-title" id="departmentModalTitle">Department Seats</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"  >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -164,24 +159,31 @@
               <option value="" disabled selected>Select Job Role</option>
               <option *ngFor="let college of collegeroleDetails" [value]="college.Name">{{ college.Name }}</option>
             </select>
+            <div *ngIf="departmentForm.get('coursename').touched && departmentForm.get('coursename').invalid" class="text-danger">
+              Course name is required.
+            </div>
           </div>
           <div class="form-group">
             <label for="seats">Seats</label>
-            <input type="text" class="form-control" id="seats" formControlName="seats" placeholder="Enter Seats">
+            <input type="text" class="form-control" id="seats" formControlName="seats" placeholder="Enter Seats" required>
+            <div *ngIf="departmentForm.get('seats').touched && departmentForm.get('seats').invalid" class="text-danger">
+              <div *ngIf="departmentForm.get('seats').errors.required">Seats are required.</div>
+              <div *ngIf="departmentForm.get('seats').errors.pattern">Seats must be a number.</div>
+            </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-cloud me-2 mt-2" (click)="addDepartment()" data-dismiss="modal">Add</button>
-        <button type="button" class="btn btn-fent-cloud"  data-dismiss="modal" (click)="onCloseDepartmentModal()">Close</button>
-      </div>
+        <button type="button" class="btn btn-cloud me-2 mt-2" (click)="addDepartment()"data-dismiss="modal">Add</button>
+        <button type="button" class="btn btn-fent-cloud" data-dismiss="modal" (click)="onCloseDepartmentModal()">Close</button>
+   </div>
     </div>
   </div>
 </div>
 
 <div class="form-container">
       <div class="col-12 px-4 py-2 border-top buttons-container">
-          <button class="btn btn-cloud me-2" type="submit" (click)="onSubmit()">Save</button>
+          <button class="btn btn-cloud me-2" type="submit" (click)="onSubmit()" >Save</button>
           <button class="btn btn-fent-cloud" type="button" (click)="onCancelClick()">Cancel</button>
       </div>
 </div>
