@@ -353,56 +353,56 @@ export class AddCollegsComponent implements OnInit {
             label: 'Phone Number',
             placeholder: 'Enter Phone Number',
             required: true,
-            maxLength: 10,
-            minLength: 10,
+            // maxLength: 10,
+            // minLength: 10,
           },
-          hooks: {
-            onInit: (field) => {
-              field.formControl.valueChanges.subscribe(value => {
-                const sanitizedValue = value.replace(/[^0-9]/g, '');
-                if (sanitizedValue !== value) {
-                  field.formControl.setValue(sanitizedValue, { emitEvent: false });
-                }
-              });
-            },
-          },
-          validators: {
-            phoneNumber: {
-              expression: (c: AbstractControl) => {
-                const value = c.value;
-                // Ensure the value is exactly 10 digits long
-                return value && /^[0-9]{10}$/.test(value);
-              },
-              message: (error: any, field: FormlyFieldConfig) => {
-                return `"${field.formControl.value}" is not a valid 10-digit phone number`;
-              },
-            },
-          },
-          validation: {
-            messages: {
-              required: 'Phone Number is required',
-              phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
-            },
-          },
-        }, ,
+          // hooks: {
+          //   onInit: (field) => {
+          //     field.formControl.valueChanges.subscribe(value => {
+          //       const sanitizedValue = value.replace(/[^0-9]/g, '');
+          //       if (sanitizedValue !== value) {
+          //         field.formControl.setValue(sanitizedValue, { emitEvent: false });
+          //       }
+          //     });
+          //   },
+          // },
+          // validators: {
+          //   phoneNumber: {
+          //     expression: (c: AbstractControl) => {
+          //       const value = c.value;
+          //       // Ensure the value is exactly 10 digits long
+          //       return value && /^[0-9]{10}$/.test(value);
+          //     },
+          //     message: (error: any, field: FormlyFieldConfig) => {
+          //       return `"${field.formControl.value}" is not a valid 10-digit phone number`;
+          //     },
+          //   },
+          // },
+          // validation: {
+          //   messages: {
+          //     required: 'Phone Number is required',
+          //     phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
+          //   },
+          // },
+        }, 
         {
           key: 'Email',
           className: 'col-4',
-          // type: 'input',
+        //  type: 'input',
           templateOptions: {
            placeholder: 'Enter Email',
-           type: 'text',
+          // type: 'text',
            required: true,
           }
         },
         {
           key: 'RoleId',
           className: 'col-4',
-          type: 'select',
+         // type: 'select',
           templateOptions: {
-            //placeholder: 'Enter Email',
-           // type: 'text',
-            //required: true,
+          placeholder: 'Enter Email',
+          //type: 'text',
+          required: true,
           }
         },
       ]
@@ -438,7 +438,7 @@ export class AddCollegsComponent implements OnInit {
   createContactForm(): void {
     this.contactForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s]+$/)]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]], 
       email: ['', [Validators.required, Validators.email]],
       jobRole: ['', Validators.required],
     });
@@ -488,7 +488,7 @@ export class AddCollegsComponent implements OnInit {
   createDepartmentForm(): void {
     this.departmentForm = this.formBuilder.group({
       coursename: ['', Validators.required],
-      seats: ['', Validators.required],
+      seats: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
     });
   }
 
@@ -521,6 +521,7 @@ export class AddCollegsComponent implements OnInit {
       // Prevent closing by not using data-dismiss or handling manually
     }
   }
+  
   onCloseDepartmentModal(): void {
     // Manually close the department modal
     const departmentModal = document.getElementById('departmentModal');
@@ -637,24 +638,4 @@ export class AddCollegsComponent implements OnInit {
     
   }
 }
-      this.addcollegesService.insertCollegesData(data).subscribe(
-        (result: any) => {
-          const serviceResponse = result.Value;
-          if (serviceResponse === ResponseCode.Success) {
-            this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          } else if (serviceResponse === ResponseCode.Update) {
-            this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          } else {
-            this.alertService.ShowErrorMessage(this.messageService.serviceError);
-          }
-        },
-        (error: any) => {
-          this.alertService.ShowErrorMessage(error);
-        }
-      );
-      this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
-    }
-
-
-
-  }
+    
