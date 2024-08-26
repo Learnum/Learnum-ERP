@@ -14,15 +14,15 @@ import { AddClassroomsService } from './add-classrooms/add-classrooms.service';
 export class ClassroomsComponent implements OnInit {
 
   classroomDetailsList: any[] = [];
- 
+
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'ViewClassroom',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip: 'Edit Classroom'
     },
   ];
   declaredTableColumns: TableColumn[] =
@@ -53,7 +53,6 @@ export class ClassroomsComponent implements OnInit {
           buttons: ['reset', 'apply'],
         },
         minWidth: 200
-
       },
       {
         field: 'StudentCapacity',
@@ -104,56 +103,43 @@ export class ClassroomsComponent implements OnInit {
         filter: 'agDateColumnFilter',
         filterParams: { buttons: ['reset', 'apply'] },
         minWidth: 150
-      }, 
-      
+      },
     ];
- 
 
-  
-  ngOnInit(): void {
-    this.getClassroomDetails();
-  }
+    ngOnInit(): void {
+      this.getClassroomDetails();
+    }
 
-  constructor(private router: Router,
+    constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    private addClassroomsService: AddClassroomsService) 
-    {
+    private addClassroomsService: AddClassroomsService) { }
 
+  onRowAction(data: any) {
+    let data1 = {
+      'source': 'edit',
+      'ClassroomId': data.row.ClassroomId
     }
-    onRowAction(data: any) {
-      let data1 = {
-        'source': 'edit',
-        'ClassroomId': data.row.ClassroomId
-      }
-      this.router.navigate(['tds/masters/classrooms/add-classrooms'], { queryParams: data1 });
-    }
-    selectClassroom($event: any) 
-  { 
-    throw new Error('Method not implemented.'); 
+    this.router.navigate(['tds/masters/classrooms/add-classrooms'], { queryParams: data1 });
   }
-  ActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewClassroom',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
+
+  selectClassroom($event: any) {
+    throw new Error('Method not implemented.');
+  }
+
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
+
   getClassroomDetails() {
     this.addClassroomsService.getClassroomList().subscribe((result: any) => {
       this.classroomDetailsList = result.Value;
-      let classroomDetailsList = result.Value;
     })
   }
-  onAddClassroom(classroom?: any) {
 
-    let navigationExtras: NavigationExtras = {};
+  onAddClassroom(classroom?: any) {
+   let navigationExtras: NavigationExtras = {};
     if (classroom) {
       navigationExtras = {
         state: {
@@ -164,33 +150,6 @@ export class ClassroomsComponent implements OnInit {
     this.router.navigateByUrl('tds/masters/classrooms/add-classrooms')
   }
 
-  editClassroom(ClassroomData: any) {
-    const classroomId = ClassroomData.classroomId;
-    const index = this.classroomDetailsList.findIndex(classroom => classroom.classroomId === classroomId);
-
-    if (index !== -1) {
-
-
-      this.openEditForm(ClassroomData).then((editedClassroomData: any) => {
-
-        this.classroomDetailsList[index] = editedClassroomData;
-        console.log('Edited Classroom:', editedClassroomData);
-
-      });
-    }
-  }
-  openEditForm(classroomData: any): Promise<any> {
-
-    return new Promise((resolve, reject) => {
-
-      setTimeout(() => {
-        const editedClassroomData = { ...classroomData };
-
-        editedClassroomData.Status = 'Edited';
-        resolve(editedClassroomData);
-      }, 1000);
-    });
-  }
 }
 
 

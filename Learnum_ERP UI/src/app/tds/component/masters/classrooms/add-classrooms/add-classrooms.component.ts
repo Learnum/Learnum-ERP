@@ -18,15 +18,14 @@ import { tap } from 'rxjs/operators';
 export class AddClassroomsComponent implements OnInit {
 
   classroomDetails: ClassroomModel = new ClassroomModel();
-  
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
   form = new FormGroup({});
   branchDetails: any;
-  
-  
-constructor(
+
+
+  constructor(
     private router: Router,
     private addclassroomService: AddClassroomsService,
     private alertService: AlertService,
@@ -56,17 +55,17 @@ constructor(
             key: 'BranchId',
             templateOptions: {
               label: "Branch Name",
-              //placeholder: 'Select Branch',  // Placeholder for the dropdown
+              //placeholder: 'Select Branch',  
               required: true,
               options: [
-                { value: null, label: 'Select Branch', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Branch', disabled: true },
                 ...this.branchDetails ? this.branchDetails.map(branch => ({
                   label: branch.BranchName,
                   value: branch.BranchId
                 })) : [],
               ]
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null,
             validators: {
               required: {
                 expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
@@ -78,7 +77,7 @@ constructor(
                 required: 'Branch selection is required',
               },
             },
-          }, 
+          },
           {
             className: 'col-md-3',
             type: 'input',
@@ -88,7 +87,7 @@ constructor(
               type: 'text',
               label: 'Classroom Name',
               required: true,
-              pattern: '^[A-Za-z ]+$', // Only letters and spaces are allowed
+              pattern: '^[A-Za-z ]+$',
             },
             validation: {
               messages: {
@@ -101,16 +100,14 @@ constructor(
                 const formControl = field.formControl;
                 formControl.valueChanges.subscribe(value => {
                   if (value) {
-                    // Remove any non-letter characters except spaces
                     let sanitizedValue = value.replace(/[^A-Za-z\s]/g, '');
-                    // Capitalize the first letter of each word
                     sanitizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
                     formControl.setValue(sanitizedValue, { emitEvent: false });
                   }
                 });
               }
             }
-          },          
+          },
           {
             className: 'col-md-3',
             type: 'input',
@@ -118,14 +115,14 @@ constructor(
             props: {
               placeholder: 'Student Capacity',
               required: true,
-              type: 'number', // Input type set to number
+              type: 'number',
               label: 'Student Capacity',
-              // Remove pattern for numeric input since the type is 'number'
+
             },
             validation: {
               messages: {
                 required: 'Student Capacity is required',
-                pattern: 'Please enter a valid positive number for Student Capacity', // Optional since type number handles it
+                pattern: 'Please enter a valid positive number for Student Capacity',
               },
             },
             hooks: {
@@ -133,14 +130,14 @@ constructor(
                 const formControl = field.formControl;
                 formControl.valueChanges.subscribe(value => {
                   if (value) {
-                    // Remove any non-digit characters (optional, but good for extra safety)
-                    const sanitizedValue = value.toString().replace(/[^0-9]/g, ''); 
+                    // Remove any non-digit characters 
+                    const sanitizedValue = value.toString().replace(/[^0-9]/g, '');
                     formControl.setValue(sanitizedValue ? parseInt(sanitizedValue, 10) : '', { emitEvent: false });
                   }
                 });
               }
             }
-          },   
+          },
           {
             className: 'col-md-3',
             type: 'select',
@@ -150,12 +147,12 @@ constructor(
               //placeholder: 'Select Branch Status',
               required: true,
               options: [
-                { value: null, label: 'Select Classroom Status', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Classroom Status', disabled: true },
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
               ],
             },
-            defaultValue: null,  // Set default value to 'Active'
+            defaultValue: null,
             validation: {
               messages: {
                 required: 'Please select a classroom status',
@@ -167,12 +164,18 @@ constructor(
     ];
   }
 
+  navigate() {
+    this.router.navigateByUrl('tds/masters/classrooms');
+  }
+
   onCancleClick() {
     this.router.navigateByUrl('tds/masters/classrooms');
   }
+  
   onResetClick() {
     this.form.reset();
   }
+
   onSubmit() {
     this.form.markAllAsTouched();
     if (this.form.valid) {
@@ -210,7 +213,7 @@ constructor(
     this.addclassroomService.getBranchList().subscribe(
       (data: any) => {
         this.branchDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -232,11 +235,8 @@ constructor(
       }
     );
   }
-  
-  navigate()
-  {
-    this.router.navigateByUrl('tds/masters/classrooms');
-  }
+
+ 
 }
 
 
