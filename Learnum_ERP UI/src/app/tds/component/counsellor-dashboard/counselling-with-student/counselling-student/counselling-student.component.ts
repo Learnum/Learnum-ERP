@@ -8,6 +8,7 @@ import { StudentcounsellingService } from './studentcounselling.service';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 import { StudentCounsellingDetails } from './studentcounselling.model';
 import { formatDate } from '@angular/common';
+import { BaseService } from 'src/app/core/services/baseService';
 
 @Component({
   selector: 'app-counselling-student',
@@ -31,7 +32,9 @@ export class CounsellingStudentComponent implements OnInit {
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
-    private studentcounsellingService:StudentcounsellingService
+    private studentcounsellingService:StudentcounsellingService,
+    private baseservice: BaseService
+
   ) { }
 
   ngOnInit(): void {
@@ -137,7 +140,7 @@ export class CounsellingStudentComponent implements OnInit {
               type: 'date',
               required: true,
               attributes: {
-                max: formatDate(this.NowDate, 'YYYY-MM-dd', 'en-IN'),
+                min: formatDate(new Date(), 'yyyy-MM-dd', 'en-IN'), 
               },
             },
             validation: {
@@ -155,6 +158,13 @@ export class CounsellingStudentComponent implements OnInit {
               placeholder: 'Select Counselling Time',
               type: 'time',
               required: true,
+              defaultValue: '12:00',
+            },
+            validators: {
+              timeValidation: {
+                expression: (control: AbstractControl) => control.value !== '00:00', // Custom validation to block '00:00'
+                message: '00:00 is not a valid time. Please select a different time.',
+              },
             },
             validation: {
               messages: {
@@ -274,8 +284,12 @@ export class CounsellingStudentComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/counsellor-dashboard/counselling-with-student');
+
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/counsellor-dashboard/counselling-with-student');
+
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
@@ -284,7 +298,6 @@ export class CounsellingStudentComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/counsellor-dashboard/counselling-with-student');
   }
   getStudentCallDetails() {
     this.studentcounsellingService.getStudentLeads().subscribe(
@@ -313,7 +326,11 @@ export class CounsellingStudentComponent implements OnInit {
       (result: any) => {
         if (result && result.Value) {
           this.studentCounsellingDetails = result.Value.Item1;
-          this.studentCounsellingDetails.counsellingDate = this.studentcounsellingService.formatDate(this.studentCounsellingDetails.counsellingDate);
+
+          this.studentCounsellingDetails.CounsellingDate = this.baseservice.formatDate(this.studentCounsellingDetails.CounsellingDate);
+          
+          this.studentCounsellingDetails.CounsellingTime = this.baseservice.extractTime(this.studentCounsellingDetails.CounsellingTime);
+
           this.setParameter();
           console.error('No data found for CounsellingId: ' + CounsellingId);
         }

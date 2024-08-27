@@ -2,8 +2,8 @@ export class StudentCounsellingDetails {
     counsellingId: number;
     studentId: number;
     phone: number;
-    counsellingDate: string;
-    counsellingTime: string;
+    CounsellingDate: string;
+    CounsellingTime: string;
     branchId: number;
     counsellingStatus: string;
     counsellingConversation: string;

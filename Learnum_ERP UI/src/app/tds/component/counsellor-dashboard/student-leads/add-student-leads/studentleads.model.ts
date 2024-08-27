@@ -2,7 +2,7 @@ export class StudentLeadDetails {
     studentId: number;
     studentName: string;
     collegeId: number;
-    branchId: number;
+    BranchId: number;
     studentPhone: number;
     parentPhone: number;
     Address: string;
