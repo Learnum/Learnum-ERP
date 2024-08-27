@@ -5,10 +5,6 @@
     <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">
       <formly-form [model]="collegeContactDetails" [fields]="fields" [options]="options" [form]="form">
       </formly-form>
-      <!-- <formly-form [model]="contactForm" [fields]="contactFields" [options]="options" [form]="contactForm">
-      </formly-form>
-      <formly-form [model]="departmentForm" [fields]="departmentFields" [options]="options" [form]="departmentForm">
-      </formly-form> -->
     </form>
   </div>
 </div>
@@ -33,7 +29,7 @@
           <td>{{ contact.name }}</td>
           <td>{{ contact.phoneNumber }}</td>
           <td>{{ contact.email }}</td>
-          <td>{{ contact.jobRole }}</td>
+          <td>{{ contact.roleId }}</td>
       </tbody>
 
       <!-- Button trigger modal for Contact -->
@@ -60,7 +56,7 @@
           <!-- Name Field -->
           <div class="form-group">
             <label for="name">Name *</label>
-            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter Name" required>
+            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter Name" required (keypress)="validateName($event)">
             <div *ngIf="contactForm.get('name').invalid && (contactForm.get('name').dirty || contactForm.get('name').touched)" class="text-danger">
               <div *ngIf="contactForm.get('name').errors.required">Name is required.</div>
               <div *ngIf="contactForm.get('name').errors.pattern">Name can only contain letters and spaces.</div>
@@ -70,7 +66,7 @@
           <!-- Phone Field -->
           <div class="form-group">
             <label for="phoneNumber">Phone *</label>
-            <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber" placeholder="Enter phone number" maxlength="10" required>
+            <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber" placeholder="Enter phone number" maxlength="10" (keypress)="validateNumber($event)" required>
             <div *ngIf="contactForm.get('phoneNumber').invalid && (contactForm.get('phoneNumber').dirty || contactForm.get('phoneNumber').touched)" class="text-danger">
               <div *ngIf="contactForm.get('phoneNumber').errors?.required">Phone number is required.</div>
               <div *ngIf="contactForm.get('phoneNumber').errors?.pattern">Phone number must be exactly 10 digits.</div>
@@ -83,26 +79,28 @@
             <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter Email" required>
             <div *ngIf="contactForm.get('email').invalid && (contactForm.get('email').dirty || contactForm.get('email').touched)" class="text-danger">
               <div *ngIf="contactForm.get('email').errors.required">Email is required.</div>
-              <div *ngIf="contactForm.get('email').errors.email">Please enter a valid email address.</div>
+              <!-- <div *ngIf="contactForm.get('email').errors.email">Please enter a valid email address.</div> -->
+               <div class="text-danger" *ngIf="(contactForm.get('email').touched || contactForm.get('email')|| dirty) && contactForm.get('email').errors?.['pattern']">Please enter a valid email address.</div>
             </div>
           </div>
 
           <!-- Job Role Field -->
           <div class="form-group">
-            <label for="jobRole">Job Role *</label>
-            <select class="form-select" id="jobRole" formControlName="jobRole">
+            <label for="roleId">Job Role *</label>
+            <select class="form-select" id="roleId" formControlName="roleId">
               <option value="" disabled selected>Select Job Role</option>
-              <option *ngFor="let role of roleDetails" [value]="role.roleId">{{ role.Name }}</option>
+              <option *ngFor="let role of roleDetails" [value]="role.RoleId">{{ role.Name }}</option>
             </select>
-            <div *ngIf="contactForm.get('jobRole').invalid && (contactForm.get('jobRole').dirty || contactForm.get('jobRole').touched)" class="text-danger">
-              <div *ngIf="contactForm.get('jobRole').errors.required">Job role is required.</div>
+            <div *ngIf="contactForm.get('roleId').invalid && (contactForm.get('roleId').dirty || contactForm.get('roleId').touched)" class="text-danger">
+              <div *ngIf="contactForm.get('roleId').errors.required">Job role is required.</div>
             </div>
           </div>
+          
           
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-cloud me-2 mt-2"  (click)="addContact()" data-dismiss="modal">Add</button>
+        <button type="button" class="btn btn-cloud "  (click)="addContact()" data-dismiss="modal">Add</button>
         <button type="button" class="btn btn-fent-cloud" data-dismiss="modal" (click)="onCloseModal()">Close</button>
       </div>
     </div>
@@ -123,7 +121,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let department of departmentDetails">
-          <td>{{ department.coursename }}</td>
+          <td>{{ department.courseId }}</td>
           <td>{{ department.seats }}</td>
         </tr>
       </tbody>
@@ -148,18 +146,12 @@
       <div class="modal-body">
         <form [formGroup]="departmentForm">
           <div class="form-group">
-            <label for="coursename">Course Name</label>
-            <!-- <select class="form-control" id="coursename" formControlName="coursename">
+            <label for="courseId">Course Name</label>
+            <select class="form-select" id="courseId" formControlName="courseId">
               <option value="" disabled selected>Select Job Role</option>
-              <option value="fy">FY B.com</option>
-              <option value="sy">SY B.com</option>
-              <option value="ty">TY B.com</option>
-            </select> -->
-            <select class="form-select" id="coursename" formControlName="coursename">
-              <option value="" disabled selected>Select Job Role</option>
-              <option *ngFor="let college of collegeroleDetails" [value]="college.Name">{{ college.Name }}</option>
+              <option *ngFor="let college of collegeroleDetails" [value]="college.collegeRoleId">{{ college.Name }}</option>
             </select>
-            <div *ngIf="departmentForm.get('coursename').touched && departmentForm.get('coursename').invalid" class="text-danger">
+            <div *ngIf="departmentForm.get('courseId').touched && departmentForm.get('courseId').invalid" class="text-danger">
               Course name is required.
             </div>
           </div>
@@ -174,7 +166,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-cloud me-2 mt-2" (click)="addDepartment()"data-dismiss="modal">Add</button>
+        <button type="button" class="btn btn-cloud" (click)="addDepartment()"data-dismiss="modal">Add</button>
         <button type="button" class="btn btn-fent-cloud" data-dismiss="modal" (click)="onCloseDepartmentModal()">Close</button>
    </div>
     </div>

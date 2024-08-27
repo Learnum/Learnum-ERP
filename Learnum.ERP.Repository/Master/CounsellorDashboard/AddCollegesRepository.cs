@@ -48,14 +48,15 @@ namespace Learnum.ERP.Repository.Master.CounsellorDashboard
 
         public async Task<List<AddCollegesResponseModel>> GetCollegesDetailsList()
         {
+          
             using (IDbConnection dbConnection = base.GetCoreConnection())
-            {
-                var dbparams = new DynamicParameters();
-                dbparams.Add("@Action", "GetADDCollegeDetails");
-                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                var result = dbConnection.Query<AddCollegesResponseModel>("PROC_ADDCollege", dbparams, commandType: CommandType.StoredProcedure).ToList();
-                return await Task.FromResult(result);
-            }
+              {
+                    var dbparams = new DynamicParameters();
+                    dbparams.Add("@Action", "GetADDCollegeDetails");
+                    dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                    var result = dbConnection.Query<AddCollegesResponseModel>("PROC_ADDCollege", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                    return await Task.FromResult(result);
+              }  
         }
     }
 }
