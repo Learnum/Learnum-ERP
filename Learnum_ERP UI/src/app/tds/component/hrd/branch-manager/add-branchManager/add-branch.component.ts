@@ -16,17 +16,17 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
 export class AddBranchComponent implements OnInit {
 
   form = new FormGroup({});
-  branchManagerDetails:branchManagerDetailsModel = new branchManagerDetailsModel();
+  branchManagerDetails: branchManagerDetailsModel = new branchManagerDetailsModel();
   reasonList: any[] = [];
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
   NowDate: any = new Date();
   branchDetails: any;
-  
- 
+
+
   constructor(
-     private addbranchManagerService: AddbranchManagerService,
+    private addbranchManagerService: AddbranchManagerService,
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -37,21 +37,20 @@ export class AddBranchComponent implements OnInit {
   ngOnInit(): void {
     this.setParameter();
     this.getBranchDetails();
-    
+
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.BranchManagerId) {
-      this. getBranchManagerDetails(this.editData.BranchManagerId);
+      this.getBranchManagerDetails(this.editData.BranchManagerId);
     }
   }
 
-setParameter() {
+  setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
             key: 'BranchManagerId'
-
           },
 
           {
@@ -72,59 +71,59 @@ setParameter() {
                 pattern: 'Please enter a valid name ',
               },
             },
+          },
+          {
+            className: 'col-md-3',
+            type: 'select',
+            key: 'BranchId',
+            templateOptions: {
+              label: "Branch Name",
+              //placeholder: 'Select Branch',  
+              required: true,
+              options: [
+                { value: null, label: 'Select Branch', disabled: true },  
+                ...this.branchDetails ? this.branchDetails.map(branch => ({
+                  label: branch.BranchName,
+                  value: branch.BranchId
+                })) : [],
+              ]
             },
-            {
-              className: 'col-md-3',
-              type: 'select',
-              key: 'BranchId',
-              templateOptions: {
-                label: "Branch Name",
-                //placeholder: 'Select Branch',  // Placeholder for the dropdown
-                required: true,
-                options: [
-                  { value: null, label: 'Select Branch', disabled: true },  // Disabled placeholder option
-                  ...this.branchDetails ? this.branchDetails.map(branch => ({
-                    label: branch.BranchName,
-                    value: branch.BranchId
-                  })) : [],
-                ]
+            defaultValue: null,  
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
+                message: 'Branch selection is required',
               },
-              defaultValue: null,  // Optional: set a default value if needed
-              validators: {
-                required: {
-                  expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
-                  message: 'Branch selection is required',
-                },
+            },
+            validation: {
+              messages: {
+                required: 'Branch selection is required',
               },
-              validation: {
-                messages: {
-                  required: 'Branch selection is required',
-                },
+            },
+          }
+          ,
+          {
+            className: 'col-md-3',
+            type: 'select',
+            key: 'IsActive',
+            templateOptions: {
+              label: 'Branch Manager Status',
+              //placeholder: 'Select Branch manager Status',
+              required: true,
+              options: [
+                { value: null, label: 'Select Branch Manager Status', disabled: true },  
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
+              ],
+            },
+            defaultValue: null,  
+            validation: {
+              messages: {
+                required: 'Please select a branch manager status',
               },
-            }
-            ,
-            {
-              className: 'col-md-3',
-              type: 'select',
-              key: 'IsActive',
-              templateOptions: {
-                label: 'Branch Manager Status',
-                //placeholder: 'Select Branch manager Status',
-                required: true,
-                options: [
-                  { value: null, label: 'Select Branch Manager Status', disabled: true },  // Disabled placeholder option
-                  { value: true, label: 'Active' },
-                  { value: false, label: 'Inactive' }
-                ],
-              },
-              defaultValue: null,  // Set default value to 'Active'
-              validation: {
-                messages: {
-                  required: 'Please select a branch manager status',
-                },
-              },
-            } 
-         ],
+            },
+          }
+        ],
       },
     ]
   }
@@ -133,13 +132,11 @@ setParameter() {
     this.router.navigateByUrl('tds/hrd/branch-manager');
   }
 
-  navigate()
-  {
+  navigate() {
     this.router.navigateByUrl('tds/hrd/branch-manager');
   }
 
-  get f()
-  {
+  get f() {
     return this.form.controls;
   }
 
@@ -157,7 +154,7 @@ setParameter() {
     this.branchManagerDetails.addedDate = new Date();
     this.branchManagerDetails.updatedBy = 1;
     this.branchManagerDetails.updatedDate = new Date();
-   // this.branchManagerDetails.branchManagerId = 0;
+    // this.branchManagerDetails.branchManagerId = 0;
 
     this.addbranchManagerService.insertBranchManagerData(this.branchManagerDetails).subscribe(
       (result: any) => {
@@ -179,22 +176,20 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    
+
   }
-
-
   getBranchDetails() {
     this.addbranchManagerService.getBranchList().subscribe(
       (data: any) => {
         this.branchDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
       }
     );
   }
-  
+
   getBranchManagerDetails(BranchManagerId: number) {
     this.addbranchManagerService.getBranchManagerDetails(BranchManagerId).subscribe(
       (result: any) => {

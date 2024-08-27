@@ -39,17 +39,20 @@ export class BranchesComponent {
       },
       minWidth: 100,
       tooltipValueGetter: (params) => `Branch ID: ${params.value}`,
+      headerTooltip: 'Branch Number'
     },
 
     {
       field: 'BranchName',
       headerName: 'Branch Name',
       filter: 'agSetColumnFilter',
+     
       filterParams: {
         buttons: ['reset', 'apply'],
       },
       minWidth: 150,
-      tooltipField: 'Branch Name of the branch'
+      headerTooltip: 'Branch Name'
+      
 
     },
     {
@@ -59,7 +62,8 @@ export class BranchesComponent {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+        headerTooltip: 'Address'
     },
     {
       field: 'City',
@@ -68,25 +72,28 @@ export class BranchesComponent {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 100
+      minWidth: 100,
+        headerTooltip: 'City'
     },
     {
       field: 'StateName',
-      headerName: 'State Name',
+      headerName: 'State',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 100
+      minWidth: 100,
+       headerTooltip: 'State'
     },
     {
       field: 'PostalCode',
-      headerName: 'PostalCode',
+      headerName: 'Postal Code',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 100
+      minWidth: 100,
+       headerTooltip: 'Postal Code'
     },
     // {
     //   field: 'IsActive',
@@ -105,28 +112,32 @@ export class BranchesComponent {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added By'
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added Time'
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated By'
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated Time',
     }
 
   ];

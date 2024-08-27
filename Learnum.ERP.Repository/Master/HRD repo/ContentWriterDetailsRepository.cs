@@ -54,7 +54,7 @@ namespace Learnum.ERP.Repository.Master
                 var dbparams = new DynamicParameters();
                 dbparams.Add("@ContentWriterId", ContentWriterId);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                var result = dbConnection.Query<ContentWriterDetailsModel?>("PROC_EditContentWriterDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var result = dbConnection.Query<ContentWriterDetailsModel?>("PROC_ContentWriterDetailsList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(new Tuple<ContentWriterDetailsModel?, ResponseCode>(result, responseCode));
             }

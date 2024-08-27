@@ -27,16 +27,10 @@ export class AddBatchComponent implements OnInit {
   coOwnerFields: any;
   batchDetails: BatchesDetailsModel = new BatchesDetailsModel();
   batchesDetailsReq: BatchesDetailsReqModel = new BatchesDetailsReqModel();
-  classroomDetails:any;
+  classroomDetails: any;
   courseDetails: any;
 
-  
-
   installmentForm = new FormGroup({});
-  // installmentModel: any = {
-  //   Installments:  [],
-  // };
-
   installmentModel: { Installments: InstallMentDetailsModel[] } = {
     Installments: [],
   };
@@ -46,8 +40,7 @@ export class AddBatchComponent implements OnInit {
 
   constructor(
     private router: Router,
-    
-    private addbatchService:AddbatchService,
+    private addbatchService: AddbatchService,
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
@@ -82,7 +75,7 @@ export class AddBatchComponent implements OnInit {
               type: 'text',
               label: "Batch Name",
               required: true,
-             // pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+              // pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
             validators: {
               ip: {
@@ -97,7 +90,7 @@ export class AddBatchComponent implements OnInit {
             key: 'BranchId',
             templateOptions: {
               label: "Branch Name",
-              //placeholder: 'Select Branch',  // Placeholder for the dropdown
+              //placeholder: 'Select Branch',  
               required: true,
               options: [
                 { value: null, label: 'Select Branch', disabled: true },  // Disabled placeholder option
@@ -107,10 +100,10 @@ export class AddBatchComponent implements OnInit {
                 })) : [],
               ]
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null,
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '',
                 message: 'Branch selection is required',
               },
             },
@@ -120,27 +113,27 @@ export class AddBatchComponent implements OnInit {
               },
             },
           },
-          
+
           {
             className: 'col-md-3',
             type: 'select',
             key: 'ClassroomId',
             templateOptions: {
               label: "Classroom Name",
-             // placeholder: 'Select Classroom',  // Placeholder for the dropdown
+              // placeholder: 'Select Classroom',  
               required: true,
               options: [
-                { value: null, label: 'Select Classroom', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Classroom', disabled: true },
                 ...this.classroomDetails ? this.classroomDetails.map(classroom => ({
                   label: classroom.ClassroomName,
                   value: classroom.ClassroomId
                 })) : [],
               ],
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null,
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '',
                 message: 'Classroom Name is required',
               },
             },
@@ -150,24 +143,24 @@ export class AddBatchComponent implements OnInit {
               },
             },
           },
-          
+
           {
             className: 'col-md-3',
             type: 'select',
             key: 'CourseId',
             templateOptions: {
               label: "Course Name",
-              //placeholder: 'Select Course',  // Placeholder for the dropdown
+              //placeholder: 'Select Course',  
               required: true,
               options: [
-                { value: null, label: 'Select Course', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Course', disabled: true },
                 ...this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
               ]
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null,
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '',
                 message: 'Course selection is required',
               },
             },
@@ -183,11 +176,10 @@ export class AddBatchComponent implements OnInit {
             key: 'CourseFeesInstallment',
             templateOptions: {
               placeholder: '₹',
-              required: true,
               label: "Course Fees in Installment",
               pattern: '^[0-9]+(\\.[0-9]{1,2})?$',
-              // inputMode: 'numeric', 
               type: 'number',
+              readonly: true,
             },
             hooks: {
               onInit: (field) => {
@@ -199,12 +191,7 @@ export class AddBatchComponent implements OnInit {
                 ).subscribe();
               },
             },
-            validation: {
-              messages: {
-                required: 'Please enter the course fees',
-                pattern: 'Please enter a valid amount',
-              },
-            },
+
           },
           {
             className: 'col-md-3',
@@ -213,29 +200,25 @@ export class AddBatchComponent implements OnInit {
             templateOptions: {
               placeholder: '₹',
               required: true,
-              
+              type: 'text',
               label: 'One Time Course Fees',
-              pattern: '^[0-9]+(\\.[0-9]{1,2})?$', 
-              //inputMode: 'numeric', 
-              type: 'number',
+              pattern: '^[0-9]*\\.?[0-9]{0,2}$', // only numbers with an optional decimal point and up to two decimal places are accepted
+              inputMode: 'decimal',
+              min: 0,
+              step: 0.01,
             },
             hooks: {
               onInit: (field) => {
-                const form = field.parent.formControl;
-                field.formControl.valueChanges.pipe(
-                  tap(() => {
-                    this.calculateInstallment();
-                  }),
-                ).subscribe();
-              },
-            },
-            validation: {
-              messages: {
-                required: 'Please enter the  One Time course fees',
-                pattern: 'Please enter a valid amount',
-              },
-            },
+                field.formControl.valueChanges.subscribe(value => {
+                  const sanitizedValue = value.replace(/[^0-9.]/g, '');
+                  if (sanitizedValue !== value) {
+                    field.formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }
           },
+
           {
             className: 'col-md-3',
             type: 'input',
@@ -245,7 +228,7 @@ export class AddBatchComponent implements OnInit {
               type: 'date',
               required: true,
               label: "Start On",
-             // min: new Date().toISOString().split('T')[0] as unknown as number
+              // min: new Date().toISOString().split('T')[0] as unknown as number
             },
           },
           {
@@ -274,7 +257,7 @@ export class AddBatchComponent implements OnInit {
               //placeholder: 'Select Batch Status',
               required: true,
               options: [
-                { value: null, label: 'Select Batch Status', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Batch Status', disabled: true },
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
               ],
@@ -285,11 +268,11 @@ export class AddBatchComponent implements OnInit {
                 required: 'Please select a batch status',
               },
             },
-          },,
+          }, ,
         ],
       },
     ];
-  
+
     this.installmentFields = [
       {
         key: 'Installments',
@@ -348,14 +331,13 @@ export class AddBatchComponent implements OnInit {
     ];
   }
 
- 
+
 
   onCancleClick() {
     this.router.navigateByUrl('tds/counselors-planning/batches-planning');
   }
-  
-  navigate()
-  {
+
+  navigate() {
     this.router.navigateByUrl('tds/counselors-planning/batches-planning');
   }
   get f() {
@@ -410,12 +392,12 @@ export class AddBatchComponent implements OnInit {
     }
   }
 
-  
+
   getBranchDetails() {
     this.addbatchService.getBranchList().subscribe(
       (data: any) => {
         this.branchDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -427,7 +409,7 @@ export class AddBatchComponent implements OnInit {
     this.addbatchService.getClassroomList().subscribe(
       (data: any) => {
         this.classroomDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -439,28 +421,26 @@ export class AddBatchComponent implements OnInit {
     this.addbatchService.getCourseList().subscribe(
       (data: any) => {
         this.courseDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
       }
     );
   }
- 
+
   getBatchDetails(BatchId: number) {
     this.addbatchService.getBatchDetails(BatchId).subscribe(
       (result: any) => {
         if (result && result.Value) {
-          // this.batchesDetailsReq.batchesDetailsModel = result.Value.Item1.BatchDetails;
-          // this.batchesDetailsReq.installMentDetailsModel = result.Value.Item1.InstallmentDetails;
           this.installmentModel.Installments = result.Value.Item1.InstallmentDetails;
           this.batchDetails = result.Value.Item1.BatchDetails;
 
-        
+
           this.batchDetails.StartOn = this.baseservice.formatDate(this.batchDetails.StartOn);
           this.batchDetails.EndOn = this.baseservice.formatDate(this.batchDetails.EndOn);
 
-          this.installmentModel.Installments.forEach( item => {
+          this.installmentModel.Installments.forEach(item => {
             item.DueDate = this.baseservice.formatDate(item.DueDate);
           })
 
@@ -474,4 +454,4 @@ export class AddBatchComponent implements OnInit {
       }
     );
   }
-  }
+}

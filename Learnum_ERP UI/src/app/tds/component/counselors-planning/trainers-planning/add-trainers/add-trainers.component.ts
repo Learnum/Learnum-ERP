@@ -54,7 +54,6 @@ setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
-        // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
  
           {
@@ -67,14 +66,14 @@ setParameter() {
             key: 'CourseId',
             templateOptions: {
               label: "Course Name",
-             // placeholder: 'Select Course',  // Placeholder for the dropdown
+             // placeholder: 'Select Course',  
               required: true,
               options: [
-                { value: null, label: 'Select Course', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Course', disabled: true },  
                 ...this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
               ]
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null,  
             validators: {
               required: {
                 expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
@@ -94,10 +93,10 @@ setParameter() {
             key: 'SubjectId',
             templateOptions: {
               label: "Subject Name",
-             // placeholder: 'Select Subject',  // Placeholder for the dropdown
+             // placeholder: 'Select Subject',  
               required: true,
               options: [
-                { value: null, label: 'Select Subject', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Subject', disabled: true },  
                 ...this.subjectDetails ? this.subjectDetails.map(subject => ({
                   label: subject.SubjectName,
                   value: subject.SubjectId
@@ -107,7 +106,7 @@ setParameter() {
             defaultValue: null,  // Optional: set a default value if needed
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
                 message: 'Subject selection is required',
               },
             },
@@ -126,17 +125,17 @@ setParameter() {
             key: 'BranchId',
             templateOptions: {
               label: "Branch Name",
-             // placeholder: 'Select Branch Name',  // Placeholder for the dropdown
+             // placeholder: 'Select Branch Name',  
               required: true,
               options: [
-                { value: null, label: 'Select Branch Name', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Branch Name', disabled: true },  
                 ...this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
               ]
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null,  
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
                 message: 'Branch Name is required',
               },
             },
@@ -153,7 +152,7 @@ setParameter() {
             key: 'BatchId',
             templateOptions: {
               label: "Batch Name",
-             // placeholder: 'Select Batch',  // Placeholder for the dropdown
+             // placeholder: 'Select Batch',  
               required: true,
               options: [
                 { value: null, label: 'Select Batch', disabled: true },  // Disabled placeholder option
@@ -163,10 +162,10 @@ setParameter() {
                 })) : [],
               ]
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null,  
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
                 message: 'Batch selection is required',
               },
             },
@@ -182,7 +181,7 @@ setParameter() {
             className: 'col-md-3',
             type: 'select',
             key: 'trainerName',
-            templateOptions: {  // Use templateOptions instead of props
+            templateOptions: {  
               label: "Trainer Name",
               //placeholder: 'Select Trainer Name',
               required: true,
@@ -195,14 +194,14 @@ setParameter() {
             defaultValue: null, 
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
                 message: 'This field is required',
               },
             },
             validation: {
               messages: {
                 required: 'This field is required',
-                tds: 'Please enter a Trainer Name',  // Custom validation message if applicable
+                tds: 'Please enter a Trainer Name',  
               },
             },
           },
@@ -216,15 +215,15 @@ setParameter() {
              // placeholder: 'Select Status',  // Placeholder for the dropdown
               required: true,
               options: [
-                { value: null, label: 'Select Status', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Status', disabled: true },  
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
               ]
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null,  
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '',
                 message: 'Status is required',
               },
             },
@@ -291,7 +290,6 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    // this.router.navigateByUrl('tds/hrd/trainer');
     this.router.navigateByUrl('tds/counselors-planning/trainers-planning');
   }
 

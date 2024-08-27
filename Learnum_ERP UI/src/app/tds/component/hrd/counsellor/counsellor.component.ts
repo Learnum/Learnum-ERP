@@ -12,9 +12,7 @@ import { AddcounsellorService } from './add-counsellor/addcounsellor.service';
   styleUrls: ['./counsellor.component.scss']
 })
 export class CounsellorComponent implements OnInit {
-selectCounsellor($event: any) {
-throw new Error('Method not implemented.');
-}
+
 
   CounsellorList: any[] = [];
   form: FormGroup;
@@ -39,7 +37,8 @@ throw new Error('Method not implemented.');
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      minWidth: 200,
+      headerTooltip: 'Counsellor Name',
 
     },
     {
@@ -49,7 +48,8 @@ throw new Error('Method not implemented.');
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Branch Name',
     },
     {
       field: 'IsActive',
@@ -59,6 +59,7 @@ throw new Error('Method not implemented.');
         buttons: ['reset', 'apply'],
       },
       minWidth: 200,
+      headerTooltip: 'Status',
       valueFormatter: params => {
         return params.value ? 'Active' : 'Inactive';
       }
@@ -68,28 +69,32 @@ throw new Error('Method not implemented.');
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added By',
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added Time',
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated By',
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated Time',
     }, 
     
   ];
@@ -106,11 +111,7 @@ throw new Error('Method not implemented.');
     private alertService: AlertService,
     private formBuilder: FormBuilder) {
     {
-      this.form = this.formBuilder.group({
-       
-    
-        // Add more form controls as needed
-      });
+      this.form = this.formBuilder.group({ });
     }
   }
   selectBranch(branch: any) {
@@ -126,18 +127,11 @@ throw new Error('Method not implemented.');
   }
 
 
-
+  selectCounsellor($event: any) {
+    throw new Error('Method not implemented.');
+    }
   
   onAddcounsellor() {
-
-    // let navigationExtras: NavigationExtras = {};
-    // if (employee) {
-    //   navigationExtras = {
-    //     state: {
-    //       employeeData: employee
-    //     }
-    //   };
-    // }
     this.router.navigateByUrl('tds/hrd/counsellor/add-counsellor')
   }
 
@@ -151,28 +145,6 @@ throw new Error('Method not implemented.');
         this.CounsellorList = result.Value;
         let CounsellorList = result.Value;
       },);
-    }
-
-    editCounsellor(CounsellorData: any) {
-      const CounsellorId = CounsellorData.CounsellorId;
-      const index = this.CounsellorList.findIndex(Counsellor => Counsellor.CounsellorId === CounsellorId);
-  
-      if (index !== -1) {
-        this.openEditForm(CounsellorData).then((editedCounsellorData: any) => {
-          this.CounsellorList[index] = editedCounsellorData;
-          console.log('Edited Counsellor:', editedCounsellorData);
-        });
-      }
-    }
-  
-    openEditForm(CounsellorData: any): Promise<any> {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const editedCounsellorData = { ...CounsellorData };
-          editedCounsellorData.Status = 'Edited';
-          resolve(editedCounsellorData);
-        }, 1000);
-      });
     }
   }
 

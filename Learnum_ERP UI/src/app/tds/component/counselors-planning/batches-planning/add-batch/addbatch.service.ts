@@ -58,5 +58,5 @@ export class AddbatchService extends BaseService {
 
   getBatchDetails(BatchId: number) {
     return this.apiService.getData(this.urlGetBatchDtails + '/' + BatchId);
-  }
+  }  
 }

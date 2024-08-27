@@ -19,11 +19,11 @@ export class DailyWorkComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'View Daily Worksheet',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip:'Edit Daily Worksheet'
     },
   ];
   declaredTableColumns: TableColumn[] = [
@@ -34,7 +34,8 @@ export class DailyWorkComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 100
+      minWidth: 100,
+      headerTooltip: 'Name',
     },
     {
       field: 'Email',
@@ -43,7 +44,8 @@ export class DailyWorkComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 100
+      minWidth: 100,
+      headerTooltip: 'Email',
 
     },
     {
@@ -53,7 +55,8 @@ export class DailyWorkComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Date',
 
     },
     {
@@ -63,44 +66,45 @@ export class DailyWorkComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 100
-
+      minWidth: 100,
+      headerTooltip: 'Role',
     },
     {
       field: 'addedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added By',
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added Time',
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated By',
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated Time',
     }, 
     
   ];
-  getEmployeeList: any;
-
-
-
-  ngOnInit(): void {
+    
+   ngOnInit(): void {
     this.getWorksheetDetails();
   }
 
@@ -112,19 +116,14 @@ export class DailyWorkComponent implements OnInit {
 
     private formBuilder: FormBuilder) {
     {
-      this.form = this.formBuilder.group({
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-      });
+      this.form = this.formBuilder.group({});
     }
   }
   selectwork($event: any) {
     throw new Error('Method not implemented.');
     }
   
-
-
-  onRowAction(data: any) {
+    onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
       'WorkId': data.row.WorkId
@@ -136,15 +135,6 @@ export class DailyWorkComponent implements OnInit {
 
   
   onAddDailywork() {
-
-    // let navigationExtras: NavigationExtras = {};
-    // if (employee) {
-    //   navigationExtras = {
-    //     state: {
-    //       employeeData: employee
-    //     }
-    //   };
-    // }
     this.router.navigateByUrl('tds/hrd/daily-work/add-worksheet')
   }
 
@@ -156,29 +146,7 @@ export class DailyWorkComponent implements OnInit {
   getWorksheetDetails() {
     this.addWorksheetservices.getworksheetList().subscribe((result: any) => {
       this.worksheetList = result.Value;
-      let worksheetList = result.Value;
+      
     })
-  }
-
-  editWorksheet(WorkSheetData: any) {
-    const WorkId = WorkSheetData.WorkId;
-    const index = this.worksheetList.findIndex(Worksheet => Worksheet.WorkId === WorkId);
-
-    if (index !== -1) {
-      this.openEditForm(WorkSheetData).then((editedWorkSheetData: any) => {
-        this.worksheetList[index] = editedWorkSheetData;
-        console.log('Edited WorkSeet:', editedWorkSheetData);
-      });
-    }
-  }
-
-  openEditForm(WorkSheetData: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const editedWorkSheetData = { ...WorkSheetData };
-        editedWorkSheetData.Status = 'Edited';
-        resolve(editedWorkSheetData);
-      }, 1000);
-    });
   }
 }

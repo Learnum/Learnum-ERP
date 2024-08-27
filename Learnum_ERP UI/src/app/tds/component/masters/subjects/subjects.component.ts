@@ -19,11 +19,11 @@ export class SubjectsComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'ViewSubject',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip:'Edit Subject'
     },
   ];
 
@@ -35,7 +35,8 @@ export class SubjectsComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'SR.NO',
     },
     {
       field: 'SubjectName',
@@ -44,7 +45,8 @@ export class SubjectsComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Subject Name',
     },
     {
       field: 'SubjectDescription',
@@ -53,7 +55,8 @@ export class SubjectsComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      minWidth: 200,
+      headerTooltip: 'Subject Description',
 
     },
     {
@@ -64,6 +67,7 @@ export class SubjectsComponent implements OnInit {
         buttons: ['reset', 'apply'],
       },
       minWidth: 150,
+      headerTooltip: 'Subject Status',
       valueFormatter: params => {
         return params.value ? 'Active' : 'Inactive';
       }
@@ -73,28 +77,32 @@ export class SubjectsComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added By',
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added Time',
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated By',
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated Time',
     }, 
     
   ];
@@ -147,34 +155,7 @@ export class SubjectsComponent implements OnInit {
       let subjectsList = result.Value;
     })
   } 
-  editBranch(SubjectData: any) {
-    const subjectId = SubjectData.subjectId;
-    const index = this.subjectsList.findIndex(subject => subject.subjectId === subjectId);
-
-    if (index !== -1) {
-
-
-      this.openEditForm(SubjectData).then((editedSubjectData: any) => {
-
-        this.subjectsList[index] = editedSubjectData;
-        console.log('Edited Subject:', editedSubjectData);
-
-      });
-    }
-  }
-  openEditForm(subjectData: any): Promise<any> {
-
-    return new Promise((resolve, reject) => {
-
-      setTimeout(() => {
-        const editedSubjectData = { ...subjectData };
-
-        editedSubjectData.Status = 'Edited';
-        resolve(editedSubjectData);
-      }, 1000);
-    });
-  }
-
+ 
 }
 
   

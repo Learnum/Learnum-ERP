@@ -35,6 +35,7 @@ export class ClassroomsComponent implements OnInit {
           buttons: ['reset', 'apply'],
         },
         minWidth: 100,
+         headerTooltip: 'Serial Number'
       },
       {
         field: 'BranchName',
@@ -44,6 +45,7 @@ export class ClassroomsComponent implements OnInit {
           buttons: ['reset', 'apply'],
         },
         minWidth: 200,
+         headerTooltip: 'Branch Name'
       },
       {
         field: 'ClassroomName',
@@ -52,7 +54,8 @@ export class ClassroomsComponent implements OnInit {
         filterParams: {
           buttons: ['reset', 'apply'],
         },
-        minWidth: 200
+        minWidth: 200,
+        headerTooltip: 'Classroom Name'
       },
       {
         field: 'StudentCapacity',
@@ -61,8 +64,8 @@ export class ClassroomsComponent implements OnInit {
         filterParams: {
           buttons: ['reset', 'apply'],
         },
-        minWidth: 200
-
+        minWidth: 200,
+        headerTooltip: 'Student Capacity'
       },
       // {
       //   field: 'IsActive',
@@ -81,28 +84,32 @@ export class ClassroomsComponent implements OnInit {
         headerName: 'Added By',
         filter: 'agTextColumnFilter',
         filterParams: { buttons: ['reset', 'apply'] },
-        minWidth: 150
+        minWidth: 150,
+        headerTooltip: 'Added By'
       },
       {
         field: 'addedTime',
         headerName: 'Added Time',
         filter: 'agDateColumnFilter',
         filterParams: { buttons: ['reset', 'apply'] },
-        minWidth: 150
+        minWidth: 150,
+        headerTooltip: 'Added Time'
       },
       {
         field: 'updatedBy',
         headerName: 'Updated By',
         filter: 'agDateColumnFilter',
         filterParams: { buttons: ['reset', 'apply'] },
-        minWidth: 150
+        minWidth: 150,
+        headerTooltip: 'Updated By'
       },
       {
         field: 'updatedTime',
         headerName: 'Updated Time',
         filter: 'agDateColumnFilter',
         filterParams: { buttons: ['reset', 'apply'] },
-        minWidth: 150
+        minWidth: 150,
+         headerTooltip: 'Updated Time'
       },
     ];
 

@@ -20,16 +20,16 @@ export class ContentWriterComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'ViewContentWriter',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip: 'Edit Content Writer'
     },
   ];
-  
+
   declaredTableColumns: TableColumn[] = [
-  
+
     {
       field: 'CourseName',
       headerName: 'Course Name',
@@ -37,7 +37,8 @@ export class ContentWriterComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Course Name',
 
     },
     {
@@ -47,7 +48,8 @@ export class ContentWriterComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Subject Name',
 
     },
     {
@@ -57,7 +59,8 @@ export class ContentWriterComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      minWidth: 200,
+      headerTooltip: 'ContentWriter Name',
 
     },
     {
@@ -68,6 +71,7 @@ export class ContentWriterComponent implements OnInit {
         buttons: ['reset', 'apply'],
       },
       minWidth: 200,
+      headerTooltip: 'Status',
       valueFormatter: params => {
         return params.value ? 'Active' : 'Inactive';
       }
@@ -77,34 +81,35 @@ export class ContentWriterComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added By',
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added Time',
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated By',
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    }, 
-    
+      minWidth: 150,
+      headerTooltip: 'Updated Time',
+    },
+
   ];
-
-
-
 
   ngOnInit(): void {
     this.getContentWriterDetails();
@@ -115,19 +120,16 @@ export class ContentWriterComponent implements OnInit {
     private messageService: MessageService,
     private alertService: AlertService,
     private addcontentWriterService: AddcontentWriterService,
-  
+
     private formBuilder: FormBuilder) {
-      {
-        this.form = this.formBuilder.group({
-          
-          
-        });
-      }
+    {
+      this.form = this.formBuilder.group({});
+    }
   }
   selectContentWriter($event: any) {
     throw new Error('Method not implemented.');
-    }
- 
+  }
+
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
@@ -138,46 +140,22 @@ export class ContentWriterComponent implements OnInit {
 
 
 
-  
-  onAddContentWriter() {
 
- 
+  onAddContentWriter() {
     this.router.navigateByUrl('tds/hrd/content-writer/add-contentwriter')
   }
- 
+
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
 
-
-
   getContentWriterDetails() {
     this.addcontentWriterService.getContentWriterList().subscribe((result: any) => {
       this.ContentWriterList = result.Value;
-      let ContentWriterList = result.Value;
+
     })
-  } 
-
-  editContentWriter(ContentWriterData: any) {
-    const ContentWriterId = ContentWriterData.ContentWriterId;
-    const index = this.ContentWriterList.findIndex(ContentWriter => ContentWriter.ContentWriterId === ContentWriterId);
-
-    if (index !== -1) {
-      this.openEditForm(ContentWriterData).then((editedContentWriterData: any) => {
-        this.ContentWriterList[index] = editedContentWriterData;
-        console.log('Edited Content Writer:', editedContentWriterData);
-      });
-    }
   }
 
-  openEditForm(ContentWriterData: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const editedContentWriterData = { ...ContentWriterData };
-        editedContentWriterData.Status = 'Edited';
-        resolve(editedContentWriterData);
-      }, 1000);
-    });
-  }
+
 }

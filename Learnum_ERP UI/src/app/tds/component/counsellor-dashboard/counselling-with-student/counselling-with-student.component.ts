@@ -17,11 +17,11 @@ export class CounsellingWithStudentComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'View',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip:'Edit '
     },
   ];
   declaredTableColumns: TableColumn[] = [
@@ -30,70 +30,80 @@ export class CounsellingWithStudentComponent implements OnInit {
       headerName: 'SR.NO',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'SR.NO'
     },
     {
       field: 'StudentName',
       headerName: 'Student Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Student Name'
     },
     {
       field: 'Phone',
       headerName: 'Phone',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+       headerTooltip:'Phone'
     },
     {
       field: 'CounsellingConversation',
       headerName: 'Counselling Conversation',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Counselling Conversation'
     },
     {
       field: 'CounsellingTime',
       headerName: 'Counselling Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+       headerTooltip:'Counselling Time'
     },
     {
       field: 'CounsellingStatus',
       headerName: 'Counselling Status',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+       headerTooltip:'College Website'
     },
     {
       field: 'addedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+       headerTooltip:'Added By'
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+       headerTooltip:'Added Time'
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Updated By'
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+       headerTooltip:'Updated Time'
     }, 
     
   ];
@@ -123,15 +133,6 @@ export class CounsellingWithStudentComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
 
-  ActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewStudent',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
   onAddStudentCounselling(student?: any) {
 
     let navigationExtras: NavigationExtras = {};
@@ -147,33 +148,7 @@ export class CounsellingWithStudentComponent implements OnInit {
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
-  editPractical(StudentData: any) {
-    const counsellingId = StudentData.counsellingId;
-    const index = this.StudentCounsellingList.findIndex(student => student.counsellingId === counsellingId);
-
-    if (index !== -1) {
-
-
-      this.openEditForm(StudentData).then((editedStudentData: any) => {
-
-        this.StudentCounsellingList[index] = editedStudentData;
-        console.log('Edited Student:', editedStudentData);
-
-      });
-    }
-  }
-  openEditForm(studentData: any): Promise<any> {
-
-    return new Promise((resolve, reject) => {
-
-      setTimeout(() => {
-        const editedStudentData = { ...studentData };
-
-        editedStudentData.Status = 'Edited';
-        resolve(editedStudentData);
-      }, 1000);
-    });
-  }
+ 
   getStudentCounsellingDetails() {
     this.studentcounsellingService.getStudentCounsellingDetails().subscribe((result: any) => {
       this.StudentCounsellingList = result.Value;

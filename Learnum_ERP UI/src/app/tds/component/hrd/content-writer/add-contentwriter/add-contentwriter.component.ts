@@ -83,17 +83,17 @@ export class AddContentwriterComponent {
             key: 'CourseId',
             templateOptions: {
               label: "Course Name",
-            //  placeholder: 'Select Course',  // Placeholder for the dropdown
+            //  placeholder: 'Select Course',  
               required: true,
               options: [
-                { value: null, label: 'Select Course', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Course', disabled: true },  
                 ...this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
               ]
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null,  
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
                 message: 'Course selection is required',
               },
             },
@@ -111,17 +111,17 @@ export class AddContentwriterComponent {
             key: 'SubjectId',
             templateOptions: {
               label: "Subject Name",
-            //  placeholder: 'Select Subject',  // Placeholder for the dropdown
+            //  placeholder: 'Select Subject',  
               required: true,
               options: [
-                { value: null, label: 'Select Subject', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Subject', disabled: true },  
                 ...this.subjectDetails ? this.subjectDetails.map(subject => ({
                   label: subject.SubjectName,
                   value: subject.SubjectId
                 })) : [],
               ]
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null,  
             validators: {
               required: {
                 expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
@@ -144,12 +144,12 @@ export class AddContentwriterComponent {
               //placeholder: 'Select ContentWriter Status',
               required: true,
               options: [
-                { value: null, label: 'Select ContentWriter Status', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select ContentWriter Status', disabled: true }, 
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
               ],
             },
-            defaultValue: null,  // Set default value to 'Active'
+            defaultValue: null,  
             validation: {
               messages: {
                 required: 'Please select a ContentWriter status',
