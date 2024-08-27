@@ -239,8 +239,10 @@ export class AddBranchComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/masters/branches');
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/masters/branches');
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
@@ -249,7 +251,7 @@ export class AddBranchComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/masters/branches');
+    
   }
 
   getBranchDetails(BranchId: number) {
