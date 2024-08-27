@@ -37,7 +37,8 @@ export class BatchesComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Batch Name'
 
     },
     {
@@ -47,7 +48,8 @@ export class BatchesComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Branch Name'
 
     },
     
@@ -58,7 +60,8 @@ export class BatchesComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Classroom Name'
     },
     {
       field: 'OneTimeCourseFees',
@@ -67,7 +70,8 @@ export class BatchesComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+       headerTooltip: 'One Time Course Fees'
     },
 
 
@@ -76,28 +80,32 @@ export class BatchesComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added By'
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added Time'
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated By'
     },
     {
       field: 'updatedTime',
-      headerName: 'updated Time',
+      headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+       headerTooltip:  'Updated Time',
     }, 
     
   ];
@@ -150,36 +158,7 @@ export class BatchesComponent implements OnInit {
   getAllBatchDetails() {
     this.addBatchesService.getBatchList().subscribe((result: any) => {
       this.batchesDetailsReq = result.Value;
-      //let BatchDetails = result.Value;
+      
     })
   }
-  editBatch(BatchData: any) {
-    const BatchId = BatchData.BatchId;
-    const index = this.batchesDetailsReq.findIndex(batch => batch.BatchId === BatchId);
-
-    if (index !== -1) {
-
-
-      this.openEditForm(BatchData).then((editedBatchData: any) => {
-
-        this.batchesDetailsReq[index] = editedBatchData;
-        console.log('Edited Branch:', editedBatchData);
-
-      });
-    }
   }
-  openEditForm(BatchData: any): Promise<any> {
-
-    return new Promise((resolve, reject) => {
-
-      setTimeout(() => {
-        const editedBatchData = { ...BatchData };
-
-        editedBatchData.Status = 'Edited';
-        resolve(editedBatchData);
-      }, 1000);
-    });
-  }
-
- 
-}

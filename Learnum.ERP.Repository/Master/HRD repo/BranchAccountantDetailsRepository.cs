@@ -55,7 +55,7 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
                 var dbparams = new DynamicParameters();
                 dbparams.Add("@BranchAccountantId", BranchAccountantId);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                var result = dbConnection.Query<BranchAccountantDetailsModel?>("PROC_EditBranchAccountant", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var result = dbConnection.Query<BranchAccountantDetailsModel?>("PROC_BranchAccountantDetailsList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(new Tuple<BranchAccountantDetailsModel?, ResponseCode>(result, responseCode));
             }

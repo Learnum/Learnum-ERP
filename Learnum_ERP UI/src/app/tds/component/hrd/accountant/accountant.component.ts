@@ -20,27 +20,15 @@ export class AccountantComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'View Accountant',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip:'Edit Accountant'
     },
   ];
   
   declaredTableColumns: TableColumn[] = [
-
-    // {
-    //   field: 'BranchAccountantId',
-    //   headerName: 'SR.NO',
-    //   filter: 'agSetColumnFilter',
-    //   filterParams: {
-    //     buttons: ['reset', 'apply'],
-    //   },
-    //   minWidth: 200
-
-    // },
-    
     {
       field: 'AccountantName',
       headerName: 'Accountant Name',
@@ -48,7 +36,8 @@ export class AccountantComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      minWidth: 200,
+      headerTooltip: 'Accountant Name',
 
     },
     {
@@ -58,7 +47,8 @@ export class AccountantComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      minWidth: 200,
+      headerTooltip: 'Branch Name',
     },
     {
       field: 'IsActive',
@@ -68,6 +58,7 @@ export class AccountantComponent implements OnInit {
         buttons: ['reset', 'apply'],
       },
       minWidth: 200,
+      headerTooltip: 'Status',
       valueFormatter: params => {
         return params.value ? 'Active' : 'Inactive';
       }
@@ -77,28 +68,32 @@ export class AccountantComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added By',
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added Time',
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated By',
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated Time',
     }, 
     
   ];
@@ -133,10 +128,7 @@ export class AccountantComponent implements OnInit {
     this.router.navigate(['tds/hrd/accountant/add-accountant'], { queryParams: data1 });
   }
 
-
-
- 
-  onAddAccountant() {
+onAddAccountant() {
 
     this.router.navigateByUrl('tds/hrd/accountant/add-accountant')
   }
@@ -151,25 +143,5 @@ export class AccountantComponent implements OnInit {
     })
   }
 
-  editBranchAccountant(BranchAccountantData: any) {
-    const BranchAccountantId = BranchAccountantData.BranchAccountantId;
-    const index = this.accountantDetailsList.findIndex(BranchAccountant => BranchAccountant.BranchAccountantId === BranchAccountantId);
-
-    if (index !== -1) {
-      this.openEditForm(BranchAccountantData).then((editedBranchAccountantData: any) => {
-        this.accountantDetailsList[index] = editedBranchAccountantData;
-        console.log('Edited  Branch Accountant:', editedBranchAccountantData);
-      });
-    }
-  }
-
-  openEditForm(BranchAccountantData: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const editedBranchAccountantData = { ...BranchAccountantData };
-        editedBranchAccountantData.Status = 'Edited';
-        resolve(editedBranchAccountantData);
-      }, 1000);
-    });
-  }
+ 
 }

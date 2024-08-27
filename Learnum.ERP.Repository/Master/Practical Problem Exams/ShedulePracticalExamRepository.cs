@@ -53,7 +53,7 @@ namespace Learnum.ERP.Repository.Master.Practical_Exams
                 var dbparams = new DynamicParameters();
                 dbparams.Add("@SchedulePracticalExamId", SchedulePracticalExamId);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                var result = dbConnection.Query<ShedulePracticalExamModel?>("PROC_EditSchedulePracticalExam", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var result = dbConnection.Query<ShedulePracticalExamModel?>("PROC_SchedulePracticalExamDetailsList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(new Tuple<ShedulePracticalExamModel?, ResponseCode>(result, responseCode));
             }

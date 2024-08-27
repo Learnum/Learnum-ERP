@@ -17,11 +17,11 @@ export class AddPracticalProblemSolutionComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'View',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip:'Edit'
     },
   ];
 
@@ -31,28 +31,32 @@ export class AddPracticalProblemSolutionComponent implements OnInit {
       headerName: 'ID',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 80
+      minWidth: 80,
+      headerTooltip: 'Question Id',
     },
     {
       field: 'Question',
       headerName: 'Question',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 300
+      minWidth: 300,
+      headerTooltip: 'Question',
     },
     {
       field: 'ModelAnswer',
       headerName: 'Model Answer',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 300
+      minWidth: 300,
+      headerTooltip: 'Model Answer',
     },
     {
       field: 'Marks',
       headerName: 'Marks',
       filter: 'agNumberColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 100,
+      headerTooltip: 'Marks',
     },
     {
       field: 'IsActive',
@@ -60,6 +64,7 @@ export class AddPracticalProblemSolutionComponent implements OnInit {
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 100,
+      headerTooltip: 'Practical Problem Status',
       valueFormatter: params => {
         return params.value ? 'Active' : 'Inactive';
       }
@@ -69,28 +74,32 @@ export class AddPracticalProblemSolutionComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added By',
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added Time',
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated By',
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated Time',
     }, 
     
   ];

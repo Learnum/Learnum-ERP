@@ -19,16 +19,16 @@ export class AddRecordComponent implements OnInit {
 
   form = new FormGroup({});
   attendenceDetails: AttendenceSheetDetailsModel = new AttendenceSheetDetailsModel();
- fields: FormlyFieldConfig[];
+  fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
   NowDate: any = new Date();
   attendenceForm: any;
 
- 
+
   constructor(
     private addrecordService: AddrecordService,
-    private baseservice : BaseService,
+    private baseservice: BaseService,
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -38,15 +38,14 @@ export class AddRecordComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
- 
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.AttendenceId) {
       this.getAttendanceDetails(this.editData.AttendenceId);
     }
-    
+
   }
 
-setParameter() {
+  setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
@@ -54,9 +53,9 @@ setParameter() {
         fieldGroup: [
 
           {
-            key:'AttendenceId',
-           },
-            {
+            key: 'AttendenceId',
+          },
+          {
             className: 'col-md-4',
             type: 'input',
             key: 'Name',
@@ -104,7 +103,7 @@ setParameter() {
               required: true,
               options: [
                 { value: null, label: 'Select Role', disabled: true },  // Placeholder option
-                { value:'Developer', label: 'Developer' },
+                { value: 'Developer', label: 'Developer' },
                 { value: 'Manager', label: 'Manager' }
               ],
             },
@@ -122,7 +121,7 @@ setParameter() {
             },
           }
           ,
-          
+
           {
             className: 'col-md-3',
             key: 'Time',
@@ -145,34 +144,32 @@ setParameter() {
               },
             },
           },
-         
-         
+
+
         ],
       },
     ]
   }
-       
-  
+
+
 
   onCancleClick() {
     this.router.navigateByUrl('tds/hrd/attendance');
   }
 
-  navigate()
-  {
+  navigate() {
     this.router.navigateByUrl('tds/hrd/attendance');
   }
 
-  get f()
-  {
+  get f() {
     return this.form.controls;
   }
 
-  onSubmit():void {
+  onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-     this.insertAddAttendence() ;
-      }
+      this.insertAddAttendence();
+    }
     else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
@@ -192,10 +189,10 @@ setParameter() {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
           this.router.navigateByUrl('tds/hrd/attendance');
         }
-         else if (serviceResponse == ResponseCode.Update) {
+        else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
           this.router.navigateByUrl('tds/hrd/attendance');
-        } 
+        }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
@@ -204,7 +201,7 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     );
-    
+
   }
 
   getAttendanceDetails(AttendenceId: number) {
@@ -214,7 +211,7 @@ setParameter() {
           this.attendenceDetails = result.Value.Item1;
 
           this.attendenceDetails.Date = this.addrecordService.formatDate(this.attendenceDetails.Date);
- 
+
           this.attendenceDetails.Time = this.baseservice.extractTime(this.attendenceDetails.Time);
 
 

@@ -19,11 +19,11 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'View',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip:'Edit'
     },
   ];
 
@@ -35,6 +35,7 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 100,
+      headerTooltip:'SR.NO'
     
     },
     {
@@ -42,70 +43,72 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
       headerName: 'College Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'College Name'
     },
     {
       field: 'Meetingwith',
       headerName: 'Meeting With',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Meeting With'
     },
     {
       field: 'MeetingDate',
       headerName: 'Meeting Date',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Meeting Date'
     },
     {
       field: 'MeetingTime',
       headerName: 'Meeting Time',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Meeting Time'
     },
     {
       field: 'MeetingLocation',
       headerName: 'Meeting Location',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Meeting Location'
     },
-    // {
-    //   field: 'MeetingAgenda',
-    //   headerName: 'Meeting Agenda',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: { buttons: ['reset', 'apply'] },
-    //   minWidth: 150
-    // },
     {
       field: 'addedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Added By'
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Added Time'
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Updated By'
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Updated Time'
     }, 
     
   ];
@@ -138,16 +141,6 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
    {
     throw new Error('Method not implemented.');
   }
-
-  ActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewPractical',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
   onAddMetting(metting?: any) {
 
     let navigationExtras: NavigationExtras = {};

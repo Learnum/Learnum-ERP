@@ -16,11 +16,11 @@ export class BirthdaysComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'View Birthday',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip: 'Edit Birthday'
     },
   ];
 
@@ -35,7 +35,8 @@ export class BirthdaysComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Name',
     },
     {
       field: 'Email',
@@ -44,7 +45,8 @@ export class BirthdaysComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Email',
 
     },
     {
@@ -54,10 +56,10 @@ export class BirthdaysComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
-
+      minWidth: 150,
+      headerTooltip: 'Date',
     },
-     
+
     {
       field: 'Role',
       headerName: 'Role',
@@ -65,7 +67,8 @@ export class BirthdaysComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 100
+      minWidth: 100,
+      headerTooltip: 'Role',
 
     },
     {
@@ -76,6 +79,7 @@ export class BirthdaysComponent implements OnInit {
         buttons: ['reset', 'apply'],
       },
       minWidth: 200,
+      headerTooltip: 'Status',
       valueFormatter: params => {
         return params.value ? 'Active' : 'Inactive';
       }
@@ -85,30 +89,34 @@ export class BirthdaysComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added By',
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added Time',
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated By',
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    }, 
-    
+      minWidth: 150,
+      headerTooltip: 'Updated Time',
+    },
+
   ];
 
 
@@ -133,10 +141,8 @@ export class BirthdaysComponent implements OnInit {
       });
     }
   }
-  selectBranch(branch: any) {
+  selectBranch(branch: any) { }
 
-  }
-  
 
   onRowAction(data: any) {
     let data1 = {
@@ -146,25 +152,13 @@ export class BirthdaysComponent implements OnInit {
     this.router.navigate(['tds/hrd/birthdays/add-birthday'], { queryParams: data1 });
   }
 
-
-
-  
   onAddBirthday() {
-
-    // let navigationExtras: NavigationExtras = {};
-    // if (employee) {
-    //   navigationExtras = {
-    //     state: {
-    //       employeeData: employee
-    //     }
-    //   };
-    // }
     this.router.navigateByUrl('tds/hrd/birthdays/add-birthday')
   }
- 
+
   selectBirthday($event: any) {
     throw new Error('Method not implemented.');
-    }
+  }
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
@@ -175,35 +169,6 @@ export class BirthdaysComponent implements OnInit {
     this.birthdayDetailsService.getBirthdayList().subscribe(
       (result: any) => {
         this.BirthdayList = result.Value;
-        let BirthdayList = result.Value;
-      },
-
-    );
-
-  }
-
-  editBirthday(BirthdayData: any) {
-    const BirthId = BirthdayData.BirthId;
-    const index = this.BirthdayList.findIndex(Birthday => Birthday.BirthId === BirthId);
-
-    if (index !== -1) {
-      this.openEditForm(BirthdayData).then((editedBirthdayData: any) => {
-        this.BirthdayList[index] = editedBirthdayData;
-        console.log('Edited Birthday:', editedBirthdayData);
-      });
-    }
-  }
-
-  openEditForm(BirthdayData: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const editedBirthdayData = { ...BirthdayData };
-        editedBirthdayData.Status = 'Edited';
-        resolve(editedBirthdayData);
-      }, 1000);
-    });
-  }
-
-
-
+      },);
+}
 }
