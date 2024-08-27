@@ -20,60 +20,74 @@ export class StudentAdmissionComponent implements OnInit {
       headerName: 'Date of Admission',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 120
+      minWidth: 120,
+      headerTooltip: 'Date of Admission'
+
     },
     {
       field: 'CourseName',
       headerName: 'Course Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 120
+      minWidth: 120,
+      headerTooltip: 'Course Name'
+
     },
     {
       field: 'BranchName',
       headerName: 'Branch Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 120
+      minWidth: 120,
+      headerTooltip: 'Modified By'
+
     },
     {
       field: 'BatchName',
       headerName: 'Batch Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 120
+      minWidth: 120,
+      headerTooltip: 'Batch Name'
+
     },
     {
       field: 'StudentName',
       headerName: 'Student Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 120
+      minWidth: 120,
+      headerTooltip: 'Student Name'
+
     },
     {
       field: 'StudentNumber',
       headerName: 'Student Number',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 120
+      minWidth: 120,
+      headerTooltip: 'Modified By'
+
     },
     {
       field: 'Status',
       headerName: 'Status',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 100
+      minWidth: 100,
+      headerTooltip: 'Status'
+
     }
   ];
 
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'View',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip:'Edit'
     },
   ];
 
@@ -90,7 +104,7 @@ export class StudentAdmissionComponent implements OnInit {
   }
 
   getStudentAdmissionList() {
-    // Fetch student admission list from service
+    
   }
 
   AddStudentAdmission() {

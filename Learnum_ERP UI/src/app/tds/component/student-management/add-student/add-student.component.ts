@@ -17,12 +17,12 @@ export class AddStudentComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'View',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
-    },
+      tooltip:'Edit Student'
+    }, 
   ];
 
   declaredTableColumns: TableColumn[] = [
@@ -31,49 +31,63 @@ export class AddStudentComponent implements OnInit {
       headerName: 'SR.NO',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'SR.NO'
+
     },
     {
       field: 'StudentName',
       headerName: 'Student Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Student Name'
+
     },
     {
       field: 'StudentEmail',
       headerName: 'Student Email',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Student Email'
+
     },
     {
       field: 'StudentPhone',
       headerName: 'StudentPhone',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'StudentPhone'
+
     },
     {
       field: 'AadharNumber',
       headerName: 'AadharNumber',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'AadharNumber'
+
     },
     {
       field: 'DateofBirth',
       headerName: 'DateofBirth',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'DateofBirth'
+
     },
     {
       field: 'Education',
       headerName: 'Education',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Education'
+
     },
     {
       field: 'IsActive',
@@ -83,6 +97,7 @@ export class AddStudentComponent implements OnInit {
         buttons: ['reset', 'apply'],
       },
       minWidth: 150,
+      headerTooltip:'Student Status',
       valueFormatter: params => {
         return params.value ? 'Active' : 'Inactive';
       }
@@ -92,28 +107,36 @@ export class AddStudentComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Added By'
+
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Added Time'
+
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Updated By'
+
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Updated Time'
+
     }, 
     
   ];
@@ -143,15 +166,7 @@ export class AddStudentComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
 
-  ActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewStudent',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
+
   onAddStudent(student?: any) {
 
     let navigationExtras: NavigationExtras = {};

@@ -51,7 +51,7 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
                 var dbparams = new DynamicParameters();
                 dbparams.Add("@BirthId", BirthId);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                var result = dbConnection.Query<BirthdayDetailsModel?>("PROC_EditBirthdayDetails", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var result = dbConnection.Query<BirthdayDetailsModel?>("PROC_BirthdayDetailsList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(new Tuple<BirthdayDetailsModel?, ResponseCode>(result, responseCode));
             }

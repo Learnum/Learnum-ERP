@@ -20,11 +20,11 @@ export class IpAddressComponent {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'View IPAddress',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip:'Edit IPAddress'
     },
   ];
   
@@ -32,13 +32,13 @@ export class IpAddressComponent {
 
     {
       field: 'LocationId',
-      headerName: 'Sr.No',
+      headerName: 'SR.No',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
-
+      minWidth: 150,
+      headerTooltip: 'Sr.No'
     },
     {
       field: 'Location',
@@ -47,17 +47,19 @@ export class IpAddressComponent {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+       headerTooltip: 'Location'
 
     },
     {
       field: 'LocationIP',
-      headerName: 'LocationIP',
+      headerName: 'Location IP',
       filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+       headerTooltip: 'Location IP'
 
     },
     {
@@ -68,6 +70,7 @@ export class IpAddressComponent {
         buttons: ['reset', 'apply'],
       },
       minWidth: 150,
+       headerTooltip: 'Status',
       valueFormatter: params => {
         return params.value ? 'Active' : 'Inactive';
       }
@@ -77,28 +80,32 @@ export class IpAddressComponent {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added By',
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added Time',
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Status',
     },
     {
       field: 'updatedTime',
-      headerName: 'updated Time',
+      headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated Time',
     }, 
     
   ];
@@ -153,25 +160,5 @@ export class IpAddressComponent {
       let ipaddresList = result.Value;
     })
   }
-  editLocation(LocationData: any) {
-    const locationId = LocationData.locationId;
-    const index = this.ipaddresList.findIndex(location => location.locationId === locationId);
-    if (index !== -1) {
-      this.openEditForm(LocationData).then((editedlocationData: any) => {
-        this.ipaddresList[index] = editedlocationData;
-        console.log('Edited Location:', editedlocationData);
-
-      });
-    }
-  }
-  openEditForm(LocationData: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const editedlocationData = { ...LocationData };
-
-        editedlocationData.Status = 'Edited';
-        resolve(editedlocationData);
-      }, 1000);
-    });
-  }
+ 
 }

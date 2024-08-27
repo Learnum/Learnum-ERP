@@ -56,7 +56,6 @@ export class AddTrainerComponent implements OnInit {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
-        // key: 'ITDPreEmploymentSalModel',
         fieldGroup: [
           {
             key: 'TrainerId'
@@ -87,17 +86,17 @@ export class AddTrainerComponent implements OnInit {
             key: 'CourseId',
             templateOptions: {
               label: "Course Name",
-            //  placeholder: 'Select Course',  // Placeholder for the dropdown
+            //  placeholder: 'Select Course',  
               required: true,
               options: [
                 { value: null, label: 'Select Course', disabled: true },  // Disabled placeholder option
                 ...this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
               ]
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null,  
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
                 message: 'Course selection is required',
               },
             },
@@ -114,20 +113,20 @@ export class AddTrainerComponent implements OnInit {
             key: 'SubjectId',
             templateOptions: {
               label: "Subject Name",
-              //placeholder: 'Select Subject',  // Placeholder for the dropdown
+              //placeholder: 'Select Subject',  
               required: true,
               options: [
-                { value: null, label: 'Select Subject', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Subject', disabled: true },  
                 ...this.subjectDetails ? this.subjectDetails.map(subject => ({
                   label: subject.SubjectName,
                   value: subject.SubjectId
                 })) : [],
               ]
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null,  
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
                 message: 'Subject selection is required',
               },
             },
@@ -143,17 +142,17 @@ export class AddTrainerComponent implements OnInit {
             key: 'BranchId',
             templateOptions: {
               label: "Branch Name",
-             // placeholder: 'Select Branch Name',  // Placeholder for the dropdown
+             // placeholder: 'Select Branch Name',  
               required: true,
               options: [
-                { value: null, label: 'Select Branch Name', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Branch Name', disabled: true }, 
                 ...this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
               ]
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null, 
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
                 message: 'Branch Name is required',
               },
             },
@@ -170,20 +169,20 @@ export class AddTrainerComponent implements OnInit {
             key: 'BatchId',
             templateOptions: {
               label: "Batch Name",
-              //placeholder: 'Select Batch',  // Placeholder for the dropdown
+              //placeholder: 'Select Batch',  
               required: true,
               options: [
-                { value: null, label: 'Select Batch', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Batch', disabled: true },  
                 ...this.batchDetails ? this.batchDetails.map(batch => ({
                   label: batch.BatchName,
                   value: batch.BatchId
                 })) : [],
               ]
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null, 
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
                 message: 'Batch selection is required',
               },
             },
@@ -204,12 +203,12 @@ export class AddTrainerComponent implements OnInit {
               //placeholder: 'Select Trainer Status',
               required: true,
               options: [
-                { value: null, label: 'Select Trainer Status', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Trainer Status', disabled: true },  
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
               ],
             },
-            defaultValue: null,  // Set default value to 'Active'
+            defaultValue: null,  
             validation: {
               messages: {
                 required: 'Please select a Trainer status',

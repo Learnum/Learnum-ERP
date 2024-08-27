@@ -17,30 +17,24 @@ export class PracticalProblemExamsComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'View',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip:'Edit'
     },
   ];
 
   declaredTableColumns: TableColumn[] = [
-    // {
-    //   field: 'schedulePracticalExamId',
-    //   headerName: 'ID',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: {
-    //     buttons: ['reset', 'apply'],
-    //   },
-    //   minWidth: 80
-    // },
+  
     {
       field: 'BatchName',
       headerName: 'Batch Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Batch Name'
+
     },
     {
       field: 'SubjectName',
@@ -49,15 +43,18 @@ export class PracticalProblemExamsComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Subject Name'
 
     },
     {
       field: 'BranchName',
-      headerName: 'branch Name',
+      headerName: 'Branch Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Branch Name'
+
     },
     {
       field: 'CourseName',
@@ -66,22 +63,18 @@ export class PracticalProblemExamsComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
-
-    },
-    // {
-    //   field: 'TopicName',
-    //   headerName: 'Topic Name',
-    //   filter: 'agDateColumnFilter',
-    //   filterParams: { buttons: ['reset', 'apply'] },
-    //   minWidth: 150
-    // },
+      minWidth: 150,
+      headerTooltip:'Course Name'
+},
+    
     {
       field: 'PracticalProblemStatus',
-      headerName: 'PracticalProblemStatus',
+      headerName: 'Practical Problem Status',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Practical Problem Status'
+
     },
     
   ];
@@ -139,33 +132,7 @@ export class PracticalProblemExamsComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
 
-  editPractical(PracticalData: any) {
-    const schedulePracticalExamId = PracticalData.schedulePracticalExamId;
-    const index = this.PracticalProblemList.findIndex(practical => practical.schedulePracticalExamId === schedulePracticalExamId);
-
-    if (index !== -1) {
-
-
-      this.openEditForm(PracticalData).then((editedPracticalData: any) => {
-
-        this.PracticalProblemList[index] = editedPracticalData;
-        console.log('Edited Practical:', editedPracticalData);
-
-      });
-    }
-  }
-  openEditForm(practicalData: any): Promise<any> {
-
-    return new Promise((resolve, reject) => {
-
-      setTimeout(() => {
-        const editedPracticalData = { ...practicalData };
-
-        editedPracticalData.Status = 'Edited';
-        resolve(editedPracticalData);
-      }, 1000);
-    });
-  }
+  
 }
 
 

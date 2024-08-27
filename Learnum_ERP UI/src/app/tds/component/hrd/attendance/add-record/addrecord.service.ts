@@ -22,15 +22,14 @@ export class AddrecordService extends BaseService {
   }
 
   insertrecordsData(AttendenceSheetDetails: AttendenceSheetDetailsModel) {
-    return this.apiService.postBlob(this.urlInsertAttendenceDetails,AttendenceSheetDetails);
+    return this.apiService.postBlob(this.urlInsertAttendenceDetails, AttendenceSheetDetails);
   }
-  getAttendanceDetails()
-  {
+  getAttendanceDetails() {
     return this.apiService.getData(this.urlgetAttendenceDetails);
 
   }
 
   getAttendenceDetails(AttendenceId: number) {
-    return this.apiService.getData(this.urlGetAttendance+ '/' + AttendenceId);
+    return this.apiService.getData(this.urlGetAttendance + '/' + AttendenceId);
   }
 }

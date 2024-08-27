@@ -53,7 +53,7 @@ namespace Learnum.ERP.Repository.Master.HRD_repo
                 var dbparams = new DynamicParameters();
                 dbparams.Add("@WorkId", WorkId);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                var result = dbConnection.Query<WorksheetDetailsModel?>("PROC_EditDailyWork", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var result = dbConnection.Query<WorksheetDetailsModel?>("PROC_DailyWorkDetailsList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(new Tuple<WorksheetDetailsModel?, ResponseCode>(result, responseCode));
             }

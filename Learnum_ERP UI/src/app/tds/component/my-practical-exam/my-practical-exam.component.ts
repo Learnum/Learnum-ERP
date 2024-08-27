@@ -19,11 +19,11 @@ export class MyPracticalExamComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'View',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip:'Edit '
     },
   ];
 
@@ -33,14 +33,16 @@ export class MyPracticalExamComponent implements OnInit {
       headerName: 'Student ID',
       filter: 'agTextColumnFilter',
       filterParams: {buttons: ['reset', 'apply'],},
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Student ID',
     },
     {
       field: 'Answer',
       headerName: 'Student Answer',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Student Answer',
     },
     // {
     //   field: 'IsActive',
@@ -57,28 +59,32 @@ export class MyPracticalExamComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Added By'
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Added Time'
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Updated By'
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Updated Time'
     }, 
   ];
 
@@ -138,32 +144,6 @@ export class MyPracticalExamComponent implements OnInit {
       let  PracticalReturnList = result.Value;
     })
   }
-  editPracticalAnswer(AnswerData: any) {
-    const studentId = AnswerData.questionId;
-    const index = this.PracticalReturnList.findIndex(answer => answer.studentId === studentId);
-
-    if (index !== -1) {
-
-
-      this.openEditForm(AnswerData).then((editedPracticalAnswerData: any) => {
-
-        this.PracticalReturnList[index] = editedPracticalAnswerData;
-        console.log('Edited PracticalAnswer:', editedPracticalAnswerData);
-
-      });
-    }
-  }
-  openEditForm(PracticalAnswerData: any): Promise<any> {
-
-    return new Promise((resolve, reject) => {
-
-      setTimeout(() => {
-        const editedPracticalAnswerData = { ...PracticalAnswerData };
-
-        editedPracticalAnswerData.Status = 'Edited';
-        resolve(editedPracticalAnswerData);
-      }, 1000);
-    });
-  }
+ 
 
 }

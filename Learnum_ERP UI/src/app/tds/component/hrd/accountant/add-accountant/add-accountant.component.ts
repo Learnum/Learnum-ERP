@@ -19,15 +19,15 @@ export class AddAccountantComponent implements OnInit {
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  
+
   GetEmployeeList: any;
   coOwners: any;
   NowDate: any = new Date();
-  BranchAccountantDetails : BranchAccountantDetailsModel = new BranchAccountantDetailsModel();
-   onReset: any;
-   accountantDetails:any;
-   branchDetails: any;
- 
+  BranchAccountantDetails: BranchAccountantDetailsModel = new BranchAccountantDetailsModel();
+
+  accountantDetails: any;
+  branchDetails: any;
+
   constructor(
     private router: Router,
     private alertService: AlertService,
@@ -46,9 +46,9 @@ export class AddAccountantComponent implements OnInit {
       this.getBranchAccountantDetails(this.editData.BranchAccountantId);
     }
   }
- 
 
-setParameter() {
+
+  setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
@@ -78,58 +78,58 @@ setParameter() {
                 pattern: 'Please enter a valid name ',
               },
             },
-            },
-            {
-              className: 'col-md-3',
-              type: 'select',
-              key: 'BranchId',
-              templateOptions: {
-                label: "Branch Name",
+          },
+          {
+            className: 'col-md-3',
+            type: 'select',
+            key: 'BranchId',
+            templateOptions: {
+              label: "Branch Name",
               //  placeholder: 'Select Branch',  // Placeholder for the dropdown
-                required: true,
-                options: [
-                  { value: null, label: 'Select Branch', disabled: true },  // Disabled placeholder option
-                  ...this.branchDetails ? this.branchDetails.map(branch => ({
-                    label: branch.BranchName,
-                    value: branch.BranchId
-                  })) : [],
-                ]
-              },
-              defaultValue: null,  // Optional: set a default value if needed
-              validators: {
-                required: {
-                  expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
-                  message: 'Branch selection is required',
-                },
-              },
-              validation: {
-                messages: {
-                  required: 'Branch selection is required',
-                },
+              required: true,
+              options: [
+                { value: null, label: 'Select Branch', disabled: true },  // Disabled placeholder option
+                ...this.branchDetails ? this.branchDetails.map(branch => ({
+                  label: branch.BranchName,
+                  value: branch.BranchId
+                })) : [],
+              ]
+            },
+            defaultValue: null,  // Optional: set a default value if needed
+            validators: {
+              required: {
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                message: 'Branch selection is required',
               },
             },
-            
-            {
-              className: 'col-md-3',
-              type: 'select',
-              key: 'IsActive',
-              templateOptions: {
-                label: 'Accountant Status',
-                //placeholder: 'Select Accountant Status',
-                required: true,
-                options: [
-                  { value: null, label: 'Select Accountant Status', disabled: true },  // Disabled placeholder option
-                  { value: true, label: 'Active' },
-                  { value: false, label: 'Inactive' }
-                ],
-              },
-              defaultValue: null,  // Set default value to 'Active'
-              validation: {
-                messages: {
-                  required: 'Please select a Accountant status',
-                },
+            validation: {
+              messages: {
+                required: 'Branch selection is required',
               },
             },
+          },
+
+          {
+            className: 'col-md-3',
+            type: 'select',
+            key: 'IsActive',
+            templateOptions: {
+              label: 'Accountant Status',
+              //placeholder: 'Select Accountant Status',
+              required: true,
+              options: [
+                { value: null, label: 'Select Accountant Status', disabled: true },  // Disabled placeholder option
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
+              ],
+            },
+            defaultValue: null,  // Set default value to 'Active'
+            validation: {
+              messages: {
+                required: 'Please select a Accountant status',
+              },
+            },
+          },
         ],
       },
     ]
@@ -139,15 +139,17 @@ setParameter() {
     this.router.navigateByUrl('tds/hrd/accountant');
   }
 
-  navigate()
-  {
+  navigate() {
     this.router.navigateByUrl('tds/hrd/accountant');
   }
-  
 
-  get f()
-  {
+
+  get f() {
     return this.form.controls;
+  }
+
+  onReset() {
+    this.form.reset();
   }
 
   onSubmit(): void {
@@ -190,23 +192,21 @@ setParameter() {
     )
   }
 
-
-
   getBranchDetails() {
     this.addaccountantService.getBranchList().subscribe(
       (data: any) => {
         this.branchDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
       }
     );
   }
-   
+
   getBranchAccountantDetails(BranchAccountantId: number) {
     this.addaccountantService.getBranchAccountantDetails(BranchAccountantId).subscribe(
-      (result: any) => {    
+      (result: any) => {
         if (result && result.Value) {
           this.BranchAccountantDetails = result.Value.Item1;
 

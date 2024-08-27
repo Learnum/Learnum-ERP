@@ -35,7 +35,6 @@ export class AddWorksheetComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-    
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.WorkId) {
       this.getWorksheetDetails(this.editData.WorkId);
@@ -100,7 +99,7 @@ setParameter() {
               type: 'date',
               required: true,
               attributes: {
-                min: formatDate(new Date(), 'yyyy-MM-dd', 'en-IN'), // Sets today's date as the minimum
+                min: formatDate(new Date(), 'yyyy-MM-dd', 'en-IN'), 
               },
             },
             validation: {
@@ -118,15 +117,15 @@ setParameter() {
               
               required: true,
               options: [
-                { value: null, label: 'Select Role', disabled: true, className: 'placeholder-option'}, // Placeholder option
+                { value: null, label: 'Select Role', disabled: true, className: 'placeholder-option'},
                 { value:'Developer', label: 'Developer' },
                 { value: 'Manager', label: 'Manager' }
               ],
             },
-            defaultValue: null,  // Optionally set a default value if needed
+            defaultValue: null, 
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure that a valid value is selected
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
                 message: 'Role is required',
               },
             },
@@ -185,7 +184,6 @@ setParameter() {
   }
 
   insertAddWorksheet() {
-   // Assuming worksheetDetails is a property in your component that holds the worksheet data
     this.worksheetDetails.addedBy = 1;
     this.worksheetDetails.addedDate = new Date();
     this.worksheetDetails.updatedBy = 1;

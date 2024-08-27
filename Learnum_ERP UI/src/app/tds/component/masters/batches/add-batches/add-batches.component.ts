@@ -41,7 +41,7 @@ export class AddBatchesComponent implements OnInit {
 
   installmentModel: { Installments: InstallMentDetailsModel[] } = {
     Installments: [],
-    
+
   };
   installmentOptions: FormlyFormOptions = {};
   installmentFields: FormlyFieldConfig[];
@@ -127,14 +127,14 @@ export class AddBatchesComponent implements OnInit {
               },
             },
           },
-          
+
           {
             className: 'col-md-3',
             type: 'select',
             key: 'ClassroomId',
             templateOptions: {
               label: "Classroom Name",
-             // placeholder: 'Select Classroom',  // Placeholder for the dropdown
+              // placeholder: 'Select Classroom',  // Placeholder for the dropdown
               required: true,
               options: [
                 { value: null, label: 'Select Classroom', disabled: true },  // Disabled placeholder option
@@ -157,7 +157,7 @@ export class AddBatchesComponent implements OnInit {
               },
             },
           },
-          
+
           {
             className: 'col-md-3',
             type: 'select',
@@ -191,22 +191,15 @@ export class AddBatchesComponent implements OnInit {
             key: 'CourseFeesInstallment',
             templateOptions: {
               placeholder: '₹',
-              required: true,
+              // required: true,
               label: "Course Fees in Installment",
               pattern: '^[0-9]+(\\.[0-9]{1,2})?$',
-              inputMode: 'numeric', 
-              min: 0, 
+              inputMode: 'numeric',
+              min: 0,
               step: 0.01,
-              readonly: true, // Make the field non-editable
-            },
-            validation: {
-              messages: {
-                required: 'Please enter the course fees',
-                pattern: 'Please enter a valid amount',
-              },
+              readonly: true,
             },
           },
-      ,
           {
             className: 'col-md-3',
             type: 'input',
@@ -216,18 +209,25 @@ export class AddBatchesComponent implements OnInit {
               required: true,
               type: 'text',
               label: 'One Time Course Fees',
-              pattern: '^[0-9]+(\\.[0-9]{1,2})?$', 
-              inputMode: 'numeric', 
-              min: 0, 
+              pattern: '^[0-9]*\\.?[0-9]{0,2}$', // Ensures only numbers with an optional decimal point and up to two decimal places are accepted
+              inputMode: 'decimal',
+              min: 0,
               step: 0.01,
             },
-            validation: {
-              messages: {
-                required: 'Please enter the  One Time course fees',
-                pattern: 'Please enter a valid amount',
-              },
-            },
-          },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  // Remove any non-numeric and non-decimal characters, including symbols
+                  const sanitizedValue = value.replace(/[^0-9.]/g, '');
+                  if (sanitizedValue !== value) {
+                    field.formControl.setValue(sanitizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            }
+          }
+
+          ,
           {
             className: 'col-md-3',
             type: 'input',
@@ -314,7 +314,7 @@ export class AddBatchesComponent implements OnInit {
                   min: formatDate(new Date(), 'yyyy-MM-dd', 'en-IN'), // Sets today's date as the minimum
                 },
               },
-             
+
             },
             {
               key: 'InstallmentAmount',
@@ -345,8 +345,7 @@ export class AddBatchesComponent implements OnInit {
     this.router.navigateByUrl('tds/masters/batches');
   }
 
-  navigate()
-  {
+  navigate() {
     this.router.navigateByUrl('tds/masters/batches');
 
   }
@@ -357,7 +356,7 @@ export class AddBatchesComponent implements OnInit {
   get f() {
     return this.form.controls;
   }
-  
+
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
@@ -446,11 +445,11 @@ export class AddBatchesComponent implements OnInit {
           this.installmentModel.Installments = result.Value.Item1.InstallmentDetails;
           this.batchDetails = result.Value.Item1.BatchDetails;
 
-        
+
           this.batchDetails.StartOn = this.baseservice.formatDate(this.batchDetails.StartOn);
           this.batchDetails.EndOn = this.baseservice.formatDate(this.batchDetails.EndOn);
 
-          this.installmentModel.Installments.forEach( item => {
+          this.installmentModel.Installments.forEach(item => {
             item.DueDate = this.baseservice.formatDate(item.DueDate);
           })
 

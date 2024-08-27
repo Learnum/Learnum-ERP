@@ -19,11 +19,11 @@ export class BranchManagerComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'View Branch Manager',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip:'Edit Branch Manager'
     },
   ]; 
 
@@ -35,7 +35,8 @@ export class BranchManagerComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      minWidth: 200,
+      headerTooltip: 'Branch Manager Name',
     },
     {
       field: 'BranchName',
@@ -44,8 +45,8 @@ export class BranchManagerComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
-
+      minWidth: 200,
+      headerTooltip: 'Branch Name',
     },
     {
       field: 'IsActive',
@@ -55,6 +56,7 @@ export class BranchManagerComponent implements OnInit {
         buttons: ['reset', 'apply'],
       },
       minWidth: 200,
+      headerTooltip: 'Status',
       valueFormatter: params => {
         return params.value ? 'Active' : 'Inactive';
       }
@@ -64,37 +66,35 @@ export class BranchManagerComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added By',
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added Time',
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated By',
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated Time',
     }, 
     
   ];
-
-  
-
-  getEmployeeList: any;
-
-
 
   ngOnInit(): void {
     this.GetBranchManagerList();
@@ -105,72 +105,32 @@ export class BranchManagerComponent implements OnInit {
     private messageService: MessageService,
     private alertService: AlertService,
     private addbranchManagerService: AddbranchManagerService,
-
-    
     private formBuilder: FormBuilder) {
-    {
-     
-    }
-  }
-  selectBranchManager(branch: any) {
+    {}}
 
-  }
+  selectBranchManager(branch: any) {  }
 
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
       'BranchManagerId': data.row.BranchManagerId
-
     }
     this.router.navigate(['tds/hrd/branch-manager/add-branch'], { queryParams: data1 });
   }
-
-
-
-  onAddBranchManager() {
-
-   
+   onAddBranchManager() {
     this.router.navigateByUrl('tds/hrd/branch-manager/add-branch');
-  }
+   }
 
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
 
-
   GetBranchManagerList() {
     this.addbranchManagerService.getBranchManagerList().subscribe(
       (result: any) => {
         this.BranchManagerList = result.Value;
-        let BranchManagerList= result.Value;
-      },
-
-    );
-
-  }
-
-  editBranchManager(BranchManagerData: any) {
-    const BranchManagerId = BranchManagerData.BranchManagerId;
-    const index = this.BranchManagerList.findIndex(BranchManager => BranchManager.BranchManagerId === BranchManagerId);
-
-    if (index !== -1) {
-      this.openEditForm(BranchManagerData).then((editedBranchManagerData: any) => {
-        this.BranchManagerList[index] = editedBranchManagerData;
-        console.log('Edited Branch Manager:', editedBranchManagerData);
-      });
-    }
-  }
-
-  openEditForm(BranchManagerData: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const editedBranchManagerData = { ...BranchManagerData };
-        editedBranchManagerData.Status = 'Edited';
-        resolve(editedBranchManagerData);
-      }, 1000);
-    });
-  }
-
+        },
+       );}
 }
  

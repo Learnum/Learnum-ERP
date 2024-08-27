@@ -36,18 +36,14 @@ export class AddBirthdayComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
-
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.BirthId) {
       this.getBirthdayDetails(this.editData.BirthId);
     }
     }
-  
 
 
-
-
-setParameter() {
+  setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
@@ -95,15 +91,12 @@ setParameter() {
              
             },
           },
-
-          
-          
           {
             className: 'col-md-4',
             type: 'input',
             key: 'Date',
             templateOptions: {
-              label: 'Date',
+              label: 'Date of Birth',
               placeholder: 'Date',
               type: 'date',
               required: true,
@@ -132,8 +125,7 @@ setParameter() {
                 required: 'Role is required',
               },
             },
-          }
-          ,
+          },
          
           {
             className: 'col-md-4',
@@ -144,12 +136,12 @@ setParameter() {
               //placeholder: 'Select Status',
               required: true,
               options: [
-                { value: null, label: 'Select Status', disabled: true },  // Disabled placeholder option
+                { value: null, label: 'Select Status', disabled: true },  
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
               ],
             },
-            defaultValue: null,  // Set default value to 'Active'
+            defaultValue: null,  
             validation: {
               messages: {
                 required: 'Please select a  status',

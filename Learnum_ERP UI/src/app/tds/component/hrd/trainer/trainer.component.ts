@@ -15,7 +15,7 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
 })
 export class TrainerComponent implements OnInit {
   selectedItems: any;
-  
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -23,14 +23,14 @@ export class TrainerComponent implements OnInit {
     private alertService: AlertService,
     private addtrainerService: AddtrainerService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
 
   ngOnInit(): void {
     this.getAllTrainerDetails();
   }
 
-  
+
 
   declaredActionColumns: ActionColumn[] = [
     {
@@ -39,21 +39,13 @@ export class TrainerComponent implements OnInit {
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip: 'Edit Trainer'
     },
   ];
 
   trainerList: any[] = [];
   declaredTableColumns: TableColumn[] = [
-    // {
-    //   field: 'TrainerId',
-    //   headerName: 'SR.NO',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: {
-    //     buttons: ['reset', 'apply'],
-    //   },
-    //   minWidth: 100
-    // },
+
     {
       field: 'TrainerName',
       headerName: 'Trainer name',
@@ -61,7 +53,8 @@ export class TrainerComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      minWidth: 200,
+      headerTooltip: 'Trainer name'
     },
     {
       field: 'BranchName',
@@ -70,9 +63,10 @@ export class TrainerComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Branch name'
     },
-    
+
     {
       field: 'CourseName',
       headerName: ' Course Name',
@@ -80,7 +74,8 @@ export class TrainerComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      minWidth: 200,
+      headerTooltip: 'Course name'
     },
     {
       field: 'IsActive',
@@ -90,6 +85,7 @@ export class TrainerComponent implements OnInit {
         buttons: ['reset', 'apply'],
       },
       minWidth: 150,
+      headerTooltip: 'Trainer Status',
       valueFormatter: params => {
         return params.value ? 'Active' : 'Inactive';
       }
@@ -99,35 +95,40 @@ export class TrainerComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Added By'
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Trainer name'
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Updated By'
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    }, 
-    
+      minWidth: 150,
+      headerTooltip: 'Updated Time'
+    },
+
   ];
 
   selectTrainer(trainer: any) {
     this.selectedItems = trainer;
-    console.log('Selected rows:', this.selectedItems);}
+    console.log('Selected rows:', this.selectedItems);
+  }
 
   onRowAction(data: any) {
     let data1 = {
@@ -148,28 +149,6 @@ export class TrainerComponent implements OnInit {
   getAllTrainerDetails() {
     this.addtrainerService.getTrainerList().subscribe((result: any) => {
       this.trainerList = result.Value;
-    });
-  }
-
-  editTrainer(trainerData: any) {
-    const trainerId = trainerData.trainerId;
-    const index = this.trainerList.findIndex(trainer => trainer.trainerId === trainerId);
-
-    if (index !== -1) {
-      this.openEditForm(trainerData).then((editedTrainerData: any) => {
-        this.trainerList[index] = editedTrainerData;
-        console.log('Edited Trainer:', editedTrainerData);
-      });
-    }
-  }
-
-  openEditForm(trainerData: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const editedTrainerData = { ...trainerData };
-        editedTrainerData.Status = 'Edited';
-        resolve(editedTrainerData);
-      }, 1000);
     });
   }
 }

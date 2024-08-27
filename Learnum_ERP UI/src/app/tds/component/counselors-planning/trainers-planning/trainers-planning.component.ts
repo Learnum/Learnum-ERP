@@ -35,7 +35,8 @@ export class TrainersPlanningComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 100
+      minWidth: 100,
+      headerTooltip:'SR.NO'
     },
     
     {
@@ -45,7 +46,8 @@ export class TrainersPlanningComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Branch Name'
     },
     {
       field: 'TrainerName',
@@ -54,7 +56,8 @@ export class TrainersPlanningComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      minWidth: 200,
+      headerTooltip:'Trainer name'
     },
     {
       field: 'CourseName',
@@ -63,7 +66,8 @@ export class TrainersPlanningComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      minWidth: 200,
+      headerTooltip:'Course Name'
     },
     {
       field: 'IsActive',
@@ -73,6 +77,7 @@ export class TrainersPlanningComponent implements OnInit {
         buttons: ['reset', 'apply'],
       },
       minWidth: 150,
+      headerTooltip:'Trainer Status',
       valueFormatter: params => {
         return params.value ? 'Active' : 'Inactive';
       }
@@ -82,28 +87,32 @@ export class TrainersPlanningComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Added By',
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Updated Time',
     },
     {
       field: 'updatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Updated Time',
     },
     {
       field: 'updatedTime',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Updated Time',
     }
     
   ];
@@ -127,7 +136,6 @@ export class TrainersPlanningComponent implements OnInit {
   }
 
   selectTrainer(trainer: any) {
-    // Implement this method based on your requirements
   }
 
   onRowAction(data: any) {
@@ -152,25 +160,5 @@ export class TrainersPlanningComponent implements OnInit {
     });
   }
 
-  editTrainer(trainerData: any) {
-    const trainerId = trainerData.trainerId;
-    const index = this.trainerList.findIndex(trainer => trainer.trainerId === trainerId);
-
-    if (index !== -1) {
-      this.openEditForm(trainerData).then((editedTrainerData: any) => {
-        this.trainerList[index] = editedTrainerData;
-        console.log('Edited Trainer:', editedTrainerData);
-      });
-    }
-  }
-
-  openEditForm(trainerData: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const editedTrainerData = { ...trainerData };
-        editedTrainerData.Status = 'Edited';
-        resolve(editedTrainerData);
-      }, 1000);
-    });
-  }
+ 
 }
