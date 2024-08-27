@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddcollegesService } from './add-collegs/addcolleges.service';
 @Component({
   selector: 'app-colleges',
   templateUrl: './colleges.component.html',
@@ -11,7 +12,7 @@ import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-g
 })
 export class CollegesComponent implements OnInit {
 
-  collegeList: any[] = [];
+  collegeList:any[] = [];
 
   declaredActionColumns: ActionColumn[] = [
     {
@@ -48,13 +49,13 @@ export class CollegesComponent implements OnInit {
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
-    {
-      field: 'ContactDetails',
-      headerName: 'Contact Details',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
+    // {
+    //   field: 'ContactDetails',
+    //   headerName: 'Contact Details',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: { buttons: ['reset', 'apply'] },
+    //   minWidth: 150
+    // },
     {
       field: 'addedBy',
       headerName: 'Added By',
@@ -93,23 +94,13 @@ export class CollegesComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
+    private addcollegesService: AddcollegesService,
   ) { }
 
   ngOnInit(): void {
-    this.getCollegeList();
+   this.getAllBusinessDetails();
   }
 
-  getCollegeList() {
-    // this.collegesService.getCollegeList().subscribe(
-    //   (result: any) => {
-    //     this.collegeList = result.Value;
-    //   },
-    //   (error: any) => {
-    //     console.error("Error occurred while fetching colleges:", error);
-    //     this.alertService.ShowErrorMessage("An error occurred while fetching colleges. Please try again later.");
-    //   }
-    // );
-  }
 
   onAddBusinessLead() {
     this.router.navigate(['tds/counsellor-dashboard/colleges/add-collegs']);
@@ -129,5 +120,12 @@ export class CollegesComponent implements OnInit {
 
   selectCollege(colleges: any) {
     // Handle row selection logic
+  }
+
+  getAllBusinessDetails() {
+    this.addcollegesService.AddCollegesList().subscribe((result: any) => {
+      this.collegeList = result.Value;
+      let collegeList = result.Value;
+    })
   }
 }

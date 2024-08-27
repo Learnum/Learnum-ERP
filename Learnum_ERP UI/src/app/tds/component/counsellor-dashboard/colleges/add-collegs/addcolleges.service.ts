@@ -9,6 +9,8 @@ export class AddcollegesService {
 
   
   private urlInsertCollegesDetails: string = "AddColleges/InsertCollegesDetails";
+  private urlgetAddColleges: string = "AddColleges/getAllCollegeList";
+
   private urlgetJobRoleList: string = "ApplicationMaster/GetAllJobrole";
   private urlgetCollegeList: string = "ApplicationMaster/GetAllColleges";
   private getAllStatesURL: string = "ApplicationMaster/GetAllStates";
@@ -31,5 +33,8 @@ export class AddcollegesService {
   }
   getBranchList() {
     return this.apiService.getData(this.urlgetBranchList);
+  }
+  AddCollegesList() {
+    return this.apiService.getData(this.urlgetAddColleges);
   }
 }

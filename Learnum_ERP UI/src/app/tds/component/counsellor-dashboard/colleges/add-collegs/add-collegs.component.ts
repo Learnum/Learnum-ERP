@@ -36,7 +36,7 @@ export class AddCollegsComponent implements OnInit {
   StateList: any;
   branchDetails: any;
   contact: { [key: string]: AbstractControl; };
-  
+
   constructor(
     private router: Router,
     private alertService: AlertService,
@@ -48,7 +48,7 @@ export class AddCollegsComponent implements OnInit {
   ) {
     this.createContactForm();
   }
-  @ViewChild('contactModal', { static: false }) contactModal: ElementRef;
+
 
 
   ngOnInit(): void {
@@ -75,22 +75,26 @@ export class AddCollegsComponent implements OnInit {
               type: 'text',
               label: 'College Name',
               required: true,
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+            },
+            validation: {
+              messages: {
+                required: 'College Name is required',
+                pattern: 'Please enter a valid College name ',
+              },
             },
             hooks: {
               onInit: (field) => {
                 field.formControl.valueChanges.subscribe(value => {
+                  // Remove any numbers from the input
                   const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  // Capitalize the first letter of each word
                   const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
                   if (value !== capitalizedValue) {
                     field.formControl.setValue(capitalizedValue, { emitEvent: false });
                   }
                 });
               }
-            },
-            validation: {
-              messages: {
-                required: 'College Name is required',
-              },
             },
           },
           {
@@ -101,21 +105,25 @@ export class AddCollegsComponent implements OnInit {
               label: 'College Address',
               placeholder: 'Address Line 1',
               required: true,
+              type: 'text',
             },
             hooks: {
               onInit: (field) => {
-                const formControl = field.formControl;
-                formControl.valueChanges.subscribe(value => {
-                  const formattedValue = value.replace(/\b\w/g, char => char.toUpperCase());
-                  if (formattedValue !== value) {
-                    formControl.setValue(formattedValue, { emitEvent: false });
+                field.formControl.valueChanges.subscribe(value => {
+                  if (value) {
+                    // Capitalize the first letter of each word
+                    const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
+                    if (capitalizedValue !== value) {
+                      field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                    }
                   }
                 });
-              }
+              },
             },
             validation: {
               messages: {
-                required: 'College Address is required',
+                required: 'Address is required',
+                pattern: 'Please Enter a valid Address',
               },
             },
           },
@@ -301,11 +309,12 @@ export class AddCollegsComponent implements OnInit {
               label: 'Branch Name 1',
               placeholder: 'Branch Name 1',
               required: true,
-              pattern: '^[a-zA-Z0-9]+$', // Allows only letters and numbers, no spaces
+              pattern: '^[a-zA-Z0-9]+$',
             },
             validation: {
               messages: {
                 required: 'Branch Name1 is required',
+                pattern: 'Enter Branch Name 1 '
               },
             },
           },
@@ -317,6 +326,7 @@ export class AddCollegsComponent implements OnInit {
               label: 'About College',
               placeholder: 'About College',
               required: true,
+              pattern: "^[A-Za-z0-9\s,.'-]*$",
               attributes: {
                 style: 'overflow:hidden; resize:none;',
                 oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
@@ -325,141 +335,27 @@ export class AddCollegsComponent implements OnInit {
             validation: {
               messages: {
                 required: 'About College is required',
+                pattern: 'Enter About College'
               },
             },
           },
         ],
       },
     ];
-
-    this.contactFields = [{
-      fieldGroupClassName: 'row card-body p-2',
-      fieldGroup: [
-        {
-          key: 'Name',
-          className: 'col-4',
-          // type: 'input',
-          templateOptions: {
-            placeholder: 'Enter Name',
-            type: 'text',
-            required: true,
-          }
-        },
-        {
-          className: 'col-md-3',
-          key: 'PhoneNumber',
-          type: 'input',
-          templateOptions: {
-            label: 'Phone Number',
-            placeholder: 'Enter Phone Number',
-            required: true,
-            // maxLength: 10,
-            // minLength: 10,
-          },
-          // hooks: {
-          //   onInit: (field) => {
-          //     field.formControl.valueChanges.subscribe(value => {
-          //       const sanitizedValue = value.replace(/[^0-9]/g, '');
-          //       if (sanitizedValue !== value) {
-          //         field.formControl.setValue(sanitizedValue, { emitEvent: false });
-          //       }
-          //     });
-          //   },
-          // },
-          // validators: {
-          //   phoneNumber: {
-          //     expression: (c: AbstractControl) => {
-          //       const value = c.value;
-          //       // Ensure the value is exactly 10 digits long
-          //       return value && /^[0-9]{10}$/.test(value);
-          //     },
-          //     message: (error: any, field: FormlyFieldConfig) => {
-          //       return `"${field.formControl.value}" is not a valid 10-digit phone number`;
-          //     },
-          //   },
-          // },
-          // validation: {
-          //   messages: {
-          //     required: 'Phone Number is required',
-          //     phoneNumber: 'The phone number must contain only numbers and be exactly 10 digits long',
-          //   },
-          // },
-        }, 
-        {
-          key: 'Email',
-          className: 'col-4',
-        //  type: 'input',
-          templateOptions: {
-           placeholder: 'Enter Email',
-          // type: 'text',
-           required: true,
-          }
-        },
-        {
-          key: 'RoleId',
-          className: 'col-4',
-         // type: 'select',
-          templateOptions: {
-          placeholder: 'Enter Email',
-          //type: 'text',
-          required: true,
-          }
-        },
-      ]
-    }];
-
-    this.departmentFields = [{
-      fieldGroupClassName: 'row card-body p-2',
-      fieldGroup: [
-        {
-          key: 'Name',
-          className: 'col-4',
-          //type: 'input',
-          templateOptions: {
-            placeholder: 'Enter Name',
-            type: 'text',
-            required: true,
-          }
-        },
-        {
-          key: 'CollegeRoleId',
-          className: 'col-4',
-          //type: 'select',
-          templateOptions: {
-            placeholder: 'Select College',
-            type: 'text',
-            required: true,
-          }
-        },
-      ]
-    }]
   }
 
   createContactForm(): void {
     this.contactForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s]+$/)]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]], 
-      email: ['', [Validators.required, Validators.email]],
-      jobRole: ['', Validators.required],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]],
+      roleId: ['', Validators.required],
     });
     this.contact = this.contactForm.controls;
   }
-
-  // addContact(): void {
-  //   if (this.contactForm.valid) {
-  //     this.contactDetails.push(this.contactForm.value);
-  //     this.contactForm.reset();
-  //     this.modalService.close();
-  //   } else {
-  //     this.alertService.ShowErrorMessage("Please fill all required fields.");
-  //   }
-    //this.modalService.dismissAll();
-  //   // this.contactForm.reset();
-  // }
   closeModal(): void {
     this.modalService.close();
   }
-
   addContact(): void {
     if (this.contactForm.valid) {
       // Add contact details if form is valid
@@ -474,7 +370,7 @@ export class AddCollegsComponent implements OnInit {
     } else {
       // Show an alert message if form is invalid
       this.alertService.ShowErrorMessage("Please fill all required fields.");
-      
+
     }
   }
   onCloseModal(): void {
@@ -487,28 +383,16 @@ export class AddCollegsComponent implements OnInit {
   }
   createDepartmentForm(): void {
     this.departmentForm = this.formBuilder.group({
-      coursename: ['', Validators.required],
+      courseId: ['', Validators.required],
       seats: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
     });
   }
-
-  // addDepartment(): void {
-  //   if (this.departmentForm.valid) {
-  //     this.departmentDetails.push(this.departmentForm.value);
-  //     this.departmentForm.reset();
-  //     this.modalService.close();
-  //     this.router.navigateByUrl('tds/counsellor-dashboard/colleges/add-collegs');
-  //   } else {
-  //     this.alertService.ShowErrorMessage("Please fill all required fields.");
-  //   }
-  // }
-
   addDepartment(): void {
     if (this.departmentForm.valid) {
       // Add department details if form is valid
       this.departmentDetails.push(this.departmentForm.value);
       this.departmentForm.reset();
-  
+
       // Close the modal programmatically
       const departmentModal = document.getElementById('departmentModal');
       if (departmentModal) {
@@ -521,7 +405,7 @@ export class AddCollegsComponent implements OnInit {
       // Prevent closing by not using data-dismiss or handling manually
     }
   }
-  
+
   onCloseDepartmentModal(): void {
     // Manually close the department modal
     const departmentModal = document.getElementById('departmentModal');
@@ -548,75 +432,63 @@ export class AddCollegsComponent implements OnInit {
     this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
   }
 
-  onCloseNavigate()
-  {
+  onCloseNavigate() {
     this.router.navigate(['tds/counsellor-dashboard/colleges/add-collegs']);
   }
-  // closeModal(): void {
-  //   const modalElement = document.getElementById('contactModal');
-  //   if (modalElement) {
-  //     // Ensure the modal instance is created properly
-  //     const modalInstance = (window as any).bootstrap.Modal.getInstance(modalElement) ||
-  //                           new (window as any).bootstrap.Modal(modalElement);
-  //     modalInstance.hide();
-  //   }
-  // }
-    getBranchDetails() {
-      this.addcollegesService.getBranchList().subscribe(
-        (data: any) => {
-          this.branchDetails = data.Value;
-          this.setParameter();
-        },
-        (error: any) => {
-          this.alertService.ShowErrorMessage(error);
-        }
-      );
-    }
-    getJobroleList() {
-      this.addcollegesService.getroleList().subscribe(
-        (data: any) => {
-          this.roleDetails = data.Value;
-          this.setParameter();
-        },
-        (error: any) => {
-          this.alertService.ShowErrorMessage(error);
-        }
-      );
-    }
-    getCollegeList() {
-      this.addcollegesService.getCollegeList().subscribe(
-        (data: any) => {
-          this.collegeroleDetails = data.Value;
-          this.setParameter();
-        },
-        (error: any) => {
-          this.alertService.ShowErrorMessage(error);
-        }
-      );
-    }
-    getAllStates() {
-      this.addcollegesService.getAllStates().subscribe(
-        (result) => {
-          let data = result.Value;
-          this.StateList = data
-          this.setParameter();
-        }, (error) => {
+  getBranchDetails() {
+    this.addcollegesService.getBranchList().subscribe(
+      (data: any) => {
+        this.branchDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getJobroleList() {
+    this.addcollegesService.getroleList().subscribe(
+      (data: any) => {
+        this.roleDetails = data.Value;
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getCollegeList() {
+    this.addcollegesService.getCollegeList().subscribe(
+      (data: any) => {
+        this.collegeroleDetails = data.Value;
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getAllStates() {
+    this.addcollegesService.getAllStates().subscribe(
+      (result) => {
+        let data = result.Value;
+        this.StateList = data
+        this.setParameter();
+      }, (error) => {
 
-        });
-    }
+      });
+  }
 
-    insertCollegeDetails() {
-      this.collegeContactDetails.addedBy = 1;
-      this.collegeContactDetails.addedDate = new Date();
-      this.collegeContactDetails.updatedBy = 1;
-      this.collegeContactDetails.updatedDate = new Date();
-      this.collegeContactDetails.collegeId = 0;
+  insertCollegeDetails() {
+    this.collegeContactDetails.addedBy = 1;
+    this.collegeContactDetails.addedDate = new Date();
+    this.collegeContactDetails.updatedBy = 1;
+    this.collegeContactDetails.updatedDate = new Date();
+    this.collegeContactDetails.collegeId = 0;
 
-      const data: CollegeContactDetails = {
-        addcollegesDetails: this.form.value,
-        contactDetails: this.contactDetails,
-        departmentDetails: this.departmentDetails
-      };
+    const data: CollegeContactDetails = {
+      addcollegesDetails: this.form.value,
+      contactDetails: this.contactDetails,
+      departmentDetails: this.departmentDetails
+    };
 
     this.addcollegesService.insertCollegesData(data).subscribe(
       (result: any) => {
@@ -635,7 +507,18 @@ export class AddCollegsComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    
+
+  }
+  validateName(event: KeyboardEvent) {
+    const inputValue: string = event.key;
+    if (!/^[a-zA-Z\s]*$/.test(inputValue)) {
+      event.preventDefault();
+    }
+  }
+  validateNumber(event: KeyboardEvent) {
+    const inputValue: string = event.key;
+    if (isNaN(Number(inputValue))) {
+      event.preventDefault();
+    }
   }
 }
-    

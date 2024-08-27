@@ -10,7 +10,7 @@ export class StudentleadsService {
   private urlInsertStudentLeadsDetails: string = "StudentLeadDetails/InsertStudentLeadDetails";
   private urlStudentLeadsdetails: string = "StudentLeadDetails/getAllStudentLeadList";
   private urlgetBranchList: string = "BranchDetails/getAllBranchList";
-  private urlgetCollegesList: string = "AddColleges/getAllCollegesList";
+  private urlgetCollegesList: string = "AddColleges/getAllCollegeList";
   private urlGetStudentList: string = "StudentLeadDetails/getStudentDetails";
   private getAllStatesURL : string = "ApplicationMaster/GetAllStates";
 
