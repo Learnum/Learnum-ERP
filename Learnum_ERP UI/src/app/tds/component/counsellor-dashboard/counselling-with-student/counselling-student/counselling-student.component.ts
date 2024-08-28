@@ -25,6 +25,7 @@ export class CounsellingStudentComponent implements OnInit {
   studentDetails:any;
   branchDetails: any;
   editData: any;
+  studentForm: any;
 
 
   constructor(
@@ -65,29 +66,6 @@ export class CounsellingStudentComponent implements OnInit {
               ],
             },
           },
-          // {
-          //   className: 'col-md-3',
-          //   type: 'select',
-          //   key: 'StudentId',
-          //   templateOptions: {
-          //     label: 'Student Name',
-          //    placeholder: 'Select Student Name',
-          //     required: true,
-          //     options: this.studentDetails ? this.studentDetails.map(student => ({ label: student.StudentName, value: student.StudentId })) : [],
-          //   },
-          //   defaultValue: '',  
-          //   validators: {
-          //     required: {
-          //       expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
-          //       message: 'Student Name is required',
-          //     },
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'Student Name is required',
-          //     },
-          //   },
-          // },
           
           
           {
@@ -115,7 +93,6 @@ export class CounsellingStudentComponent implements OnInit {
               phoneNumber: {
                 expression: (c: AbstractControl) => {
                   const value = c.value;
-                  // Ensure the value is exactly 10 digits long
                   return value && /^[0-9]{10}$/.test(value);
                 },
                 message: (error: any, field: FormlyFieldConfig) => {
@@ -162,7 +139,7 @@ export class CounsellingStudentComponent implements OnInit {
             },
             validators: {
               timeValidation: {
-                expression: (control: AbstractControl) => control.value !== '00:00', // Custom validation to block '00:00'
+                expression: (control: AbstractControl) => control.value !== '00:00', 
                 message: '00:00 is not a valid time. Please select a different time.',
               },
             },
@@ -247,12 +224,22 @@ export class CounsellingStudentComponent implements OnInit {
                 oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
               }
             },
+            validators: {
+              pattern: {
+                expression: (control: AbstractControl) => {
+                  return !/^\s+$/.test(control.value);
+                },
+                message: 'Input should not be only spaces',
+              },
+            },
             validation: {
               messages: {
                 required: 'Counselling Conversation is required',
               },
             },
-          },
+          }
+          
+          
         ],
       },
     ];
@@ -321,6 +308,7 @@ export class CounsellingStudentComponent implements OnInit {
       }
     );
   }
+  
 	getStudentCounsellingDetails(CounsellingId: number) {
     this.studentcounsellingService.getStudentCounsellingList(CounsellingId).subscribe(
       (result: any) => {
@@ -331,6 +319,15 @@ export class CounsellingStudentComponent implements OnInit {
           
           this.studentCounsellingDetails.CounsellingTime = this.baseservice.extractTime(this.studentCounsellingDetails.CounsellingTime);
 
+           
+          this.studentForm.patchValue({
+            CounsellingConversation: this.studentCounsellingDetails.counsellingConversation,
+
+            CounsellingTime: this.studentCounsellingDetails.CounsellingTime
+          });
+
+
+           
           this.setParameter();
           console.error('No data found for CounsellingId: ' + CounsellingId);
         }
@@ -339,7 +336,9 @@ export class CounsellingStudentComponent implements OnInit {
         console.error('Error retrieving StudentCounselling details:', error);
       }
     );
+    
   }
   
 
+ 
 }

@@ -221,13 +221,15 @@ export class AddStudentLeadsComponent implements OnInit {
             props: {
               placeholder: 'Enter Your Address',
               type: 'text',
-              label: "Address",
+              label: 'Address',
               required: true,
-              pattern: '^[A-Za-z0-9\\s.,#-]*$',
+              // Updated pattern to include spaces and tabs
+              pattern: '^[A-Za-z0-9\\s\\t.,#-]*$',
             },
             hooks: {
               onInit: (field) => {
                 field.formControl.valueChanges.subscribe(value => {
+                  // Capitalizes each word while allowing spaces and tabs
                   const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
                   if (value !== capitalizedValue) {
                     field.formControl.setValue(capitalizedValue, { emitEvent: false });
@@ -241,7 +243,8 @@ export class AddStudentLeadsComponent implements OnInit {
                 pattern: 'Please enter a valid Address',
               },
             },
-          },                       
+          },
+                                 
           {
             className: 'col-md-3',
             key: 'City',
@@ -414,12 +417,12 @@ export class AddStudentLeadsComponent implements OnInit {
               label: 'Student Email',
               placeholder: 'Enter Student Email',
               required: true,
-              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, // Regex pattern for validating email
+              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 
             },
             validation: {
               messages: {
                 required: 'Student Email is required',
-                pattern: 'Please enter a valid email address', // Custom message for invalid email
+                pattern: 'Please enter a valid email address', 
               },
             },
           },
@@ -571,6 +574,7 @@ export class AddStudentLeadsComponent implements OnInit {
       (result: any) => {
         if (result && result.Value) {
           this.studentLeadDetails = result.Value.Item1;
+          
           this.setParameter();
           console.error('No data found for StudentId: ' + StudentId);
         }

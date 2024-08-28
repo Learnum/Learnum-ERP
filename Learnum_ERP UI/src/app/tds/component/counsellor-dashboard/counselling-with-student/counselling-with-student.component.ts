@@ -58,11 +58,19 @@ export class CounsellingWithStudentComponent implements OnInit {
       headerTooltip:'Counselling Conversation'
     },
     {
+      field: 'CounsellingDate',
+      headerName: 'Counselling Date',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 140,
+       headerTooltip:'Counselling Date'
+    },
+    {
       field: 'CounsellingTime',
       headerName: 'Counselling Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 200,
+      minWidth: 140,
        headerTooltip:'Counselling Time'
     },
     {

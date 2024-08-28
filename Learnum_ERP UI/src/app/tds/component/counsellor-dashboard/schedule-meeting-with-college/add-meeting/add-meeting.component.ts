@@ -22,7 +22,7 @@ export class AddMeetingComponent implements OnInit {
   collegeDetails: any;
   editData: any;
   NowDate: any = new Date();
-  seminarForm: any;
+  meetingForm: any;
   constructor(
     private router: Router,
     private alertService: AlertService,
@@ -115,7 +115,7 @@ export class AddMeetingComponent implements OnInit {
               type: 'date',
               required: true,
               attributes: {
-                min: formatDate(new Date(), 'yyyy-MM-dd', 'en-IN'), // Sets today's date as the minimum
+                min: formatDate(new Date(), 'yyyy-MM-dd', 'en-IN'), 
               },
             },
             validation: {
@@ -137,7 +137,7 @@ export class AddMeetingComponent implements OnInit {
             },
             validators: {
               timeValidation: {
-                expression: (control: AbstractControl) => control.value !== '00:00', // Custom validation to block '00:00'
+                expression: (control: AbstractControl) => control.value !== '00:00', 
                 message: '00:00 is not a valid time. Please select a different time.',
               },
             },
@@ -261,9 +261,9 @@ export class AddMeetingComponent implements OnInit {
           this.meetingDetails.MeetingTime = this.baseservice.extractTime(this.meetingDetails.MeetingTime);
 
 
-          this.seminarForm.patchValue({
+          this.meetingForm.patchValue({
 
-            SeminarTime: this.meetingDetails.MeetingTime
+            MeetingTime: this.meetingDetails.MeetingTime
           });
 
           this.setParameter();
