@@ -1,6 +1,6 @@
 <div style="margin-left: 5px;" class="row d-flex">
   <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);"><b> <span data-toggle="tooltip"
-        title="Close"><i class="uil uil-multiply"></i> &nbsp;</span>Add College</b></h6>
+        title="Close"><i class="uil uil-multiply" (click)="onCancelClick()"></i> &nbsp;</span>Add College</b></h6>
   <div>
     <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit()">
       <formly-form [model]="collegeContactDetails" [fields]="fields" [options]="options" [form]="form">
@@ -26,10 +26,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let contact of contactDetails">
-          <td>{{ contact.name }}</td>
-          <td>{{ contact.phoneNumber }}</td>
-          <td>{{ contact.email }}</td>
-          <td>{{ contact.roleId }}</td>
+          <td>{{ contact.Name }}</td>
+          <td>{{ contact.PhoneNumber }}</td>
+          <td>{{ contact.Email }}</td>
+          <td>{{ contact.RoleId }}</td>
       </tbody>
 
       <!-- Button trigger modal for Contact -->
@@ -121,8 +121,8 @@
       </thead>
       <tbody>
       <tr *ngFor="let department of departmentDetails">
-          <td>{{ department.courseId }}</td>
-          <td>{{ department.seats }}</td>
+          <td>{{ department.CourseId }}</td>
+          <td>{{ department.Seats }}</td>
         </tr>
       </tbody>
       <!-- Button trigger modal for Department -->
@@ -157,7 +157,7 @@
           </div>
           <div class="form-group">
             <label for="seats">Seats</label>
-            <input type="text" class="form-control" id="seats" formControlName="seats" placeholder="Enter Seats" required>
+            <input type="text" class="form-control" id="seats" formControlName="seats" placeholder="Enter Seats" (keypress)="validateNumber($event)" required>
             <div *ngIf="departmentForm.get('seats').touched && departmentForm.get('seats').invalid" class="text-danger">
               <div *ngIf="departmentForm.get('seats').errors.required">Seats are required.</div>
               <div *ngIf="departmentForm.get('seats').errors.pattern">Seats must be a number.</div>
@@ -166,7 +166,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-cloud" (click)="addDepartment()"data-dismiss="modal">Add</button>
+        <button type="button" class="btn btn-cloud" (click)="addDepartment()"data-dismiss="modal" [disabled]="form.invalid">Add</button>
         <button type="button" class="btn btn-fent-cloud" data-dismiss="modal" (click)="onCloseDepartmentModal()">Close</button>
    </div>
     </div>
@@ -175,7 +175,8 @@
 
 <div class="form-container">
       <div class="col-12 px-4 py-2 border-top buttons-container">
-          <button class="btn btn-cloud me-2" type="submit" (click)="onSubmit()" >Save</button>
+          <button class="btn btn-cloud me-2" type="submit" (click)="onSubmit()"  [disabled]="form.invalid">Save</button>
+          <button class="btn btn-fent-cloud me-2" (click)=" onResetClick()">Reset</button>
           <button class="btn btn-fent-cloud" type="button" (click)="onCancelClick()">Cancel</button>
       </div>
 </div>
