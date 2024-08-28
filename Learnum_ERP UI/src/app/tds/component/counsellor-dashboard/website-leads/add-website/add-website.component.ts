@@ -56,15 +56,16 @@ export class AddWebsiteComponent implements OnInit {
               placeholder: 'Enter Student Name',
               type: 'text',
               required: true,
-              pattern: '^[A-Za-z]+$',
+              pattern: '^[A-Za-z\\s\\t]+$' // Only allows letters, spaces, and tabs
             },
             validation: {
               messages: {
                 required: 'Student Name is required',
-                pattern: 'Please Enter Student FullName',
+                pattern: 'Please Enter Student FullName', // Custom error message
               },
             },
-          },
+          }
+          ,
           {
             className: 'col-md-3',
             type: 'select',
@@ -141,6 +142,7 @@ export class AddWebsiteComponent implements OnInit {
               placeholder: 'Enter Email Address',
               type: 'email',
               required: true,
+              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 
             },
             validation: {
               messages: {

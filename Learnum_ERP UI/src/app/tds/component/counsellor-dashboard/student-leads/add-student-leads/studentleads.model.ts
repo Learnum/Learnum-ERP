@@ -2,10 +2,10 @@ export class StudentLeadDetails {
     studentId: number;
     studentName: string;
     collegeId: number;
-    branchId: number;
+    BranchId: number;
     studentPhone: number;
     parentPhone: number;
-    address: string;
+    Address: string;
     City: string;
     StateName: string;
     StateId: number;

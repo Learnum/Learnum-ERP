@@ -10,7 +10,7 @@ export class CollegemeetingService extends BaseService {
 
   private urlInsertMeetingDetails: string = "ScheduleMeetingDetails/InsertScheduleMeetingDetails";
   private getMeetingList: string = "ScheduleMeetingDetails/getAllScheduleMeetingList";
-  private urlgetCollegesList: string = "AddColleges/getAllCollegesList";
+  private urlgetCollegesList: string = "AddColleges/getAllCollegeList";
   private urlGetMettingDetails: string = "ScheduleMeetingDetails/getMeetingDetails";
 
   constructor(private apiService: APIService) {

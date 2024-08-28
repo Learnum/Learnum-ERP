@@ -13,7 +13,7 @@ export class CollegeseminarService  {
   private urlInsertSeminarDetails: string = "ScheduleSeminarDetails/InsertScheduleSeminarDetails";
   private getSeminarList: string = "ScheduleSeminarDetails/getAllScheduleSeminarList";
   private urlGetSeminar: string = "ScheduleSeminarDetails/getSeminarDetails";
-  private urlgetCollegesList: string = "AddColleges/getAllCollegesList";
+  private urlgetCollegesList: string = "AddColleges/getAllCollegeList";
 
   constructor(private apiService: APIService) {
     

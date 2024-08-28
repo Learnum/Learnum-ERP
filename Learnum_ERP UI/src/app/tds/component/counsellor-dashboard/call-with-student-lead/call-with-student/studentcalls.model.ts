@@ -2,8 +2,8 @@ export class StudentLeadcalls {
     callId: number;
     studentId: number;
     phone: number;
-    phoneCallDate: string;
-    phoneCallTime: string;
+    PhoneCallDate: string;
+    PhoneCallTime: string;
     branchId: number;
     leadStatus: string;
     callConversation: string;
