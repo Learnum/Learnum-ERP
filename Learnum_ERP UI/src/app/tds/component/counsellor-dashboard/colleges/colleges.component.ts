@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
@@ -17,11 +17,11 @@ export class CollegesComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'View College',
+      actionPage: 'ViewCollege',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit College'
+      tooltip: 'Edit Branch'
     },
   ];
 
@@ -116,25 +116,41 @@ export class CollegesComponent implements OnInit {
    this.getAllBusinessDetails();
   }
 
-
-  onAddBusinessLead() {
-    this.router.navigate(['tds/counsellor-dashboard/colleges/add-collegs']);
-  }
-
   onRowAction(data: any) {
     let data1 = {
-      'source': data.action,
+      'source': 'edit',
       'CollegeId': data.row.CollegeId
-    };
-    this.router.navigate(['/tds/counsellor-dashboard/colleges/edit-college'], { queryParams: data1 });
+    }
+    this.router.navigate(['tds/counsellor-dashboard/colleges/add-collegs'], { queryParams: data1 });
+  }
+  selectCollege($event: any)
+   {
+    throw new Error('Method not implemented.');
   }
 
+  ActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'ViewCollege',
+      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4'
+    },
+  ];
+  onAddCollege(college?: any) {
+
+    let navigationExtras: NavigationExtras = {};
+    if (college) {
+      navigationExtras = {
+        state: {
+          collegeData: college
+        }
+      };
+    }
+    this.router.navigateByUrl('tds/counsellor-dashboard/colleges/add-collegs')
+  }
   onActionButton(action: string) {
-    alert(action + ' action button clicked.');
-  }
-
-  selectCollege(colleges: any) {
-    // Handle row selection logic
+    alert(action + ' ' + 'action button clicked.');
   }
 
   getAllBusinessDetails() {
@@ -142,5 +158,33 @@ export class CollegesComponent implements OnInit {
       this.collegeList = result.Value;
       let collegeList = result.Value;
     })
+  }
+
+  editAddCollege(CollegeData: any) {
+    const collegeId = CollegeData.collegeId;
+    const index = this.collegeList.findIndex(college => college.collegeId === collegeId);
+
+    if (index !== -1) {
+
+
+      this.openEditForm(CollegeData).then((editedCollegeData: any) => {
+
+        this.collegeList[index] = editedCollegeData;
+        console.log('Edited college:', editedCollegeData);
+
+      });
+    }
+  }
+  openEditForm(collegeData: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        const editedCollegeData = { ...collegeData };
+
+        editedCollegeData.Status = 'Edited';
+        resolve(editedCollegeData);
+      }, 1000);
+    });
   }
 }

@@ -21,6 +21,8 @@ namespace Learnum.ERP.Repository.Master.CounsellorDashboard
     {
         Task<ResponseCode> InsertCollegesDetails(CollegeContactDetails collegeContactDetails);
         Task<List<AddCollegesResponseModel>> GetCollegesDetailsList();
+        Task<Tuple<CollegeContactDetails?, ResponseCode>> GetCollegeDetails(long? CollegeId);
+       
     }
     public class AddCollegesRepository : BaseRepository, IAddCollegesRepository
     {
@@ -57,6 +59,24 @@ namespace Learnum.ERP.Repository.Master.CounsellorDashboard
                     var result = dbConnection.Query<AddCollegesResponseModel>("PROC_ADDCollege", dbparams, commandType: CommandType.StoredProcedure).ToList();
                     return await Task.FromResult(result);
               }  
+        }
+
+        public async Task<Tuple<CollegeContactDetails?, ResponseCode>> GetCollegeDetails(long? CollegeId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@CollegeId", CollegeId);
+                dbparams.Add("@Action", "GetADDCollegeDetailsByCollegeID");
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.QueryMultiple("PROC_ADDCollege", dbparams, commandType: CommandType.StoredProcedure);
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                var response = new CollegeContactDetails();
+                response.addCollegesDetails = result.Read<AddCollegesDetails>().FirstOrDefault();
+                response.contactDetails = result.Read<ContactDetails>().ToList();
+                response.departmentDetails = result.Read<DepartmentDetails>().ToList();
+                return await Task.FromResult(new Tuple<CollegeContactDetails?, ResponseCode>(response, responseCode));
+            }
         }
     }
 }

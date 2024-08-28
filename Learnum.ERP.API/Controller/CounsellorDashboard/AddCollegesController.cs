@@ -1,5 +1,6 @@
 ﻿using Learnum.ERP.API.Controller.Branch;
 using Learnum.ERP.Repository.Master;
+using Learnum.ERP.Repository.Master.Counsellor_Dashboard_repo;
 using Learnum.ERP.Repository.Master.CounsellorDashboard;
 using Learnum.ERP.Shared.Core;
 using Learnum.ERP.Shared.Entities;
@@ -54,6 +55,22 @@ namespace Learnum.ERP.API.Controller.CounsellorDashboard
                 return Ok(data);
             }
             return NotFound("No record found");
+        }
+
+        [HttpGet("getCollegeDetailsByCollegeId/{CollegeId}")]
+        public async Task<IActionResult> GetCollegeDetails(long? CollegeId)
+        {
+            if (CollegeId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await addCollegesRepository.GetCollegeDetails(CollegeId);
+            return Ok(result);
         }
     }
 }

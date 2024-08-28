@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
@@ -36,12 +36,14 @@ export class AddCollegsComponent implements OnInit {
   StateList: any;
   branchDetails: any;
   contact: { [key: string]: AbstractControl; };
+  editData: any;
 
   constructor(
     private router: Router,
     private alertService: AlertService,
     private formBuilder: FormBuilder,
     //private modalService: NgbModal,
+    private activateRoute: ActivatedRoute,
     private messageService: MessageService,
     private addcollegesService: AddcollegesService,
     public modalService: ModalService
@@ -59,6 +61,10 @@ export class AddCollegsComponent implements OnInit {
     this.getJobroleList();
     this.getCollegeList();
     this.getAllStates();
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.CollegeId) {
+      this.getAddCollegeDetailsBycollegeId(this.editData.CollegeId);
+    }
   }
 
   setParameter() {
@@ -66,6 +72,9 @@ export class AddCollegsComponent implements OnInit {
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
+          {
+            key: 'CollegeId'
+          },
           {
             className: 'col-md-3',
             type: 'input',
@@ -75,26 +84,22 @@ export class AddCollegsComponent implements OnInit {
               type: 'text',
               label: 'College Name',
               required: true,
-              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$", // Allows only alphabetic characters and single spaces between words
+              attributes: {
+                oninput: function() {
+                  this.value = this.value
+                    .replace(/[^A-Za-z ]/g, '') // Remove non-alphabetic characters
+                    .replace(/\b\w/g, (char) => char.toUpperCase()) // Capitalize the first letter of each word
+                    .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+                    .trim(); // Remove leading and trailing spaces
+                },
+              },
             },
             validation: {
               messages: {
                 required: 'College Name is required',
                 pattern: 'Please enter a valid College name ',
               },
-            },
-            hooks: {
-              onInit: (field) => {
-                field.formControl.valueChanges.subscribe(value => {
-                  // Remove any numbers from the input
-                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
-                  // Capitalize the first letter of each word
-                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
-                  if (value !== capitalizedValue) {
-                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
-                  }
-                });
-              }
             },
           },
           {
@@ -105,19 +110,10 @@ export class AddCollegsComponent implements OnInit {
               label: 'College Address',
               placeholder: 'Address Line 1',
               required: true,
-              type: 'text',
-            },
-            hooks: {
-              onInit: (field) => {
-                field.formControl.valueChanges.subscribe(value => {
-                  if (value) {
-                    // Capitalize the first letter of each word
-                    const capitalizedValue = value.replace(/\b\w/g, char => char.toUpperCase());
-                    if (capitalizedValue !== value) {
-                      field.formControl.setValue(capitalizedValue, { emitEvent: false });
-                    }
-                  }
-                });
+             // pattern: "^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$", // Allows alphabetic characters, numbers, and single spaces between words
+             pattern: "^(?!\\s*$).+", 
+             attributes: {
+                oninput: "this.value = this.value.replace(/[^A-Za-z0-9 ]/g, '').replace(/\\b\\w/g, (char) => char.toUpperCase());", // Removes any non-alphanumeric character except spaces and capitalizes the first letter of each word
               },
             },
             validation: {
@@ -135,24 +131,15 @@ export class AddCollegsComponent implements OnInit {
               label: 'City',
               placeholder: 'City',
               required: true,
-            },
-            hooks: {
-              onInit: (field) => {
-                field.formControl.valueChanges.subscribe(value => {
-                  // Remove any numbers from the input
-                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
-                  // Capitalize the first letter of each word
-                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
-
-                  if (value !== capitalizedValue) {
-                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
-                  }
-                });
-              }
+              pattern: "^[A-Za-z]+(?: [A-Za-z]+)*$", // Allows only alphabetic characters and single spaces between words
+              attributes: {
+                oninput: "this.value = this.value.replace(/[^A-Za-z ]/g, '').replace(/\\b\\w/g, (char) => char.toUpperCase());", // Removes any non-alphabetic character and capitalizes the first letter of each word
+              },
             },
             validation: {
               messages: {
                 required: 'City is required',
+                pattern: 'Please enter a valid City ',
               },
             },
           },
@@ -164,24 +151,15 @@ export class AddCollegsComponent implements OnInit {
               label: 'District',
               placeholder: 'District',
               required: true,
-            },
-            hooks: {
-              onInit: (field) => {
-                field.formControl.valueChanges.subscribe(value => {
-                  // Remove any numbers from the input
-                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
-                  // Capitalize the first letter of each word
-                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
-
-                  if (value !== capitalizedValue) {
-                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
-                  }
-                });
-              }
+              pattern: "^[A-Za-z]+(?: [A-Za-z]+)*$", // Allows only alphabetic characters and single spaces between words
+              attributes: {
+                oninput: "this.value = this.value.replace(/[^A-Za-z ]/g, '').replace(/\\b\\w/g, (char) => char.toUpperCase());", // Removes any non-alphabetic character and capitalizes the first letter of each word
+              },
             },
             validation: {
               messages: {
                 required: 'City is required',
+                pattern: 'Please enter a valid District ',
               },
             },
           },
@@ -309,7 +287,10 @@ export class AddCollegsComponent implements OnInit {
               label: 'Branch Name 1',
               placeholder: 'Branch Name 1',
               required: true,
-              pattern: '^[a-zA-Z0-9]+$',
+              pattern: "^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$", // Allows alphabetic characters, numbers, and single spaces between words
+              attributes: {
+                oninput: "this.value = this.value.replace(/[^A-Za-z0-9 ]/g, '').replace(/\\b\\w/g, (char) => char.toUpperCase());", // Removes any non-alphanumeric character except spaces and capitalizes the first letter of each word
+              },
             },
             validation: {
               messages: {
@@ -326,7 +307,8 @@ export class AddCollegsComponent implements OnInit {
               label: 'About College',
               placeholder: 'About College',
               required: true,
-              pattern: "^[A-Za-z0-9\s,.'-]*$",
+              //pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
+              pattern: "^(?!\\s*$).+",
               attributes: {
                 style: 'overflow:hidden; resize:none;',
                 oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
@@ -401,6 +383,7 @@ export class AddCollegsComponent implements OnInit {
       }
     } else {
       // Show an alert message if form is invalid
+      //  this.departmentForm.markAllAsTouched();
       this.alertService.ShowErrorMessage("Please fill all required fields.");
       // Prevent closing by not using data-dismiss or handling manually
     }
@@ -427,11 +410,12 @@ export class AddCollegsComponent implements OnInit {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
   }
-
+  onResetClick() {
+    this.form.reset();
+  }
   onCancelClick() {
     this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
   }
-
   onCloseNavigate() {
     this.router.navigate(['tds/counsellor-dashboard/colleges/add-collegs']);
   }
@@ -482,14 +466,13 @@ export class AddCollegsComponent implements OnInit {
     this.collegeContactDetails.addedDate = new Date();
     this.collegeContactDetails.updatedBy = 1;
     this.collegeContactDetails.updatedDate = new Date();
-    this.collegeContactDetails.collegeId = 0;
+    //this.collegeContactDetails.collegeId = 0;
 
     const data: CollegeContactDetails = {
       addcollegesDetails: this.form.value,
       contactDetails: this.contactDetails,
       departmentDetails: this.departmentDetails
     };
-
     this.addcollegesService.insertCollegesData(data).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;
@@ -520,5 +503,22 @@ export class AddCollegsComponent implements OnInit {
     if (isNaN(Number(inputValue))) {
       event.preventDefault();
     }
+  }
+
+  getAddCollegeDetailsBycollegeId(CollegeId: number) {
+    this.addcollegesService.getCollegesDetailsByCollegeId(CollegeId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.collegeContactDetails = result.Value.Item1.addCollegesDetails;
+          this.contactDetails = result.Value.Item1.contactDetails;
+          this.departmentDetails = result.Value.Item1.departmentDetails;
+          this.setParameter();
+          console.error('No data found for CollegeId: ' + CollegeId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving college details:', error);
+      }
+    );
   }
 }
