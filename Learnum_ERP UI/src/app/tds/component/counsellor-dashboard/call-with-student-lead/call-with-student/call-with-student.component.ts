@@ -7,6 +7,8 @@ import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/for
 import { StudentcallsService } from './studentcalls.service';
 import { StudentLeadcalls } from './studentcalls.model';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { BaseService } from 'src/app/core/services/baseService';
+import { formatDate } from '@angular/common';
 @Component({
   selector: 'app-call-with-student',
   templateUrl: './call-with-student.component.html',
@@ -21,12 +23,17 @@ export class CallWithStudentComponent implements OnInit {
   studentDetails:any;
   branchDetails: any;
   editData: any;
+  NowDate: any = new Date();
+  studentForm: any;
+
 
   constructor(
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
+    private baseservice: BaseService,
+
     private studentcallsService:StudentcallsService) { }
 
   ngOnInit(): void {
@@ -122,6 +129,9 @@ export class CallWithStudentComponent implements OnInit {
               placeholder: 'Select Phone Call Date',
               type: 'date',
               required: true,
+              attributes: {
+                min: formatDate(new Date(), 'yyyy-MM-dd', 'en-IN'), 
+              },
             },
             validation: {
               messages: {
@@ -138,6 +148,13 @@ export class CallWithStudentComponent implements OnInit {
               placeholder: 'Select Phone Call Time',
               type: 'time',
               required: true,
+              defaultValue: '12:00',
+            },
+            validators: {
+              timeValidation: {
+                expression: (control: AbstractControl) => control.value !== '00:00', // Custom validation to block '00:00'
+                message: '00:00 is not a valid time. Please select a different time.',
+              },
             },
             validation: {
               messages: {
@@ -267,8 +284,12 @@ export class CallWithStudentComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/counsellor-dashboard/call-with-student-lead');
+
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('tds/counsellor-dashboard/call-with-student-lead');
+
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
@@ -277,13 +298,22 @@ export class CallWithStudentComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/counsellor-dashboard/call-with-student-lead');
   }
   getStudentCallDetails() {
     this.studentcallsService.getStudentLeads().subscribe(
       (data: any) => {
-        this.studentDetails = data.Value;
+        this.studentLeadcalls = data.Value;
         this.setParameter();  
+
+        this.studentDetails.PhoneCallDate = this.baseservice.formatDate(this.studentDetails.PhoneCallDate);
+          
+        this.studentDetails.PhoneCallTime = this.baseservice.extractTime(this.studentDetails.PhoneCallTime);
+
+        this.studentForm.patchValue({
+
+          PhoneCallTime: this.studentDetails.PhoneCallTime
+        });
+       
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);

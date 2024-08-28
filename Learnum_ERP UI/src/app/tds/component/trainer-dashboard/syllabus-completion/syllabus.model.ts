@@ -1,6 +1,7 @@
 export class syllabusDetails{
     trainerId: number;
-    branchId: number;
+    BranchId: number;
+    BranchName:string;
     isActive: boolean;
     addedBy: number | null;
     addedDate: Date | null;

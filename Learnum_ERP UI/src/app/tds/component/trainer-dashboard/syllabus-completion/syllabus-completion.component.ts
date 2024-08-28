@@ -53,26 +53,30 @@ export class SyllabusCompletionComponent implements OnInit {
             key: 'BranchId',
             templateOptions: {
               label: "Branch Name",
-             // placeholder: 'Select Branch Name',  // Placeholder for the dropdown
+              //placeholder: 'Select Branch',  
               required: true,
               options: [
-                { value: null, label: 'Select Branch Name', disabled: true },  // Disabled placeholder option
-                ...this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+                { value: null, label: 'Select Branch', disabled: true },  
+                ...this.branchDetails ? this.branchDetails.map(branch => ({
+                  label: branch.BranchName,
+                  value: branch.BranchId
+                })) : [],
               ]
             },
-            defaultValue: null,  // Optional: set a default value if needed
+            defaultValue: null,  
             validators: {
               required: {
-                expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
-                message: 'Branch Name is required',
+                expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
+                message: 'Branch selection is required',
               },
             },
             validation: {
               messages: {
-                required: 'Branch Name is required',
+                required: 'Branch selection is required',
               },
             },
           }
+          ,
           
         ],
       },
