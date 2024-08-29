@@ -100,12 +100,11 @@ export class AddIpaddressComponent implements OnInit {
               //placeholder: 'Select IP Status',
               required: true,
               options: [
-                { value: null, label: 'Select IP Status', disabled: true },  // Disabled placeholder option
-                { value: true, label: 'Active' },
+                { value: true, label: 'Active' }, // Set as selected and disabled
                 { value: false, label: 'Inactive' }
               ],
             },
-            defaultValue: null,
+            defaultValue: true,
             validation: {
               messages: {
                 required: 'Please select a IP status',
@@ -137,10 +136,10 @@ export class AddIpaddressComponent implements OnInit {
   }
 
   AddIPAddress() {
-    this.ipDetails.addedBy = 1;
-    this.ipDetails.addedDate = new Date();
-    this.ipDetails.updatedBy = 1;
-    this.ipDetails.updatedDate = new Date();
+    this.ipDetails.AddedBy = 1;
+    this.ipDetails.AddedDate = new Date();
+    this.ipDetails.UpdatedBy = 1;
+    this.ipDetails.UpdatedDate = new Date();
 
     this.addipaddressService.insertIPAddress(this.ipDetails).subscribe(
       (result: any) => {
