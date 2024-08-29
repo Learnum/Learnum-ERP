@@ -24,6 +24,7 @@ export class StudentcallsService {
   getStudentLeads() {
     return this.apiService.getData(this.urlStudentLeadsdetails);
   }
+ 
   getBranchList() {
     return this.apiService.getData(this.urlgetBranchList);
   }

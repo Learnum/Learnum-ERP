@@ -387,10 +387,10 @@ export class AddBusinessLeadComponent implements OnInit {
   }
 
   insertBusinessDetails() {
-    this.businessDetails.addedBy = 1;
-    this.businessDetails.addedDate = new Date();
-    this.businessDetails.updatedBy = 1;
-    this.businessDetails.updatedDate = new Date();
+    this.businessDetails.AddedBy = 1;
+    this.businessDetails.AddedDate = new Date();
+    this.businessDetails.UpdatedBy = 1;
+    this.businessDetails.UpdatedDate = new Date();
     //this.businessDetails.businessId = 0;
 
     this.addBusinessLeadService.InsertBusinessDetails(this.businessDetails).subscribe(
