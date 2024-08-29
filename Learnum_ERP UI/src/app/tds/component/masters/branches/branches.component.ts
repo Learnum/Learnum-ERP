@@ -22,9 +22,10 @@ export class BranchesComponent {
       action: 'view',
       actionPage: 'ViewBranch',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
+      buttonClass: 'btn btn-sm btn-secondary p-1', // Reduced padding
       colorClass: 'text-secondary h4',
-      tooltip: 'Edit Branch'
+      tooltip: 'Edit Branch',
+    
     },
   ];
 
@@ -95,18 +96,18 @@ export class BranchesComponent {
       minWidth: 100,
        headerTooltip: 'Postal Code'
     },
-    // {
-    //   field: 'IsActive',
-    //   headerName: 'IsActive',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: {
-    //     buttons: ['reset', 'apply'],
-    //   },
-    //   minWidth: 150,
-    //   valueFormatter: params => {
-    //     return params.value ? 'Active' : 'Inactive';
-    //   }
-    // },
+    {
+      field: 'IsActive',
+      headerName: 'Status',
+      filter: 'agTextColumnFilter',
+      filterParams: {
+        buttons: ['reset', 'apply'],
+      },
+      minWidth: 150,
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
+    },
     {
       field: 'addedBy',
       headerName: 'Added By',

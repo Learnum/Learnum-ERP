@@ -19,7 +19,7 @@ export class AddBranchService extends BaseService {
   //private getAllCityURL : string = "ApplicationMaster/LoadStateWiseCities";
  
 
-  constructor(private apiService: APIService, private httpBackend: HttpBackend) {
+  constructor(private apiService: APIService, private httpBackend: HttpBackend,private http: HttpClient) {
     super();
   }
 
@@ -37,10 +37,9 @@ export class AddBranchService extends BaseService {
     return this.apiService.getData(this.getAllStatesURL);
    }
 
-  //  getAllCity(){
-  //   return this.apiService.getData(this.getAllCityURL);
-  //  }
+ 
 
-
-
+   checkBranchNameExists(branchName: string): Observable<boolean> {
+    return this.http.get<boolean>(`/api/branches/exists?name=${branchName}`);
+  }
 }
