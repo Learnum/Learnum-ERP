@@ -89,6 +89,12 @@ export class AddCollegsComponent implements OnInit {
               //   oninput: "this.value = this.value.replace(/[^A-Za-z ]/g, '').replace(/\\b\\w/g, (char) => char.toUpperCase());", // Removes any non-alphabetic character and capitalizes the first letter of each word
               // },
             },
+                    .replace(/\b\w/g, (char) => char.toUpperCase()) // Capitalize the first letter of each word
+                    .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+                    .trim(); // Remove leading and trailing spaces
+                },
+              },
+            },
             validation: {
               messages: {
                 required: 'College Name is required',

@@ -185,23 +185,23 @@ export class AddBranchComponent implements OnInit {
             className: 'col-md-3',
             type: 'select',
             key: 'IsActive',
-            templateOptions: {
+            props: {
               label: 'Branch Status',
-              //placeholder: 'Select Branch Status',
               required: true,
               options: [
-                { value: null, label: 'Select Branch Status', disabled: true },  
-                { value: true, label: 'Active' },
+                { value: true, label: 'Active' }, // Set as selected and disabled
                 { value: false, label: 'Inactive' }
               ],
+              //disabled: true // Disables the entire select field
             },
-            defaultValue: null,  
+            defaultValue: true, // Set "Active" as the default value
             validation: {
               messages: {
                 required: 'Please select a branch status',
               },
             },
           }
+          
         ],
       },
     ];

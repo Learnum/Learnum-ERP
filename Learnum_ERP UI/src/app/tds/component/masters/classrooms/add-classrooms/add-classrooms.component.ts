@@ -87,12 +87,12 @@ export class AddClassroomsComponent implements OnInit {
               type: 'text',
               label: 'Classroom Name',
               required: true,
-              pattern: '^[A-Za-z ]+$',
+              pattern: '^[A-Za-z0-9 ]+$', // Updated pattern to allow letters, numbers, and spaces
             },
             validation: {
               messages: {
                 required: 'Classroom Name is required',
-                pattern: 'Classroom Name must contain only letters and spaces', // Validation message for pattern
+                pattern: 'Classroom Name must contain only letters, numbers, and spaces', // Updated validation message
               },
             },
             hooks: {
@@ -100,7 +100,7 @@ export class AddClassroomsComponent implements OnInit {
                 const formControl = field.formControl;
                 formControl.valueChanges.subscribe(value => {
                   if (value) {
-                    let sanitizedValue = value.replace(/[^A-Za-z\s]/g, '');
+                    let sanitizedValue = value.replace(/[^A-Za-z0-9\s]/g, '');
                     sanitizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
                     formControl.setValue(sanitizedValue, { emitEvent: false });
                   }
@@ -108,6 +108,8 @@ export class AddClassroomsComponent implements OnInit {
               }
             }
           },
+          
+          
           {
             className: 'col-md-3',
             type: 'input',
