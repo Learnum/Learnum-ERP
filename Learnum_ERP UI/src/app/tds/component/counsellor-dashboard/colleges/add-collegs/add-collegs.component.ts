@@ -85,15 +85,7 @@ export class AddCollegsComponent implements OnInit {
               label: 'College Name',
               required: true,
               pattern: "^[A-Za-z]+( [A-Za-z]+)*$", // Allows only alphabetic characters and single spaces between words
-              attributes: {
-                oninput: function() {
-                  this.value = this.value
-                    .replace(/[^A-Za-z ]/g, '') // Remove non-alphabetic characters
-                    .replace(/\b\w/g, (char) => char.toUpperCase()) // Capitalize the first letter of each word
-                    .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
-                    .trim(); // Remove leading and trailing spaces
-                },
-              },
+             
             },
             validation: {
               messages: {

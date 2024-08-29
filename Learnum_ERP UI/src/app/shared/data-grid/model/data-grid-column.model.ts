@@ -21,4 +21,5 @@ export interface ActionColumn {
     buttonClass?: string;
     colorClass?: string;
     tooltip?: string;
+    width?:50;
 }
