@@ -446,7 +446,7 @@ export class AddBusinessLeadComponent implements OnInit {
         this.setParameter();
       }, (error) => {
 
-      });
+    });
   }
 
 }
