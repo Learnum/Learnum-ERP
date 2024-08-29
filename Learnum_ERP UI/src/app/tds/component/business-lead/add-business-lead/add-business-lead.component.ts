@@ -398,9 +398,10 @@ export class AddBusinessLeadComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('tds/business-lead');
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          window.location.reload();
+          this.router.navigateByUrl('tds/business-lead');
         } else if (serviceResponse === ResponseCode.AlreadyExists) {
           this.alertService.ShowErrorMessage("Mobile Number already exists");
         } else {
@@ -411,7 +412,6 @@ export class AddBusinessLeadComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/business-lead');
   }
   getBusinessDetails(BusinessId: number) {
     this.addBusinessLeadService.getBusinessDetails(BusinessId).subscribe(

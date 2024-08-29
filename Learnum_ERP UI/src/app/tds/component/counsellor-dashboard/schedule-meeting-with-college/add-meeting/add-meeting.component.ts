@@ -86,11 +86,14 @@ export class AddMeetingComponent implements OnInit {
               type: 'text',
               label: 'Meeting with',
               required: true,
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
             hooks: {
               onInit: (field) => {
                 field.formControl.valueChanges.subscribe(value => {
+                  // Remove any numbers from the input
                   const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  // Capitalize the first letter of each word
                   const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
                   if (value !== capitalizedValue) {
                     field.formControl.setValue(capitalizedValue, { emitEvent: false });
@@ -101,7 +104,7 @@ export class AddMeetingComponent implements OnInit {
             validation: {
               messages: {
                 required: 'Meeting Name is required',
-                pattern: 'Please enter a valid name with letters only.',
+                pattern: 'Please enter a valid Meeting Name.',
               },
             },
           },
@@ -146,8 +149,7 @@ export class AddMeetingComponent implements OnInit {
                 required: 'Meeting Time is required',
               },
             },
-          }
-          ,
+          },
           {
             className: 'col-md-3',
             key: 'MeetingLocation',
@@ -155,14 +157,16 @@ export class AddMeetingComponent implements OnInit {
             props: {
               label: 'Meeting Location',
               placeholder: 'Enter Meeting Location',
-              type: 'text',
-              pattern: '^[A-Za-z ]+$',
+              //stype: 'text',
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
               required: true,
             },
             hooks: {
               onInit: (field) => {
                 field.formControl.valueChanges.subscribe(value => {
+                  // Remove any numbers from the input
                   const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  // Capitalize the first letter of each word
                   const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
                   if (value !== capitalizedValue) {
                     field.formControl.setValue(capitalizedValue, { emitEvent: false });
@@ -178,22 +182,23 @@ export class AddMeetingComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-6',
+            className: 'col-md-3',
             key: 'MeetingAgenda',
             type: 'textarea',
             props: {
               label: 'Meeting Agenda',
               placeholder: 'Enter Meeting Agenda',
               required: true,
+              pattern: "^(?!\\s*$).+",
               attributes: {
                 style: 'overflow:hidden; resize:none;',
-                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';",
-                onfocus: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';" 
+                oninput: "this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
               }
             },
             validation: {
               messages: {
                 required: 'Meeting Agenda is required',
+                pattern: 'Enter Valid Meeting Agenda'
               },
             },
           },
