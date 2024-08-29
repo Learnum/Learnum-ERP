@@ -130,7 +130,6 @@ export class PracticalProblemsStudentsComponent implements OnInit {
               },
             },
           },
-          
           {
             className: 'col-md-2',
             key: 'FilePath',
@@ -138,15 +137,40 @@ export class PracticalProblemsStudentsComponent implements OnInit {
             props: {
               label: 'Attachment',
               placeholder: 'Upload Attachment',
-              type: 'number', 
               required: true,
             },
             validation: {
               messages: {
-                required: 'Attachment is required'
+                required: 'Attachment is required',
               },
             },
-          },
+            hooks: {
+              onInit: (field) => {
+                // Listen to changes on the field
+                field.formControl.valueChanges.subscribe(() => {
+                  if (!field.formControl.value) {
+                    field.formControl.markAsTouched(); // Mark as touched when the field is interacted with
+                  }
+                });
+              },
+            },
+          } 
+          // {
+          //   className: 'col-md-2',
+          //   key: 'FilePath',
+          //   type: 'file',
+          //   props: {
+          //     label: 'Attachment',
+          //     placeholder: 'Upload Attachment',
+          //     type: 'number', 
+          //     required: true,
+          //   },
+          //   validation: {
+          //     messages: {
+          //       required: 'Attachment is required'
+          //     },
+          //   },
+          // },
           
         ],
       },
