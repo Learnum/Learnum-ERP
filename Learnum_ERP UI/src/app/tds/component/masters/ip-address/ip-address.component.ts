@@ -76,7 +76,7 @@ export class IpAddressComponent {
       }
     },
     {
-      field: 'addedBy',
+      field: 'AddedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -84,7 +84,7 @@ export class IpAddressComponent {
       headerTooltip: 'Added By',
     },
     {
-      field: 'addedTime',
+      field: 'AddedDate',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -92,7 +92,7 @@ export class IpAddressComponent {
       headerTooltip: 'Added Time',
     },
     {
-      field: 'updatedBy',
+      field: 'UpdatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -100,7 +100,7 @@ export class IpAddressComponent {
       headerTooltip: 'Status',
     },
     {
-      field: 'updatedTime',
+      field: 'UpdatedDate',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },

@@ -56,16 +56,29 @@ export class AddWebsiteComponent implements OnInit {
               placeholder: 'Enter Student Name',
               type: 'text',
               required: true,
-              pattern: '^[A-Za-z\\s\\t]+$' // Only allows letters, spaces, and tabs
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$",
             },
             validation: {
               messages: {
                 required: 'Student Name is required',
-                pattern: 'Please Enter Student FullName', // Custom error message
+                pattern: 'Please Enter Student FullName',
               },
             },
-          }
-          ,
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  // Remove any numbers from the input
+                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  // Capitalize the first letter of each word
+                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
+            },
+          },
+          
           {
             className: 'col-md-3',
             type: 'select',

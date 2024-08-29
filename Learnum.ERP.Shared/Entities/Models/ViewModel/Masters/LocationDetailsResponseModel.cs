@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models.ViewModel
 {
-    public class LocationDetailsResponseModel
+    public class LocationDetailsResponseModel:BaseModel
     {
         public long LocationId { get; set; }
 
