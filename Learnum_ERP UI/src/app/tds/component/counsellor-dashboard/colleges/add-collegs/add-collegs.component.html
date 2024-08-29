@@ -19,7 +19,7 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Phone</th>
+          <th>Phone Number</th>
           <th>Email</th>
           <th>Job Role</th>
         </tr>
@@ -55,44 +55,44 @@
         <form [formGroup]="contactForm" (ngSubmit)="addContact()">
           <!-- Name Field -->
           <div class="form-group">
-            <label for="name">Name *</label>
-            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter Name" required (keypress)="validateName($event)">
-            <div *ngIf="contactForm.get('name').invalid && (contactForm.get('name').dirty || contactForm.get('name').touched)" class="text-danger">
-              <div *ngIf="contactForm.get('name').errors.required">Name is required.</div>
-              <div *ngIf="contactForm.get('name').errors.pattern">Name can only contain letters and spaces.</div>
+            <label for="Name">Name *</label>
+            <input type="text" class="form-control" id="Name" formControlName="Name" placeholder="Enter Name" required (keypress)="validateName($event)">
+            <div *ngIf="contactForm.get('Name').invalid && (contactForm.get('Name').dirty || contactForm.get('Name').touched)" class="text-danger">
+              <div *ngIf="contactForm.get('Name').errors.required">Name is required.</div>
+              <div *ngIf="contactForm.get('Name').errors.pattern">Name can only contain letters and spaces.</div>
             </div>
           </div>
 
           <!-- Phone Field -->
           <div class="form-group">
-            <label for="phoneNumber">Phone *</label>
-            <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber" placeholder="Enter phone number" maxlength="10" (keypress)="validateNumber($event)" required>
-            <div *ngIf="contactForm.get('phoneNumber').invalid && (contactForm.get('phoneNumber').dirty || contactForm.get('phoneNumber').touched)" class="text-danger">
-              <div *ngIf="contactForm.get('phoneNumber').errors?.required">Phone number is required.</div>
-              <div *ngIf="contactForm.get('phoneNumber').errors?.pattern">Phone number must be exactly 10 digits.</div>
+            <label for="PhoneNumber">Phone Number *</label>
+            <input type="text" class="form-control" id="PhoneNumber" formControlName="PhoneNumber" placeholder="Enter phone number" maxlength="10" (keypress)="validateNumber($event)" required>
+            <div *ngIf="contactForm.get('PhoneNumber').invalid && (contactForm.get('PhoneNumber').dirty || contactForm.get('PhoneNumber').touched)" class="text-danger">
+              <div *ngIf="contactForm.get('PhoneNumber').errors?.required">Phone number is required.</div>
+              <div *ngIf="contactForm.get('PhoneNumber').errors?.pattern">Phone number must be exactly 10 digits.</div>
             </div>
           </div>
 
           <!-- Email Field -->
           <div class="form-group">
-            <label for="email">Email *</label>
-            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter Email" required>
-            <div *ngIf="contactForm.get('email').invalid && (contactForm.get('email').dirty || contactForm.get('email').touched)" class="text-danger">
-              <div *ngIf="contactForm.get('email').errors.required">Email is required.</div>
+            <label for="Email">Email *</label>
+            <input type="Email" class="form-control" id="Email" formControlName="Email" placeholder="Enter Email" required>
+            <div *ngIf="contactForm.get('Email').invalid && (contactForm.get('Email').dirty || contactForm.get('Email').touched)" class="text-danger">
+              <div *ngIf="contactForm.get('Email').errors.required">Email is required.</div>
               <!-- <div *ngIf="contactForm.get('email').errors.email">Please enter a valid email address.</div> -->
-               <div class="text-danger" *ngIf="(contactForm.get('email').touched || contactForm.get('email')|| dirty) && contactForm.get('email').errors?.['pattern']">Please enter a valid email address.</div>
+               <div class="text-danger" *ngIf="(contactForm.get('Email').touched || contactForm.get('Email')|| dirty) && contactForm.get('Email').errors?.['pattern']">Please enter a valid email address.</div>
             </div>
           </div>
 
           <!-- Job Role Field -->
           <div class="form-group">
-            <label for="roleId">Job Role *</label>
-            <select class="form-select" id="roleId" formControlName="roleId">
+            <label for="RoleId">Job Role *</label>
+            <select class="form-select" id="RoleId" formControlName="RoleId">
               <option value="" disabled selected>Select Job Role</option>
               <option *ngFor="let role of roleDetails" [value]="role.RoleId">{{ role.Name }}</option>
             </select>
-            <div *ngIf="contactForm.get('roleId').invalid && (contactForm.get('roleId').dirty || contactForm.get('roleId').touched)" class="text-danger">
-              <div *ngIf="contactForm.get('roleId').errors.required">Job role is required.</div>
+            <div *ngIf="contactForm.get('RoleId').invalid && (contactForm.get('RoleId').dirty || contactForm.get('RoleId').touched)" class="text-danger">
+              <div *ngIf="contactForm.get('RoleId').errors.required">Job role is required.</div>
             </div>
           </div>
           
@@ -146,27 +146,27 @@
       <div class="modal-body">
         <form [formGroup]="departmentForm">
           <div class="form-group">
-            <label for="courseId">Course Name</label>
-            <select class="form-select" id="courseId" formControlName="courseId">
+            <label for="CourseId">Course Name</label>
+            <select class="form-select" id="CourseId" formControlName="CourseId">
               <option value="" disabled selected>Select Job Role</option>
               <option *ngFor="let college of collegeroleDetails" [value]="college.collegeRoleId">{{ college.Name }}</option>
             </select>
-            <div *ngIf="departmentForm.get('courseId').touched && departmentForm.get('courseId').invalid" class="text-danger">
+            <div *ngIf="departmentForm.get('CourseId').touched && departmentForm.get('CourseId').invalid" class="text-danger">
               Course name is required.
             </div>
           </div>
           <div class="form-group">
-            <label for="seats">Seats</label>
-            <input type="text" class="form-control" id="seats" formControlName="seats" placeholder="Enter Seats" (keypress)="validateNumber($event)" required>
-            <div *ngIf="departmentForm.get('seats').touched && departmentForm.get('seats').invalid" class="text-danger">
-              <div *ngIf="departmentForm.get('seats').errors.required">Seats are required.</div>
-              <div *ngIf="departmentForm.get('seats').errors.pattern">Seats must be a number.</div>
+            <label for="Seats">Seats</label>
+            <input type="text" class="form-control" id="Seats" formControlName="Seats" placeholder="Enter Seats" (keypress)="validateNumber($event)" required>
+            <div *ngIf="departmentForm.get('Seats').touched && departmentForm.get('Seats').invalid" class="text-danger">
+              <div *ngIf="departmentForm.get('Seats').errors.required">Seats are required.</div>
+              <div *ngIf="departmentForm.get('Seats').errors.pattern">Seats must be a number.</div>
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-cloud" (click)="addDepartment()"data-dismiss="modal" [disabled]="form.invalid">Add</button>
+        <button type="button" class="btn btn-cloud" (click)="addDepartment()"data-dismiss="modal">Add</button>
         <button type="button" class="btn btn-fent-cloud" data-dismiss="modal" (click)="onCloseDepartmentModal()">Close</button>
    </div>
     </div>
@@ -175,7 +175,7 @@
 
 <div class="form-container">
       <div class="col-12 px-4 py-2 border-top buttons-container">
-          <button class="btn btn-cloud me-2" type="submit" (click)="onSubmit()"  [disabled]="form.invalid">Save</button>
+          <button class="btn btn-cloud me-2" type="submit" (click)="onSubmit()" [disabled]="form.invalid">Save</button>
           <button class="btn btn-fent-cloud me-2" (click)=" onResetClick()">Reset</button>
           <button class="btn btn-fent-cloud" type="button" (click)="onCancelClick()">Cancel</button>
       </div>

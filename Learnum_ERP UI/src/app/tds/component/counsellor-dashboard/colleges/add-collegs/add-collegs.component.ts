@@ -85,13 +85,34 @@ export class AddCollegsComponent implements OnInit {
               label: 'College Name',
               required: true,
               pattern: "^[A-Za-z]+( [A-Za-z]+)*$", // Allows only alphabetic characters and single spaces between words
-             
+              // attributes: {
+              //   oninput: "this.value = this.value.replace(/[^A-Za-z ]/g, '').replace(/\\b\\w/g, (char) => char.toUpperCase());", // Removes any non-alphabetic character and capitalizes the first letter of each word
+              // },
+            },
+                    .replace(/\b\w/g, (char) => char.toUpperCase()) // Capitalize the first letter of each word
+                    .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+                    .trim(); // Remove leading and trailing spaces
+                },
+              },
             },
             validation: {
               messages: {
                 required: 'College Name is required',
                 pattern: 'Please enter a valid College name ',
               },
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  // Remove any numbers from the input
+                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  // Capitalize the first letter of each word
+                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
             },
           },
           {
@@ -123,16 +144,29 @@ export class AddCollegsComponent implements OnInit {
               label: 'City',
               placeholder: 'City',
               required: true,
-              pattern: "^[A-Za-z]+(?: [A-Za-z]+)*$", // Allows only alphabetic characters and single spaces between words
-              attributes: {
-                oninput: "this.value = this.value.replace(/[^A-Za-z ]/g, '').replace(/\\b\\w/g, (char) => char.toUpperCase());", // Removes any non-alphabetic character and capitalizes the first letter of each word
-              },
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$", // Allows only alphabetic characters and single spaces between words
+              // attributes: {
+              //   oninput: "this.value = this.value.replace(/[^A-Za-z ]/g, '').replace(/\\b\\w/g, (char) => char.toUpperCase());", // Removes any non-alphabetic character and capitalizes the first letter of each word
+              // },
             },
             validation: {
               messages: {
                 required: 'City is required',
                 pattern: 'Please enter a valid City ',
               },
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  // Remove any numbers from the input
+                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  // Capitalize the first letter of each word
+                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
             },
           },
           {
@@ -143,16 +177,29 @@ export class AddCollegsComponent implements OnInit {
               label: 'District',
               placeholder: 'District',
               required: true,
-              pattern: "^[A-Za-z]+(?: [A-Za-z]+)*$", // Allows only alphabetic characters and single spaces between words
-              attributes: {
-                oninput: "this.value = this.value.replace(/[^A-Za-z ]/g, '').replace(/\\b\\w/g, (char) => char.toUpperCase());", // Removes any non-alphabetic character and capitalizes the first letter of each word
-              },
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$", // Allows only alphabetic characters and single spaces between words
+              // attributes: {
+              //   oninput: "this.value = this.value.replace(/[^A-Za-z ]/g, '').replace(/\\b\\w/g, (char) => char.toUpperCase());", // Removes any non-alphabetic character and capitalizes the first letter of each word
+              // },
             },
             validation: {
               messages: {
                 required: 'City is required',
                 pattern: 'Please enter a valid District ',
               },
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(value => {
+                  // Remove any numbers from the input
+                  const sanitizedValue = value.replace(/[^A-Za-z ]/g, '');
+                  // Capitalize the first letter of each word
+                  const capitalizedValue = sanitizedValue.replace(/\b\w/g, char => char.toUpperCase());
+                  if (value !== capitalizedValue) {
+                    field.formControl.setValue(capitalizedValue, { emitEvent: false });
+                  }
+                });
+              }
             },
           },
           {
@@ -320,10 +367,10 @@ export class AddCollegsComponent implements OnInit {
 
   createContactForm(): void {
     this.contactForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s]+$/)]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
-      email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]],
-      roleId: ['', Validators.required],
+      Name: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s]+$/)]],
+      PhoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      Email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]],
+      RoleId: ['', Validators.required],
     });
     this.contact = this.contactForm.controls;
   }
@@ -343,6 +390,7 @@ export class AddCollegsComponent implements OnInit {
       }
     } else {
       // Show an alert message if form is invalid
+      this.contactForm.markAllAsTouched();
       this.alertService.ShowErrorMessage("Please fill all required fields.");
 
     }
@@ -357,8 +405,8 @@ export class AddCollegsComponent implements OnInit {
   }
   createDepartmentForm(): void {
     this.departmentForm = this.formBuilder.group({
-      courseId: ['', Validators.required],
-      seats: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
+      CourseId: ['', Validators.required],
+      Seats: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
     });
   }
   addDepartment(): void {
