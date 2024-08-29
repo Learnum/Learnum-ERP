@@ -84,7 +84,7 @@ export class IpAddressComponent {
       headerTooltip: 'Added By',
     },
     {
-      field: 'addedDate',
+      field: 'AddedDate',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },

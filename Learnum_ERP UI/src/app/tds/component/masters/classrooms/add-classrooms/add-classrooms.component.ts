@@ -188,10 +188,10 @@ export class AddClassroomsComponent implements OnInit {
   }
 
   insertClassroom() {
-    this.classroomDetails.addedBy = 1;
-    this.classroomDetails.addedDate = new Date();
-    this.classroomDetails.updatedBy = 1;
-    this.classroomDetails.updatedDate = new Date();
+    this.classroomDetails.AddedBy = 1;
+    this.classroomDetails.AddedDate = new Date();
+    this.classroomDetails.UpdatedBy = 1;
+    this.classroomDetails.UpdatedDate = new Date();
     //this.classroomDetails.classroomId = 0;
 
     this.addclassroomService.insertClassroomData(this.classroomDetails).subscribe(

@@ -4,9 +4,9 @@ export class ClassroomModel {
     classroomName: string;
     studentCapacity: number;
     isActive: boolean;
-    addedBy: number | null;
-    addedDate: Date | null;
-    updatedBy: number | null;
-    updatedDate: Date | null;
+    AddedBy: number | null;
+    AddedDate: Date | null;
+    UpdatedBy: number | null;
+    UpdatedDate: Date | null;
     computerName: string;
 }

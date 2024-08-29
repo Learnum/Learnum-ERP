@@ -102,14 +102,12 @@ export class AddSubjectsComponent implements OnInit {
             templateOptions: {
               label: 'Subject Status',
               //placeholder: 'Select Suject Status',
-              required: true,
               options: [
-                { value: null, label: 'Select Subject Status', disabled: true },  // Disabled placeholder option
-                { value: true, label: 'Active' },
+                { value: true, label: 'Active' }, 
                 { value: false, label: 'Inactive' }
               ],
             },
-            defaultValue: null,  // Set default value to 'Active'
+            defaultValue: true,
             validation: {
               messages: {
                 required: 'Please select a subject status',
@@ -188,10 +186,10 @@ export class AddSubjectsComponent implements OnInit {
   }
 
   insertSubject() {
-    this.subjectModel.addedBy = 1;
-    this.subjectModel.addedDate = new Date();
-    this.subjectModel.updatedBy = 1;
-    this.subjectModel.updatedDate = new Date();
+    this.subjectModel.AddedBy = 1;
+    this.subjectModel.AddedDate = new Date();
+    this.subjectModel.UpdatedBy = 1;
+    this.subjectModel.UpdatedDate = new Date();
 
     this.addSubjectsService.insertSubjectDetails(this.subjectModel).subscribe(
       (result: any) => {

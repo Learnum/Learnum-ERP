@@ -144,6 +144,12 @@ export class AddCoursesComponent implements OnInit {
     }
   }
   insertCourse() {
+
+    this.coursesDetails.AddedBy = 1;
+    this.coursesDetails.AddedDate = new Date();
+    this.coursesDetails.UpdatedBy = 1;
+    this.coursesDetails.UpdatedDate = new Date();
+
     this.addCoursesService.insertCourseData(this.coursesDetails).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;
