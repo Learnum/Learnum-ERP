@@ -28,14 +28,14 @@ export class MyPracticalExamComponent implements OnInit {
   ];
 
   declaredTableColumns: TableColumn[] = [
-    {
-      field: 'StudentId',
-      headerName: 'Student ID',
-      filter: 'agTextColumnFilter',
-      filterParams: {buttons: ['reset', 'apply'],},
-      minWidth: 150,
-      headerTooltip:'Student ID',
-    },
+    // {
+    //   field: 'StudentId',
+    //   headerName: 'Student ID',
+    //   filter: 'agTextColumnFilter',
+    //   filterParams: {buttons: ['reset', 'apply'],},
+    //   minWidth: 150,
+    //   headerTooltip:'Student ID',
+    // },
     {
       field: 'Answer',
       headerName: 'Student Answer',
@@ -55,7 +55,7 @@ export class MyPracticalExamComponent implements OnInit {
     //   }
     // },
     {
-      field: 'addedBy',
+      field: 'AddedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -63,7 +63,7 @@ export class MyPracticalExamComponent implements OnInit {
       headerTooltip:'Added By'
     },
     {
-      field: 'addedTime',
+      field: 'AddedDate',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -71,7 +71,7 @@ export class MyPracticalExamComponent implements OnInit {
       headerTooltip:'Added Time'
     },
     {
-      field: 'updatedBy',
+      field: 'UpdatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -79,7 +79,7 @@ export class MyPracticalExamComponent implements OnInit {
       headerTooltip:'Updated By'
     },
     {
-      field: 'updatedTime',
+      field: 'UpdatedDate',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },

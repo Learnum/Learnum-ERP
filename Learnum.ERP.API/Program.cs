@@ -34,7 +34,7 @@ namespace Learnum.ERP.API
             //ApplicationSettings.TransactionConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("TransactionConnection"));
 
             //string encrypt = EncryptionHelper.Decrypt("amHlro5hyOdjl+JCTA2sSRRxpUcfaf3hbkthPHWNvo8=");
-            //string encrypt = EncryptionHelper.Encrypt(@"Server=164.52.197.68;Database=Learnum.ERP_UAT;user=TB_DevMaster;pwd=TB#CS2025;");
+            //string encrypt = EncryptionHelper.Encrypt(@"Server=164.52.197.68;Database=Learnum.ERP_DEV;user=TB_DevMaster;pwd=TB#CS2025;");
             //string encrypt = EncryptionHelper.Encrypt(@"Server=184.168.120.110;Initial Catalog=Taxblock.CMS_UAT;Integrated Security=false;User Id=sa;Password=Taxblock@2020;");
             //SQLMapper.DBConnection = ApplicationSettings.ConnectionString;
             //TaxBlock.Communication.Shared.Core.ApplicationSettings.CRMConnectionString = EncryptionHelper.Decrypt(Configuration.GetConnectionString("CRMConnection"));
