@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models.ViewModel
 {
-    public class BranchDetailsResponseModel
+    public class BranchDetailsResponseModel:BaseModel
     {
 
         public long BranchId { get; set; }
