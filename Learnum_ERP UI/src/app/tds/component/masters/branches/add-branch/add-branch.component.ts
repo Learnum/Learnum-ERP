@@ -229,10 +229,10 @@ export class AddBranchComponent implements OnInit {
   }
 
   insertBranch() {
-    this.branchDetails.addedBy = 1;
-    this.branchDetails.addedDate = new Date();
-    this.branchDetails.updatedBy = 1;
-    this.branchDetails.updatedDate = new Date();
+    this.branchDetails.AddedBy = 1;
+    this.branchDetails.AddedDate = new Date();
+    this.branchDetails.UpdatedBy = 1;
+    this.branchDetails.UpdatedDate = new Date();
 
     this.addBranchService.insertBranchData(this.branchDetails).subscribe(
       (result: any) => {

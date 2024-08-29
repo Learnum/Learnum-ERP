@@ -61,7 +61,7 @@ export class BusinessLeadComponent {
     },
    
     {
-      field: 'addedBy',
+      field: 'AddedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -69,7 +69,7 @@ export class BusinessLeadComponent {
       headerTooltip: 'Added By',
     },
     {
-      field: 'addedTime',
+      field: 'AddedDate',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -77,7 +77,7 @@ export class BusinessLeadComponent {
       headerTooltip: 'Added Time',
     },
     {
-      field: 'updatedBy',
+      field: 'UpdatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -85,7 +85,7 @@ export class BusinessLeadComponent {
       headerTooltip: 'Updated By',
     },
     {
-      field: 'UpdatedtTime',
+      field: 'UpdatedDate',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
