@@ -249,10 +249,10 @@ export class AddTrainerComponent implements OnInit {
   }
 
   insertTrainer() {
-    this.TrainerDetails.addedBy = 1;
-    this.TrainerDetails.addedDate = new Date();
-    this.TrainerDetails.updatedBy = 1;
-    this.TrainerDetails.updatedDate = new Date();
+    this.TrainerDetails.AddedBy = 1;
+    this.TrainerDetails.AddedDate = new Date();
+    this.TrainerDetails.UpdatedBy = 1;
+    this.TrainerDetails.UpdatedDate = new Date();
     // this.TrainerDetails.TrainerId = 0;
 
     this.addtrainerService.insertTrainerData(this.TrainerDetails).subscribe(
