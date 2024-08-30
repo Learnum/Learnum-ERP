@@ -10,8 +10,8 @@ export class TrainerDetailsModel {
     CourseName: string;
     TrainerName: string;
     isActive: boolean;
-    addedBy: number | null;
-    addedDate: Date | null;
-    updatedBy: number | null;
-    updatedDate: Date | null;
+    AddedBy: number | null;
+    AddedDate: Date | null;
+    UpdatedBy: number | null;
+    UpdatedDate: Date | null;
 }

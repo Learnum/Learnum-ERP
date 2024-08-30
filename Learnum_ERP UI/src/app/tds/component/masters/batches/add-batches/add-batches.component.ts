@@ -209,7 +209,7 @@ export class AddBatchesComponent implements OnInit {
               required: true,
               type: 'text',
               label: 'One Time Course Fees',
-              pattern: '^[0-9]*\\.?[0-9]{0,2}$', // Ensures only numbers with an optional decimal point and up to two decimal places are accepted
+              pattern: '^[0-9]*\\.?[0-9]{0,2}$', 
               inputMode: 'decimal',
               min: 0,
               step: 0.01,
@@ -217,7 +217,6 @@ export class AddBatchesComponent implements OnInit {
             hooks: {
               onInit: (field) => {
                 field.formControl.valueChanges.subscribe(value => {
-                  // Remove any non-numeric and non-decimal characters, including symbols
                   const sanitizedValue = value.replace(/[^0-9.]/g, '');
                   if (sanitizedValue !== value) {
                     field.formControl.setValue(sanitizedValue, { emitEvent: false });
@@ -265,12 +264,12 @@ export class AddBatchesComponent implements OnInit {
               //placeholder: 'Select Batch Status',
               required: true,
               options: [
-                { value: null, label: 'Select Status', disabled: true },  // Disabled placeholder option
                 { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
               ],
+              
             },
-            defaultValue: null,  // Set default value to 'Active'
+            defaultValue: true, 
             validation: {
               messages: {
                 required: 'Please select a batch status',
@@ -366,6 +365,8 @@ export class AddBatchesComponent implements OnInit {
     }
   }
   insertBatch() {
+
+
 
     console.log(this.batchDetails);
     console.log(this.installmentModel)
