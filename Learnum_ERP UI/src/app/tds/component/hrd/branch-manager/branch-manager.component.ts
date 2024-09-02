@@ -108,7 +108,10 @@ export class BranchManagerComponent implements OnInit {
     private formBuilder: FormBuilder) {
     {}}
 
-  selectBranchManager(branch: any) {  }
+  selectBranchManager(branch: any) { 
+    this.selectBranchManager = branch;
+    console.log('Selected branch rows:', this.selectBranchManager);
+   }
 
   onRowAction(data: any) {
     let data1 = {
@@ -121,6 +124,14 @@ export class BranchManagerComponent implements OnInit {
     this.router.navigateByUrl('tds/hrd/branch-manager/add-branch');
    }
 
+   onRowClicked(data: any)
+   {
+    let data1 = {
+      'source': 'edit',
+      'BranchManagerId': data.row.BranchManagerId
+    }
+    this.router.navigate(['tds/hrd/branch-manager/add-branch'], { queryParams: data1 });
+  }
 
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
@@ -130,7 +141,8 @@ export class BranchManagerComponent implements OnInit {
     this.addbranchManagerService.getBranchManagerList().subscribe(
       (result: any) => {
         this.BranchManagerList = result.Value;
-        },
-       );}
+      },
+    );
+  }
 }
  
