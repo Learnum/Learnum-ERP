@@ -136,10 +136,6 @@ export class AddBranchComponent implements OnInit {
     this.router.navigateByUrl('tds/hrd/branch-manager');
   }
 
-  get f() {
-    return this.form.controls;
-  }
-
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {

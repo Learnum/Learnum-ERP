@@ -10,7 +10,7 @@ import { TDSLayoutService } from './tds-layout.service';
 
 
 @NgModule({
-  declarations: [TDSLayoutComponent,],
+  declarations: [TDSLayoutComponent],
     imports: [CommonModule, TDSLayoutRoutingModule, SharedModule, FormsModule],
   providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
   exports: [],

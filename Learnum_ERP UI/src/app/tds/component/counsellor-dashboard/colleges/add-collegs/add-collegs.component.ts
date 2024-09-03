@@ -84,10 +84,7 @@ export class AddCollegsComponent implements OnInit {
               type: 'text',
               label: 'College Name',
               required: true,
-              pattern: "^[A-Za-z]+( [A-Za-z]+)*$", // Allows only alphabetic characters and single spaces between words
-              // attributes: {
-              //   oninput: "this.value = this.value.replace(/[^A-Za-z ]/g, '').replace(/\\b\\w/g, (char) => char.toUpperCase());", // Removes any non-alphabetic character and capitalizes the first letter of each word
-              // },
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$", 
             },
             validation: {
               messages: {
@@ -117,7 +114,6 @@ export class AddCollegsComponent implements OnInit {
               label: 'College Address',
               placeholder: 'Address Line 1',
               required: true,
-             // pattern: "^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$", // Allows alphabetic characters, numbers, and single spaces between words
              pattern: "^(?!\\s*$).+", 
              attributes: {
                 oninput: "this.value = this.value.replace(/[^A-Za-z0-9 ]/g, '').replace(/\\b\\w/g, (char) => char.toUpperCase());", // Removes any non-alphanumeric character except spaces and capitalizes the first letter of each word
@@ -138,10 +134,7 @@ export class AddCollegsComponent implements OnInit {
               label: 'City',
               placeholder: 'City',
               required: true,
-              pattern: "^[A-Za-z]+( [A-Za-z]+)*$", // Allows only alphabetic characters and single spaces between words
-              // attributes: {
-              //   oninput: "this.value = this.value.replace(/[^A-Za-z ]/g, '').replace(/\\b\\w/g, (char) => char.toUpperCase());", // Removes any non-alphabetic character and capitalizes the first letter of each word
-              // },
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$", 
             },
             validation: {
               messages: {
@@ -171,10 +164,7 @@ export class AddCollegsComponent implements OnInit {
               label: 'District',
               placeholder: 'District',
               required: true,
-              pattern: "^[A-Za-z]+( [A-Za-z]+)*$", // Allows only alphabetic characters and single spaces between words
-              // attributes: {
-              //   oninput: "this.value = this.value.replace(/[^A-Za-z ]/g, '').replace(/\\b\\w/g, (char) => char.toUpperCase());", // Removes any non-alphabetic character and capitalizes the first letter of each word
-              // },
+              pattern: "^[A-Za-z]+( [A-Za-z]+)*$", 
             },
             validation: {
               messages: {
