@@ -105,9 +105,10 @@ export class TDSLayoutComponent implements OnInit {
     this.companyLogoUrl = `assets/images/taxblock/companyLogo/${companyUrl}.png`;
     this.companyMobileLogoUrl = `assets/images/taxblock/companyLogo/${companyUrl}_m.png`;
 
+
     this.Menu = [
      
-      { id: 55, title: 'My Dashboard ERP', url: '/tds/my-dashboard-erp', type: 'no' },
+       { id: 55, title: 'My Dashboard ERP', url: '/tds/my-dashboard-erp', type: 'no' },
       {
         id: 4, title: 'Masters', url: '/tds/masters', type: 'no',
         submenu: [
