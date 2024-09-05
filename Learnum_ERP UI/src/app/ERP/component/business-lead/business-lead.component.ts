@@ -91,8 +91,7 @@ export class BusinessLeadComponent {
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
       headerTooltip: 'Updated Time',
-    }, 
-    
+    },  
     
   ];
 
@@ -182,4 +181,5 @@ export class BusinessLeadComponent {
       }, 1000);
     });
   }
+
 }

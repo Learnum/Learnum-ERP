@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { APIService } from 'src/app/core/services/apiService';
 import { VerifyChallanModel } from './verify-challan.model';
 import { ChallanDetailsModal } from './challan-details-modal';
-import { BaseModel } from 'src/app/tds/model/BaseModel';
+import { BaseModel } from 'src/app/ERP/model/BaseModel';
 import { BaseService } from 'src/app/core/services/baseService';
 
 @Injectable()

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { APIService } from 'src/app/core/services/apiService';
-import { BaseModel } from 'src/app/tds/model/BaseModel';
+import { BaseModel } from 'src/app/ERP/model/BaseModel';
 import { SubjectModel } from './add-subject.model';
 
 @Injectable({

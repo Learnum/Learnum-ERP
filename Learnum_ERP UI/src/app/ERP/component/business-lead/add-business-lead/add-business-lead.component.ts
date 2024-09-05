@@ -37,14 +37,14 @@ export class AddBusinessLeadComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter(); 
-   
+    this.getAllStates();
+    this.getAllCountries();
+
     this.editData = this.activateRoute.snapshot.queryParams;
     if (this.editData.source === 'edit' && this.editData.BusinessId) {
       this.getBusinessDetails(this.editData.BusinessId);
     }
-
-    this.getAllStates();
-    this.getAllCountries();
+    
   }
 
   
@@ -445,7 +445,6 @@ export class AddBusinessLeadComponent implements OnInit {
         this.CountriesList = data
         this.setParameter();
       }, (error) => {
-
     });
   }
 

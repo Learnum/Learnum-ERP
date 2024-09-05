@@ -160,7 +160,7 @@ export class BranchesComponent {
       'source': 'edit',
       'BranchId': data.row.BranchId
     }
-    this.router.navigate(['tds/masters/branches/add-branch'], { queryParams: data1 });
+    this.router.navigate(['erp/masters/branches/add-branch'], { queryParams: data1 });
   }
 
   selectBranch($event: any) {
@@ -181,7 +181,7 @@ export class BranchesComponent {
         }
       };
     }
-    this.router.navigateByUrl('tds/masters/branches/add-branch')
+    this.router.navigateByUrl('erp/masters/branches/add-branch')
   }
 
   getAllBranchDetails() {

@@ -1,4 +1,4 @@
-import { BaseModel } from "src/app/tds/model/BaseModel";
+import { BaseModel } from "src/app/ERP/model/BaseModel";
 
 export class ChallanDetailsModal extends BaseModel {
     ChallanId: number;

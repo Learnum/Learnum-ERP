@@ -107,95 +107,95 @@ export class TDSLayoutComponent implements OnInit {
 
     this.Menu = [
      
-      { id: 55, title: 'My Dashboard ERP', url: '/tds/my-dashboard-erp', type: 'no' },
+      { id: 55, title: 'My Dashboard ERP', url: '/erp/my-dashboard-erp', type: 'no' },
       {
-        id: 4, title: 'Masters', url: '/tds/masters', type: 'no',
+        id: 4, title: 'Masters', url: '/erp/masters', type: 'no',
         submenu: [
-          { id: 5, title: 'Branches', url: '/tds/masters/branches', type: 'no' },
-          { id: 6, title: 'IP Address', url: '/tds/masters/ip-address', type: 'no' },
-          { id: 7, title: 'Classrooms', url: '/tds/masters/classrooms', type: 'no' },
-          { id: 8, title: 'Courses', url: '/tds/masters/courses', type: 'no' },
-          { id: 9, title: 'Subjects', url: '/tds/masters/subjects', type: 'no' },
-          { id: 10, title: 'Batches', url: '/tds/masters/batches', type: 'no' },
+          { id: 5, title: 'Branches', url: '/erp/masters/branches', type: 'no' },
+          { id: 6, title: 'IP Address', url: '/erp/masters/ip-address', type: 'no' },
+          { id: 7, title: 'Classrooms', url: '/erp/masters/classrooms', type: 'no' },
+          { id: 8, title: 'Courses', url: '/erp/masters/courses', type: 'no' },
+          { id: 9, title: 'Subjects', url: '/erp/masters/subjects', type: 'no' },
+          { id: 10, title: 'Batches', url: '/erp/masters/batches', type: 'no' },
         ]
       },
 
       {
-        id: 11, title: 'HRD', url: '/tds/hrd', type: 'no',
+        id: 11, title: 'HRD', url: '/erp/hrd', type: 'no',
         submenu: [
-          { id: 12, title: 'Employees', url: '/tds/hrd/employees', type: 'no' },
-          { id: 13, title: 'Trainer For Batch', url: '/tds/hrd/trainer', type: 'no' },
-          { id: 14, title: 'Branch Manager For Branch', url: '/tds/hrd/branch-manager', type: 'no' },
-          { id: 15, title: 'Content Writer For Subject', url: '/tds/hrd/content-writer', type: 'no' },
-          { id: 16, title: 'Counsellor For Branch', url: '/tds/hrd/counsellor', type: 'no' },
-          { id: 17, title: 'Accountant For Branch', url: '/tds/hrd/accountant', type: 'no' },
-          { id: 18, title: 'Attendance Sheet', url: '/tds/hrd/attendance', type: 'no' },
-          { id: 19, title: 'Daily Work Sheet', url: '/tds/hrd/daily-work', type: 'no' },
-          { id: 20, title: 'All Birthdays', url: '/tds/hrd/birthdays', type: 'no' },
+          { id: 12, title: 'Employees', url: '/erp/hrd/employees', type: 'no' },
+          { id: 13, title: 'Trainer For Batch', url: '/erp/hrd/trainer', type: 'no' },
+          { id: 14, title: 'Branch Manager For Branch', url: '/erp/hrd/branch-manager', type: 'no' },
+          { id: 15, title: 'Content Writer For Subject', url: '/erp/hrd/content-writer', type: 'no' },
+          { id: 16, title: 'Counsellor For Branch', url: '/erp/hrd/counsellor', type: 'no' },
+          { id: 17, title: 'Accountant For Branch', url: '/erp/hrd/accountant', type: 'no' },
+          { id: 18, title: 'Attendance Sheet', url: '/erp/hrd/attendance', type: 'no' },
+          { id: 19, title: 'Daily Work Sheet', url: '/erp/hrd/daily-work', type: 'no' },
+          { id: 20, title: 'All Birthdays', url: '/erp/hrd/birthdays', type: 'no' },
         ]
       },
 
       {
-        id: 21, title: 'My Syllabus', url: '/tds/my-syllabus', type: 'no',
+        id: 21, title: 'My Syllabus', url: '/erp/my-syllabus', type: 'no',
         submenu: [
-          { id: 22, title: 'MY Syllabus', url: '/tds/my-syllabus/my-syllabus-erp', type: 'no' },
-          { id: 23, title: 'My Exams', url: '/tds/my-syllabus/myexam', type: 'no' },
-          { id: 24, title: 'MCQ Assignments', url: '/tds/my-syllabus/mcq-assignments', type: 'no' },
-          { id: 25, title: 'Practical Problem', url: '/tds/my-syllabus/practical-problem', type: 'no' },
-          { id: 26, title: 'General Exams', url: '/tds/my-syllabus/general-exam', type: 'no' },
+          { id: 22, title: 'MY Syllabus', url: '/erp/my-syllabus/my-syllabus-erp', type: 'no' },
+          { id: 23, title: 'My Exams', url: '/erp/my-syllabus/myexam', type: 'no' },
+          { id: 24, title: 'MCQ Assignments', url: '/erp/my-syllabus/mcq-assignments', type: 'no' },
+          { id: 25, title: 'Practical Problem', url: '/erp/my-syllabus/practical-problem', type: 'no' },
+          { id: 26, title: 'General Exams', url: '/erp/my-syllabus/general-exam', type: 'no' },
           
         ]
       },
 
       {
-        id: 31, title: 'Student Management', url: '/tds/student-management', type: 'no',
+        id: 31, title: 'Student Management', url: '/erp/student-management', type: 'no',
         submenu: [
-          { id: 32, title: 'Add Students', url: '/tds/student-management/add-student', type: 'no' },
-          { id: 33, title: 'Students Admissions', url: '/tds/student-management/student-admission', type: 'no' },
-          { id: 34, title: 'Offline Fees Payment', url: '/tds/student-management/offline-fees-payment', type: 'no' },
-          { id: 35, title: 'Send Fees Remider Report', url: '/tds/student-management/send-fees-reminder-report', type: 'no' },
-          { id: 36, title: 'Students Admission Status', url: '/tds/student-management/student-admission-status', type: 'no' },
-          { id: 37, title: 'Offline Fees Status', url: '/tds/student-management/offline-fees-status', type: 'no' },
+          { id: 32, title: 'Add Students', url: '/erp/student-management/add-student', type: 'no' },
+          { id: 33, title: 'Students Admissions', url: '/erp/student-management/student-admission', type: 'no' },
+          { id: 34, title: 'Offline Fees Payment', url: '/erp/student-management/offline-fees-payment', type: 'no' },
+          { id: 35, title: 'Send Fees Remider Report', url: '/erp/student-management/send-fees-reminder-report', type: 'no' },
+          { id: 36, title: 'Students Admission Status', url: '/erp/student-management/student-admission-status', type: 'no' },
+          { id: 37, title: 'Offline Fees Status', url: '/erp/student-management/offline-fees-status', type: 'no' },
         ]
       },
 
-      { id: 38, title: 'Trainer Dashboard', url: '/tds/trainer-dashboard', type: 'no' },
+      { id: 38, title: 'Trainer Dashboard', url: '/erp/trainer-dashboard', type: 'no' },
 
       {
-        id: 39, title: 'Counsellor Dashboard', url: '/tds/counsellor-dashboard', type: 'no',
+        id: 39, title: 'Counsellor Dashboard', url: '/erp/counsellor-dashboard', type: 'no',
         submenu: [
-          { id: 40, title: 'Colleges', url: '/tds/counsellor-dashboard/colleges', type: 'no' },
-          { id: 41, title: 'Schedule Meeting With College', url: '/tds/counsellor-dashboard/schedule-meeting-with-college', type: 'no' },
-          { id: 42, title: 'Schedule Seminar With College', url: '/tds/counsellor-dashboard/schedule-seminar-with-college', type: 'no' },
-          { id: 43, title: 'Student Leads', url: '/tds/counsellor-dashboard/student-leads', type: 'no' },
-          { id: 44, title: 'Website Leads', url: '/tds/counsellor-dashboard/website-leads', type: 'no' },
-          { id: 45, title: 'Call With Student Lead', url: '/tds/counsellor-dashboard/call-with-student-lead', type: 'no' },
-          { id: 46, title: 'Counselling With Student', url: '/tds/counsellor-dashboard/counselling-with-student', type: 'no' },
-        ]
-      },
-
-      {
-        id: 47, title: 'Counselors Planing', url: '/tds/counselors-planning', type: 'no',
-        submenu: [
-          { id: 48, title: 'Trainers Planning', url: '/tds/counselors-planning/trainers-planning', type: 'no' },
-          { id: 49, title: 'Batches Planning', url: '/tds/counselors-planning/batches-planning', type: 'no' },
+          { id: 40, title: 'Colleges', url: '/erp/counsellor-dashboard/colleges', type: 'no' },
+          { id: 41, title: 'Schedule Meeting With College', url: '/erp/counsellor-dashboard/schedule-meeting-with-college', type: 'no' },
+          { id: 42, title: 'Schedule Seminar With College', url: '/erp/counsellor-dashboard/schedule-seminar-with-college', type: 'no' },
+          { id: 43, title: 'Student Leads', url: '/erp/counsellor-dashboard/student-leads', type: 'no' },
+          { id: 44, title: 'Website Leads', url: '/erp/counsellor-dashboard/website-leads', type: 'no' },
+          { id: 45, title: 'Call With Student Lead', url: '/erp/counsellor-dashboard/call-with-student-lead', type: 'no' },
+          { id: 46, title: 'Counselling With Student', url: '/erp/counsellor-dashboard/counselling-with-student', type: 'no' },
         ]
       },
 
       {
-        id: 50, title: 'Practical Problem Exams', url: '/tds/practical-problem-exams', type: 'no',
+        id: 47, title: 'Counselors Planing', url: '/erp/counselors-planning', type: 'no',
+        submenu: [
+          { id: 48, title: 'Trainers Planning', url: '/erp/counselors-planning/trainers-planning', type: 'no' },
+          { id: 49, title: 'Batches Planning', url: '/erp/counselors-planning/batches-planning', type: 'no' },
+        ]
+      },
+
+      {
+        id: 50, title: 'Practical Problem Exams', url: '/erp/practical-problem-exams', type: 'no',
        
       },
 
       {
-        id: 52, title: 'My Practical Exam', url: '/tds/my-practical-exam', type: 'no',
+        id: 52, title: 'My Practical Exam', url: '/erp/my-practical-exam', type: 'no',
        
       },
 
-      { id: 55, title: 'Add Practical Problems Subform', url: '/tds/add-practical-problem-solution', type: 'no' },
+      { id: 55, title: 'Add Practical Problems Subform', url: '/erp/add-practical-problem-solution', type: 'no' },
 
       {
-        id: 56, title: 'Business Leads', url: '/tds/business-lead', type: 'no',
+        id: 56, title: 'Business Leads', url: '/erp/business-lead', type: 'no',
        
       },
 
