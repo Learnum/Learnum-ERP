@@ -24,10 +24,10 @@ export class AddBatchesService extends BaseService {
   }
 
   insertBatchData(batchDetails: BatchesDetailsModel, installmentDetails: InstallMentDetailsModel[]) {
-    batchDetails.AddedBy = 1;
-    batchDetails.AddedDate = new Date();
-    batchDetails.UpdatedBy = 1;
-    batchDetails.UpdatedDate = new Date();
+    batchDetails.addedBy = 1;
+    batchDetails.addedDate = new Date();
+    batchDetails.updatedBy = 1;
+    batchDetails.updatedDate = new Date();
 
     // installmentDetails.AddedBy = 1;
     // installmentDetails.AddedDate = new Date();
