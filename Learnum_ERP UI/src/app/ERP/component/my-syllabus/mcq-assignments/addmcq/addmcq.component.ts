@@ -5,6 +5,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { McqService } from 'src/app/mcq.service';
 
 @Component({
   selector: 'app-addmcq',
@@ -33,13 +34,10 @@ export class AddmcqComponent implements OnInit {
 
     constructor(
       private router: Router,
-      
-      //private addBranchService: AddBranchService,
-      //private addipaddressService: AddIpaddressService,
+      private mcqService:McqService,
       private alertService: AlertService,
       private messageService: MessageService,
       private activateRoute: ActivatedRoute,
-      // private fb: FormBuilder,
       private modalService: NgbModal,
       private formBuilder: FormBuilder 
 
