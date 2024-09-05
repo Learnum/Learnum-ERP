@@ -1,0 +1,39 @@
+<h6 class="mt-2 pb-2 border-bottom"><b><a href="/tds/tds-return"><i class="uil uil-multiply"
+        style="color: black;"></i></a>Pull Challan</b></h6>
+<div class="col-md-12">
+  <div class="row" align="right">
+    <div class="col-md-8"></div>
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+      <input type="text" class="from-control me-2" placeholder="Enter Challan Serial Number" style="width:200px;">
+      <select name="" id="" class="form-select me-2 select-cloud">
+        <option *ngFor="let formQsection of formQsectionList" [value]="formQsection.value">
+          {{ formQsection.label }}
+        </option>
+      </select>
+      <select name="" id="" class="form-select me-2 select-cloud">
+        <option *ngFor="let month of monthList" [value]="month.value">
+          {{ month.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+<!-- ag-grid -->
+<app-data-grid #agGrid class="ag-theme-alpine" #declaredGrid [tableData]="tdsReturnList" [tableColumns]="declaredTableColumns"
+  [isEditable]="false" [isSortable]="true" [isFilterable]="false" [isColumnFilterable]="false" [isResizable]="false"
+  [isPageable]="true" [defaultPageSize]="12" (selectedRows)="selectEmployee($event)" (rowAction)="onRowAction($event)"
+  (gridReady)="onGridReady($event)"
+
+  >
+</app-data-grid>
+<!-- end of ag-grid -->
+<!-- Buttons -->
+<div class="row mb-3 mt-4">
+  <div class="col-12 mx-2 " align="left">
+    <a type="button" class="btn btn-cloud" (click)="OnConfirmClick(this.tdsReturnList)">Confirm</a>&nbsp;&nbsp;
+    <a type="button" class=" btn btn-fent-cloud" href="/tds/tds-return">Cancel</a>&nbsp;&nbsp;
+  </div>
+</div>
+<!-- end of button -->

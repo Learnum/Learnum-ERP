@@ -1,0 +1,65 @@
+<div class="row d-flex">
+  <div class="col-12">
+    <h6 class="p-3 mb-2" style="border-bottom: 2px solid rgb(230, 230, 230);">
+      <b>
+        <span data-toggle="tooltip" title="Close"><i class="uil uil-multiply"></i>&nbsp;</span>Challan Details
+      </b>
+    </h6>
+    <form id="MyForm" [formGroup]="form" (ngSubmit)="onSubmit(form)">
+      <formly-form [model]="ChallanDetailsModal" [fields]="fields" [options]="options" [form]="form">
+        <div *ngIf="form.invalid && form.touched" class="text-danger">
+          Please fill out all required fields.
+        </div>
+      </formly-form>
+    </form>
+  </div>
+</div>
+
+    <div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
+      <button class="btn btn-cloud me-2" (click)="onSubmit(form)">Save</button>
+      <button class="btn btn-cloud me-2" (click)="onVerifyChallanClick()">Verify Challan</button>
+      <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
+    </div>
+
+    <button type="button" id="onverifyclickmodel" style="display: none;" class="btn btn-primary" data-bs-toggle="modal"
+      data-bs-target="#exampleModal3">
+      Launch demo modal
+    </button>
+    <!-- model-start -->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header" style="border: none; background-color:  #9938A5; color: white !important;">
+            <h4 class="modal-title " id="exampleModalLabel3">Verify Challan</h4>
+            <a type="button" class="btn-close" id="closemodal2" data-bs-dismiss="modal" aria-label="Close"></a>
+          </div>
+          <div class="modal-body p-5" id="modalMessage">
+            <!-- new return form start -->
+            <form #verifychallan="ngForm" (ngSubmit)="OnSaveClick()">
+              <div class="box">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="form-group col-md-12">
+                      <label class="control-label">Image*</label>
+                      <input type="text" class="form-control">
+                    </div>
+                    <div class=" form-group col-md-12">
+                      <div class="form-group">
+                        <label class="control-label">Captcha*</label>
+                        <input type="text" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <hr>
+                  <div class="text-center">
+                    <button class=" btn btn-cloud">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- new return form end -->
+          </div>
+        </div>
+      </div>
+    </div>
