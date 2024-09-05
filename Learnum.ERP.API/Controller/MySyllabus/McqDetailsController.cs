@@ -1,7 +1,9 @@
 ﻿using Learnum.ERP.API.Controller.HRD;
+using Learnum.ERP.Repository.Master.CounsellorDashboard;
 using Learnum.ERP.Repository.Master.HRD_repo;
 using Learnum.ERP.Repository.Master.MySyllabus_repo;
 using Learnum.ERP.Shared.Core;
+using Learnum.ERP.Shared.Entities;
 using Learnum.ERP.Shared.Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +25,8 @@ namespace Learnum.ERP.API.Controller.MySyllabus
             mcqDetailsRepository = _mcqDetailsRepository;
         }
 
-        [HttpPost("InsertMcqSheetDetails")]
-        public async Task<IActionResult> InsertMcqDetails(McqDetailsModel mcqDetailsModel)
+        [HttpPost("InsertMcqDetails")]
+        public async Task<IActionResult> InsertMcqDetails(McqDetailsList mcqDetailsModel)
         {
             if (mcqDetailsModel == null)
             {
@@ -43,8 +45,8 @@ namespace Learnum.ERP.API.Controller.MySyllabus
             return BadRequest("Failed to Save");
         }
 
-        [HttpGet("getAllMcqSheetList")]
-        public async Task<IActionResult> GetAllMcqDetailsList()
+        [HttpGet("getAllMcqDetails")]
+        public async Task<IActionResult> GetMcqDetailsList()
         {
             var data = await mcqDetailsRepository.GetMcqDetailsList();
             if (data != null)
@@ -52,6 +54,24 @@ namespace Learnum.ERP.API.Controller.MySyllabus
                 return Ok(data);
             }
             return NotFound("No record found");
+        }
+
+
+
+        [HttpGet("getMcqDetailsById/{McqId}")]
+        public async Task<IActionResult> GetMcqDetailsById(long? McqId)
+        {
+            if (McqId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await mcqDetailsRepository.GetMcqDetailsById(McqId);
+            return Ok(result);
         }
     }
 }

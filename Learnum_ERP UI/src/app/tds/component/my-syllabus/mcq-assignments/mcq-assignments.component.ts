@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { McqService } from './addmcq/mcq.service';
 
 @Component({
   selector: 'app-mcq-assignments',
@@ -13,7 +14,7 @@ import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-g
 export class McqAssignmentsComponent implements OnInit {
 
 
-  tdsReturnList: any[] = [];
+  McqList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
@@ -76,72 +77,25 @@ export class McqAssignmentsComponent implements OnInit {
       minWidth: 150
     }
   
-    // {
-    //   field: 'IP status',
-    //   headerName: 'IPStatus',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: {
-    //     buttons: ['reset', 'apply'],
-    //   },
-    //   minWidth: 100
-
-    // },
-    
+  
 
   ];
-  getEmployeeList: any;
+  
 
 
 
   ngOnInit(): void {
-   // this.GetbranchList();
+    //this.GetMcqList();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    
-    //private addBranchService: AddBranchService,
-    // private ipadressService:IpAddressService,
+    private mcqService:McqService,
     private formBuilder: FormBuilder) {
-    {
-      this.form = this.formBuilder.group({
-        // Define form controls with validators as needed
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        // Add more form controls as needed
-      });
-    }
-  }
-  selectBranch(branch: any) {
-
-  }
-  // editEmploy(employeeData: any) {
-
-  //   const employeeId = employeeData.EmpID;
-  //   const index = this.tdsReturnList.findIndex(emp => emp.EmpID === employeeId);
-  //   if (index !== -1) {
-  //   this.openEditForm(employeeData).then((editedEmployeeData: any) => {
-  //   this.tdsReturnList[index] = editedEmployeeData;
-  //   console.log('Edited Employee:', editedEmployeeData);
-  // });
-  //   }
-  // }
-
-  // openEditForm(employeeData: any): Promise<any> {
-
-  //   return new Promise((resolve, reject) => {
-
-  //     setTimeout(() => {
-  //       const editedEmployeeData = { ...employeeData };
-
-  //       editedEmployeeData.Status = 'Edited';
-  //       resolve(editedEmployeeData);
-  //     }, 1000);
-  //   });
-  // }
-
+    {}}
+  
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
@@ -151,29 +105,21 @@ export class McqAssignmentsComponent implements OnInit {
   }
 
 
+  selectMcq($event: any) {
+    throw new Error('Method not implemented.');
+  }
 
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewBranch',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
+      actionPage: 'ViewContentWriter',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
+      colorClass: 'text-secondary h4',
+      tooltip: 'Edit Content Writer'
     },
   ];
   
-  // onAddIP(branch?:any)
-  // {
-  //   let navigationExtras: NavigationExtras = {};
-  //   if (branch) {
-  //     navigationExtras = {
-  //       state: {
-  //         branchData: branch
-  //       }
-  //     };
-  //   }
-  //   this.router.navigate(['tds/masters/ip-address/add-ipaddress']);
-  // }
  
  
   onAddMcq()
@@ -186,11 +132,11 @@ export class McqAssignmentsComponent implements OnInit {
   }
 
 
-//   GetbranchList() {
-//     this.addBranchService.getBranchDetails().subscribe(
+//   GetMcqList() {
+//     this.mcqService.getMcqDetails().subscribe(
 //       (result: any) => {
-//         this.tdsReturnList = result.Value;
-//         let tdsReturnList = result.Value;
+//         this.McqList = result.Value;
+//         let McqList = result.Value;
 //       },
 //       (error: any) => {
 //         console.error("Error occurred while fetching employee details:", error);
@@ -199,7 +145,7 @@ export class McqAssignmentsComponent implements OnInit {
 //     );
 //   }
 // }
-// 
+
 
 }
 
