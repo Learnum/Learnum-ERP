@@ -12,28 +12,28 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'tds',
+    path: 'erp',
     loadChildren: () =>
-      import('./tds/tds.module').then(
+      import('./ERP/tds.module').then(
         (m) => m.POIModule
       ),
   },
   {
     path: 'login',
     loadChildren: () =>
-      import('./tds/component/login/login.module').then((m) => m.LoginModule),
+      import('./ERP/component/login/login.module').then((m) => m.LoginModule),
   },
   {
     path: 'sign-up',
     loadChildren: () =>
-      import('./tds/component/sign-up/sign-up.module').then(
+      import('./ERP/component/sign-up/sign-up.module').then(
         (m) => m.SignUpModule
       ),
   },
   {
     path: 'forgot-password',
     loadChildren: () =>
-      import('./tds/component/forgot-password/forgot-password.module').then(
+      import('./ERP/component/forgot-password/forgot-password.module').then(
         (m) => m.ForgotPasswordModule
       ),
   }, 
@@ -41,7 +41,7 @@ const routes: Routes = [
     path: 'change-password',
     //canActivate: [RouteGaurd],
     loadChildren: () =>
-      import('./tds/component/change-password/change-password.module').then(
+      import('./ERP/component/change-password/change-password.module').then(
         (m) => m.ChangePasswordModule
       ),
   },
