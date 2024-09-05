@@ -40,16 +40,20 @@ export class AttendanceComponent implements OnInit {
       headerTooltip: 'Name',
     },
     {
-      field: 'Date',
-      headerName: 'Date',
-      filter: 'agSetColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
+      field: "Date",
+      headerName: "Date",
+      cellClass: "dateLong",
       minWidth: 150,
-      headerTooltip: 'Date',
-    },
+      valueFormatter: (params) => {
+        var date = new Date(params.value);
+        var day = date.getDate().toString().padStart(2, "0");
+        var month = (date.getMonth() + 1).toString().padStart(2, "0");
+        var year = date.getFullYear().toString();
+       
+        return ( day + "/" +  month + "/" + year + "");
 
+      },
+    },
     {
       field: 'Role',
       headerName: 'Role',
