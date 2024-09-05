@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
-import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { TableColumn, ActionColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
 import { StudentcounsellingService } from './counselling-student/studentcounselling.service';
 @Component({
   selector: 'app-counselling-with-student',
@@ -21,7 +21,7 @@ export class CounsellingWithStudentComponent implements OnInit {
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit '
+      tooltip: 'Edit '
     },
   ];
   declaredTableColumns: TableColumn[] = [
@@ -31,7 +31,7 @@ export class CounsellingWithStudentComponent implements OnInit {
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
-      headerTooltip:'SR.NO'
+      headerTooltip: 'SR.NO'
     },
     {
       field: 'StudentName',
@@ -39,7 +39,7 @@ export class CounsellingWithStudentComponent implements OnInit {
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
-      headerTooltip:'Student Name'
+      headerTooltip: 'Student Name'
     },
     {
       field: 'Phone',
@@ -47,7 +47,7 @@ export class CounsellingWithStudentComponent implements OnInit {
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
-       headerTooltip:'Phone'
+      headerTooltip: 'Phone'
     },
     {
       field: 'CounsellingConversation',
@@ -55,31 +55,49 @@ export class CounsellingWithStudentComponent implements OnInit {
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
-      headerTooltip:'Counselling Conversation'
+      headerTooltip: 'Counselling Conversation'
     },
     {
-      field: 'CounsellingDate',
-      headerName: 'Counselling Date',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 140,
-       headerTooltip:'Counselling Date'
+      field: "CounsellingDate",
+      headerName: "CounsellingDate",
+      cellClass: "dateLong",
+      minWidth: 150,
+      valueFormatter: (params) => {
+        var date = new Date(params.value);
+        var day = date.getDate().toString().padStart(2, "0");
+        var month = (date.getMonth() + 1).toString().padStart(2, "0");
+        var year = date.getFullYear().toString();
+       return ( day + "/" +  month + "/" + year + "");
+      },
     },
+
     {
-      field: 'CounsellingTime',
-      headerName: 'Counselling Time',
-      filter: 'agDateColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 140,
-       headerTooltip:'Counselling Time'
+      field: "CounsellingTime",
+      headerName: "CounsellingTime",
+      cellClass: "dateLong",
+      minWidth: 150,
+      valueFormatter: (params) => {
+        var date = new Date(params.value);
+        // var day = date.getDate().toString().padStart(2, "0");
+        // var month = (date.getMonth() + 1).toString().padStart(2, "0");
+        // var year = date.getFullYear().toString();
+         var hourNum = date.getHours() % 12;
+        var hour = (hourNum === 0 ? 12 : hourNum).toString().padStart(2, "0");
+        var min = date.getMinutes().toString().padStart(2, "0");
+        var sec = date.getSeconds().toString().padStart(2, "0");
+        var amPM = date.getHours() < 12 ? "AM" : "PM";
+
+        return ( hour + ":" + min + ":" + sec + " " + amPM);
+      },
     },
+  
     {
       field: 'CounsellingStatus',
       headerName: 'Counselling Status',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
-       headerTooltip:'College Website'
+      headerTooltip: 'College Website'
     },
     {
       field: 'addedBy',
@@ -87,7 +105,7 @@ export class CounsellingWithStudentComponent implements OnInit {
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
-       headerTooltip:'Added By'
+      headerTooltip: 'Added By'
     },
     {
       field: 'addedTime',
@@ -95,7 +113,7 @@ export class CounsellingWithStudentComponent implements OnInit {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
-       headerTooltip:'Added Time'
+      headerTooltip: 'Added Time'
     },
     {
       field: 'updatedBy',
@@ -103,7 +121,7 @@ export class CounsellingWithStudentComponent implements OnInit {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
-      headerTooltip:'Updated By'
+      headerTooltip: 'Updated By'
     },
     {
       field: 'updatedTime',
@@ -111,19 +129,19 @@ export class CounsellingWithStudentComponent implements OnInit {
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
-       headerTooltip:'Updated Time'
-    }, 
-    
+      headerTooltip: 'Updated Time'
+    },
+
   ];
 
- 
+
 
   constructor(
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
-    private studentcounsellingService:StudentcounsellingService
+    private studentcounsellingService: StudentcounsellingService
   ) { }
 
   ngOnInit(): void {
@@ -136,8 +154,8 @@ export class CounsellingWithStudentComponent implements OnInit {
     }
     this.router.navigate(['tds/counsellor-dashboard/counselling-with-student/counselling-student'], { queryParams: data1 });
   }
-  selectStudentCounselling($event: any)
-   {
+  
+  selectStudentCounselling($event: any) {
     throw new Error('Method not implemented.');
   }
 
@@ -156,7 +174,7 @@ export class CounsellingWithStudentComponent implements OnInit {
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');
   }
- 
+
   getStudentCounsellingDetails() {
     this.studentcounsellingService.getStudentCounsellingDetails().subscribe((result: any) => {
       this.StudentCounsellingList = result.Value;
