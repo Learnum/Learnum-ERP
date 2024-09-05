@@ -105,6 +105,7 @@ export class TDSLayoutComponent implements OnInit {
     this.companyLogoUrl = `assets/images/taxblock/companyLogo/${companyUrl}.png`;
     this.companyMobileLogoUrl = `assets/images/taxblock/companyLogo/${companyUrl}_m.png`;
 
+
     this.Menu = [
      
       { id: 55, title: 'My Dashboard ERP', url: '/erp/my-dashboard-erp', type: 'no' },

@@ -189,12 +189,12 @@ export class AddBranchComponent implements OnInit {
               label: 'Branch Status',
               required: true,
               options: [
-                { value: true, label: 'Active' }, // Set as selected and disabled
+                { value: true, label: 'Active' },
                 { value: false, label: 'Inactive' }
               ],
-              //disabled: true // Disables the entire select field
+              
             },
-            defaultValue: true, // Set "Active" as the default value
+            defaultValue: true, 
             validation: {
               messages: {
                 required: 'Please select a branch status',

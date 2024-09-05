@@ -1,11 +1,11 @@
 
 <h6 class="mt-2 pb-2 border-bottom">
-  <b class="ms-3">
+  <b class="ms-5">
     <!-- <i class="uil uil-multiply" style="cursor: pointer;"></i> -->
     Batches
   </b>
 </h6>
-<div class="col-md-12">
+<div class="px-5">
   <div class="row" align="right">
     <div class="col-md-12" style="display: flex; justify-content: flex-end;">
       <button class="btn btn-fent-cloud" (click)="onAddBatch()">
@@ -15,9 +15,11 @@
   </div>
 </div>
 <!-- ag-grid -->
+<div class="px-5">
 <app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="batchesDetailsReq" [tableColumns]="declaredTableColumns"
   [actionColumns]="declaredActionColumns" [isEditable]="false" [isSortable]="true" [isFilterable]="false"
   [isColumnFilterable]="false" [isResizable]="false" [isPageable]="true" [defaultPageSize]="12"
   (selectedRows)="selectBatch($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">
 </app-data-grid>
+<div>
 
