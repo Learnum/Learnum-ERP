@@ -33,7 +33,7 @@ namespace Learnum.ERP.Repository.Master.MySyllabus_repo
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
-                var dbparams = new DynamicParameters(mcqDetailsModel);
+                var dbparams = new DynamicParameters(mcqDetailsModel.mcqDetails);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
                 dbparams.Add("@Action", "InsertAddMcqDetails");
 
