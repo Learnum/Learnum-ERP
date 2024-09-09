@@ -267,7 +267,7 @@ export class CallWithStudentComponent implements OnInit {
     }
   }
   onCancleClick() {
-    this.router.navigateByUrl('tds/counsellor-dashboard/call-with-student-lead');
+    this.router.navigateByUrl('erp/counsellor-dashboard/call-with-student-lead');
   }
   onResetClick() {
     this.form.reset();
@@ -284,11 +284,11 @@ export class CallWithStudentComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/counsellor-dashboard/call-with-student-lead');
+          this.router.navigateByUrl('erp/counsellor-dashboard/call-with-student-lead');
 
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/counsellor-dashboard/call-with-student-lead');
+          this.router.navigateByUrl('erp/counsellor-dashboard/call-with-student-lead');
 
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);

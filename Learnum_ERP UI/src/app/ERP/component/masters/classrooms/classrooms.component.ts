@@ -128,7 +128,7 @@ export class ClassroomsComponent implements OnInit {
       'source': 'edit',
       'ClassroomId': data.row.ClassroomId
     }
-    this.router.navigate(['tds/masters/classrooms/add-classrooms'], { queryParams: data1 });
+    this.router.navigate(['erp/masters/classrooms/add-classrooms'], { queryParams: data1 });
   }
 
   selectClassroom($event: any) {
@@ -154,7 +154,7 @@ export class ClassroomsComponent implements OnInit {
         }
       };
     }
-    this.router.navigateByUrl('tds/masters/classrooms/add-classrooms')
+    this.router.navigateByUrl('erp/masters/classrooms/add-classrooms')
   }
 
 }

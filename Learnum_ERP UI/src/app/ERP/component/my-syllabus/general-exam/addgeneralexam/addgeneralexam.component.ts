@@ -124,7 +124,7 @@ throw new Error('Method not implemented.');
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/my-syllabus/general-exam');
+    this.router.navigateByUrl('erp/my-syllabus/general-exam');
   }
 
   get f() {

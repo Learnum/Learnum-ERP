@@ -127,7 +127,7 @@ export class CallWithStudentLeadComponent implements OnInit {
       'source': 'edit',
       'CallId': data.row.CallId
     }
-    this.router.navigate(['tds/counsellor-dashboard/call-with-student-lead/call-with-student'], { queryParams: data1 });
+    this.router.navigate(['erp/counsellor-dashboard/call-with-student-lead/call-with-student'], { queryParams: data1 });
   }
   selectStudentCall($event: any)
    {
@@ -153,7 +153,7 @@ export class CallWithStudentLeadComponent implements OnInit {
         }
       };
     }
-    this.router.navigateByUrl('tds/counsellor-dashboard/call-with-student-lead/call-with-student')
+    this.router.navigateByUrl('erp/counsellor-dashboard/call-with-student-lead/call-with-student')
   }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');

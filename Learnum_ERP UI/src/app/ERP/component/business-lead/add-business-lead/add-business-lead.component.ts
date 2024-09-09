@@ -374,7 +374,7 @@ export class AddBusinessLeadComponent implements OnInit {
     }
   }
   onCancleClick() {
-    this.router.navigateByUrl('tds/business-lead');
+    this.router.navigateByUrl('erp/business-lead');
   }
   onResetClick() {
     this.form.reset();
@@ -382,7 +382,7 @@ export class AddBusinessLeadComponent implements OnInit {
 
   navigate()
   {
-    this.router.navigateByUrl('tds/business-lead');
+    this.router.navigateByUrl('erp/business-lead');
 
   }
 
@@ -398,10 +398,10 @@ export class AddBusinessLeadComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/business-lead');
+          this.router.navigateByUrl('erp/business-lead');
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/business-lead');
+          this.router.navigateByUrl('erp/business-lead');
         } else if (serviceResponse === ResponseCode.AlreadyExists) {
           this.alertService.ShowErrorMessage("Mobile Number already exists");
         } else {

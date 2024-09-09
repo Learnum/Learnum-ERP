@@ -109,7 +109,7 @@ export class BusinessLeadComponent {
   }
 
   // onAddBusinessLead() {
-  //   this.router.navigate(['tds/business-lead/add-business-lead']);
+  //   this.router.navigate(['erp/business-lead/add-business-lead']);
   // }
   onAddBusinessLead(business?: any) {
 
@@ -121,7 +121,7 @@ export class BusinessLeadComponent {
         }
       };
     }
-    this.router.navigateByUrl('tds/business-lead/add-business-lead')
+    this.router.navigateByUrl('erp/business-lead/add-business-lead')
   }
 
   onRowAction(data: any) {
@@ -129,7 +129,7 @@ export class BusinessLeadComponent {
       'source': 'edit',
       'BusinessId': data.row.BusinessId
     }
-    this.router.navigate(['tds/business-lead/add-business-lead'], { queryParams: data1 });
+    this.router.navigate(['erp/business-lead/add-business-lead'], { queryParams: data1 });
   }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');

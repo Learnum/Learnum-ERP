@@ -130,12 +130,12 @@ export class BatchesPlanningComponent implements OnInit {
       'source': 'edit',
       'BatchId': data.row.BatchId
     }
-    this.router.navigate(['tds/counselors-planning/add-batch'], { queryParams: data1 });
+    this.router.navigate(['erp/counselors-planning/add-batch'], { queryParams: data1 });
   }
 
   onAddBatch(batch?: any) {
 
-    this.router.navigate(['tds/counselors-planning/add-batch']);
+    this.router.navigate(['erp/counselors-planning/add-batch']);
   }
 
   onActionButton(action: string) {

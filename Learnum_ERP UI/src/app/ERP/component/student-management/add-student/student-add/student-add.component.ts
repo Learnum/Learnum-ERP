@@ -543,7 +543,7 @@ export class StudentAddComponent implements OnInit {
     ];
   }
   onCancleClick() {
-    this.router.navigateByUrl('tds/student-management/add-student');
+    this.router.navigateByUrl('erp/student-management/add-student');
   }
   onResetClick() {
     this.form.reset();
@@ -567,7 +567,7 @@ export class StudentAddComponent implements OnInit {
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
-        this.router.navigateByUrl('tds/student-management/add-student');
+        this.router.navigateByUrl('erp/student-management/add-student');
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);

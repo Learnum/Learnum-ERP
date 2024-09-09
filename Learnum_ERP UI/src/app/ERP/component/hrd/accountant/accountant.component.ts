@@ -125,12 +125,12 @@ export class AccountantComponent implements OnInit {
       'source': 'edit',
       'BranchAccountantId': data.row.BranchAccountantId
     }
-    this.router.navigate(['tds/hrd/accountant/add-accountant'], { queryParams: data1 });
+    this.router.navigate(['erp/hrd/accountant/add-accountant'], { queryParams: data1 });
   }
 
 onAddAccountant() {
 
-    this.router.navigateByUrl('tds/hrd/accountant/add-accountant')
+    this.router.navigateByUrl('erp/hrd/accountant/add-accountant')
   }
    onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');

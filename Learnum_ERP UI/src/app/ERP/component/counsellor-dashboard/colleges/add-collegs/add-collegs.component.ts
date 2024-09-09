@@ -438,10 +438,10 @@ export class AddCollegsComponent implements OnInit {
     this.form.reset();
   }
   onCancelClick() {
-    this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
+    this.router.navigateByUrl('erp/counsellor-dashboard/colleges');
   }
   onCloseNavigate() {
-    this.router.navigate(['tds/counsellor-dashboard/colleges/add-collegs']);
+    this.router.navigate(['erp/counsellor-dashboard/colleges/add-collegs']);
   }
   getBranchDetails() {
     this.addcollegesService.getBranchList().subscribe(
@@ -502,10 +502,10 @@ export class AddCollegsComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
+          this.router.navigateByUrl('erp/counsellor-dashboard/colleges');
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/counsellor-dashboard/colleges');
+          this.router.navigateByUrl('erp/counsellor-dashboard/colleges');
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }

@@ -167,11 +167,11 @@ export class AddClassroomsComponent implements OnInit {
   }
 
   navigate() {
-    this.router.navigateByUrl('tds/masters/classrooms');
+    this.router.navigateByUrl('erp/masters/classrooms');
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/masters/classrooms');
+    this.router.navigateByUrl('erp/masters/classrooms');
   }
   
   onResetClick() {
@@ -209,7 +209,7 @@ export class AddClassroomsComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/masters/classrooms');
+    this.router.navigateByUrl('erp/masters/classrooms');
   }
   getBranchDetails() {
     this.addclassroomService.getBranchList().subscribe(

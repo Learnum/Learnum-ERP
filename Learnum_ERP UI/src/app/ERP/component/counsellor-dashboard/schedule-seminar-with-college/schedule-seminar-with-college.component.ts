@@ -164,7 +164,7 @@ export class ScheduleSeminarWithCollegeComponent implements OnInit {
       'source': 'edit',
       'SeminarId': data.row.SeminarId
     }
-    this.router.navigate(['tds/counsellor-dashboard/schedule-seminar-with-college/add-seminar'], { queryParams: data1 });
+    this.router.navigate(['erp/counsellor-dashboard/schedule-seminar-with-college/add-seminar'], { queryParams: data1 });
   }
   selectSeminar($event: any)
    {
@@ -190,7 +190,7 @@ export class ScheduleSeminarWithCollegeComponent implements OnInit {
         }
       };
     }
-    this.router.navigateByUrl('tds/counsellor-dashboard/schedule-seminar-with-college/add-seminar')
+    this.router.navigateByUrl('erp/counsellor-dashboard/schedule-seminar-with-college/add-seminar')
   }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');

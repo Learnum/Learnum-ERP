@@ -242,12 +242,12 @@ setParameter() {
 
   
   onCancel() {
-    this.router.navigateByUrl('tds/counselors-planning/trainers-planning')
+    this.router.navigateByUrl('erp/counselors-planning/trainers-planning')
     }
 
     navigate()
     {
-      this.router.navigateByUrl('tds/counselors-planning/trainers-planning')
+      this.router.navigateByUrl('erp/counselors-planning/trainers-planning')
     }
   get f()
   {
@@ -290,7 +290,7 @@ setParameter() {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    this.router.navigateByUrl('tds/counselors-planning/trainers-planning');
+    this.router.navigateByUrl('erp/counselors-planning/trainers-planning');
   }
 
  

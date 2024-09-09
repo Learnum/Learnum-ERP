@@ -224,12 +224,12 @@ export class AddFeesComponent implements OnInit {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/student-management/offline-fees-payment');
+          this.router.navigateByUrl('erp/student-management/offline-fees-payment');
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/student-management/offline-fees-payment');
+          this.router.navigateByUrl('erp/student-management/offline-fees-payment');
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
@@ -252,7 +252,7 @@ export class AddFeesComponent implements OnInit {
   }
 
   onCancelClick() {
-    this.router.navigateByUrl('tds/student-management/offline-fees-payment');
+    this.router.navigateByUrl('erp/student-management/offline-fees-payment');
   }
 
   getBranchDetails() {

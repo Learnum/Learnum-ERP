@@ -108,7 +108,7 @@ export class StudentAdmissionComponent implements OnInit {
   }
 
   AddStudentAdmission() {
-    this.router.navigate(['tds/student-management/add-admissions']);
+    this.router.navigate(['erp/student-management/add-admissions']);
   }
 
   onRowAction(data: any) {
@@ -116,7 +116,7 @@ export class StudentAdmissionComponent implements OnInit {
       'source': data.action,
       'AdmissionId': data.row.AdmissionId // Assuming AdmissionId is the unique identifier for student admissions
     };
-    this.router.navigate(['/tds/student-management/add-admissions'], { queryParams: data1 });
+    this.router.navigate(['/erp/student-management/add-admissions'], { queryParams: data1 });
   }
 
   onActionButton(action: string) {

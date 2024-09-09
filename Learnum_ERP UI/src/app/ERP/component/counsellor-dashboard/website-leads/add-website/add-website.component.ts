@@ -193,7 +193,7 @@ export class AddWebsiteComponent implements OnInit {
     }
   }
   onCancleClick() {
-    this.router.navigateByUrl('tds/counsellor-dashboard/website-leads');
+    this.router.navigateByUrl('erp/counsellor-dashboard/website-leads');
   }
   onResetClick() {
     this.form.reset();
@@ -232,7 +232,7 @@ export class AddWebsiteComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/counsellor-dashboard/website-leads');
+    this.router.navigateByUrl('erp/counsellor-dashboard/website-leads');
   }
   getWebsiteLeadsDetails(StudentId: number) {
     this.websiteleadsService.getWebsiteLeadList(StudentId).subscribe(
