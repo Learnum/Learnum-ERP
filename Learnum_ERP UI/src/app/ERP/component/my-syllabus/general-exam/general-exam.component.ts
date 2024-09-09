@@ -145,7 +145,7 @@ export class GeneralExamComponent implements OnInit {
       'source': 'edit',
       'branchID': data.row.branchID
     }
-    this.router.navigate(['/tds/masters/add-subjects'], { queryParams: data1 });
+    this.router.navigate(['/erp/masters/add-subjects'], { queryParams: data1 });
   }
 
 
@@ -176,7 +176,7 @@ export class GeneralExamComponent implements OnInit {
  
   onAddgeneral()
   {
-    this.router.navigate(['tds/my-syllabus/general-exam/addgeneralexam']);
+    this.router.navigate(['erp/my-syllabus/general-exam/addgeneralexam']);
   }
   
   onActionButton(action: string) {

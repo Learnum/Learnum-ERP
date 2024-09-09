@@ -132,7 +132,7 @@ export class BatchesComponent implements OnInit {
       'source': 'edit',
       'BatchId': data.row.BatchId
     }
-    this.router.navigate(['tds/masters/batches/add-batches'], { queryParams: data1 });
+    this.router.navigate(['erp/masters/batches/add-batches'], { queryParams: data1 });
   }
   selectBatch($event: any) 
   { 
@@ -150,7 +150,7 @@ export class BatchesComponent implements OnInit {
         }
       };
     }
-    this.router.navigateByUrl('tds/masters/batches/add-batches')
+    this.router.navigateByUrl('erp/masters/batches/add-batches')
   }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');

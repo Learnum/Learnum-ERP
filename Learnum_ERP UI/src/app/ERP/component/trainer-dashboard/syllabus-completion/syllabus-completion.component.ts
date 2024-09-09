@@ -92,12 +92,12 @@ export class SyllabusCompletionComponent implements OnInit {
     }
   }
   onCancleClick() {
-    this.router.navigateByUrl('tds/trainer-dashboard');
+    this.router.navigateByUrl('erp/trainer-dashboard');
   }
 
   navigate()
   {
-    this.router.navigateByUrl('tds/trainer-dashboard');
+    this.router.navigateByUrl('erp/trainer-dashboard');
   }
   onResetClick() {
     this.form.reset();
@@ -137,7 +137,7 @@ export class SyllabusCompletionComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/trainer-dashboard');
+    this.router.navigateByUrl('erp/trainer-dashboard');
   }
 	getSyllabusDetails(TrainerId: number) {
     this.syllabuscompletionService.getSyllabus(TrainerId).subscribe(

@@ -124,7 +124,7 @@ export class SubjectsComponent implements OnInit {
       'source': 'edit',
       'SubjectId': data.row.SubjectId
     }
-    this.router.navigate(['tds/masters/subjects/add-subjects'], { queryParams: data1 });
+    this.router.navigate(['erp/masters/subjects/add-subjects'], { queryParams: data1 });
   }
 
   selectSubject($event: any) 
@@ -142,7 +142,7 @@ export class SubjectsComponent implements OnInit {
         }
       };
     }
-    this.router.navigateByUrl('tds/masters/subjects/add-subjects')
+    this.router.navigateByUrl('erp/masters/subjects/add-subjects')
   }
   
   onActionButton(action: string) {

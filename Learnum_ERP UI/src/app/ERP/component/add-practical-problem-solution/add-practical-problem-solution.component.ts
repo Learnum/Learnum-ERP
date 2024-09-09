@@ -120,7 +120,7 @@ export class AddPracticalProblemSolutionComponent implements OnInit {
       'source': 'edit',
       'QuestionId': data.row.QuestionId
     }
-    this.router.navigate(['tds/add-practical-problem-solution/practical-problems-students'], { queryParams: data1 });
+    this.router.navigate(['erp/add-practical-problem-solution/practical-problems-students'], { queryParams: data1 });
   }
   selectPractical($event: any)
    {
@@ -146,7 +146,7 @@ export class AddPracticalProblemSolutionComponent implements OnInit {
         }
       };
     }
-    this.router.navigateByUrl('tds/add-practical-problem-solution/practical-problems-students')
+    this.router.navigateByUrl('erp/add-practical-problem-solution/practical-problems-students')
   }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');

@@ -130,12 +130,12 @@ export class AddCounsellorComponent implements OnInit {
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/hrd/counsellor');
+    this.router.navigateByUrl('erp/hrd/counsellor');
   }
 
   navigate()
   {
-    this.router.navigateByUrl('tds/hrd/counsellor');
+    this.router.navigateByUrl('erp/hrd/counsellor');
   }
 
   get f() {
@@ -177,12 +177,12 @@ export class AddCounsellorComponent implements OnInit {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/hrd/counsellor');
+          this.router.navigateByUrl('erp/hrd/counsellor');
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/hrd/counsellor');
+          this.router.navigateByUrl('erp/hrd/counsellor');
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);

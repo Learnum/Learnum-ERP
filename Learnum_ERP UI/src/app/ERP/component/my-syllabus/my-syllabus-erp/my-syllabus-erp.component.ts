@@ -155,7 +155,7 @@ export class MySyllabusErpComponent implements OnInit {
       'source': 'edit',
       'branchID': data.row.branchID
     }
-    this.router.navigate(['/tds/masters/add-subjects'], { queryParams: data1 });
+    this.router.navigate(['/erp/masters/add-subjects'], { queryParams: data1 });
   }
 
 
@@ -186,7 +186,7 @@ export class MySyllabusErpComponent implements OnInit {
  
   onAddSyllabus()
   {
-    this.router.navigate(['tds/my-syllabus/my-syllabus-erp/addsyllabus']);
+    this.router.navigate(['erp/my-syllabus/my-syllabus-erp/addsyllabus']);
   }
   
   onActionButton(action: string) {

@@ -172,7 +172,7 @@ export class AddmcqComponent implements OnInit {
         }
         
         onCancleClick() {
-          this.router.navigateByUrl('tds/my-syllabus/mcq-assignments');
+          this.router.navigateByUrl('erp/my-syllabus/mcq-assignments');
         }
         
         get f()

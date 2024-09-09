@@ -128,7 +128,7 @@ export class IpAddressComponent {
       'source': 'edit',
       'LocationId': data.row.LocationId
     }
-    this.router.navigate(['tds/masters/ip-address/add-ipaddress'], { queryParams: data1 });
+    this.router.navigate(['erp/masters/ip-address/add-ipaddress'], { queryParams: data1 });
   }
   ActionColumns: ActionColumn[] = [
     {
@@ -149,7 +149,7 @@ export class IpAddressComponent {
         }
       };
     }
-    this.router.navigateByUrl('tds/masters/ip-address/add-ipaddress')
+    this.router.navigateByUrl('erp/masters/ip-address/add-ipaddress')
   }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');

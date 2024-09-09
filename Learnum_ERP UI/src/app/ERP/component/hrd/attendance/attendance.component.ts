@@ -131,12 +131,12 @@ export class AttendanceComponent implements OnInit {
       'source': 'edit',
       'AttendenceId': data.row.AttendenceId
     }
-    this.router.navigate(['/tds/hrd/attendance/add-record'], { queryParams: data1 });
+    this.router.navigate(['/erp/hrd/attendance/add-record'], { queryParams: data1 });
   }
 
   onAddAttendence() {
 
-    this.router.navigateByUrl('tds/hrd/attendance/add-record')
+    this.router.navigateByUrl('erp/hrd/attendance/add-record')
   }
 
 

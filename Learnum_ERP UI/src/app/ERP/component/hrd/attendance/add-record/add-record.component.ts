@@ -154,11 +154,11 @@ export class AddRecordComponent implements OnInit {
 
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/hrd/attendance');
+    this.router.navigateByUrl('erp/hrd/attendance');
   }
 
   navigate() {
-    this.router.navigateByUrl('tds/hrd/attendance');
+    this.router.navigateByUrl('erp/hrd/attendance');
   }
 
   get f() {
@@ -187,11 +187,11 @@ export class AddRecordComponent implements OnInit {
         let serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/hrd/attendance');
+          this.router.navigateByUrl('erp/hrd/attendance');
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/hrd/attendance');
+          this.router.navigateByUrl('erp/hrd/attendance');
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);

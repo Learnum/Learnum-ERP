@@ -251,7 +251,7 @@ export class AddAdmissionsComponent implements OnInit {
   }
 
   onCancelClick() {
-    this.router.navigateByUrl('tds/student-management/student-admission');
+    this.router.navigateByUrl('erp/student-management/student-admission');
   }
   getBranchDetails() {
     this.admissionService.getBranchList().subscribe(
@@ -354,6 +354,6 @@ export class AddAdmissionsComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/student-management');
+    this.router.navigateByUrl('erp/student-management');
   }
 }

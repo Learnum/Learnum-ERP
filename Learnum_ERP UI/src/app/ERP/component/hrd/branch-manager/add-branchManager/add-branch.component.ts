@@ -129,11 +129,11 @@ export class AddBranchComponent implements OnInit {
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/hrd/branch-manager');
+    this.router.navigateByUrl('erp/hrd/branch-manager');
   }
 
   navigate() {
-    this.router.navigateByUrl('tds/hrd/branch-manager');
+    this.router.navigateByUrl('erp/hrd/branch-manager');
   }
 
   onSubmit(): void {
@@ -157,12 +157,12 @@ export class AddBranchComponent implements OnInit {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/hrd/branch-manager');
+          this.router.navigateByUrl('erp/hrd/branch-manager');
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/hrd/branch-manager');
+          this.router.navigateByUrl('erp/hrd/branch-manager');
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);

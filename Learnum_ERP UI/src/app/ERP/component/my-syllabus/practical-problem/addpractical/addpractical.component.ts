@@ -141,7 +141,7 @@ export class AddpracticalComponent implements OnInit {
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/my-syllabus/practical-problem');
+    this.router.navigateByUrl('erp/my-syllabus/practical-problem');
   }
 
   get f() {

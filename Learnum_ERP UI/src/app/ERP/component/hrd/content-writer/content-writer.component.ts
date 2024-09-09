@@ -135,14 +135,14 @@ export class ContentWriterComponent implements OnInit {
       'source': 'edit',
       'ContentWriterId': data.row.ContentWriterId
     }
-    this.router.navigate(['tds/hrd/content-writer/add-contentwriter'], { queryParams: data1 });
+    this.router.navigate(['erp/hrd/content-writer/add-contentwriter'], { queryParams: data1 });
   }
 
 
 
 
   onAddContentWriter() {
-    this.router.navigateByUrl('tds/hrd/content-writer/add-contentwriter')
+    this.router.navigateByUrl('erp/hrd/content-writer/add-contentwriter')
   }
 
 

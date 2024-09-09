@@ -150,7 +150,7 @@ export class FeesReminderComponent implements OnInit {
   }
 
   onCancelClick() {
-    this.router.navigateByUrl('tds/student-management/send-fees-reminder-report');
+    this.router.navigateByUrl('erp/student-management/send-fees-reminder-report');
   }
 
 

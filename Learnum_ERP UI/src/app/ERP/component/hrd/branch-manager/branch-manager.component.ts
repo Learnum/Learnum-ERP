@@ -118,10 +118,10 @@ export class BranchManagerComponent implements OnInit {
       'source': 'edit',
       'BranchManagerId': data.row.BranchManagerId
     }
-    this.router.navigate(['tds/hrd/branch-manager/add-branch'], { queryParams: data1 });
+    this.router.navigate(['erp/hrd/branch-manager/add-branch'], { queryParams: data1 });
   }
    onAddBranchManager() {
-    this.router.navigateByUrl('tds/hrd/branch-manager/add-branch');
+    this.router.navigateByUrl('erp/hrd/branch-manager/add-branch');
    }
 
    onRowClicked(data: any)
@@ -130,7 +130,7 @@ export class BranchManagerComponent implements OnInit {
       'source': 'edit',
       'BranchManagerId': data.row.BranchManagerId
     }
-    this.router.navigate(['tds/hrd/branch-manager/add-branch'], { queryParams: data1 });
+    this.router.navigate(['erp/hrd/branch-manager/add-branch'], { queryParams: data1 });
   }
 
   onActionButton(action: string) {

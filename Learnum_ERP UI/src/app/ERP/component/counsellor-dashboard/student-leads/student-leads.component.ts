@@ -165,7 +165,7 @@ export class StudentLeadsComponent implements OnInit {
       'source': 'edit',
       'StudentId': data.row.StudentId
     }
-    this.router.navigate(['tds/counsellor-dashboard/student-leads/add-student-leads'], { queryParams: data1 });
+    this.router.navigate(['erp/counsellor-dashboard/student-leads/add-student-leads'], { queryParams: data1 });
   }
   selectStudent($event: any)
    {
@@ -191,7 +191,7 @@ export class StudentLeadsComponent implements OnInit {
         }
       };
     }
-    this.router.navigateByUrl('tds/counsellor-dashboard/student-leads/add-student-leads')
+    this.router.navigateByUrl('erp/counsellor-dashboard/student-leads/add-student-leads')
   }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');

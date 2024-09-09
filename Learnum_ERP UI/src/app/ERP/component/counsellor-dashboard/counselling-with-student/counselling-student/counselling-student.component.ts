@@ -254,7 +254,7 @@ export class CounsellingStudentComponent implements OnInit {
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/counsellor-dashboard/counselling-with-student');
+    this.router.navigateByUrl('erp/counsellor-dashboard/counselling-with-student');
   }
   onResetClick() {
     this.form.reset();
@@ -271,11 +271,11 @@ export class CounsellingStudentComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/counsellor-dashboard/counselling-with-student');
+          this.router.navigateByUrl('erp/counsellor-dashboard/counselling-with-student');
 
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/counsellor-dashboard/counselling-with-student');
+          this.router.navigateByUrl('erp/counsellor-dashboard/counselling-with-student');
 
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);

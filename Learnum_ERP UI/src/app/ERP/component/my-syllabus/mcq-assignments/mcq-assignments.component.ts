@@ -147,7 +147,7 @@ export class McqAssignmentsComponent implements OnInit {
       'source': 'edit',
       'branchID': data.row.branchID
     }
-    this.router.navigate(['/tds/masters/add-subjects'], { queryParams: data1 });
+    this.router.navigate(['/erp/masters/add-subjects'], { queryParams: data1 });
   }
 
 
@@ -178,7 +178,7 @@ export class McqAssignmentsComponent implements OnInit {
  
   onAddMcq()
   {
-    this.router.navigate(['tds/my-syllabus/mcq-assignments/addmcq']);
+    this.router.navigate(['erp/my-syllabus/mcq-assignments/addmcq']);
   }
   
   onActionButton(action: string) {

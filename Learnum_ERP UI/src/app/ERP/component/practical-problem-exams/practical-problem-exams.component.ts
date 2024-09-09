@@ -113,7 +113,7 @@ export class PracticalProblemExamsComponent implements OnInit {
         }
       };
     }
-    this.router.navigate(['tds/practical-problem-exams/schedule-practical-problem']);
+    this.router.navigate(['erp/practical-problem-exams/schedule-practical-problem']);
   }
 
   onRowAction(data: any) {
@@ -121,7 +121,7 @@ export class PracticalProblemExamsComponent implements OnInit {
       'source': 'edit',
       'SchedulePracticalExamId': data.row.SchedulePracticalExamId
     }
-    this.router.navigate(['tds/practical-problem-exams/schedule-practical-problem'], { queryParams: data1 });
+    this.router.navigate(['erp/practical-problem-exams/schedule-practical-problem'], { queryParams: data1 });
   }
 
   onActionButton(action: string) {
