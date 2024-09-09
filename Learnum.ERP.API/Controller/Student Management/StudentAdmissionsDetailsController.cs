@@ -72,5 +72,16 @@ namespace Learnum.ERP.API.Controller.Student_Management
             var result = await studentAdmissionsDetailsRepository.GetBatchDetailsbyBranchID(BranchId);
             return Ok(result);
         }
+
+        [HttpGet("getAllStudentAdmissionsList")]
+        public async Task<IActionResult> GetStudentAdmissionsDetailsList()
+        {
+            var data = await studentAdmissionsDetailsRepository.GetStudentAdmissionsDetailsList();
+            if (data != null)
+            {
+                return Ok(data);
+            }
+            return NotFound("No record found");
+        }
     }
 }
