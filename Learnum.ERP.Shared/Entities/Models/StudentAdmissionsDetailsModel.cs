@@ -15,6 +15,9 @@ namespace Learnum.ERP.Shared.Entities.Models
         public long BatchId { get; set; }
         public long StudentId { get; set; }
         public bool IsActive { get; set; }
+        public string FeesType { get; set; }
+        public long CourseFees { get; set; }
+        public long StudentNumber { get; set; }
 
     }
 }

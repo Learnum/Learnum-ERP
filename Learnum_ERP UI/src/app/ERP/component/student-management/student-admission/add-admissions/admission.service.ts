@@ -8,16 +8,21 @@ import { StudentAdmissionsModel } from './addadmission.model';
 export class AdmissionService {
 
   private urlInsertStudentDetails: string = "StudentAdmissionsDetails/InsertStudentAdmissionsDetails";
+  private urlgetStudentAdmissionsList: string = "StudentAdmissionsDetails/getAllStudentAdmissionsList";
   private urlgetBranchList: string = "StudentAdmissionsDetails/GetAllBranches";
   private urlgetCourseList: string = "StudentAdmissionsDetails/GetAllCourses";
   private urlgetBatchDetailsByBranchId: string = "StudentAdmissionsDetails/getBatchDetails";
   private urlgetAddStudentList: string = "StudentDetails/getAllStudentList";
   private urlGetAddStudentList: string = "StudentDetails/getStudentDetails";
+  private urlGetBatchDtails: string = "BatchesDetails/getBatchDetails";
 
   constructor(private apiService: APIService) {}
 
   insertStudentData(studentAdmissionsModel: StudentAdmissionsModel) {
     return this.apiService.postBlob(this.urlInsertStudentDetails,studentAdmissionsModel);
+  }
+  getStudentAdmissionsList() {
+    return this.apiService.getData(this.urlgetStudentAdmissionsList);
   }
   getBranchList() {
     return this.apiService.getData(this.urlgetBranchList);
@@ -33,5 +38,8 @@ export class AdmissionService {
   }
   getAddStudentDetailsByStudentId(studentId: number) {
     return this.apiService.getData(this.urlGetAddStudentList + '/' + studentId);
+  }
+  getBatchDetails(BatchId: number) {
+    return this.apiService.getData(this.urlGetBatchDtails + '/' + BatchId);
   }
 }

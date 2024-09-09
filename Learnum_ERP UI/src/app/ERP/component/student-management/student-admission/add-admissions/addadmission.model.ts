@@ -6,6 +6,9 @@ export class StudentAdmissionsModel{
     batchId: number;
     studentId: number;
     isActive: boolean;
+    feesType: string;
+    courseFees: number;
+    studentNumber: number;
     addedBy: number | null;
     addedDate: Date | null;
     updatedBy: number | null;
