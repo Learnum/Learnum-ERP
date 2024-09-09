@@ -6,6 +6,7 @@ import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { McqService } from 'src/app/mcq.service';
+import { McqDetails } from './mcqmodelDetails';
 
 @Component({
   selector: 'app-addmcq',
@@ -14,34 +15,25 @@ import { McqService } from 'src/app/mcq.service';
 })
 export class AddmcqComponent implements OnInit {
  
-  contactForm: any;
- 
-  fields: FormlyFieldConfig[];
+  
+  McqDetails: McqDetails = new McqDetails();
+ fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
   form: any;
-  branchDetails: any;
-  subjectDetails: any;
-  contactDetails: any[] = [];
   mcqDetails: any[] = [];
   mcqForm: FormGroup;
-  departmentDetails: any[] = [];
   model: any = {};
-  
-  collegeDetails: any;
- 
 
-    constructor(
+ 
+  constructor(
       private router: Router,
       private mcqService:McqService,
       private alertService: AlertService,
       private messageService: MessageService,
       private activateRoute: ActivatedRoute,
       private modalService: NgbModal,
-      private formBuilder: FormBuilder 
-
-    ) { }
+      private formBuilder: FormBuilder ) { }
   
     ngOnInit(): void {
       this.setParameter();
@@ -170,7 +162,7 @@ export class AddmcqComponent implements OnInit {
         }
         
         onCancleClick() {
-          this.router.navigateByUrl('tds/my-syllabus/mcq-assignments');
+          this.router.navigateByUrl('erp/my-syllabus/mcq-assignments');
         }
         
         get f()
@@ -210,7 +202,7 @@ export class AddmcqComponent implements OnInit {
         //       this.alertService.ShowErrorMessage("Enter all required fields");
         //     }
         //   );
-        //   this.router.navigateByUrl('tds/masters/branches');
+        //   this.router.navigateByUrl('erp/masters/branches');
         // }
         addMcq(): void {
           if (this.mcqForm.valid) {

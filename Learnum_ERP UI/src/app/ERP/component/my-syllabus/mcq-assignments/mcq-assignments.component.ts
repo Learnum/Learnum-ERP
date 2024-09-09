@@ -53,39 +53,41 @@ export class McqAssignmentsComponent implements OnInit {
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+       headerTooltip:'Added By'
     },
     {
       field: 'addedTime',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Added Time'
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'updatedBy',
+      headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    }
-  
-  
-
+      minWidth: 150,
+       headerTooltip:'Updated By'
+    },
+    {
+      field: 'updatedTime',
+      headerName: 'Updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150,
+       headerTooltip:'Updated Time'
+    }, 
+    
   ];
   
 
 
 
   ngOnInit(): void {
-    //this.GetMcqList();
+    this.GetMcqList();
   }
 
   constructor(private router: Router,
@@ -99,9 +101,9 @@ export class McqAssignmentsComponent implements OnInit {
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'branchID': data.row.branchID
+      'McqId': data.row.McqId
     }
-    this.router.navigate(['/tds/masters/add-subjects'], { queryParams: data1 });
+    this.router.navigate(['erp/my-syllabus/mcq-assignments/addmcq'], { queryParams: data1 });
   }
 
 
@@ -124,7 +126,7 @@ export class McqAssignmentsComponent implements OnInit {
  
   onAddMcq()
   {
-    this.router.navigate(['tds/my-syllabus/mcq-assignments/addmcq']);
+    this.router.navigate(['erp/my-syllabus/mcq-assignments/addmcq']);
   }
   
   onActionButton(action: string) {
@@ -132,19 +134,18 @@ export class McqAssignmentsComponent implements OnInit {
   }
 
 
-//   GetMcqList() {
-//     this.mcqService.getMcqDetails().subscribe(
-//       (result: any) => {
-//         this.McqList = result.Value;
-//         let McqList = result.Value;
-//       },
-//       (error: any) => {
-//         console.error("Error occurred while fetching employee details:", error);
-//         this.alertService.ShowErrorMessage("An error occurred while fetching employee details. Please try again later.");
-//       }
-//     );
-//   }
-// }
+  GetMcqList(){
+    this.mcqService.getMcqDetails().subscribe(
+      (result: any) => {
+        this.McqList = result.Value;
+        let McqList = result.Value;
+      },
+      (error: any) => {
+        console.error('Error fetching MCQ details', error);
+      }
+    );
+  }
+
 
 
 }
