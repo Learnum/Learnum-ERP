@@ -9,6 +9,7 @@ export class AdmissionService {
 
   private urlInsertStudentDetails: string = "StudentAdmissionsDetails/InsertStudentAdmissionsDetails";
   private urlgetStudentAdmissionsList: string = "StudentAdmissionsDetails/getAllStudentAdmissionsList";
+  private urlGetStudentAdmissionsByAdmissionId: string = "StudentAdmissionsDetails/getStudentDetailsByAdmissionId";
   private urlgetBranchList: string = "StudentAdmissionsDetails/GetAllBranches";
   private urlgetCourseList: string = "StudentAdmissionsDetails/GetAllCourses";
   private urlgetBatchDetailsByBranchId: string = "StudentAdmissionsDetails/getBatchDetails";
@@ -23,6 +24,9 @@ export class AdmissionService {
   }
   getStudentAdmissionsList() {
     return this.apiService.getData(this.urlgetStudentAdmissionsList);
+  }
+  getStudentAdmissionsDetailsByAdmissionId(AdmissionId: number) {
+    return this.apiService.getData(this.urlGetStudentAdmissionsByAdmissionId + '/' + AdmissionId);
   }
   getBranchList() {
     return this.apiService.getData(this.urlgetBranchList);

@@ -1,17 +1,17 @@
 export class StudentAdmissionsModel{
-    admissionId: number;
-    dateOfAdmission: string;
-    courseId: number;
-    branchId: number;
-    batchId: number;
-    studentId: number;
-    isActive: boolean;
-    feesType: string;
-    courseFees: number;
-    studentNumber: number;
-    addedBy: number | null;
-    addedDate: Date | null;
-    updatedBy: number | null;
-    updatedDate: Date | null;
-    computerName: string;
+    AdmissionId: number;
+    DateOfAdmission: string;
+    CourseId: number;
+    BranchId: number;
+    BatchId: number;
+    StudentId: number;
+    IsActive: boolean;
+    FeesType: string;
+    CourseFees: number;
+    StudentNumber: number;
+    AddedBy: number | null;
+    AddedDate: Date | null;
+    UpdatedBy: number | null;
+    UpdatedDate: Date | null;
+    ComputerName: string;
 }
