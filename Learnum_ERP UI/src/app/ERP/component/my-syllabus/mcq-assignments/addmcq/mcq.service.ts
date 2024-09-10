@@ -7,13 +7,38 @@ import { BaseService } from 'src/app/core/services/baseService';
   providedIn: 'root'
 })
 export class McqService extends BaseService{
+
  
+  private urlgetCourseList: string = "CourseDetails/getAllCourseList";
+  private urlgetSubjectList: string = "SubjectDetails/getAllSubjectList";
+  private urlInsertMcqDetails: string = "McqDetails/InsertMcqDetails";
+  private urlgetAddMCQDetailsById: string = "McqDetails/getMcqDetailsById";
+  private urlgetMcqList: string = "McqDetails/getAllMcqDetails";
+
+
   constructor(private apiService: APIService) {
     super();
   }
 
+  insertMcqData(data: any) {
+    return this.apiService.postData(this.urlInsertMcqDetails,data);
+  }
+
+  getAddMCQDetailsById(McqId: number) {
+    return this.apiService.getData(this.urlgetAddMCQDetailsById + '/' + McqId);
+  }
+
  getMcqDetails()
   {
-    
+    return this.apiService.getData(this.urlgetMcqList);
   }
+
+  getcourseList() {
+    return this.apiService.getData(this.urlgetCourseList);
+  }
+
+  getsubjectList() {
+    return this.apiService.getData(this.urlgetSubjectList);
+  }
+
 }

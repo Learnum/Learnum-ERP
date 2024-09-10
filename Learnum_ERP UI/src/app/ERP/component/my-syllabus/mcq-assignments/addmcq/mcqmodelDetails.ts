@@ -1,9 +1,12 @@
-export class McqDetails  {
-    mcqId: number;
-    courseId: number;
-    subjectId: number;
-    topicId: number;
-    isActive: boolean;
+export class McqDetailsModel  {
+    McqId: number;
+    CourseId: number;
+    SubjectId: number;
+    CourseName: string;
+    SubjectName: string;
+    TopicId: number;
+    TopicName:string;
+    IsActive: boolean;
     addedBy: number | null;
     addedDate: Date | null;
     updatedBy: number | null;
@@ -13,13 +16,19 @@ export class McqDetails  {
 
 
 export class McqQuestionDetails {
-    questionId: number;
-    question: string;
+    QuestionId: number;
+    Question: string;
     optionA: string;
     optionB: string;
     optionC: string;
     optionD: string;
-    answer: string;
+    Answer: string;
     marks: number;
-    isActive: boolean;
+    IsActive: boolean;
 }
+
+export class MCQDetailsList {
+    mcqDetailsModel: McqDetailsModel;
+    mcqQuestionDetails: McqQuestionDetails[];
+    
+  }

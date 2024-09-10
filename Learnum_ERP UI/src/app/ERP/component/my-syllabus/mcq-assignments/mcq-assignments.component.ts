@@ -15,17 +15,18 @@ export class McqAssignmentsComponent implements OnInit {
 
 
   McqList: any[] = [];
-  form: FormGroup;
+
 
   declaredTableColumns: TableColumn[] = [
     {
       field: 'CourseName',
       headerName: 'Course Name',
-      filter: 'agTextColumnFilter',
+      filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Course Name',
 
     },
     {
@@ -35,9 +36,10 @@ export class McqAssignmentsComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Subject Name',
+
     },
-   
     {
       field: 'TopicName',
       headerName: 'Topic Name',
@@ -87,14 +89,14 @@ export class McqAssignmentsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.GetMcqList();
+   this.GetMcqList();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    private mcqService:McqService,
+    private mcqService: McqService,
     private formBuilder: FormBuilder) {
     {}}
   
@@ -114,16 +116,14 @@ export class McqAssignmentsComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewContentWriter',
+      actionPage: 'View MCQ',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip: 'Edit Content Writer'
+      tooltip: 'Edit MCQ'
     },
   ];
   
- 
- 
   onAddMcq()
   {
     this.router.navigate(['erp/my-syllabus/mcq-assignments/addmcq']);
@@ -139,14 +139,11 @@ export class McqAssignmentsComponent implements OnInit {
       (result: any) => {
         this.McqList = result.Value;
         let McqList = result.Value;
-      },
-      (error: any) => {
-        console.error('Error fetching MCQ details', error);
       }
     );
   }
-
-
-
 }
+
+
+
 
