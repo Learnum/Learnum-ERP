@@ -20,6 +20,7 @@ namespace Learnum.ERP.Repository.Master.Student_Management
     {
         Task<ResponseCode> InsertStudentAdmissionsDetails(StudentAdmissionsDetailsModel studentAdmissionsDetailsModel);
         Task<List<StudentAdmissionsDetailsResponseModel>> GetStudentAdmissionsDetailsList();
+        Task<Tuple<StudentAdmissionsDetailsModel?, ResponseCode>> GetStudentAdmissionsDetailsByAdmissionId(long? AdmissionId);
         Task<List<BranchDetailsModel>> GetBranchDetails();
         Task<List<CourseDetailsModel>> GetCourseDetails();
         Task<Tuple<List<BatchesDetailsModel>?, ResponseCode>> GetBatchDetailsbyBranchID(long? BranchId);
@@ -85,6 +86,20 @@ namespace Learnum.ERP.Repository.Master.Student_Management
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
                 var result = dbConnection.Query<StudentAdmissionsDetailsResponseModel>("PROC_StudentAdmissions", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
+            }
+        }
+
+        public async Task<Tuple<StudentAdmissionsDetailsModel?, ResponseCode>> GetStudentAdmissionsDetailsByAdmissionId(long? AdmissionId)
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@AdmissionId", AdmissionId);
+                dbparams.Add("@Action", "GetStudentDetailsByAdmissionId");
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<StudentAdmissionsDetailsModel?>("PROC_StudentAdmissions", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
+                return await Task.FromResult(new Tuple<StudentAdmissionsDetailsModel?, ResponseCode>(result, responseCode));
             }
         }
     }

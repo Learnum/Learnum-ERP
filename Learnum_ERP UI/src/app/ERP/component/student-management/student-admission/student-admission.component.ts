@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AdmissionService } from './add-admissions/admission.service';
 
 @Component({
   selector: 'app-student-admission',
@@ -70,14 +71,48 @@ export class StudentAdmissionComponent implements OnInit {
 
     },
     {
-      field: 'Status',
+      field: 'IsActive',
       headerName: 'Status',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 100,
-      headerTooltip: 'Status'
-
-    }
+      headerTooltip: 'Status',
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
+    },
+    {
+      field: 'AddedBy',
+      headerName: 'Added By',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150,
+      headerTooltip: 'Added By',
+    },
+    {
+      field: 'AddedDate',
+      headerName: 'Added Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150,
+      headerTooltip: 'Added Time',
+    },
+    {
+      field: 'UpdatedBy',
+      headerName: 'Updated By',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150,
+      headerTooltip: 'Updated By',
+    },
+    {
+      field: 'UpdatedDate',
+      headerName: 'Updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150,
+      headerTooltip: 'Updated Time',
+    }, 
   ];
 
   declaredActionColumns: ActionColumn[] = [
@@ -97,33 +132,43 @@ export class StudentAdmissionComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
+    private admissionService: AdmissionService,
   ) { }
 
   ngOnInit(): void {
-    this.getStudentAdmissionList();
+    this.getStudentAdmissionsDetails();
   }
+  onStudentAdmission(admission?: any) {
 
-  getStudentAdmissionList() {
-    
+    let navigationExtras: NavigationExtras = {};
+    if (admission) {
+      navigationExtras = {
+        state: {
+          admissionData: admission
+        }
+      };
+    }
+    this.router.navigateByUrl('erp/student-management/add-admissions')
   }
-
-  AddStudentAdmission() {
-    this.router.navigate(['erp/student-management/add-admissions']);
-  }
-
   onRowAction(data: any) {
     let data1 = {
-      'source': data.action,
-      'AdmissionId': data.row.AdmissionId // Assuming AdmissionId is the unique identifier for student admissions
-    };
+      'source': 'edit',
+      'AdmissionId': data.row.AdmissionId
+    }
     this.router.navigate(['/erp/student-management/add-admissions'], { queryParams: data1 });
   }
-
   onActionButton(action: string) {
-    alert(action + ' action button clicked.');
+    alert(action + ' ' + 'action button clicked.');
+  }
+  selectstudentAdmission($event: any) 
+  { 
+    throw new Error('Method not implemented.'); 
   }
 
-  selectStudentAdmission(admissions: any) {
-    // Handle row selection logic
+  getStudentAdmissionsDetails() {
+    this.admissionService.getStudentAdmissionsList().subscribe((result: any) => {
+      this.studentAdmissionList = result.Value;
+      let studentAdmissionList = result.Value;
+    })
   }
 }

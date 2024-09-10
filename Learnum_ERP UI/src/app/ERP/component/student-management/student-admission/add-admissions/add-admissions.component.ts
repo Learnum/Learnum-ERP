@@ -23,6 +23,7 @@ export class AddAdmissionsComponent implements OnInit {
   courseDetails: any;
   batchesDetails: any;
   studentDetails: any;
+  editData: any;
 
   constructor(
     private router: Router,
@@ -38,6 +39,20 @@ export class AddAdmissionsComponent implements OnInit {
     this.getCourseDetails();
     this.getAddStudentDetails();
     this.bindCourseFees();
+    Promise.all([this.getBranchDetails(), this.getCourseDetails(), this.getAddStudentDetails()])
+    .then(() => {
+      this.setParameter();
+    })
+    .catch(error => {
+      console.error('Error fetching initialization data:', error);
+    });
+
+  this.bindCourseFees();
+
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.AdmissionId) {
+      this.getStudentAdmissionsByAdmissionId(this.editData.AdmissionId);
+    }
   }
 
   setParameter() {
@@ -46,8 +61,11 @@ export class AddAdmissionsComponent implements OnInit {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
+            key: 'AdmissionId',
+          },
+          {
             className: 'col-md-4',
-            key: 'dateOfAdmission',
+            key: 'DateOfAdmission',
             type: 'input',
             props: {
               label: 'Date of Admission',
@@ -126,7 +144,7 @@ export class AddAdmissionsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'feesType',
+            key: 'FeesType',
             type: 'select',
             props: {
               label: 'Fees Type',
@@ -152,7 +170,7 @@ export class AddAdmissionsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'courseFees',
+            key: 'CourseFees',
             type: 'input',
             props: {
               label: 'Course Fees',
@@ -193,7 +211,7 @@ export class AddAdmissionsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'StudentPhone',
+            key: 'StudentNumber',
             type: 'input',
             props: {
               label: 'Student Number',
@@ -237,32 +255,16 @@ export class AddAdmissionsComponent implements OnInit {
     ];
   }
 
-  // onSubmit(): void {
-  //   this.form.markAllAsTouched();
-  //   if (this.form.valid) {
-  //     this.insertStudentDetails();
-  //   } else {
-  //     this.alertService.ShowErrorMessage('Please fill in all required fields.');
-  //   }
-  // }
-
-  // onCancelClick() {
-  //   this.router.navigateByUrl('erp/student-management/student-admission');
-  // }
-
   navigate()
   {
     this.router.navigateByUrl('erp/student-management/student-admission');
-
   }
   onCancleClick() {
     this.router.navigateByUrl('erp/student-management/student-admission');
   }
-  
   onResetClick() {
     this.form.reset();
   }
-
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
@@ -293,31 +295,84 @@ export class AddAdmissionsComponent implements OnInit {
       }
     );
   }
+  // getBatchDetailsByBranchId(BranchId: number) {
+  //   this.admissionService.getBatchDetailsByBranchId(BranchId).subscribe(
+  //     (result: any) => {
+  //       if (result && result.Value) {
+  //         this.batchesDetails = result.Value.Item1;
+  //         this.setParameter();
+          
+  //         // Update BatchId field options dynamically
+  //         const batchField = this.fields.find(field => field.key === 'BatchId');
+  //         if (batchField) {
+  //           batchField.props.options = this.batchesDetails.map(batch => ({
+  //             label: batch.BatchName,
+  //             value: batch.BatchId,
+  //           }));
+  //         }
+
+  //         // Trigger the form update to reflect the changes
+  //         this.options.updateInitialValue();
+  //       } else {
+  //         console.error('No data found for BranchId: ' + BranchId);
+  //       }
+  //     },
+  //     (error: any) => {
+  //       console.error('Error retrieving batch details:', error);
+  //     }
+  //   );
+  // }
+  // getBatchDetailsByBranchId(BranchId: number) {
+  //   this.admissionService.getBatchDetailsByBranchId(BranchId).subscribe(
+  //     (result: any) => {
+  //       if (result && result.Value) {
+  //         this.batchesDetails = result.Value.Item1;
+          
+  //         const batchField = this.fields.find(field => field.key === 'BatchId');
+  //         if (batchField) {
+  //           batchField.props.options = this.batchesDetails.map(batch => ({
+  //             label: batch.BatchName,
+  //             value: batch.BatchId,
+  //           }));
+  //         }
+  
+  //         // Re-render the form with updated batch options
+  //         this.options.updateInitialValue();
+  //       } else {
+  //         console.error('No data found for BranchId: ' + BranchId);
+  //       }
+  //     },
+  //     (error: any) => {
+  //       console.error('Error retrieving batch details:', error);
+  //     }
+  //   );
+  // }
   getBatchDetailsByBranchId(BranchId: number) {
-    this.admissionService.getBatchDetailsByBranchId(BranchId).subscribe(
-      (result: any) => {
-        if (result && result.Value) {
-          this.batchesDetails = result.Value.Item1;
-          this.setParameter();
-          // Update BatchId field options dynamically
-          const batchField = this.fields.find(field => field.key === 'BatchId');
-          if (batchField) {
-            batchField.props.options = this.batchesDetails.map(batch => ({
-              label: batch.BatchName,
-              value: batch.BatchId,
-            }));
-          }
-          // Trigger the form update to reflect the changes
-          this.options.updateInitialValue();
-        } else {
-          console.error('No data found for BranchId: ' + BranchId);
+  this.admissionService.getBatchDetailsByBranchId(BranchId).subscribe(
+    (result: any) => {
+      if (result && result.Value) {
+        this.batchesDetails = result.Value.Item1;
+        this.setParameter();
+        // Find the 'BatchId' field and update its options with the new batch details
+        const batchField = this.fields.find(field => field.key === 'BatchId');
+        if (batchField) {
+          batchField.props.options = this.batchesDetails.map(batch => ({
+            label: batch.BatchName ,
+            value: batch.BatchId,
+          }));
+
+          // Trigger form re-render to apply the changes
+          this.options.updateInitialValue();  // Ensure the form updates after changes to fields
         }
-      },
-      (error: any) => {
-        console.error('Error retrieving batch details:', error);
+      } else {
+        console.error('No data found for BranchId: ' + BranchId);
       }
-    );
-  }
+    },
+    (error: any) => {
+      console.error('Error retrieving batch details:', error);
+    }
+  );
+}
   getAddStudentDetails() {
     this.admissionService.getAddStudentList().subscribe(
       (data: any) => {
@@ -348,28 +403,27 @@ export class AddAdmissionsComponent implements OnInit {
   }
   bindCourseFees() {
     const BatchId = this.form.get('BatchId')?.value;
-    const feesType = this.form.get('feesType')?.value;
-
+    const feesType = this.form.get('FeesType')?.value;  // Use correct field key 'FeesType'
+  
     if (BatchId && feesType) {
       const selectedBatch = this.batchesDetails.find(batch => batch.BatchId === BatchId);
       if (selectedBatch) {
         const courseFees = feesType === 'installments' ? selectedBatch.CourseFeesInstallment : selectedBatch.OneTimeCourseFees;
-        this.form.get('courseFees').setValue(courseFees || 0);  // Set default to 0 if fees are not found
+        this.form.get('CourseFees').setValue(courseFees || 0);  // Use correct field key 'CourseFees'
       } else {
         console.warn(`No batch found with ID ${BatchId}`);
       }
     } else {
-      console.warn('BatchId or feesType is undefined');
+      console.warn('BatchId or FeesType is undefined');
     }
   }
-
-
+  
   insertStudentDetails() {
-    this.studentAdmissionsModel.addedBy = 1;
-    this.studentAdmissionsModel.addedDate = new Date();
-    this.studentAdmissionsModel.updatedBy = 1;
-    this.studentAdmissionsModel.updatedDate = new Date();
-    this.studentAdmissionsModel.admissionId = 0;
+    this.studentAdmissionsModel.AddedBy = 1;
+    this.studentAdmissionsModel.AddedDate = new Date();
+    this.studentAdmissionsModel.UpdatedBy = 1;
+    this.studentAdmissionsModel.UpdatedDate = new Date();
+    // this.studentAdmissionsModel.admissionId = 0;
 
     this.admissionService.insertStudentData(this.studentAdmissionsModel).subscribe(
       (result: any) => {
@@ -386,6 +440,23 @@ export class AddAdmissionsComponent implements OnInit {
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+  getStudentAdmissionsByAdmissionId(AdmissionId: number) {
+    this.admissionService.getStudentAdmissionsDetailsByAdmissionId(AdmissionId).subscribe(
+      (result: any) => {
+        if (result && result.Value) {
+          this.studentAdmissionsModel = result.Value.Item1;
+          this.getBatchDetailsByBranchId(this.studentAdmissionsModel.BranchId )
+          this.setParameter();
+          console.error('No data found for AdmissionId: ' + AdmissionId);
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving business details:', error);
+
       }
     );
   }
