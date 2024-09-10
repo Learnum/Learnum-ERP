@@ -14,7 +14,7 @@ export class McqService extends BaseService{
   private urlInsertMcqDetails: string = "McqDetails/InsertMcqDetails";
   private urlgetAddMCQDetailsById: string = "McqDetails/getMcqDetailsById";
   private urlgetMcqList: string = "McqDetails/getAllMcqDetails";
-
+  private urlgetTopicList : string = "TopicDetails/getAllTopicList";
 
   constructor(private apiService: APIService) {
     super();
@@ -35,6 +35,11 @@ export class McqService extends BaseService{
 
   getcourseList() {
     return this.apiService.getData(this.urlgetCourseList);
+  }
+
+  getTopicList()
+  {
+    return this.apiService.getData(this.urlgetTopicList);
   }
 
   getsubjectList() {

@@ -23,7 +23,7 @@ export class AddmcqComponent implements OnInit {
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  form: FormGroup;
+  form = new FormGroup({});
   mcqDetails: any[] = [];
   mcqForm: FormGroup;
   model: any = {};
@@ -34,6 +34,7 @@ export class AddmcqComponent implements OnInit {
   mcqQuestionDetails: any[] = [];
  // MCQDetailsList: any[] = [];
   mcq: { [key: string]: AbstractControl; };
+  topicDetails: any;
   
  
   constructor(
@@ -52,6 +53,7 @@ export class AddmcqComponent implements OnInit {
        this.createMcqForm();
        this.getCourseDetails();
        this.getSubjectDetails();
+       this.getTopicDetails();
        this.editData = this.activateRoute.snapshot.queryParams;
        if (this.editData.source === 'edit' && this.editData.McqId) {
          this.getAddMCQDetailsById(this.editData.McqId);
@@ -62,13 +64,17 @@ export class AddmcqComponent implements OnInit {
 
     createMcqForm(): void {
       this.mcqForm = this.formBuilder.group({
-        question: ['', Validators.required],
+        Question: ['', Validators.required],
         optionA: ['', Validators.required],
         optionB: ['', Validators.required],
         optionC: ['', Validators.required],
         optionD: ['', Validators.required],
-        answer: ['', Validators.required],
-        marks: ['', Validators.required],
+        Answer: ['', Validators.required],
+        marks: ['',  [
+          Validators.required,  // Marks field is required
+          Validators.min(0),     // Minimum value is 0
+          Validators.max(100),   // Maximum value is 100
+        ],],
        // IsActive: ['', Validators.required]
       });
       this.mcq = this.mcqForm.controls;
@@ -103,12 +109,12 @@ export class AddmcqComponent implements OnInit {
                   validators: {
                     required: {
                       expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
-                      message: 'Course selection is required',
+                      message: 'Course Name is required',
                     },
                   },
                   validation: {
                     messages: {
-                      required: 'Course selection is required',
+                      required: 'Course Name is required',
                     },
                   },
                 },
@@ -134,12 +140,12 @@ export class AddmcqComponent implements OnInit {
                   validators: {
                     required: {
                       expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
-                      message: 'Subject selection is required',
+                      message: 'Subject Name is required',
                     },
                   },
                   validation: {
                     messages: {
-                      required: 'Subject selection is required',
+                      required: 'Subject Name is required',
                     },
                   },
                 },
@@ -149,13 +155,13 @@ export class AddmcqComponent implements OnInit {
                   type: 'select',
                   templateOptions: {
                     label: 'Topic Name',
-                   // placeholder: 'Select Topic Name',
                     required: true,
                     options: [
-                      { value: null, label: 'Select Topic', disabled: true },
-                      { value: 1, label: 'Topic 1' },
-                      { value: 2, label: 'Topic 2' },
-                      { value: 3, label: 'Topic 3' }
+                      { value: null, label: 'Select Topic', disabled: true },  
+                      ...this.topicDetails ? this.topicDetails.map(topic => ({
+                        label: topic.TopicName,
+                        value: topic.TopicId
+                      })) : [],
                     ]
                   },
                   defaultValue: null, 
@@ -170,7 +176,8 @@ export class AddmcqComponent implements OnInit {
                       required: 'Topic Name is required',
                     },
                   },
-                },
+                }
+                ,
             
                 {
                   className: 'col-md-3',
@@ -181,27 +188,28 @@ export class AddmcqComponent implements OnInit {
                     //placeholder: 'Select McqAssignment Status',
                     required: true,
                     options: [
-                      { value: null, label: 'Select Status', disabled: true }, 
                       { value: true, label: 'Active' },
                       { value: false, label: 'Inactive' }
                     ],
+                    
                   },
-                  defaultValue: null,  
+                  defaultValue: true, 
                   validation: {
                     messages: {
-                      required: 'Please select a McqAssignment Status',
+                      required: 'Please select a branch status',
                     },
                   },
-                },
+                  },
+                
               ],
             },
           ];
         }
         
-        onCancelClick() {
+        onCancleClick() {
           this.router.navigateByUrl('erp/my-syllabus/mcq-assignments');
         }
-
+        
         onnavigate() {
           this.router.navigateByUrl('erp/my-syllabus/mcq-assignments');
         }
@@ -211,9 +219,9 @@ export class AddmcqComponent implements OnInit {
         this.mcqForm.markAllAsTouched();
         if (this.mcqDetails.length > 0) {
         this.insertMCQDetails();
-        console.log(this.McqQuestionDetails);
-        console.log(this.MCQDetailsList);
-        console.log(this.McqDetailsModel);
+       // console.log(this.mcqDetails);
+       // console.log(this.MCQDetailsList);
+       // console.log(this.McqDetailsModel);
         } else {
         this.alertService.ShowErrorMessage('Please fill in all required fields.');
         }
@@ -252,13 +260,13 @@ export class AddmcqComponent implements OnInit {
         }
 
         insertMCQDetails() {
-          this.MCQDetailsList.addedBy = 1;
-          this.MCQDetailsList.addedDate = new Date();
-          this.MCQDetailsList.updatedBy = 1;
-          this.MCQDetailsList.updatedDate = new Date();
+          this.MCQDetailsList.AddedBy = 1;
+          this.MCQDetailsList.AddedDate = new Date();
+          this.MCQDetailsList.UpdatedBy = 1;
+          this.MCQDetailsList.UpdatedDate = new Date();
       
           const data: MCQDetailsList = {
-            mcqDetailsModel: this.MCQDetailsList,
+            mcqDetailsModel: this.form.value,
             mcqQuestionDetails: this.mcqDetails
           };
       
@@ -281,22 +289,40 @@ export class AddmcqComponent implements OnInit {
           );
         }
 
+        // getAddMCQDetailsById(McqId: number) {
+        //   this.mcqService.getAddMCQDetailsById(McqId).subscribe(
+        //     (result: any) => {
+        //       if (result && result.Value) {
+        //         this.McqDetailsModel = result.Value.Item1.McqDetailsModel;
+        //         this.McqQuestionDetails = result.Value.Item1.McqQuestionDetails;
+        //         this.mcqDetails = result.Value.Item1.McqQuestionDetails;
+        //         this.setParameter();
+        //         console.error('No data found for McqId: ' + McqId);
+        //       }
+        //     },
+        //     (error: any) => {
+        //       console.error('Error retrieving college details:', error);
+        //     }
+        //   );
+        // }
+
         getAddMCQDetailsById(McqId: number) {
           this.mcqService.getAddMCQDetailsById(McqId).subscribe(
             (result: any) => {
               if (result && result.Value) {
-                this.McqDetailsModel = result.Value.Item1.McqDetailsModel;
-                this.McqQuestionDetails = result.Value.Item1.McqQuestionDetails;
-                this.mcqDetails = result.Value.Item1.McqQuestionDetails;
-                this.setParameter();
-                console.error('No data found for McqId: ' + McqId);
+                this.MCQDetailsList = result.Value.Item1.mcqDetailsModel;  
+                this.mcqDetails = result.Value.Item1.mcqQuestionDetails;    
+                this.setParameter();  
+                
+                console.error('No data found for McqId: ' + McqId);  // This should be inside the else block
               }
             },
             (error: any) => {
-              console.error('Error retrieving college details:', error);
+              console.error('Error retrieving MCQ details:', error);
             }
           );
         }
+        
 
         getCourseDetails() {
           this.mcqService.getcourseList().subscribe(
@@ -321,4 +347,17 @@ export class AddmcqComponent implements OnInit {
             }
           );
         }
+
+        getTopicDetails() {
+          this.mcqService.getTopicList().subscribe(
+            (data: any) => {
+              this.topicDetails = data.Value;
+              this.setParameter();  // Assuming you need to call this after fetching topics, similar to subjects
+            },
+            (error: any) => {
+              this.alertService.ShowErrorMessage(error);
+            }
+          );
+        }
+        
       }

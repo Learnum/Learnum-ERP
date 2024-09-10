@@ -34,12 +34,12 @@
       </thead>
       <tbody>
         <tr *ngFor="let mcq of mcqDetails">
-          <td>{{ mcq.question }}</td>
+          <td>{{ mcq.Question }}</td>
           <td>{{ mcq.optionA }}</td>
           <td>{{ mcq.optionB }}</td>
           <td>{{ mcq.optionC }}</td>
           <td>{{ mcq.optionD }}</td>
-          <td>{{ mcq.answer }}</td>
+          <td>{{ mcq.Answer }}</td>
           <td>{{ mcq.marks }}</td>
           <!-- <td>{{ mcq.IsActive }}</td> -->
         </tr>
@@ -67,13 +67,13 @@
         <form [formGroup]="mcqForm" (ngSubmit)="addMcq()">
           <!-- Question Field -->
           <div class="form-group">
-            <label for="question">Question *</label>
-            <input type="text" class="form-control" id="question" formControlName="question" placeholder="Enter Question" required>
-            <div *ngIf="mcqForm.get('question').invalid && (mcqForm.get('question').dirty || mcqForm.get('question').touched)" class="text-danger">
-              <small *ngIf="mcqForm.get('question').errors?.required">Question is required</small>
+            <label for="Question">Question *</label>
+            <input type="text" class="form-control" id="Question" formControlName="Question" placeholder="Enter Question" required>
+            <div *ngIf="mcqForm.get('Question').invalid && (mcqForm.get('Question').dirty || mcqForm.get('Question').touched)" class="text-danger">
+              <small *ngIf="mcqForm.get('Question').errors?.required">Question is required</small>
             </div>
           </div>
-
+      
           <!-- Option A Field -->
           <div class="form-group">
             <label for="optionA">Option A *</label>
@@ -82,7 +82,7 @@
               <small *ngIf="mcqForm.get('optionA').errors?.required">Option A is required</small>
             </div>
           </div>
-
+      
           <!-- Option B Field -->
           <div class="form-group">
             <label for="optionB">Option B *</label>
@@ -91,7 +91,7 @@
               <small *ngIf="mcqForm.get('optionB').errors?.required">Option B is required</small>
             </div>
           </div>
-
+      
           <!-- Option C Field -->
           <div class="form-group">
             <label for="optionC">Option C *</label>
@@ -100,7 +100,7 @@
               <small *ngIf="mcqForm.get('optionC').errors?.required">Option C is required</small>
             </div>
           </div>
-
+      
           <!-- Option D Field -->
           <div class="form-group">
             <label for="optionD">Option D *</label>
@@ -109,39 +109,39 @@
               <small *ngIf="mcqForm.get('optionD').errors?.required">Option D is required</small>
             </div>
           </div>
-
+      
           <!-- Answer Field -->
           <div class="form-group">
-            <label for="answer">Answer *</label>
-            <input type="text" class="form-control" id="answer" formControlName="answer" placeholder="Enter Answer" required>
-            <div *ngIf="mcqForm.get('answer').invalid && (mcqForm.get('answer').dirty || mcqForm.get('answer').touched)" class="text-danger">
-              <small *ngIf="mcqForm.get('answer').errors?.required">Answer is required</small>
+            <label for="Answer">Answer *</label>
+            <input type="text" class="form-control" id="Answer" formControlName="Answer" placeholder="Enter Answer" required>
+            <div *ngIf="mcqForm.get('Answer').invalid && (mcqForm.get('Answer').dirty || mcqForm.get('Answer').touched)" class="text-danger">
+              <small *ngIf="mcqForm.get('Answer').errors?.required">Answer is required</small>
             </div>
           </div>
-
+      
           <!-- Marks Field -->
           <div class="form-group">
-            <label for="marks">Marks *</label>
-            <input type="number" class="form-control" id="marks" formControlName="marks" placeholder="Enter Marks" required>
+            <label for="marks">Marks (Percentage) *</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="marks" 
+              formControlName="marks" 
+              placeholder="Enter Marks (0-100)" 
+              required
+              min="0" 
+              max="100"
+            >
             <div *ngIf="mcqForm.get('marks').invalid && (mcqForm.get('marks').dirty || mcqForm.get('marks').touched)" class="text-danger">
               <small *ngIf="mcqForm.get('marks').errors?.required">Marks are required</small>
+              <small *ngIf="mcqForm.get('marks').errors?.min || mcqForm.get('marks').errors?.max">
+                Marks must be between 0 and 100
+              </small>
             </div>
           </div>
-
-          <!-- MCQ Status Field -->
-          <!-- <div class="form-group">
-            <label for="IsActive">MCQ Status *</label>
-            <select class="form-control" id="IsActive" formControlName="IsActive" required>
-              <option value="">Select Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-            <div *ngIf="mcqForm.get('IsActive').invalid && (mcqForm.get('IsActive').dirty || mcqForm.get('IsActive').touched)" class="text-danger">
-              <small *ngIf="mcqForm.get('IsActive').errors?.required">MCQ Status is required</small>
-            </div>
-          </div> -->
         </form>
       </div>
+      
       <div class="modal-footer">
         <button class="btn btn-cloud me-2" (click)="addMcq()" data-dismiss="modal">Done</button>
         <button type="button" class="btn btn-fent-cloud" data-dismiss="modal" (click)="onCloseModal()">Close</button>
@@ -155,5 +155,5 @@
 <div class="col-12 px-4 py-2 border-top" style="position: fixed; bottom: 0;">
   <button class="btn btn-cloud me-2" (click)="onSubmit()">Submit</button>
   <button class="btn btn-cloud me-2" type="button" (click)="reset()">Reset</button>
-  <button class="btn btn-fent-cloud" (click)="onCancelClick()">Cancel</button>
+  <button class="btn btn-fent-cloud" (click)="onCancleClick()">Cancel</button>
 </div>

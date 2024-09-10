@@ -9,7 +9,7 @@ namespace Learnum.ERP.Shared.Entities
 {
      public class McqDetailsList
     {
-        public McqDetails? mcqDetails { get; set; }
+        public McqDetails? mcqDetailsModel { get; set; }
 
         public List<McqQuestionDetails>? mcqQuestionDetails { get; set; }
     }

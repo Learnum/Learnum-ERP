@@ -7,10 +7,10 @@ export class McqDetailsModel  {
     TopicId: number;
     TopicName:string;
     IsActive: boolean;
-    addedBy: number | null;
-    addedDate: Date | null;
-    updatedBy: number | null;
-    updatedDate: Date | null;
+    AddedBy: number | null;
+    AddedDate: Date | null;
+    UpdatedBy: number | null;
+    UpdatedDate: Date | null;
     computerName: string;
 }
 

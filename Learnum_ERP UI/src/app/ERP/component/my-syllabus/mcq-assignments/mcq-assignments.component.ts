@@ -14,7 +14,7 @@ import { McqService } from './addmcq/mcq.service';
 export class McqAssignmentsComponent implements OnInit {
 
 
-  McqList: any[] = [];
+  MCQList: any[] = [];
 
 
   declaredTableColumns: TableColumn[] = [
@@ -51,7 +51,7 @@ export class McqAssignmentsComponent implements OnInit {
 
     },
     {
-      field: 'addedBy',
+      field: 'AddedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -59,7 +59,7 @@ export class McqAssignmentsComponent implements OnInit {
        headerTooltip:'Added By'
     },
     {
-      field: 'addedTime',
+      field: 'AddedDate',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -67,7 +67,7 @@ export class McqAssignmentsComponent implements OnInit {
       headerTooltip:'Added Time'
     },
     {
-      field: 'updatedBy',
+      field: 'UpdatedBy',
       headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -75,7 +75,7 @@ export class McqAssignmentsComponent implements OnInit {
        headerTooltip:'Updated By'
     },
     {
-      field: 'updatedTime',
+      field: 'UpdatedDate',
       headerName: 'Updated Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -105,7 +105,7 @@ export class McqAssignmentsComponent implements OnInit {
       'source': 'edit',
       'McqId': data.row.McqId
     }
-    this.router.navigate(['/erp/masters/add-subjects'], { queryParams: data1 });
+    this.router.navigate(['erp/my-syllabus/mcq-assignments/addmcq'], { queryParams: data1 });
   }
 
 
@@ -137,8 +137,8 @@ export class McqAssignmentsComponent implements OnInit {
   GetMcqList(){
     this.mcqService.getMcqDetails().subscribe(
       (result: any) => {
-        this.McqList = result.Value;
-        let McqList = result.Value;
+        this.MCQList = result.Value;
+        //let McqList = result.Value;
       }
     );
   }

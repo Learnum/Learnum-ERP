@@ -26,9 +26,9 @@ namespace Learnum.ERP.API.Controller.MySyllabus
         }
 
         [HttpPost("InsertMcqDetails")]
-        public async Task<IActionResult> InsertMcqDetails(McqDetailsList mcqDetailsModel)
+        public async Task<IActionResult> InsertMcqDetails(McqDetailsList mcqDetailsList)
         {
-            if (mcqDetailsModel == null)
+            if (mcqDetailsList == null)
             {
                 return BadRequest("Object is null");
             }
@@ -37,7 +37,7 @@ namespace Learnum.ERP.API.Controller.MySyllabus
                 return BadRequest("Invalid model object");
             }
 
-            var result = await mcqDetailsRepository.InsertMcqDetails(mcqDetailsModel);
+            var result = await mcqDetailsRepository.InsertMcqDetails(mcqDetailsList);
             if (result == ResponseCode.Success || result == ResponseCode.Updated)
             {
                 return Ok(result);

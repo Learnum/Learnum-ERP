@@ -5295,12 +5295,12 @@ fieldset:disabled .btn {
 }
 .modal-title {
   margin-bottom: 0;
-  line-height: 1.5;
+  line-height: 1.0;
 }
 .modal-body {
   position: relative;
   flex: 1 1 auto;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 .modal-footer {
   display: flex;
