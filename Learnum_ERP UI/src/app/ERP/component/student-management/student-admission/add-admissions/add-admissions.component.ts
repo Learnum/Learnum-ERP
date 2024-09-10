@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
-import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { AdmissionService } from './admission.service';
 import { StudentAdmissionsModel } from './addadmission.model';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
@@ -15,19 +15,18 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
 })
 export class AddAdmissionsComponent implements OnInit {
 
-  studentAdmissionsModel:StudentAdmissionsModel=new StudentAdmissionsModel();
+  studentAdmissionsModel: StudentAdmissionsModel = new StudentAdmissionsModel();
   form = new FormGroup({});
-  model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   branchDetails: any;
   courseDetails: any;
-  batchesDetails:any;
-  studentDetails : any;
+  batchesDetails: any;
+  studentDetails: any;
 
   constructor(
     private router: Router,
-    private admissionService : AdmissionService,
+    private admissionService: AdmissionService,
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
@@ -38,6 +37,7 @@ export class AddAdmissionsComponent implements OnInit {
     this.getBranchDetails();
     this.getCourseDetails();
     this.getAddStudentDetails();
+    this.bindCourseFees();
   }
 
   setParameter() {
@@ -92,8 +92,8 @@ export class AddAdmissionsComponent implements OnInit {
                 const branchId = field.formControl.value;
                 this.getBatchDetailsByBranchId(branchId);
               },
-            },    
-             
+            },
+
             validation: {
               messages: {
                 required: 'Branch Name is required',
@@ -116,6 +116,13 @@ export class AddAdmissionsComponent implements OnInit {
                 required: 'Batch Name is required',
               },
             },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(() => {
+                  this.bindCourseFees();  // Trigger binding of course fees when BatchId changes
+                });
+              },
+            },
           },
           {
             className: 'col-md-4',
@@ -135,6 +142,13 @@ export class AddAdmissionsComponent implements OnInit {
                 required: 'Fees Type is required',
               },
             },
+            hooks: {
+              onInit: (field) => {
+                field.formControl.valueChanges.subscribe(() => {
+                  this.bindCourseFees();  // Trigger binding of course fees when feesType changes
+                });
+              },
+            },
           },
           {
             className: 'col-md-4',
@@ -145,6 +159,7 @@ export class AddAdmissionsComponent implements OnInit {
               placeholder: 'Enter Course Fees',
               type: 'number',
               required: true,
+              readonly: true,
             },
             validation: {
               messages: {
@@ -183,11 +198,12 @@ export class AddAdmissionsComponent implements OnInit {
             props: {
               label: 'Student Number',
               placeholder: 'Enter Student Number',
-              text:'tel',
+              text: 'tel',
               required: true,
               pattern: '^[0-9]+$',
-              type:'number',
+              type: 'number',
               maxLength: 10,
+              readonly: true, // This will disable the input field
             },
             validation: {
               messages: {
@@ -205,40 +221,46 @@ export class AddAdmissionsComponent implements OnInit {
               placeholder: 'Select Status',
               required: true,
               options: [
-                { value: 'active', label: 'Active' },
-                { value: 'inactive', label: 'Inactive' }
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
               ],
             },
-            defaultValue: 'active', // Set the default value to 'active'
+            defaultValue: true, 
             validation: {
               messages: {
                 required: 'Status is required',
               },
             },
           }
-          
-          // {
-          //   className: 'col-md-4',
-          //   key: 'IsActive',
-          //   type: 'select',
-          //   props: {
-          //     label: 'Status',
-          //     placeholder: 'Select Status',
-          //     required: true,
-          //     options: [
-          //       { value: 'active', label: 'Active' },
-          //       { value: 'inactive', label: 'Inactive' }
-          //     ],
-          //   },
-          //   validation: {
-          //     messages: {
-          //       required: 'Status is required',
-          //     },
-          //   },
-          // },
         ],
       },
     ];
+  }
+
+  // onSubmit(): void {
+  //   this.form.markAllAsTouched();
+  //   if (this.form.valid) {
+  //     this.insertStudentDetails();
+  //   } else {
+  //     this.alertService.ShowErrorMessage('Please fill in all required fields.');
+  //   }
+  // }
+
+  // onCancelClick() {
+  //   this.router.navigateByUrl('erp/student-management/student-admission');
+  // }
+
+  navigate()
+  {
+    this.router.navigateByUrl('erp/student-management/student-admission');
+
+  }
+  onCancleClick() {
+    this.router.navigateByUrl('erp/student-management/student-admission');
+  }
+  
+  onResetClick() {
+    this.form.reset();
   }
 
   onSubmit(): void {
@@ -248,10 +270,6 @@ export class AddAdmissionsComponent implements OnInit {
     } else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
-  }
-
-  onCancelClick() {
-    this.router.navigateByUrl('tds/student-management/student-admission');
   }
   getBranchDetails() {
     this.admissionService.getBranchList().subscribe(
@@ -268,15 +286,13 @@ export class AddAdmissionsComponent implements OnInit {
     this.admissionService.getCourseList().subscribe(
       (data: any) => {
         this.courseDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
       }
     );
   }
-  
-
   getBatchDetailsByBranchId(BranchId: number) {
     this.admissionService.getBatchDetailsByBranchId(BranchId).subscribe(
       (result: any) => {
@@ -291,7 +307,6 @@ export class AddAdmissionsComponent implements OnInit {
               value: batch.BatchId,
             }));
           }
-
           // Trigger the form update to reflect the changes
           this.options.updateInitialValue();
         } else {
@@ -307,7 +322,7 @@ export class AddAdmissionsComponent implements OnInit {
     this.admissionService.getAddStudentList().subscribe(
       (data: any) => {
         this.studentDetails = data.Value;
-        this.setParameter();  
+        this.setParameter();
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);
@@ -331,21 +346,40 @@ export class AddAdmissionsComponent implements OnInit {
       }
     );
   }
+  bindCourseFees() {
+    const BatchId = this.form.get('BatchId')?.value;
+    const feesType = this.form.get('feesType')?.value;
+
+    if (BatchId && feesType) {
+      const selectedBatch = this.batchesDetails.find(batch => batch.BatchId === BatchId);
+      if (selectedBatch) {
+        const courseFees = feesType === 'installments' ? selectedBatch.CourseFeesInstallment : selectedBatch.OneTimeCourseFees;
+        this.form.get('courseFees').setValue(courseFees || 0);  // Set default to 0 if fees are not found
+      } else {
+        console.warn(`No batch found with ID ${BatchId}`);
+      }
+    } else {
+      console.warn('BatchId or feesType is undefined');
+    }
+  }
+
 
   insertStudentDetails() {
     this.studentAdmissionsModel.addedBy = 1;
     this.studentAdmissionsModel.addedDate = new Date();
     this.studentAdmissionsModel.updatedBy = 1;
     this.studentAdmissionsModel.updatedDate = new Date();
-    this.studentAdmissionsModel.admissionId =0;
+    this.studentAdmissionsModel.admissionId = 0;
 
     this.admissionService.insertStudentData(this.studentAdmissionsModel).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+          this.router.navigateByUrl('erp/student-management/student-admission');
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+          this.router.navigateByUrl('erp/student-management/student-admission');
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
@@ -354,6 +388,5 @@ export class AddAdmissionsComponent implements OnInit {
         this.alertService.ShowErrorMessage(error);
       }
     );
-    this.router.navigateByUrl('tds/student-management');
   }
 }

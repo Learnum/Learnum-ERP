@@ -97,7 +97,7 @@ export class SendFeesReminderReportComponent implements OnInit {
   }
 
   AddRecord() {
-    this.router.navigate(['tds/student-management/fees-reminder']);
+    this.router.navigate(['erp/student-management/fees-reminder']);
   }
 
   onRowAction(data: any) {
@@ -105,7 +105,7 @@ export class SendFeesReminderReportComponent implements OnInit {
       'source': data.action,
       'ReminderId': data.row.ReminderId
     };
-    this.router.navigate(['/tds/student-management/fees-reminder'], { queryParams: data1 });
+    this.router.navigate(['/erp/student-management/fees-reminder'], { queryParams: data1 });
   }
 
   onActionButton(action: string) {

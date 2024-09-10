@@ -107,7 +107,7 @@ export class MyPracticalExamComponent implements OnInit {
       'source': 'edit',
       'StudentId': data.row.StudentId
     }
-    this.router.navigate(['tds/my-practical-exam/practical-problem-answer-sheet'], { queryParams: data1 });
+    this.router.navigate(['erp/my-practical-exam/practical-problem-answer-sheet'], { queryParams: data1 });
   }
   selectPracticalAnswer($event: any)
    {
@@ -133,7 +133,7 @@ export class MyPracticalExamComponent implements OnInit {
         }
       };
     }
-    this.router.navigateByUrl('tds/my-practical-exam/practical-problem-answer-sheet')
+    this.router.navigateByUrl('erp/my-practical-exam/practical-problem-answer-sheet')
   }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');

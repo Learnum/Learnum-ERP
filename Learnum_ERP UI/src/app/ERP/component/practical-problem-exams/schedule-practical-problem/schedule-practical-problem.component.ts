@@ -339,12 +339,12 @@ export class SchedulePracticalProblemComponent implements OnInit {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/practical-problem-exams');
+          this.router.navigateByUrl('erp/practical-problem-exams');
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/practical-problem-exams');
+          this.router.navigateByUrl('erp/practical-problem-exams');
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
@@ -359,12 +359,12 @@ export class SchedulePracticalProblemComponent implements OnInit {
 
 
   onCancelClick(): void {
-    this.router.navigateByUrl('tds/practical-problem-exams');
+    this.router.navigateByUrl('erp/practical-problem-exams');
   }
 
   navigate()
   {
-    this.router.navigateByUrl('tds/practical-problem-exams');
+    this.router.navigateByUrl('erp/practical-problem-exams');
   }
   getSubjectDetails() {
     this.schedulePracticalProblemService.getsubjectList().subscribe(

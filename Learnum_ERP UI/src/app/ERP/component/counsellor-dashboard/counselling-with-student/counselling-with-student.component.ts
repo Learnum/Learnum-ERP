@@ -152,7 +152,7 @@ export class CounsellingWithStudentComponent implements OnInit {
       'source': 'edit',
       'CounsellingId': data.row.CounsellingId
     }
-    this.router.navigate(['tds/counsellor-dashboard/counselling-with-student/counselling-student'], { queryParams: data1 });
+    this.router.navigate(['erp/counsellor-dashboard/counselling-with-student/counselling-student'], { queryParams: data1 });
   }
   
   selectStudentCounselling($event: any) {
@@ -169,7 +169,7 @@ export class CounsellingWithStudentComponent implements OnInit {
         }
       };
     }
-    this.router.navigateByUrl('tds/counsellor-dashboard/counselling-with-student/counselling-student')
+    this.router.navigateByUrl('erp/counsellor-dashboard/counselling-with-student/counselling-student')
   }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');

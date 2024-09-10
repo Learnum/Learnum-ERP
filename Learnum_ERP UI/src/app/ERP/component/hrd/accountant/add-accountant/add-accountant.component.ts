@@ -136,11 +136,11 @@ export class AddAccountantComponent implements OnInit {
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/hrd/accountant');
+    this.router.navigateByUrl('erp/hrd/accountant');
   }
 
   navigate() {
-    this.router.navigateByUrl('tds/hrd/accountant');
+    this.router.navigateByUrl('erp/hrd/accountant');
   }
 
 
@@ -173,13 +173,13 @@ export class AddAccountantComponent implements OnInit {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/hrd/accountant');
+          this.router.navigateByUrl('erp/hrd/accountant');
 
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/hrd/accountant');
+          this.router.navigateByUrl('erp/hrd/accountant');
 
         }
         else {

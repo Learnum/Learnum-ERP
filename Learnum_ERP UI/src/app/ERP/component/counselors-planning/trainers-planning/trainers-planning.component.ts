@@ -143,11 +143,11 @@ export class TrainersPlanningComponent implements OnInit {
       'source': 'edit',
       'TrainerId': data.row.TrainerId
     };
-    this.router.navigate(['tds/counselors-planning/add-trainers'], { queryParams: data1 });
+    this.router.navigate(['erp/counselors-planning/add-trainers'], { queryParams: data1 });
   }
 
   onAddTrainer() {
-    this.router.navigate(['tds/counselors-planning/add-trainers']);
+    this.router.navigate(['erp/counselors-planning/add-trainers']);
   }
 
   onActionButton(action: string) {

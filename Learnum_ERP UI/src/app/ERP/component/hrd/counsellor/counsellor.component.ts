@@ -123,7 +123,7 @@ export class CounsellorComponent implements OnInit {
       'source': 'edit',
       'CounsellorId': data.row.CounsellorId
     }
-    this.router.navigate(['tds/hrd/counsellor/add-counsellor'], { queryParams: data1 });
+    this.router.navigate(['erp/hrd/counsellor/add-counsellor'], { queryParams: data1 });
   }
 
 
@@ -132,7 +132,7 @@ export class CounsellorComponent implements OnInit {
     }
   
   onAddcounsellor() {
-    this.router.navigateByUrl('tds/hrd/counsellor/add-counsellor')
+    this.router.navigateByUrl('erp/hrd/counsellor/add-counsellor')
   }
 
   onActionButton(action: string) {

@@ -252,7 +252,7 @@ export class AddSeminarComponent implements OnInit {
     }
   }
   onCancleClick() {
-    this.router.navigateByUrl('tds/counsellor-dashboard/schedule-seminar-with-college');
+    this.router.navigateByUrl('erp/counsellor-dashboard/schedule-seminar-with-college');
   }
   onResetClick() {
     this.form.reset();
@@ -269,10 +269,10 @@ export class AddSeminarComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/counsellor-dashboard/schedule-seminar-with-college');
+          this.router.navigateByUrl('erp/counsellor-dashboard/schedule-seminar-with-college');
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/counsellor-dashboard/schedule-seminar-with-college');
+          this.router.navigateByUrl('erp/counsellor-dashboard/schedule-seminar-with-college');
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }

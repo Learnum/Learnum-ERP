@@ -223,12 +223,12 @@ export class AddTrainerComponent implements OnInit {
 
 
   onCancel() {
-    this.router.navigateByUrl('tds/hrd/trainer')
+    this.router.navigateByUrl('erp/hrd/trainer')
   }
 
   navigate()
   {
-    this.router.navigateByUrl('tds/hrd/trainer')
+    this.router.navigateByUrl('erp/hrd/trainer')
   }
   get f() {
     return this.form.controls;
@@ -260,12 +260,12 @@ export class AddTrainerComponent implements OnInit {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/hrd/trainer');
+          this.router.navigateByUrl('erp/hrd/trainer');
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/hrd/trainer');
+          this.router.navigateByUrl('erp/hrd/trainer');
 
         }
         else {

@@ -119,7 +119,7 @@ export class CoursesComponent implements OnInit {
       'source': 'edit',
       'CourseId': data.row.CourseId
     }
-    this.router.navigate(['tds/masters/courses/add-courses'], { queryParams: data1 });
+    this.router.navigate(['erp/masters/courses/add-courses'], { queryParams: data1 });
   }
 
    onAddCourse(course?: any) {
@@ -131,7 +131,7 @@ export class CoursesComponent implements OnInit {
         }
       };
     }
-    this.router.navigateByUrl('tds/masters/courses/add-courses')
+    this.router.navigateByUrl('erp/masters/courses/add-courses')
   }
 
   selectCourse($event: any) {

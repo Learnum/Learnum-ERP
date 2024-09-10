@@ -10,6 +10,7 @@ using Dapper;
 using System.Data;
 using Learnum.ERP.Repository.Core;
 using Learnum.ERP.Shared.Entities.Models.Comman;
+using Learnum.ERP.Shared.Entities.Models.ViewModel;
 
 namespace Learnum.ERP.Repository.Master.Student_Management
 {
@@ -18,7 +19,7 @@ namespace Learnum.ERP.Repository.Master.Student_Management
     public interface IStudentAdmissionsDetailsRepository
     {
         Task<ResponseCode> InsertStudentAdmissionsDetails(StudentAdmissionsDetailsModel studentAdmissionsDetailsModel);
-      
+        Task<List<StudentAdmissionsDetailsResponseModel>> GetStudentAdmissionsDetailsList();
         Task<List<BranchDetailsModel>> GetBranchDetails();
         Task<List<CourseDetailsModel>> GetCourseDetails();
         Task<Tuple<List<BatchesDetailsModel>?, ResponseCode>> GetBatchDetailsbyBranchID(long? BranchId);
@@ -31,7 +32,7 @@ namespace Learnum.ERP.Repository.Master.Student_Management
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters(studentAdmissionsDetailsModel);
-                dbparams.Add("@Action", "InsertSudentAdmission");
+                dbparams.Add("@Action", "InsertStudentAdmission");
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
                 dbConnection.Query<int>("PROC_StudentAdmissions", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
@@ -75,5 +76,16 @@ namespace Learnum.ERP.Repository.Master.Student_Management
             }
         }
 
+        public async Task<List<StudentAdmissionsDetailsResponseModel>> GetStudentAdmissionsDetailsList()
+        {
+            using (IDbConnection dbConnection = base.GetCoreConnection())
+            {
+                var dbparams = new DynamicParameters();
+                dbparams.Add("@Action", "GetStudentDetails");
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<StudentAdmissionsDetailsResponseModel>("PROC_StudentAdmissions", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                return await Task.FromResult(result);
+            }
+        }
     }
 }

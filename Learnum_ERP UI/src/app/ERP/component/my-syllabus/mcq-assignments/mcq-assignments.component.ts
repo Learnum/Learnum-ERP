@@ -105,7 +105,7 @@ export class McqAssignmentsComponent implements OnInit {
       'source': 'edit',
       'McqId': data.row.McqId
     }
-    this.router.navigate(['erp/my-syllabus/mcq-assignments/addmcq'], { queryParams: data1 });
+    this.router.navigate(['/erp/masters/add-subjects'], { queryParams: data1 });
   }
 
 

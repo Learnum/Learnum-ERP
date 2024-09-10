@@ -334,11 +334,11 @@ export class AddBatchComponent implements OnInit {
 
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/counselors-planning/batches-planning');
+    this.router.navigateByUrl('erp/counselors-planning/batches-planning');
   }
 
   navigate() {
-    this.router.navigateByUrl('tds/counselors-planning/batches-planning');
+    this.router.navigateByUrl('erp/counselors-planning/batches-planning');
   }
   get f() {
     return this.form.controls;
@@ -372,7 +372,7 @@ export class AddBatchComponent implements OnInit {
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
-        this.router.navigateByUrl('tds/counselors-planning/batches-planning');
+        this.router.navigateByUrl('erp/counselors-planning/batches-planning');
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);

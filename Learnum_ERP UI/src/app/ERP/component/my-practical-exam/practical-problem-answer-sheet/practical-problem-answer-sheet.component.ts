@@ -86,7 +86,7 @@ export class PracticalProblemAnswerSheetComponent implements OnInit {
     }
   }
   onCancleClick() {
-    this.router.navigateByUrl('tds/my-practical-exam');
+    this.router.navigateByUrl('erp/my-practical-exam');
   }
   onResetClick() {
     this.form.reset();
@@ -104,10 +104,10 @@ export class PracticalProblemAnswerSheetComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/my-practical-exam');
+          this.router.navigateByUrl('erp/my-practical-exam');
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/my-practical-exam');
+          this.router.navigateByUrl('erp/my-practical-exam');
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }

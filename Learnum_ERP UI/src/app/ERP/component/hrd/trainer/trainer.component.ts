@@ -135,11 +135,11 @@ export class TrainerComponent implements OnInit {
       'source': 'edit',
       'TrainerId': data.row.TrainerId
     };
-    this.router.navigate(['tds/hrd/trainer/add-trainer'], { queryParams: data1 });
+    this.router.navigate(['erp/hrd/trainer/add-trainer'], { queryParams: data1 });
   }
 
   onAddTrainer() {
-    this.router.navigate(['tds/hrd/trainer/add-trainer']);
+    this.router.navigate(['erp/hrd/trainer/add-trainer']);
   }
 
   onActionButton(action: string) {

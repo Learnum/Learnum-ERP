@@ -109,7 +109,7 @@ export class TrainerDashboardComponent implements OnInit {
       'source': 'edit',
       'TrainerId': data.row.TrainerId
     }
-    this.router.navigate(['tds/trainer-dashboard/syllabus-completion'], { queryParams: data1 });
+    this.router.navigate(['erp/trainer-dashboard/syllabus-completion'], { queryParams: data1 });
   }
   selectSyllabus($event: any)
    {
@@ -125,7 +125,7 @@ export class TrainerDashboardComponent implements OnInit {
         }
       };
     }
-    this.router.navigateByUrl('tds/trainer-dashboard/syllabus-completion')
+    this.router.navigateByUrl('erp/trainer-dashboard/syllabus-completion')
   }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');

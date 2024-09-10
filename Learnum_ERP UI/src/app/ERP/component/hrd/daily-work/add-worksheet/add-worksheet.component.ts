@@ -160,12 +160,12 @@ setParameter() {
   }
 
   onCancleClick() {
-    this.router.navigateByUrl("tds/hrd/daily-work"); 
+    this.router.navigateByUrl("erp/hrd/daily-work"); 
   }
   
   navigate()
   {
-    this.router.navigateByUrl("tds/hrd/daily-work"); 
+    this.router.navigateByUrl("erp/hrd/daily-work"); 
   }
   get f()
   {
@@ -195,11 +195,11 @@ setParameter() {
         let serviceResponse = result.Value;
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl("tds/hrd/daily-work"); 
+          this.router.navigateByUrl("erp/hrd/daily-work"); 
         }
         else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl("tds/hrd/daily-work"); 
+          this.router.navigateByUrl("erp/hrd/daily-work"); 
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);

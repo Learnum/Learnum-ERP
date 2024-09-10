@@ -149,11 +149,11 @@ export class BirthdaysComponent implements OnInit {
       'source': 'edit',
       'BirthId': data.row.BirthId
     }
-    this.router.navigate(['tds/hrd/birthdays/add-birthday'], { queryParams: data1 });
+    this.router.navigate(['erp/hrd/birthdays/add-birthday'], { queryParams: data1 });
   }
 
   onAddBirthday() {
-    this.router.navigateByUrl('tds/hrd/birthdays/add-birthday')
+    this.router.navigateByUrl('erp/hrd/birthdays/add-birthday')
   }
 
   selectBirthday($event: any) {

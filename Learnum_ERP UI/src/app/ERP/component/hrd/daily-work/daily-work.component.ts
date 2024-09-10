@@ -128,14 +128,14 @@ export class DailyWorkComponent implements OnInit {
       'source': 'edit',
       'WorkId': data.row.WorkId
     }
-    this.router.navigate(['tds/hrd/daily-work/add-worksheet'], { queryParams: data1 });
+    this.router.navigate(['erp/hrd/daily-work/add-worksheet'], { queryParams: data1 });
   }
 
 
 
   
   onAddDailywork() {
-    this.router.navigateByUrl('tds/hrd/daily-work/add-worksheet')
+    this.router.navigateByUrl('erp/hrd/daily-work/add-worksheet')
   }
 
 

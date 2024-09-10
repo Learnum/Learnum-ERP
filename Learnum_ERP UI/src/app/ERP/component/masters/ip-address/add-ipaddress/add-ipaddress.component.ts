@@ -117,11 +117,11 @@ export class AddIpaddressComponent implements OnInit {
   }
 
   navigate() {
-    this.router.navigateByUrl('tds/masters/ip-address');
+    this.router.navigateByUrl('erp/masters/ip-address');
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/masters/ip-address');
+    this.router.navigateByUrl('erp/masters/ip-address');
   }
   onResetClick() {
     this.form.reset();
@@ -159,7 +159,7 @@ export class AddIpaddressComponent implements OnInit {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    this.router.navigateByUrl('tds/masters/ip-address');
+    this.router.navigateByUrl('erp/masters/ip-address');
   }
   getLocationDetails(LocationId: number) {
     this.addipaddressService.getLocationDetails(LocationId).subscribe(

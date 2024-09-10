@@ -158,12 +158,12 @@ export class AddBirthdayComponent implements OnInit {
     this.form.reset();
   }
   onCancleClick() {
-    this.router.navigateByUrl('tds/hrd/birthdays');
+    this.router.navigateByUrl('erp/hrd/birthdays');
   }
 
   navigate()
   {
-    this.router.navigateByUrl('tds/hrd/birthdays');
+    this.router.navigateByUrl('erp/hrd/birthdays');
   }
 
   get f()
@@ -193,11 +193,11 @@ export class AddBirthdayComponent implements OnInit {
         let serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/hrd/birthdays');
+          this.router.navigateByUrl('erp/hrd/birthdays');
         }
          else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/hrd/birthdays');
+          this.router.navigateByUrl('erp/hrd/birthdays');
         } 
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);

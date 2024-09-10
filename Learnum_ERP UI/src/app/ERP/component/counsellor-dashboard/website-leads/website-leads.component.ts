@@ -136,7 +136,7 @@ export class WebsiteLeadsComponent implements OnInit {
       'source': 'edit',
       'StudentId': data.row.StudentId
     }
-    this.router.navigate(['tds/counsellor-dashboard/website-leads/add-website'], { queryParams: data1 });
+    this.router.navigate(['erp/counsellor-dashboard/website-leads/add-website'], { queryParams: data1 });
   }
   selectWebsiteLeads($event: any)
    {
@@ -152,7 +152,7 @@ export class WebsiteLeadsComponent implements OnInit {
         }
       };
     }
-    this.router.navigateByUrl('tds/counsellor-dashboard/website-leads/add-website')
+    this.router.navigateByUrl('erp/counsellor-dashboard/website-leads/add-website')
   }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');

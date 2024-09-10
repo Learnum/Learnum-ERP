@@ -178,7 +178,7 @@ export class EmployeesComponent implements OnInit {
     //     }
     //   };
     // }
-    this.router.navigateByUrl('tds/hrd/employees/add-employee')
+    this.router.navigateByUrl('erp/hrd/employees/add-employee')
   }
  
   selectemployee($event: any) {

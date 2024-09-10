@@ -187,12 +187,12 @@ export class PracticalProblemsStudentsComponent implements OnInit {
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/add-practical-problem-solution');
+    this.router.navigateByUrl('erp/add-practical-problem-solution');
   }
 
   navigate()
   {
-    this.router.navigateByUrl('tds/add-practical-problem-solution');
+    this.router.navigateByUrl('erp/add-practical-problem-solution');
   }
   onResetClick() {
     this.form.reset();
@@ -209,7 +209,7 @@ export class PracticalProblemsStudentsComponent implements OnInit {
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }
-        this.router.navigateByUrl('tds/add-practical-problem-solution');
+        this.router.navigateByUrl('erp/add-practical-problem-solution');
       },
       (error: any) => {
         this.alertService.ShowErrorMessage(error);

@@ -135,7 +135,7 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
       'source': 'edit',
       'MeetingId': data.row.MeetingId
     }
-    this.router.navigate(['tds/counsellor-dashboard/schedule-meeting-with-college/add-meeting'], { queryParams: data1 });
+    this.router.navigate(['erp/counsellor-dashboard/schedule-meeting-with-college/add-meeting'], { queryParams: data1 });
   }
   selectMetting($event: any)
    {
@@ -151,7 +151,7 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
         }
       };
     }
-    this.router.navigateByUrl('tds/counsellor-dashboard/schedule-meeting-with-college/add-meeting')
+    this.router.navigateByUrl('erp/counsellor-dashboard/schedule-meeting-with-college/add-meeting')
   }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');

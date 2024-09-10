@@ -173,7 +173,7 @@ export class AddsyllabusComponent implements OnInit {
         }
         
         onCancleClick() {
-          this.router.navigateByUrl('tds/my-syllabus/my-syllabus-erp');
+          this.router.navigateByUrl('erp/my-syllabus/my-syllabus-erp');
         }
         
         get f()

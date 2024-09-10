@@ -159,7 +159,7 @@ export class OfflineFeesPaymentComponent implements OnInit {
     //     }
     //   };
     // }
-    this.router.navigateByUrl('tds/student-management/add-fees')
+    this.router.navigateByUrl('erp/student-management/add-fees')
   }
 
   onRowAction(data: any) {
@@ -167,7 +167,7 @@ export class OfflineFeesPaymentComponent implements OnInit {
       'source': 'edit',
       'offlineFeesPaymentId': data.row.offlineFeesPaymentId
     }
-    this.router.navigate(['tds/student-management/add-fees'], { queryParams: data1 });
+    this.router.navigate(['erp/student-management/add-fees'], { queryParams: data1 });
   }
 
   onActionButton(action: string) {

@@ -152,7 +152,7 @@ export class AddSubjectsComponent implements OnInit {
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/masters/subjects');
+    this.router.navigateByUrl('erp/masters/subjects');
   }
 
   onResetClick() {
@@ -161,7 +161,7 @@ export class AddSubjectsComponent implements OnInit {
 
   navigate()
   {
-    this.router.navigateByUrl('tds/masters/subjects');
+    this.router.navigateByUrl('erp/masters/subjects');
   }
 
   onSubmit() {
@@ -196,10 +196,10 @@ export class AddSubjectsComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/masters/subjects');
+          this.router.navigateByUrl('erp/masters/subjects');
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/masters/subjects');
+          this.router.navigateByUrl('erp/masters/subjects');
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
         }

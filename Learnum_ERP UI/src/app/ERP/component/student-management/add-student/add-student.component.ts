@@ -159,7 +159,7 @@ export class AddStudentComponent implements OnInit {
       'source': 'edit',
       'StudentId': data.row.StudentId
     }
-    this.router.navigate(['tds/student-management/student-add'], { queryParams: data1 });
+    this.router.navigate(['erp/student-management/student-add'], { queryParams: data1 });
   }
   selectStudent($event: any)
    {
@@ -177,7 +177,7 @@ export class AddStudentComponent implements OnInit {
         }
       };
     }
-    this.router.navigateByUrl('tds/student-management/student-add')
+    this.router.navigateByUrl('erp/student-management/student-add')
   }
   onActionButton(action: string) {
     alert(action + ' ' + 'action button clicked.');

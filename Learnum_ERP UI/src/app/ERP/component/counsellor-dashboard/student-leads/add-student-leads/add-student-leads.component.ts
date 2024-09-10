@@ -508,7 +508,7 @@ export class AddStudentLeadsComponent implements OnInit {
     }
   }
   onCancleClick() {
-    this.router.navigateByUrl('tds/counsellor-dashboard/student-leads');
+    this.router.navigateByUrl('erp/counsellor-dashboard/student-leads');
   }
   onResetClick() {
     this.form.reset();
@@ -516,7 +516,7 @@ export class AddStudentLeadsComponent implements OnInit {
 
   navigate()
   {
-    this.router.navigateByUrl('tds/counsellor-dashboard/student-leads');
+    this.router.navigateByUrl('erp/counsellor-dashboard/student-leads');
   }
 
   InsertStudentLeads() {
@@ -531,11 +531,11 @@ export class AddStudentLeadsComponent implements OnInit {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/counsellor-dashboard/student-leads');
+          this.router.navigateByUrl('erp/counsellor-dashboard/student-leads');
 
         } else if (serviceResponse === ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/counsellor-dashboard/student-leads');
+          this.router.navigateByUrl('erp/counsellor-dashboard/student-leads');
 
         } else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);

@@ -162,12 +162,12 @@ export class AddContentwriterComponent {
   }
 
   onCancleClick() {
-    this.router.navigateByUrl('tds/hrd/content-writer');
+    this.router.navigateByUrl('erp/hrd/content-writer');
   }
 
   navigate()
   {
-    this.router.navigateByUrl('tds/hrd/content-writer');
+    this.router.navigateByUrl('erp/hrd/content-writer');
   }
 
   get f() {
@@ -195,12 +195,12 @@ export class AddContentwriterComponent {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-          this.router.navigateByUrl('tds/hrd/content-writer');
+          this.router.navigateByUrl('erp/hrd/content-writer');
 
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-          this.router.navigateByUrl('tds/hrd/content-writer');
+          this.router.navigateByUrl('erp/hrd/content-writer');
         }
         else {
           this.alertService.ShowErrorMessage(this.messageService.serviceError);
@@ -210,7 +210,7 @@ export class AddContentwriterComponent {
         this.alertService.ShowErrorMessage("Enter all required fields");
       }
     )
-    this.router.navigateByUrl('tds/hrd/content-writer');
+    this.router.navigateByUrl('erp/hrd/content-writer');
   }
 
   getCourseDetails() {
