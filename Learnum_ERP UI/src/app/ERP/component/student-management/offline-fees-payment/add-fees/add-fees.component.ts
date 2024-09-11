@@ -14,16 +14,16 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
   styleUrls: ['./add-fees.component.scss']
 })
 export class AddFeesComponent implements OnInit {
-
+  AddfeesModel: addfeesModel = new addfeesModel();
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
   branchDetails:any;
-  OfflineFeesDetails: addfeesModel = new addfeesModel();
-  editData: any;
-  batchDetails: any;
   courseDetails: any;
+  editData: any;
+  batchesDetails: any;
+  studentDetails: any;
 
   constructor(
     private addfeesService: AddFeesService,
@@ -36,8 +36,8 @@ export class AddFeesComponent implements OnInit {
 
   ngOnInit(): void {
     this.setParameter();
+    this.getAddStudentDetails();
     this.getCourseDetails();
-    this.getBatchDetails();
     this.getBranchDetails();
 
     this.editData = this.activateRoute.snapshot.queryParams;
@@ -47,14 +47,13 @@ export class AddFeesComponent implements OnInit {
   }
 
  
-
   setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             key: 'dateOfPayment',
             type: 'input',
             templateOptions: {
@@ -65,7 +64,7 @@ export class AddFeesComponent implements OnInit {
             }
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             key: 'modeOfPayment',
             type: 'select',
             templateOptions: {
@@ -83,7 +82,7 @@ export class AddFeesComponent implements OnInit {
             }
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             key: 'referenceNumber',
             type: 'input',
             templateOptions: {
@@ -93,52 +92,73 @@ export class AddFeesComponent implements OnInit {
             }
           },
           {
-            className: 'col-md-4',
-            key: 'studentName',
-            type:'input',
-            templateOptions: {
+            className: 'col-md-3',
+            key: 'StudentId',
+            type: 'select',
+            props: {
               label: 'Student Name',
               placeholder: 'Enter Student Name',
               required: true,
-            }
+              type: 'text',
+              options: this.studentDetails ? this.studentDetails.map(student => ({ label: student.StudentName, value: student.StudentId })) : [],
+            },
+            hooks: {
+              onInit: (field) => {
+                field.formControl?.valueChanges.subscribe((selectedStudentId) => {
+                  const selectedStudent = this.studentDetails.find(student => student.StudentId === selectedStudentId);
+                  if (selectedStudent) {
+                    this.form.get('studentId')?.setValue(selectedStudent.StudentId);
+                    this.form.get('StudentPhone')?.setValue(selectedStudent.StudentPhone);
+                  }
+                });
+              }
+            },
+            validation: {
+              messages: {
+                required: 'Student Name is required',
+              },
+            },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             key: 'studentId',
             type: 'input',
             templateOptions: {
               label: 'Student ID',
               placeholder: 'Enter Student ID',
               required: true,
+              readonly: true 
             }
           },
           {
-            className: 'col-md-4',
-            key: 'phoneNumber',
+            className: 'col-md-3',
+            key: 'StudentPhone',
             type: 'input',
             templateOptions: {
               label: 'Phone Number',
               placeholder: 'Enter Phone Number',
               required: true,
+              readonly: true 
             }
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'CourseId',
-            templateOptions: {
-              placeholder: 'Course Name',
-              type: 'text',
-              label: "course Name",
+            props: {
+              placeholder: 'Select Course',
+              label: "Course Name",
               required: true,
-              options: this.courseDetails ? this.courseDetails.map(course => ({
-                label: course.CourseName
-                , value: course.CourseId
-              })) : [],
+              options: this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
+            },
+            validation: {
+              messages: {
+                required: 'Course Name is required',
+              },
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'BranchId',
             templateOptions: {
@@ -146,24 +166,31 @@ export class AddFeesComponent implements OnInit {
               type: 'text',
               label: "Branch Name",
               required: true,
+              // options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
               options: this.branchDetails ? this.branchDetails.map(branch => ({ label: branch.BranchName, value: branch.BranchId })) : [],
+              change: (field) => {
+                const branchId = field.formControl.value;
+                this.getBatchDetailsByBranchId(branchId);
+              },
             },
-
+            validation: {
+              messages: {
+                required: 'Branch Name is required',
+              },
+            },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             type: 'select',
             key: 'BatchId',
             templateOptions: {
               placeholder: 'Enter batch Name',
               required: true,
-              type: ' Batch Name',
               label: "Batch Name",
-              options: this.batchDetails ? this.batchDetails.map(batch => ({
-                label: batch.BatchName
-                , value: batch.BatchId
+              options: this.batchesDetails ? this.batchesDetails.map(batch => ({
+                label: batch.BatchName,
+                value: batch.BatchId
               })) : [],
-
             },
             validation: {
               messages: {
@@ -172,7 +199,7 @@ export class AddFeesComponent implements OnInit {
             },
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             key: 'amountpaid',
             type: 'input',
             templateOptions: {
@@ -183,7 +210,7 @@ export class AddFeesComponent implements OnInit {
             }
           },
           {
-            className: 'col-md-4',
+            className: 'col-md-3',
             key: 'remarks',
             type: 'input',
             templateOptions: {
@@ -212,14 +239,88 @@ export class AddFeesComponent implements OnInit {
     ];
   }
 
-  insertfees() {
-    this.OfflineFeesDetails.addedBy = 1;
-    this.OfflineFeesDetails.addedDate = new Date();
-    this.OfflineFeesDetails.updatedBy = 1;
-    this.OfflineFeesDetails.updatedDate = new Date();
+  onCancleClick() {
+    this.router.navigateByUrl('erp/student-management/offline-fees-payment');
+  }
+  onSubmit(): void {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      this.insertOfflineFeesPayment();
+    } else {
+      this.alertService.ShowErrorMessage('Please fill in all required fields.');
+    }
+  }
+
+  getAddStudentDetails() {
+    this.addfeesService.getAddStudentList().subscribe(
+      (data: any) => {
+        this.studentDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getCourseDetails() {
+    this.addfeesService.getCourseList().subscribe(
+      (data: any) => {
+        this.courseDetails = data.Value;
+        this.setParameter();
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+  getBranchDetails() {
+    this.addfeesService.getBranchList().subscribe(
+      (data: any) => {
+        this.branchDetails = data.Value;
+        this.setParameter();  
+      },
+      (error: any) => {
+        this.alertService.ShowErrorMessage(error);
+      }
+    );
+  }
+
+getBatchDetailsByBranchId(BranchId: number) {
+  this.addfeesService.getBatchDetailsByBranchId(BranchId).subscribe(
+    (result: any) => {
+      if (result && result.Value) {
+        this.batchesDetails = result.Value.Item1;
+        this.setParameter();
+        // Find the 'BatchId' field and update its options with the new batch details
+        const batchField = this.fields.find(field => field.key === 'BatchId');
+        if (batchField) {
+          batchField.props.options = this.batchesDetails.map(batch => ({
+            label: batch.BatchName ,
+            value: batch.BatchId,
+          }));
+
+          // Trigger form re-render to apply the changes
+          this.options.updateInitialValue();  // Ensure the form updates after changes to fields
+        }
+      } else {
+        console.error('No data found for BranchId: ' + BranchId);
+      }
+    },
+    (error: any) => {
+      console.error('Error retrieving batch details:', error);
+    }
+  );
+}
+
+  insertOfflineFeesPayment() {
+    this.AddfeesModel.AddedBy = 1;
+    this.AddfeesModel.AddedDate = new Date();
+    this.AddfeesModel.UpdatedBy = 1;
+    this.AddfeesModel.UpdatedDate = new Date();
+    this.AddfeesModel.OfflineFeesPaymentId=0;
     // this.branchManagerDetails.branchManagerId = 0;
 
-    this.addfeesService.insertfeesDetails(this.OfflineFeesDetails).subscribe(
+    this.addfeesService.insertfeesDetails(this.AddfeesModel).subscribe(
       (result: any) => {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
@@ -241,59 +342,11 @@ export class AddFeesComponent implements OnInit {
     )
 
   }
-
-  onSubmit(): void {
-    this.form.markAllAsTouched();
-    if (this.form.valid) {
-      this.insertfees();
-    } else {
-      this.alertService.ShowErrorMessage('Please fill in all required fields.');
-    }
-  }
-
-  onCancelClick() {
-    this.router.navigateByUrl('erp/student-management/offline-fees-payment');
-  }
-
-  getBranchDetails() {
-    this.addfeesService.getBranchList().subscribe(
-      (data: any) => {
-        this.branchDetails = data.Value;
-        this.setParameter();  
-      },
-      (error: any) => {
-        this.alertService.ShowErrorMessage(error);
-      }
-    );
-  }
-  getBatchDetails() {
-    this.addfeesService.getBatchList().subscribe(
-      (data: any) => {
-        this.batchDetails = data.Value;
-        this.setParameter();
-      },
-      (error: any) => {
-        this.alertService.ShowErrorMessage(error);
-      }
-    );
-  }
-  getCourseDetails() {
-    this.addfeesService.getcourseList().subscribe(
-      (data: any) => {
-        this.courseDetails = data.Value;
-        this.setParameter();
-      },
-      (error: any) => {
-        this.alertService.ShowErrorMessage(error);
-      }
-    );
-  }
-  
   getOfflineFeesDetails(offlineFeesPaymentId: number) {
     this.addfeesService.getOfflineFessDetailsById(offlineFeesPaymentId).subscribe(
       (result: any) => {
         if (result && result.Value) {
-          this.OfflineFeesDetails = result.Value.Item1;
+          this.AddfeesModel = result.Value.Item1;
           this.setParameter();
           console.error('No data found for offlineFeesPaymentId: ' + offlineFeesPaymentId);
         }

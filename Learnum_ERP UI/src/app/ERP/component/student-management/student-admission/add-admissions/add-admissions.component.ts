@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { AdmissionService } from './admission.service';
 import { StudentAdmissionsModel } from './addadmission.model';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { BaseService } from 'src/app/core/services/baseService';
 
 @Component({
   selector: 'app-add-admissions',
@@ -31,6 +32,7 @@ export class AddAdmissionsComponent implements OnInit {
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
+    private baseservice: BaseService,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
@@ -111,7 +113,6 @@ export class AddAdmissionsComponent implements OnInit {
                 this.getBatchDetailsByBranchId(branchId);
               },
             },
-
             validation: {
               messages: {
                 required: 'Branch Name is required',
@@ -211,7 +212,7 @@ export class AddAdmissionsComponent implements OnInit {
           },
           {
             className: 'col-md-4',
-            key: 'StudentNumber',
+            key: 'StudentPhone',
             type: 'input',
             props: {
               label: 'Student Number',
@@ -295,58 +296,6 @@ export class AddAdmissionsComponent implements OnInit {
       }
     );
   }
-  // getBatchDetailsByBranchId(BranchId: number) {
-  //   this.admissionService.getBatchDetailsByBranchId(BranchId).subscribe(
-  //     (result: any) => {
-  //       if (result && result.Value) {
-  //         this.batchesDetails = result.Value.Item1;
-  //         this.setParameter();
-          
-  //         // Update BatchId field options dynamically
-  //         const batchField = this.fields.find(field => field.key === 'BatchId');
-  //         if (batchField) {
-  //           batchField.props.options = this.batchesDetails.map(batch => ({
-  //             label: batch.BatchName,
-  //             value: batch.BatchId,
-  //           }));
-  //         }
-
-  //         // Trigger the form update to reflect the changes
-  //         this.options.updateInitialValue();
-  //       } else {
-  //         console.error('No data found for BranchId: ' + BranchId);
-  //       }
-  //     },
-  //     (error: any) => {
-  //       console.error('Error retrieving batch details:', error);
-  //     }
-  //   );
-  // }
-  // getBatchDetailsByBranchId(BranchId: number) {
-  //   this.admissionService.getBatchDetailsByBranchId(BranchId).subscribe(
-  //     (result: any) => {
-  //       if (result && result.Value) {
-  //         this.batchesDetails = result.Value.Item1;
-          
-  //         const batchField = this.fields.find(field => field.key === 'BatchId');
-  //         if (batchField) {
-  //           batchField.props.options = this.batchesDetails.map(batch => ({
-  //             label: batch.BatchName,
-  //             value: batch.BatchId,
-  //           }));
-  //         }
-  
-  //         // Re-render the form with updated batch options
-  //         this.options.updateInitialValue();
-  //       } else {
-  //         console.error('No data found for BranchId: ' + BranchId);
-  //       }
-  //     },
-  //     (error: any) => {
-  //       console.error('Error retrieving batch details:', error);
-  //     }
-  //   );
-  // }
   getBatchDetailsByBranchId(BranchId: number) {
   this.admissionService.getBatchDetailsByBranchId(BranchId).subscribe(
     (result: any) => {
@@ -449,6 +398,8 @@ export class AddAdmissionsComponent implements OnInit {
       (result: any) => {
         if (result && result.Value) {
           this.studentAdmissionsModel = result.Value.Item1;
+          this.studentAdmissionsModel.DateOfAdmission = this.baseservice.formatDate(this.studentAdmissionsModel.DateOfAdmission)
+         // this.seminarDetailsModel.SeminarDate = this.baseservice.formatDate(this.seminarDetailsModel.SeminarDate);
           this.getBatchDetailsByBranchId(this.studentAdmissionsModel.BranchId )
           this.setParameter();
           console.error('No data found for AdmissionId: ' + AdmissionId);

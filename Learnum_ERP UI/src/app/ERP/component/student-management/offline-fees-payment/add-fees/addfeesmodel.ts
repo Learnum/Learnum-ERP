@@ -1,25 +1,22 @@
 export class addfeesModel
 {
-    offlineFeesPaymentId: number;
-    dateOfPayment: string;
-    modeOfPayment: string;
-    referenceNumber: number;
-    studentName: string;
-    studentId: number;
-    phoneNumber: number;
-    courseId: number;
-    courseName: string;
-    branchId: number;
-    branchName: string;
-    batchId: number;
-    batchName: string;
-    amountpaid: number;
-    remarks: string;
-    isActive: boolean;
-    addedBy: number | null;
-    addedDate: Date | null;
-    updatedBy: number | null;
-    updatedDate: Date | null;
-    computerName: string;
+    OfflineFeesPaymentId: number;
+    DateOfPayment: string;
+    ModeOfPayment: string;
+    ReferenceNumber: number;
+    StudentName: string;
+    StudentId: number;
+    CourseId: number;
+    BranchId: number;
+    BatchId: number;
+    Amountpaid: number;
+    Remarks: string;
+    IsActive: boolean;
+    StudentPhone: number;
+    AddedBy: number | null;
+    AddedDate: Date | null;
+    UpdatedBy: number | null;
+    UpdatedDate: Date | null;
+    ComputerName: string;
 }
 

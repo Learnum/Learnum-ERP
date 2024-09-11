@@ -46,8 +46,8 @@ namespace Learnum.ERP.Repository.Master.Student_Management
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                dbparams.Add("@Action", "getBranches");
-                var result = dbConnection.Query<BranchDetailsModel>("PROC_GetBranchDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                dbparams.Add("@Action", "getBranchesByActive");
+                var result = dbConnection.Query<BranchDetailsModel>("PROC_StudentAdmissions", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }
@@ -57,8 +57,8 @@ namespace Learnum.ERP.Repository.Master.Student_Management
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                dbparams.Add("@Action", "getCourses");
-                var result = dbConnection.Query<CourseDetailsModel>("PROC_GetCourseDetailsList", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                dbparams.Add("@Action", "getCoursesByActive");
+                var result = dbConnection.Query<CourseDetailsModel>("PROC_StudentAdmissions", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }
