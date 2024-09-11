@@ -83,5 +83,21 @@ namespace Learnum.ERP.API.Controller.Student_Management
             }
             return NotFound("No record found");
         }
+
+        [HttpGet("getStudentDetailsByAdmissionId/{AdmissionId}")]
+        public async Task<IActionResult> GetStudentDetailsByAdmissionId(long? AdmissionId)
+        {
+            if (AdmissionId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await studentAdmissionsDetailsRepository.GetStudentAdmissionsDetailsByAdmissionId(AdmissionId);
+            return Ok(result);
+        }
     }
 }

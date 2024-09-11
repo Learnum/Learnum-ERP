@@ -107,10 +107,6 @@ export class BusinessLeadComponent {
   ngOnInit(): void {
     this.getAllBusinessDetails();
   }
-
-  // onAddBusinessLead() {
-  //   this.router.navigate(['erp/business-lead/add-business-lead']);
-  // }
   onAddBusinessLead(business?: any) {
 
     let navigationExtras: NavigationExtras = {};
