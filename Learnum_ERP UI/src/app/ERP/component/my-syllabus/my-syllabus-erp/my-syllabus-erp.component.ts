@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { AddsyllabusService } from './addsyllabus/addsyllabus.service';
 
 @Component({
   selector: 'app-my-syllabus-erp',
@@ -12,12 +13,12 @@ import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-g
 })
 export class MySyllabusErpComponent implements OnInit {
 
-  tdsReturnList: any[] = [];
+  SyllabusDetailList: any[] = [];
   form: FormGroup;
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'Subject Name',
+      field: 'SubjectName',
       headerName: 'Subject Name',
       filter: 'agTextColumnFilter',
       filterParams: {
@@ -26,8 +27,8 @@ export class MySyllabusErpComponent implements OnInit {
       minWidth: 150
     },
     {
-      field: 'Subject Description',
-      headerName: 'Subject Description',
+      field: 'CourseName',
+      headerName: 'Course Name',
       filter: 'agTextColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
@@ -46,7 +47,7 @@ export class MySyllabusErpComponent implements OnInit {
 
     },
     {
-      field: 'TopicStatus',
+      field: 'IsActive',
       headerName: 'Topic Status',
       filter: 'agSetColumnFilter',
       filterParams: {
@@ -83,105 +84,58 @@ export class MySyllabusErpComponent implements OnInit {
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     }
-  
-    // {
-    //   field: 'IP status',
-    //   headerName: 'IPStatus',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: {
-    //     buttons: ['reset', 'apply'],
-    //   },
-    //   minWidth: 100
+   ];
 
-    // },
-    
-
+   declaredActionColumns: ActionColumn[] = [
+    {
+      action: 'view',
+      actionPage: 'View Syllabus',
+      actionIcon: 'uil uil-pen rounded text-secondary mb-0',
+      buttonClass: 'btn btn-sm btn-secondary',
+      colorClass: 'text-secondary h4',
+      tooltip: 'Edit Syllabus'
+    },
   ];
-  getEmployeeList: any;
+  
 
 
 
   ngOnInit(): void {
-   // this.GetbranchList();
+    this.GetSyllabusList();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    
-    //private addBranchService: AddBranchService,
-    // private ipadressService:IpAddressService,
-    private formBuilder: FormBuilder) {
-    {
-      this.form = this.formBuilder.group({
-        // Define form controls with validators as needed
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        // Add more form controls as needed
-      });
-    }
-  }
+    private addsyllabusService: AddsyllabusService,
+    private formBuilder: FormBuilder) {} 
+
   selectBranch(branch: any) {
 
   }
-  // editEmploy(employeeData: any) {
-
-  //   const employeeId = employeeData.EmpID;
-  //   const index = this.tdsReturnList.findIndex(emp => emp.EmpID === employeeId);
-  //   if (index !== -1) {
-  //   this.openEditForm(employeeData).then((editedEmployeeData: any) => {
-  //   this.tdsReturnList[index] = editedEmployeeData;
-  //   console.log('Edited Employee:', editedEmployeeData);
-  // });
-  //   }
-  // }
-
-  // openEditForm(employeeData: any): Promise<any> {
-
-  //   return new Promise((resolve, reject) => {
-
-  //     setTimeout(() => {
-  //       const editedEmployeeData = { ...employeeData };
-
-  //       editedEmployeeData.Status = 'Edited';
-  //       resolve(editedEmployeeData);
-  //     }, 1000);
-  //   });
-  // }
+ 
 
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
       'branchID': data.row.branchID
     }
-    this.router.navigate(['/erp/masters/add-subjects'], { queryParams: data1 });
+    this.router.navigate(['erp/my-syllabus/my-syllabus-erp/addsyllabus'], { queryParams: data1 });
   }
 
+  GetSyllabusList(){
+    this.addsyllabusService.getSyllabusDetails().subscribe(
+      (result: any) => {
+        this.SyllabusDetailList = result.Value;
+        //let McqList = result.Value;
+      }
+    );
+  }
 
-
-  declaredActionColumns: ActionColumn[] = [
-    {
-      action: 'view',
-      actionPage: 'ViewBranch',
-      actionIcon: 'uil uil-cog rounded text-secondary mb-0',
-      buttonClass: 'btn btn-sm btn-secondary',
-      colorClass: 'text-secondary h4'
-    },
-  ];
+ 
   
-  // onAddIP(branch?:any)
-  // {
-  //   let navigationExtras: NavigationExtras = {};
-  //   if (branch) {
-  //     navigationExtras = {
-  //       state: {
-  //         branchData: branch
-  //       }
-  //     };
-  //   }
-  //   this.router.navigate(['tds/masters/ip-address/add-ipaddress']);
-  // }
+ 
  
  
   onAddSyllabus()
@@ -194,20 +148,7 @@ export class MySyllabusErpComponent implements OnInit {
   }
 
 
-//   GetbranchList() {
-//     this.addBranchService.getBranchDetails().subscribe(
-//       (result: any) => {
-//         this.tdsReturnList = result.Value;
-//         let tdsReturnList = result.Value;
-//       },
-//       (error: any) => {
-//         console.error("Error occurred while fetching employee details:", error);
-//         this.alertService.ShowErrorMessage("An error occurred while fetching employee details. Please try again later.");
-//       }
-//     );
-//   }
-// }
-// 
+
 }
 
   

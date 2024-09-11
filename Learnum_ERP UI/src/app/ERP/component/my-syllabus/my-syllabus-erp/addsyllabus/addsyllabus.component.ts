@@ -5,6 +5,11 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddsyllabusService } from './addsyllabus.service';
+import { SyllabusDetailsModel, SyllabusList } from './syllabusDetailsModel';
+import * as bootstrap from 'bootstrap';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
+
 
 @Component({
   selector: 'app-addsyllabus',
@@ -12,23 +17,21 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./addsyllabus.component.scss']
 })
 export class AddsyllabusComponent implements OnInit {
-  //subjectDetails: subjectDetails = new subjectDetails(); 
+
+  SyllabusList: SyllabusDetailsModel = new SyllabusDetailsModel();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
   form: FormGroup;
-  branchDetails: any;
   topicDetails: any[] = [];
   topicDetailsForm: FormGroup;
   subjectDetails: any;
   courseDetails: any;
+  TopicInformationModel: any;
   
     constructor(
       private router: Router,
-      
-      //private addBranchService: AddBranchService,
-      //private addipaddressService: AddIpaddressService,
+      private addsyllabusService: AddsyllabusService,
       private alertService: AlertService,
       private messageService: MessageService,
       private activateRoute: ActivatedRoute,
@@ -41,6 +44,12 @@ export class AddsyllabusComponent implements OnInit {
       this.setParameter();
        this.createForm();
        this.createTopicDetailsForm();
+       this.getCourseDetails();
+       this.getSubjectDetails();
+       this.editData = this.activateRoute.snapshot.queryParams;
+       if (this.editData.source === 'edit' && this.editData.syllabusId) {
+         this.getAddSyllabusDetailsById(this.editData.syllabusId);
+       }
     }
     
       createForm(): void {
@@ -141,7 +150,7 @@ export class AddsyllabusComponent implements OnInit {
                   },
                 },
                 {
-                  className: 'col-md-6',
+                  className: 'col-md-3',
                   type: 'input',
                   key: 'NameofTopic',
                   props: { 
@@ -152,105 +161,137 @@ export class AddsyllabusComponent implements OnInit {
                    
                   },
                 },
-                {
+                 {
                   className: 'col-md-3',
                   type: 'select',
                   key: 'IsActive',
                   templateOptions: {
-                    label: 'TopicStatus',
+                    label: 'Topic Status',
+                    //placeholder: 'Select McqAssignment Status',
                     required: true,
                     options: [
-                      { value: true, label: 'Active' },
-                      { value: false, label: 'Inactive' }
+                      { value: 'Active', label: 'Active' },
+                      { value: 'Active', label: 'Inactive' }
                     ],
                     
                   },
-                  defaultValue: true, 
+                  defaultValue: 'Active', 
                   validation: {
                     messages: {
-                      required: 'Please select a Topic Status',
+                      required: 'Please select a branch status',
                     },
                   },
-                  }, 
+                  },
               ],
             },
           ];
         }
         
+
+
         onCancleClick() {
           this.router.navigateByUrl('erp/my-syllabus/my-syllabus-erp');
         }
         
-        get f()
-        {
-          return this.form.controls;
+        onnavigate() {
+          this.router.navigateByUrl('erp/my-syllabus/my-syllabus-erp');
         }
+      
         
         onSubmit():void {
           this.form.markAllAsTouched();
           if (this.form.valid) {
-           // this.insertBranch();
+            this.insertSyllabusDetails();
+             console.log(this.topicDetails);
+            console.log(this.SyllabusList);
+             console.log(this.TopicInformationModel);
           }
           else {
             this.alertService.ShowErrorMessage('Please fill in all required fields.');
           }
         }
-        // insertIP() {
-        //   this.subjectDetails.AddedBy = 1;
-        //   this.subjectDetails.AddedDate = new Date();
-        //   this.subjectDetails.UpdatedBy = 1;
-        //   this.subjectDetails.UpdatedDate = new Date();
-        //   this.subjectDetails.IsActive = true;
-        
-        //   this.addipaddressService.insertIPData(this.branchDetails).subscribe(
-        //     (result: any) => {
-        //       const serviceResponse = result.Value;
-        //       if (serviceResponse === ResponseCode.Success) {
-        //         this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-        //       } else if (serviceResponse === ResponseCode.Update) {
-        //         this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-        //       } else {
-        //         this.alertService.ShowErrorMessage(this.messageService.serviceError);
-        //       }
-        //     },
-        //     (error: any) => {
-        //       this.alertService.ShowErrorMessage("Enter all required fields");
-        //     }
-        //   );
-        //   this.router.navigateByUrl('tds/masters/branches');
-        // }
+ 
+        onCloseModal(): void {
+          
+          const topicDetailsForm = document.getElementById('topicDetailsForm');
+          if (topicDetailsForm) {
+            const modalInstance = bootstrap.Modal.getInstance(topicDetailsForm);
+            modalInstance?.hide(); 
+          }
+        }
 
+        insertSyllabusDetails() {
+          this.SyllabusList.AddedBy = 1;
+          this.SyllabusList.AddedDate = new Date();
+          this.SyllabusList.UpdatedBy = 1;
+          this.SyllabusList.UpdatedDate = new Date();
+      
+          const data: SyllabusList = {
+            syllabusDetailsModel: this.form.value,
+            topicInformationModel: this.topicDetails
+          };
+      
+          this.addsyllabusService.insertSyllabusData(data).subscribe(
+            (result: any) => {
+              const serviceResponse = result.Value;
+              if (serviceResponse === ResponseCode.Success) {
+                this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+                this.router.navigateByUrl('erp/my-syllabus/my-syllabus-erp');
+              } else if (serviceResponse === ResponseCode.Update) {
+                this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+                this.router.navigateByUrl('erp/my-syllabus/my-syllabus-erp');
+              } else {
+                this.alertService.ShowErrorMessage(this.messageService.serviceError);
+              }
+            },
+            (error: any) => {
+              this.alertService.ShowErrorMessage(error);
+            }
+          );
+        }
 
-         // getBranchDetails(BranchId: number) {
-      //   this.addipaddressService.getipDetails().subscribe(
-      //     (result: any) => {
-      //       if (result && result.Value && result.Value.Item1) {
-      //         this.branchDetails = result.Value.Item1;
+      getCourseDetails() {
+        this.addsyllabusService.getcourseList().subscribe(
+          (data: any) => {
+            this.courseDetails = data.Value;
+            this.setParameter();  
+          },
+          (error: any) => {
+            this.alertService.ShowErrorMessage(error);
+          }
+        );
+      }
+    
+      getSubjectDetails() {
+        this.addsyllabusService.getsubjectList().subscribe(
+          (data: any) => {
+            this.subjectDetails = data.Value;
+            this.setParameter();  
+          },
+          (error: any) => {
+            this.alertService.ShowErrorMessage(error);
+          }
+        );
+      }
+
+      
+      getAddSyllabusDetailsById(syllabusId: number) {
+        this.addsyllabusService.getAddSyllabusDetailsById(syllabusId).subscribe(
+          (result: any) => {
+            if (result && result.Value) {
+              this.SyllabusList = result.Value.Item1.SyllabusDetailsModel;  
+              this.topicDetails = result.Value.Item1.TopicInformationModel;    
+              this.setParameter();  
               
-      //         // //DateofPayment && DateOfDeduction
-      //         // this.employeeDetails.DateOfPayment = this.addEmployeeService.formatDate(this.employeeDetails.DateOfPayment);
-      //         // this.employeeDetails.DateOfDeduction = this.addEmployeeService.formatDate(this.employeeDetails.DateOfDeduction);
-      
-      //         this.setParameter();
-      //       } else {
-      //         console.error('No data found for EmployeeDetailId: ' + BranchId);
-      
-      //       }
-      //     },
-      //     (error: any) => {
-      //       console.error('Error retrieving employee details:', error);
-      
-      //       if (error && error.status === 404) {
-      //         console.error('Employee not found.');
-      
-      //       } else {
-      //         console.error('An unexpected error occurred. Please try again later.');
-      
-      //       }
-      //     }
-      //   );
-      // }
-      
+              console.error('No data found for McqId: ' + syllabusId);  // This should be inside the else block
+            }
+          },
+          (error: any) => {
+            console.error('Error retrieving MCQ details:', error);
+          }
+        );
+      }
+
         }
         
   

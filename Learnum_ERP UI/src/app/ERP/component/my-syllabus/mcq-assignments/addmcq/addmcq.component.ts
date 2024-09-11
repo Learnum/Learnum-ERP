@@ -284,23 +284,7 @@ export class AddmcqComponent implements OnInit {
           );
         }
 
-        // getAddMCQDetailsById(McqId: number) {
-        //   this.mcqService.getAddMCQDetailsById(McqId).subscribe(
-        //     (result: any) => {
-        //       if (result && result.Value) {
-        //         this.McqDetailsModel = result.Value.Item1.McqDetailsModel;
-        //         this.McqQuestionDetails = result.Value.Item1.McqQuestionDetails;
-        //         this.mcqDetails = result.Value.Item1.McqQuestionDetails;
-        //         this.setParameter();
-        //         console.error('No data found for McqId: ' + McqId);
-        //       }
-        //     },
-        //     (error: any) => {
-        //       console.error('Error retrieving college details:', error);
-        //     }
-        //   );
-        // }
-
+      
         getAddMCQDetailsById(McqId: number) {
           this.mcqService.getAddMCQDetailsById(McqId).subscribe(
             (result: any) => {
