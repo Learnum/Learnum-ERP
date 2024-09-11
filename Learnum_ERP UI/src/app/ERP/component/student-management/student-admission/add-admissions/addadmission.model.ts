@@ -8,7 +8,7 @@ export class StudentAdmissionsModel{
     IsActive: boolean;
     FeesType: string;
     CourseFees: number;
-    StudentNumber: number;
+    StudentPhone: number;
     AddedBy: number | null;
     AddedDate: Date | null;
     UpdatedBy: number | null;

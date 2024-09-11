@@ -17,7 +17,7 @@ namespace Learnum.ERP.Shared.Entities.Models
         public bool IsActive { get; set; }
         public string FeesType { get; set; }
         public long CourseFees { get; set; }
-        public long StudentNumber { get; set; }
+        public long StudentPhone { get; set; }
 
     }
 }

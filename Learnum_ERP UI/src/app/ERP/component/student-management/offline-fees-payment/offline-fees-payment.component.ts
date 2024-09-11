@@ -37,7 +37,7 @@ export class OfflineFeesPaymentComponent implements OnInit {
       headerTooltip: 'Payment Date'
     },
     {
-      field: 'PhoneNumber',
+      field: 'StudentPhone',
       headerName: 'Phone Number',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -54,45 +54,50 @@ export class OfflineFeesPaymentComponent implements OnInit {
       },
       minWidth: 150,
       headerTooltip: 'Amount Paid'
-
-
     },
     {
-      field: 'addedBy',
+      field: 'IsActive',
+      headerName: 'Status',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 100,
+      headerTooltip: 'Status',
+      valueFormatter: params => {
+        return params.value ? 'Active' : 'Inactive';
+      }
+    },
+    {
+      field: 'AddedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
-      headerTooltip: 'Added By'
-
+      headerTooltip: 'Added By',
     },
     {
-      field: 'addedTime',
+      field: 'AddedDate',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
-      headerTooltip: 'Added Time'
-
+      headerTooltip: 'Added Time',
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150,
-      headerTooltip: 'Modified By'
-
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'UpdatedBy',
+      headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
-      headerTooltip: 'Modified Time'
-
-    }
+      headerTooltip: 'Updated By',
+    },
+    {
+      field: 'UpdatedDate',
+      headerName: 'Updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150,
+      headerTooltip: 'Updated Time',
+    }, 
   ];
 
   declaredActionColumns: ActionColumn[] = [

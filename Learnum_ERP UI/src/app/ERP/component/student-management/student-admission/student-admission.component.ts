@@ -62,7 +62,7 @@ export class StudentAdmissionComponent implements OnInit {
 
     },
     {
-      field: 'StudentNumber',
+      field: 'StudentPhone',
       headerName: 'Student Number',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -167,8 +167,10 @@ export class StudentAdmissionComponent implements OnInit {
 
   getStudentAdmissionsDetails() {
     this.admissionService.getStudentAdmissionsList().subscribe((result: any) => {
-      this.studentAdmissionList = result.Value;
+     // this.studentAdmissionList = result.Value;
+     this.studentAdmissionList = result.Value.filter((student: any) => student.IsActive === true);
       let studentAdmissionList = result.Value;
     })
   }
+
 }
