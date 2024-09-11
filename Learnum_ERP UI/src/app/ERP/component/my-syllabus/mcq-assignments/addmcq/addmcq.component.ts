@@ -70,11 +70,7 @@ export class AddmcqComponent implements OnInit {
         optionC: ['', Validators.required],
         optionD: ['', Validators.required],
         Answer: ['', Validators.required],
-        marks: ['',  [
-          Validators.required,  // Marks field is required
-          Validators.min(0),     // Minimum value is 0
-          Validators.max(100),   // Maximum value is 100
-        ],],
+        marks: ['',  [ Validators.required,  Validators.min(0), Validators.max(100), ],],
        // IsActive: ['', Validators.required]
       });
       this.mcq = this.mcqForm.controls;
@@ -89,7 +85,6 @@ export class AddmcqComponent implements OnInit {
           this.fields = [
             {
               fieldGroupClassName: 'row card-body p-2',
-              // key: 'ITDPreEmploymentSalModel',
               fieldGroup: [
         
                 {
@@ -184,7 +179,7 @@ export class AddmcqComponent implements OnInit {
                   type: 'select',
                   key: 'IsActive',
                   templateOptions: {
-                    label: 'McqAssignment Status',
+                    label: 'Assignment Status',
                     //placeholder: 'Select McqAssignment Status',
                     required: true,
                     options: [

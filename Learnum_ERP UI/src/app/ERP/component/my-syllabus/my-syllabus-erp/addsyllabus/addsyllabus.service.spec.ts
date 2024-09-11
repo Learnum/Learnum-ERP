@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MySyllabusErpService } from './my-syllabus-erp.service';
+import { AddsyllabusService } from './addsyllabus.service';
 
-describe('MySyllabusErpService', () => {
-  let service: MySyllabusErpService;
+describe('AddsyllabusService', () => {
+  let service: AddsyllabusService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MySyllabusErpService);
+    service = TestBed.inject(AddsyllabusService);
   });
 
   it('should be created', () => {

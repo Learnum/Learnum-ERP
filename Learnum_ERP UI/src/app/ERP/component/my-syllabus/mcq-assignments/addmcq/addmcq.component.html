@@ -113,15 +113,22 @@
           <!-- Answer Field -->
           <div class="form-group">
             <label for="Answer">Answer *</label>
-            <input type="text" class="form-control" id="Answer" formControlName="Answer" placeholder="Enter Answer" required>
+            <select class="form-select" id="Answer" formControlName="Answer" required>
+              <option value="" disabled selected>Select an Answer</option>
+              <option value="A">Option A</option>
+              <option value="B">Option B</option>
+              <option value="C">Option C</option>
+              <option value="D">Option D</option>
+            </select>
             <div *ngIf="mcqForm.get('Answer').invalid && (mcqForm.get('Answer').dirty || mcqForm.get('Answer').touched)" class="text-danger">
               <small *ngIf="mcqForm.get('Answer').errors?.required">Answer is required</small>
             </div>
           </div>
+          
       
           <!-- Marks Field -->
           <div class="form-group">
-            <label for="marks">Marks (Percentage) *</label>
+            <label for="marks">Marks *</label>
             <input 
               type="number" 
               class="form-control" 

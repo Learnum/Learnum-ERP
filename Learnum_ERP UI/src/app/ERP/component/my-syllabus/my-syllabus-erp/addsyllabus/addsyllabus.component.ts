@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
@@ -21,6 +21,8 @@ export class AddsyllabusComponent implements OnInit {
   branchDetails: any;
   topicDetails: any[] = [];
   topicDetailsForm: FormGroup;
+  subjectDetails: any;
+  courseDetails: any;
   
     constructor(
       private router: Router,
@@ -72,36 +74,7 @@ export class AddsyllabusComponent implements OnInit {
         
     
     
-      // getBranchDetails(BranchId: number) {
-      //   this.addipaddressService.getipDetails().subscribe(
-      //     (result: any) => {
-      //       if (result && result.Value && result.Value.Item1) {
-      //         this.branchDetails = result.Value.Item1;
-              
-      //         // //DateofPayment && DateOfDeduction
-      //         // this.employeeDetails.DateOfPayment = this.addEmployeeService.formatDate(this.employeeDetails.DateOfPayment);
-      //         // this.employeeDetails.DateOfDeduction = this.addEmployeeService.formatDate(this.employeeDetails.DateOfDeduction);
-      
-      //         this.setParameter();
-      //       } else {
-      //         console.error('No data found for EmployeeDetailId: ' + BranchId);
-      
-      //       }
-      //     },
-      //     (error: any) => {
-      //       console.error('Error retrieving employee details:', error);
-      
-      //       if (error && error.status === 404) {
-      //         console.error('Employee not found.');
-      
-      //       } else {
-      //         console.error('An unexpected error occurred. Please try again later.');
-      
-      //       }
-      //     }
-      //   );
-      // }
-      
+     
       reset() {
         throw new Error('Method not implemented.');
         }
@@ -110,37 +83,60 @@ export class AddsyllabusComponent implements OnInit {
           this.fields = [
             {
               fieldGroupClassName: 'row card-body p-2',
-              // key: 'ITDPreEmploymentSalModel',
               fieldGroup: [
         
                 {
-                  className: 'col-md-6',
+                  className: 'col-md-3',
                   type: 'select',
-                  key: 'CourseName',
+                  key: 'CourseId',
                   templateOptions: {
-                    placeholder: 'Select',
-                    type: 'text',
                     label: "Course Name",
                     required: true,
-                    
+                    options: [
+                      { value: null, label: 'Select Course', disabled: true },  
+                      ...this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
+                    ]
                   },
-                 
+                  defaultValue: null,  
+                  validators: {
+                    required: {
+                      expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
+                      message: 'Course Name is required',
+                    },
                   },
+                  validation: {
+                    messages: {
+                      required: 'Course Name is required',
+                    },
+                  },
+                },
+                
+                
                 {
-                  className: 'col-md-6',
+                  className: 'col-md-3',
                   type: 'select',
-                  key: 'SubjectName',
-                  props: { 
-                    placeholder: 'Enter Subject Name',
-                    type: 'text',
+                  key: 'SubjectId',
+                  templateOptions: {
                     label: "Subject Name",
                     required: true,
-                   
+                    options: [
+                      { value: null, label: 'Select Subject', disabled: true },  
+                      ...this.subjectDetails ? this.subjectDetails.map(subject => ({
+                        label: subject.SubjectName,
+                        value: subject.SubjectId
+                      })) : [],
+                    ]
+                  },
+                  defaultValue: null,  
+                  validators: {
+                    required: {
+                      expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                      message: 'Subject Name is required',
+                    },
                   },
                   validation: {
                     messages: {
                       required: 'Subject Name is required',
-                      
                     },
                   },
                 },
@@ -157,16 +153,25 @@ export class AddsyllabusComponent implements OnInit {
                   },
                 },
                 {
-                  className: 'col-md-6',
+                  className: 'col-md-3',
                   type: 'select',
-                  key: 'TopicStatus',
-                  props: {
-                    placeholder: 'Active',
+                  key: 'IsActive',
+                  templateOptions: {
+                    label: 'TopicStatus',
                     required: true,
-                    type: 'text',
-                    label: "Topic Status",
+                    options: [
+                      { value: true, label: 'Active' },
+                      { value: false, label: 'Inactive' }
+                    ],
+                    
+                  },
+                  defaultValue: true, 
+                  validation: {
+                    messages: {
+                      required: 'Please select a Topic Status',
                     },
-                 },     
+                  },
+                  }, 
               ],
             },
           ];
@@ -185,7 +190,6 @@ export class AddsyllabusComponent implements OnInit {
           this.form.markAllAsTouched();
           if (this.form.valid) {
            // this.insertBranch();
-           //this.getBranchDetails();
           }
           else {
             this.alertService.ShowErrorMessage('Please fill in all required fields.');
@@ -215,6 +219,38 @@ export class AddsyllabusComponent implements OnInit {
         //   );
         //   this.router.navigateByUrl('tds/masters/branches');
         // }
+
+
+         // getBranchDetails(BranchId: number) {
+      //   this.addipaddressService.getipDetails().subscribe(
+      //     (result: any) => {
+      //       if (result && result.Value && result.Value.Item1) {
+      //         this.branchDetails = result.Value.Item1;
+              
+      //         // //DateofPayment && DateOfDeduction
+      //         // this.employeeDetails.DateOfPayment = this.addEmployeeService.formatDate(this.employeeDetails.DateOfPayment);
+      //         // this.employeeDetails.DateOfDeduction = this.addEmployeeService.formatDate(this.employeeDetails.DateOfDeduction);
+      
+      //         this.setParameter();
+      //       } else {
+      //         console.error('No data found for EmployeeDetailId: ' + BranchId);
+      
+      //       }
+      //     },
+      //     (error: any) => {
+      //       console.error('Error retrieving employee details:', error);
+      
+      //       if (error && error.status === 404) {
+      //         console.error('Employee not found.');
+      
+      //       } else {
+      //         console.error('An unexpected error occurred. Please try again later.');
+      
+      //       }
+      //     }
+      //   );
+      // }
+      
         }
         
   
