@@ -8,14 +8,19 @@ import { addfeesModel } from './addfeesmodel';
 })
 export class AddFeesService extends BaseService{
  
-  private urlgetBranchList: string = "BranchDetails/getAllBranchList";
-  private urlgetCourseList: string = "CourseDetails/getAllCourseList";
-  private urlgetSubjectList: string = "SubjectDetails/getAllSubjectList";
-  private urlgetBatchList: string = "BatchesDetails/getAllBatchesList";
+  // private urlgetBranchList: string = "BranchDetails/getAllBranchList";
+  // private urlgetCourseList: string = "CourseDetails/getAllCourseList";
+  // private urlgetSubjectList: string = "SubjectDetails/getAllSubjectList";
+  // private urlgetBatchList: string = "BatchesDetails/getAllBatchesList";
   private urlInsertfeesDetails: string = "OfflineFeesDetails/InsertOfflineFeesDetails";
   private urlGetofflineFeesListByID: string = "OfflineFeesDetails/GetOfflineFeesDetailsByID";
   private urlgetfeesList: string = "OfflineFeesDetails/getOfflineFeesDetailsList";
 
+  private urlgetAddStudentList: string = "StudentDetails/getAllStudentList";
+  private urlgetCourseList: string = "StudentAdmissionsDetails/GetAllCourses";
+  private urlgetBranchList: string = "StudentAdmissionsDetails/GetAllBranches";
+  private urlgetBatchDetailsByBranchId: string = "StudentAdmissionsDetails/getBatchDetails";
+  private urlGetBatchDtails: string = "BatchesDetails/getBatchDetails";
 
    constructor(private apiService: APIService) {
     super();
@@ -24,23 +29,25 @@ export class AddFeesService extends BaseService{
   getfeesList() {
     return this.apiService.getData(this.urlgetfeesList);
   }
-
   insertfeesDetails(OfflineFessDetails: addfeesModel) {
     return this.apiService.postBlob(this.urlInsertfeesDetails,OfflineFessDetails);
   }
-
   getOfflineFessDetailsById(offlineFeesPaymentId:number){
     return this.apiService.getData(this.urlGetofflineFeesListByID+ '/' + offlineFeesPaymentId);
   }
-
+  getAddStudentList() {
+    return this.apiService.getData(this.urlgetAddStudentList);
+  }
+  getCourseList() {
+    return this.apiService.getData(this.urlgetCourseList);
+  }
   getBranchList() {
     return this.apiService.getData(this.urlgetBranchList);
   }
-  getcourseList() {
-    return this.apiService.getData(this.urlgetCourseList);
+  getBatchDetailsByBranchId(branchId: number) {
+    return this.apiService.getData(this.urlgetBatchDetailsByBranchId + '/' + branchId);
   }
-
-  getBatchList(){
-    return this.apiService.getData(this.urlgetBatchList);
+  getBatchDetails(BatchId: number) {
+    return this.apiService.getData(this.urlGetBatchDtails + '/' + BatchId);
   }
 }

@@ -28,8 +28,9 @@ namespace Learnum.ERP.Repository.Master.Student_Management
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters(offlineFeesDetailsModel);
+                dbparams.Add("@Action", "InsertOfflineFeesPayment");
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                dbConnection.Query<int>("PROC_InsertUpdateOfflineFeesPayment", dbparams, commandType: CommandType.StoredProcedure);
+                dbConnection.Query<int>("PROC_OfflineFeesPayment", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(result);
             }
@@ -40,7 +41,9 @@ namespace Learnum.ERP.Repository.Master.Student_Management
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
                 var dbparams = new DynamicParameters();
-                var result = dbConnection.Query<OfflineFeesDetailsResponseModel>("PROC_GetOfflineFeesPayment", dbparams, commandType: CommandType.StoredProcedure).ToList();
+                dbparams.Add("@Action", "GetOfflineFeesPaymentList");
+                dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
+                var result = dbConnection.Query<OfflineFeesDetailsResponseModel>("PROC_OfflineFeesPayment", dbparams, commandType: CommandType.StoredProcedure).ToList();
                 return await Task.FromResult(result);
             }
         }
