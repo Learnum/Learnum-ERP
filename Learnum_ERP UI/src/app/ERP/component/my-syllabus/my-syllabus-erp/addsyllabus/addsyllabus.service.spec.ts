@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { McqService } from './mcq.service';
+import { AddsyllabusService } from './addsyllabus.service';
 
-describe('McqService', () => {
-  let service: McqService;
+describe('AddsyllabusService', () => {
+  let service: AddsyllabusService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(McqService);
+    service = TestBed.inject(AddsyllabusService);
   });
 
   it('should be created', () => {

@@ -17,6 +17,6 @@ namespace Learnum.ERP.Shared.Entities.Models
         public string optionD { get; set; }
         public string Answer { get; set; }
         public long marks { get; set; }
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

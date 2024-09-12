@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities
 {
-     public class McqDetailsList
+    public class SyllabusTopicDetailsModel
     {
-        public McqDetails? mcqDetailsModel { get; set; }
-
-        public List<McqQuestionDetails>? mcqQuestionDetails { get; set; }
+        public SyllabusDetailsModel? syllabusDetailsModel { get; set; }
+        public List<TopicInformationModel>? topicInformationModel { get; set; }
     }
 }

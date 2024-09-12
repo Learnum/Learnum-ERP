@@ -101,7 +101,12 @@
           </div>
           <div class="form-group">
             <label for="answer">Answer</label>
-            <input type="text" class="form-control" id="answer" formControlName="answer" placeholder="Enter Answer">
+            <textarea 
+              class="form-control" 
+              id="answer" 
+              formControlName="answer" 
+              placeholder="Enter Answer" 
+              rows="4"></textarea>
             <div *ngIf="mcqForm.get('answer').invalid && mcqForm.get('answer').touched" class="text-danger">
               Answer is required.
             </div>

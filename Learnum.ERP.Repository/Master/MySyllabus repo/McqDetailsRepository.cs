@@ -20,7 +20,7 @@ namespace Learnum.ERP.Repository.Master.MySyllabus_repo
     public interface IMcqDetailsRepository
     {
 
-        Task<ResponseCode> InsertMcqDetails(McqDetailsList mcqDetailsModel);
+        Task<ResponseCode> InsertMcqDetails(McqDetailsList mcqDetailsList);
         Task<List<McqDetailsResponseModel>> GetMcqDetailsList();
 
         Task<Tuple<McqDetailsList?, ResponseCode>> GetMcqDetailsById(long? McqId);
@@ -29,16 +29,16 @@ namespace Learnum.ERP.Repository.Master.MySyllabus_repo
     }
     public class McqDetailsRepository : BaseRepository, IMcqDetailsRepository
     {
-        public async Task<ResponseCode> InsertMcqDetails(McqDetailsList mcqDetailsModel)
+        public async Task<ResponseCode> InsertMcqDetails(McqDetailsList mcqDetailsList)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
-                var dbparams = new DynamicParameters(mcqDetailsModel.mcqDetails);
+                var dbparams = new DynamicParameters(mcqDetailsList.mcqDetailsModel);
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
                 dbparams.Add("@Action", "InsertAddMcqDetails");
 
 
-                DataTable McqDetailsTable = new ListConverter().ToDataTable<McqQuestionDetails>(mcqDetailsModel.mcqQuestionDetails);
+                DataTable McqDetailsTable = new ListConverter().ToDataTable<McqQuestionDetails>(mcqDetailsList.mcqQuestionDetails);
                 McqDetailsTable.SetTypeName("McqDetailstype");
                 dbparams.Add("@McqDetailstype", McqDetailsTable.AsTableValuedParameter("McqDetailstype"));
 
@@ -72,7 +72,7 @@ namespace Learnum.ERP.Repository.Master.MySyllabus_repo
                 var result = dbConnection.QueryMultiple("PROC_ADDMCQDetails", dbparams, commandType: CommandType.StoredProcedure);
                 ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
                 var response = new McqDetailsList();
-                response.mcqDetails = result.Read<McqDetails>().FirstOrDefault();
+                response.mcqDetailsModel = result.Read<McqDetails>().FirstOrDefault();
                 response.mcqQuestionDetails = result.Read<McqQuestionDetails>().ToList();
                 return await Task.FromResult(new Tuple<McqDetailsList?, ResponseCode>(response, responseCode));
             }
