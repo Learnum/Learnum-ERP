@@ -13,7 +13,7 @@ namespace Learnum.ERP.Shared.Entities.Models.ViewModel.Student_Management
         public DateTime DateOfPayment { get; set; }
         public string ModeOfPayment { get; set; }
         public long ReferenceNumber { get; set; }
-        public string StudentName { get; set; }
+        public string? StudentName { get; set; }
         public long StudentId { get; set; }
         public long CourseId { get; set; }
         public long BranchId { get; set; }

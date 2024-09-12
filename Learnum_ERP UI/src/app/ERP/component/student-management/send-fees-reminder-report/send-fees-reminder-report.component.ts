@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
+import { SendfeesreminderService } from './fees-reminder/sendfeesreminder.service';
 
 @Component({
   selector: 'app-send-fees-reminder-report',
@@ -12,11 +13,19 @@ import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-g
 })
 export class SendFeesReminderReportComponent implements OnInit {
 
-  feeReminderList: any[] = [];
+  SendFeesReminderList: any[] = [];
 
   declaredTableColumns: TableColumn[] = [
     {
-      field: 'branchName',
+      field: 'CourseName',
+      headerName: 'Course Name',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150,
+      headerTooltip: 'Branch Name'
+    },
+    {
+      field: 'BranchName',
       headerName: 'Branch Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -24,8 +33,8 @@ export class SendFeesReminderReportComponent implements OnInit {
       headerTooltip: 'Branch Name'
     },
     {
-      field: 'courseName',
-      headerName: 'Course Name',
+      field: 'BatchName',
+      headerName: 'Batch Name',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
@@ -33,16 +42,7 @@ export class SendFeesReminderReportComponent implements OnInit {
 
     },
     {
-      field: 'batchName',
-      headerName: 'Batch Name',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150,
-      headerTooltip: 'Modified By'
-
-    },
-    {
-      field: 'dueDate',
+      field: 'DueDate',
       headerName: 'Due Date',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
@@ -51,14 +51,46 @@ export class SendFeesReminderReportComponent implements OnInit {
 
     },
     {
-      field: 'installmentAmount',
+      field: 'InstallmentAmount',
       headerName: 'Installment Amount',
       filter: 'agNumberColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
       headerTooltip: 'Installment Amount'
 
-    }
+    },
+    {
+      field: 'AddedBy',
+      headerName: 'Added By',
+      filter: 'agTextColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150,
+      headerTooltip: 'Added By',
+    },
+    {
+      field: 'AddedDate',
+      headerName: 'Added Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150,
+      headerTooltip: 'Added Time',
+    },
+    {
+      field: 'UpdatedBy',
+      headerName: 'Updated By',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150,
+      headerTooltip: 'Updated By',
+    },
+    {
+      field: 'UpdatedDate',
+      headerName: 'Updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150,
+      headerTooltip: 'Updated Time',
+    }, 
   ];
 
   declaredActionColumns: ActionColumn[] = [
@@ -77,42 +109,63 @@ export class SendFeesReminderReportComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
+    private sendfeesreminderService : SendfeesreminderService
   ) { }
 
   ngOnInit(): void {
-    this.getFeeReminderList();
+  this.getSendFeesReminderList();
   }
 
-  getFeeReminderList() {
-    // Uncomment and implement this method to fetch fee reminders from your service
-    // this.feeReminderService.getFeeReminderList().subscribe(
-    //   (result: any) => {
-    //     this.feeReminderList = result.Value;
-    //   },
-    //   (error: any) => {
-    //     console.error("Error occurred while fetching fee reminder list:", error);
-    //     this.alertService.ShowErrorMessage("An error occurred while fetching fee reminder list. Please try again later.");
-    //   }
-    // );
-  }
+  // AddRecord() {
+  //   this.router.navigate(['erp/student-management/fees-reminder']);
+  // }
 
-  AddRecord() {
-    this.router.navigate(['erp/student-management/fees-reminder']);
-  }
+  // onRowAction(data: any) {
+  //   let data1 = {
+  //     'source': data.action,
+  //     'ReminderId': data.row.ReminderId
+  //   };
+  //   this.router.navigate(['/erp/student-management/fees-reminder'], { queryParams: data1 });
+  // }
 
+  // onActionButton(action: string) {
+  //   alert(action + ' action button clicked.');
+  // }
+
+  // selectRecord(records: any) {
+  //   // Handle row selection logic
+  // }
+  onSendFeesReminder(sendfeesreminder?: any) {
+
+    let navigationExtras: NavigationExtras = {};
+    if (sendfeesreminder) {
+      navigationExtras = {
+        state: {
+          sendfeesreminderData: sendfeesreminder
+        }
+      };
+    }
+    this.router.navigateByUrl('erp/student-management/fees-reminder')
+  }
   onRowAction(data: any) {
     let data1 = {
-      'source': data.action,
-      'ReminderId': data.row.ReminderId
-    };
+      'source': 'edit',
+      'SendFeesId': data.row.SendFeesId
+    }
     this.router.navigate(['/erp/student-management/fees-reminder'], { queryParams: data1 });
   }
-
   onActionButton(action: string) {
-    alert(action + ' action button clicked.');
+    alert(action + ' ' + 'action button clicked.');
+  }
+  selectSendFeesReminder($event: any) 
+  { 
+    throw new Error('Method not implemented.'); 
   }
 
-  selectRecord(records: any) {
-    // Handle row selection logic
+  getSendFeesReminderList() {
+    this.sendfeesreminderService.getSendFeesReminderList().subscribe((result: any) => {
+      this.SendFeesReminderList = result.Value;
+      let offlineFeesList = result.Value;
+    })
   }
 }
