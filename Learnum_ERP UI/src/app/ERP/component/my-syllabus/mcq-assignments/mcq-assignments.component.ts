@@ -14,18 +14,19 @@ import { McqService } from './addmcq/mcq.service';
 export class McqAssignmentsComponent implements OnInit {
 
 
-  McqList: any[] = [];
-  form: FormGroup;
+  MCQList: any[] = [];
+
 
   declaredTableColumns: TableColumn[] = [
     {
       field: 'CourseName',
       headerName: 'Course Name',
-      filter: 'agTextColumnFilter',
+      filter: 'agSetColumnFilter',
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Course Name',
 
     },
     {
@@ -35,9 +36,10 @@ export class McqAssignmentsComponent implements OnInit {
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip: 'Subject Name',
+
     },
-   
     {
       field: 'TopicName',
       headerName: 'Topic Name',
@@ -49,59 +51,61 @@ export class McqAssignmentsComponent implements OnInit {
 
     },
     {
-      field: 'addedBy',
+      field: 'AddedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+       headerTooltip:'Added By'
     },
     {
-      field: 'addedTime',
+      field: 'AddedDate',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 150,
+      headerTooltip:'Added Time'
     },
     {
-      field: 'modifiedBy',
-      headerName: 'Modified By',
-      filter: 'agTextColumnFilter',
-      filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    },
-    {
-      field: 'modifiedTime',
-      headerName: 'Modified Time',
+      field: 'UpdatedBy',
+      headerName: 'Updated By',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
-    }
-  
-  
-
+      minWidth: 150,
+       headerTooltip:'Updated By'
+    },
+    {
+      field: 'UpdatedDate',
+      headerName: 'Updated Time',
+      filter: 'agDateColumnFilter',
+      filterParams: { buttons: ['reset', 'apply'] },
+      minWidth: 150,
+       headerTooltip:'Updated Time'
+    }, 
+    
   ];
   
 
 
 
   ngOnInit(): void {
-    //this.GetMcqList();
+   this.GetMcqList();
   }
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private alertService: AlertService,
-    private mcqService:McqService,
+    private mcqService: McqService,
     private formBuilder: FormBuilder) {
     {}}
   
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'branchID': data.row.branchID
+      'McqId': data.row.McqId
     }
-    this.router.navigate(['/erp/masters/add-subjects'], { queryParams: data1 });
+    this.router.navigate(['erp/my-syllabus/mcq-assignments/addmcq'], { queryParams: data1 });
   }
 
 
@@ -112,16 +116,14 @@ export class McqAssignmentsComponent implements OnInit {
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewContentWriter',
+      actionPage: 'View MCQ',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip: 'Edit Content Writer'
+      tooltip: 'Edit MCQ'
     },
   ];
   
- 
- 
   onAddMcq()
   {
     this.router.navigate(['erp/my-syllabus/mcq-assignments/addmcq']);
@@ -132,20 +134,16 @@ export class McqAssignmentsComponent implements OnInit {
   }
 
 
-//   GetMcqList() {
-//     this.mcqService.getMcqDetails().subscribe(
-//       (result: any) => {
-//         this.McqList = result.Value;
-//         let McqList = result.Value;
-//       },
-//       (error: any) => {
-//         console.error("Error occurred while fetching employee details:", error);
-//         this.alertService.ShowErrorMessage("An error occurred while fetching employee details. Please try again later.");
-//       }
-//     );
-//   }
-// }
-
-
+  GetMcqList(){
+    this.mcqService.getMcqDetails().subscribe(
+      (result: any) => {
+        this.MCQList = result.Value;
+        //let McqList = result.Value;
+      }
+    );
+  }
 }
+
+
+
 

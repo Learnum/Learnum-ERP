@@ -377,7 +377,7 @@ export class AddCollegsComponent implements OnInit {
       this.contactForm.markAllAsTouched();
       this.alertService.ShowErrorMessage("Please fill all required fields.");
 
-    }
+    }     
   }
   onCloseModal(): void {
     // Manually close the modal

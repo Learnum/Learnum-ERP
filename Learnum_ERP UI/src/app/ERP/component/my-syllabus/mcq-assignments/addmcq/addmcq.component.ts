@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { McqService } from 'src/app/mcq.service';
+import { McqService } from './mcq.service';
+import { MCQDetailsList, McqDetailsModel, McqQuestionDetails } from './mcqmodelDetails';
+import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import * as bootstrap from 'bootstrap';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-addmcq',
@@ -14,156 +18,184 @@ import { McqService } from 'src/app/mcq.service';
 })
 export class AddmcqComponent implements OnInit {
  
-  contactForm: any;
- 
+  
+  MCQDetailsList: McqDetailsModel = new McqDetailsModel();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  tdsReturnList: any;
-  form: any;
-  branchDetails: any;
-  subjectDetails: any;
-  contactDetails: any[] = [];
+  form = new FormGroup({});
   mcqDetails: any[] = [];
   mcqForm: FormGroup;
-  departmentDetails: any[] = [];
   model: any = {};
+  courseDetails: any;
+  subjectDetails: any;
+  McqDetailsModel:any[] = [];
+  McqQuestionDetails: any[] = [];
+  mcqQuestionDetails: any[] = [];
+ // MCQDetailsList: any[] = [];
+  mcq: { [key: string]: AbstractControl; };
+  topicDetails: any;
   
-  collegeDetails: any;
  
-
-    constructor(
+  constructor(
       private router: Router,
-      private mcqService:McqService,
+      private mcqService: McqService,
       private alertService: AlertService,
       private messageService: MessageService,
       private activateRoute: ActivatedRoute,
-      private modalService: NgbModal,
-      private formBuilder: FormBuilder 
-
-    ) { }
+      public modalService: ModalService,
+      private formBuilder: FormBuilder ) { 
+        this.createMcqForm();
+      }
   
     ngOnInit(): void {
-      this.setParameter();
-       this.createForm();
+       this.setParameter();
        this.createMcqForm();
+       this.getCourseDetails();
+       this.getSubjectDetails();
+       this.getTopicDetails();
+       this.editData = this.activateRoute.snapshot.queryParams;
+       if (this.editData.source === 'edit' && this.editData.McqId) {
+         this.getAddMCQDetailsById(this.editData.McqId);
+       }
     }
     
-      createForm(): void {
-        this.form = this.formBuilder.group({
-          CourseName: ['', Validators.required], 
-          SubjectName: ['', Validators.required], 
-          TopicName: ['', Validators.required], 
-          McqAssignmentStatus: ['', Validators.required], 
-           });
-     }
-     createMcqForm(): void {
+
+
+    createMcqForm(): void {
       this.mcqForm = this.formBuilder.group({
-        question: ['', Validators.required],
+        Question: ['', Validators.required],
         optionA: ['', Validators.required],
         optionB: ['', Validators.required],
         optionC: ['', Validators.required],
         optionD: ['', Validators.required],
-        answer: ['', Validators.required],
-        marks: ['', Validators.required],
-        mcqStatus: ['', Validators.required]
+        Answer: ['', Validators.required],
+        marks: ['',  [ Validators.required,  Validators.min(0), Validators.max(100), ],],
+       // IsActive: ['', Validators.required]
       });
+      this.mcq = this.mcqForm.controls;
     }
-    
-      // getBranchDetails(BranchId: number) {
-      //   this.addipaddressService.getipDetails().subscribe(
-      //     (result: any) => {
-      //       if (result && result.Value && result.Value.Item1) {
-      //         this.branchDetails = result.Value.Item1;
-              
-      //         // //DateofPayment && DateOfDeduction
-      //         // this.employeeDetails.DateOfPayment = this.addEmployeeService.formatDate(this.employeeDetails.DateOfPayment);
-      //         // this.employeeDetails.DateOfDeduction = this.addEmployeeService.formatDate(this.employeeDetails.DateOfDeduction);
-      
-      //         this.setParameter();
-      //       } else {
-      //         console.error('No data found for EmployeeDetailId: ' + BranchId);
-      
-      //       }
-      //     },
-      //     (error: any) => {
-      //       console.error('Error retrieving employee details:', error);
-      
-      //       if (error && error.status === 404) {
-      //         console.error('Employee not found.');
-      
-      //       } else {
-      //         console.error('An unexpected error occurred. Please try again later.');
-      
-      //       }
-      //     }
-      //   );
-      // }
+
       
       reset() {
-        throw new Error('Method not implemented.');
+        this.form.reset();
         }
   
         setParameter() {
           this.fields = [
             {
               fieldGroupClassName: 'row card-body p-2',
-              // key: 'ITDPreEmploymentSalModel',
               fieldGroup: [
         
                 {
-                  className: 'col-md-6',
+                  className: 'col-md-3',
                   type: 'select',
-                  key: 'CourseName',
+                  key: 'CourseId',
                   templateOptions: {
-                    placeholder: 'Select',
-                    type: 'text',
                     label: "Course Name",
+                  //  placeholder: 'Select Course',  
                     required: true,
+                    options: [
+                      { value: null, label: 'Select Course', disabled: true },  
+                      ...this.courseDetails ? this.courseDetails.map(course => ({ label: course.CourseName, value: course.CourseId })) : [],
+                    ]
+                  },
+                  defaultValue: null,  
+                  validators: {
+                    required: {
+                      expression: (c: AbstractControl) => c.value !== null && c.value !== '', 
+                      message: 'Course Name is required',
+                    },
+                  },
+                  validation: {
+                    messages: {
+                      required: 'Course Name is required',
+                    },
+                  },
+                },
+                
+                
+                {
+                  className: 'col-md-3',
+                  type: 'select',
+                  key: 'SubjectId',
+                  templateOptions: {
+                    label: "Subject Name",
+                  //  placeholder: 'Select Subject',  
+                    required: true,
+                    options: [
+                      { value: null, label: 'Select Subject', disabled: true },  
+                      ...this.subjectDetails ? this.subjectDetails.map(subject => ({
+                        label: subject.SubjectName,
+                        value: subject.SubjectId
+                      })) : [],
+                    ]
+                  },
+                  defaultValue: null,  
+                  validators: {
+                    required: {
+                      expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensure a valid value is selected
+                      message: 'Subject Name is required',
+                    },
+                  },
+                  validation: {
+                    messages: {
+                      required: 'Subject Name is required',
+                    },
+                  },
+                },
+                {
+                  className: 'col-md-3',
+                  key: 'TopicId',
+                  type: 'select',
+                  templateOptions: {
+                    label: 'Topic Name',
+                    required: true,
+                    options: [
+                      { value: null, label: 'Select Topic', disabled: true },  
+                      ...this.topicDetails ? this.topicDetails.map(topic => ({
+                        label: topic.TopicName,
+                        value: topic.TopicId
+                      })) : [],
+                    ]
+                  },
+                  defaultValue: null, 
+                  validators: {
+                    required: {
+                      expression: (c: AbstractControl) => c.value !== null && c.value !== '', // Ensures a topic is selected
+                      message: 'Topic Name is required',
+                    },
+                  },
+                  validation: {
+                    messages: {
+                      required: 'Topic Name is required',
+                    },
+                  },
+                }
+                ,
+            
+                {
+                  className: 'col-md-3',
+                  type: 'select',
+                  key: 'IsActive',
+                  templateOptions: {
+                    label: 'Assignment Status',
+                    //placeholder: 'Select McqAssignment Status',
+                    required: true,
+                    options: [
+                      { value: true, label: 'Active' },
+                      { value: false, label: 'Inactive' }
+                    ],
                     
                   },
-                 
+                  defaultValue: true, 
+                  validation: {
+                    messages: {
+                      required: 'Please select a branch status',
+                    },
                   },
-                {
-                  className: 'col-md-6',
-                  type: 'select',
-                  key: 'SubjectName',
-                  props: { 
-                    placeholder: 'Enter Subject Name',
-                    type: 'text',
-                    label: "Subject Name",
-                    required: true,
-                   
                   },
-                 
-                },
-                {
-                  className: 'col-md-6',
-                  type: 'select',
-                  key: 'TopicName',
-                  props: { 
-                    placeholder: 'select',
-                    type: 'text',
-                    label: "Topic Name",
-                    required: true,
-                   
-                  },
-                 
-                },
-               
-                {
-                  className: 'col-md-6',
-                  type: 'select',
-                  key: 'McqAssignmentStatus',
-                  props: { 
-                    placeholder: 'select',
-                    type: 'text',
-                    label: "MCQ Assignments Status",
-                    required: true,
-                   
-                  },
-                 
-                },
+                
               ],
             },
           ];
@@ -173,52 +205,138 @@ export class AddmcqComponent implements OnInit {
           this.router.navigateByUrl('erp/my-syllabus/mcq-assignments');
         }
         
-        get f()
-        {
-          return this.form.controls;
+        onnavigate() {
+          this.router.navigateByUrl('erp/my-syllabus/mcq-assignments');
         }
         
-        onSubmit():void {
-          this.form.markAllAsTouched();
-          if (this.form.valid) {
-           // this.insertBranch();
-           //this.getBranchDetails();
-          }
-          else {
-            this.alertService.ShowErrorMessage('Please fill in all required fields.');
-          }
+       
+        onSubmit(): void {
+        this.mcqForm.markAllAsTouched();
+        if (this.mcqDetails.length > 0) {
+        this.insertMCQDetails();
+       // console.log(this.mcqDetails);
+       // console.log(this.MCQDetailsList);
+       // console.log(this.McqDetailsModel);
+        } else {
+        this.alertService.ShowErrorMessage('Please fill in all required fields.');
         }
-        // insertIP() {
-        //   this.subjectDetails.AddedBy = 1;
-        //   this.subjectDetails.AddedDate = new Date();
-        //   this.subjectDetails.UpdatedBy = 1;
-        //   this.subjectDetails.UpdatedDate = new Date();
-        //   this.subjectDetails.IsActive = true;
-        
-        //   this.addipaddressService.insertIPData(this.branchDetails).subscribe(
-        //     (result: any) => {
-        //       const serviceResponse = result.Value;
-        //       if (serviceResponse === ResponseCode.Success) {
-        //         this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
-        //       } else if (serviceResponse === ResponseCode.Update) {
-        //         this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
-        //       } else {
-        //         this.alertService.ShowErrorMessage(this.messageService.serviceError);
-        //       }
-        //     },
-        //     (error: any) => {
-        //       this.alertService.ShowErrorMessage("Enter all required fields");
-        //     }
-        //   );
-        //   this.router.navigateByUrl('tds/masters/branches');
-        // }
+      }
+
+  
+
+
         addMcq(): void {
           if (this.mcqForm.valid) {
             this.mcqDetails.push(this.mcqForm.value);
             this.mcqForm.reset();
-            this.modalService.dismissAll();
+            const mcqModal = document.getElementById('mcqModal');
+            if (mcqModal) {
+              const modalInstance = bootstrap.Modal.getInstance(mcqModal);
+              modalInstance?.hide(); 
+            }
           } else {
             this.mcqForm.markAllAsTouched();
+            this.alertService.ShowErrorMessage("Please fill all required fields.");
+      
+          }     
+        }
+        
+      
+        closeModal(): void {
+          this.modalService.close();
+        }
+        onCloseModal(): void {
+          
+          const mcqForm = document.getElementById('mcqForm');
+          if (mcqForm) {
+            const modalInstance = bootstrap.Modal.getInstance(mcqForm);
+            modalInstance?.hide(); 
           }
         }
+
+        insertMCQDetails() {
+          this.MCQDetailsList.AddedBy = 1;
+          this.MCQDetailsList.AddedDate = new Date();
+          this.MCQDetailsList.UpdatedBy = 1;
+          this.MCQDetailsList.UpdatedDate = new Date();
+      
+          const data: MCQDetailsList = {
+            mcqDetailsModel: this.form.value,
+            mcqQuestionDetails: this.mcqDetails
+          };
+      
+          this.mcqService.insertMcqData(data).subscribe(
+            (result: any) => {
+              const serviceResponse = result.Value;
+              if (serviceResponse === ResponseCode.Success) {
+                this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
+                this.router.navigateByUrl('erp/my-syllabus/mcq-assignments');
+              } else if (serviceResponse === ResponseCode.Update) {
+                this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
+                this.router.navigateByUrl('erp/my-syllabus/mcq-assignments');
+              } else {
+                this.alertService.ShowErrorMessage(this.messageService.serviceError);
+              }
+            },
+            (error: any) => {
+              this.alertService.ShowErrorMessage(error);
+            }
+          );
+        }
+
+      
+        getAddMCQDetailsById(McqId: number) {
+          this.mcqService.getAddMCQDetailsById(McqId).subscribe(
+            (result: any) => {
+              if (result && result.Value) {
+                this.MCQDetailsList = result.Value.Item1.mcqDetailsModel;  
+                this.mcqDetails = result.Value.Item1.mcqQuestionDetails;    
+                this.setParameter();  
+                
+                console.error('No data found for McqId: ' + McqId);  // This should be inside the else block
+              }
+            },
+            (error: any) => {
+              console.error('Error retrieving MCQ details:', error);
+            }
+          );
+        }
+        
+
+        getCourseDetails() {
+          this.mcqService.getcourseList().subscribe(
+            (data: any) => {
+              this.courseDetails = data.Value;
+              this.setParameter();  
+            },
+            (error: any) => {
+              this.alertService.ShowErrorMessage(error);
+            }
+          );
+        }
+      
+        getSubjectDetails() {
+          this.mcqService.getsubjectList().subscribe(
+            (data: any) => {
+              this.subjectDetails = data.Value;
+              this.setParameter();  
+            },
+            (error: any) => {
+              this.alertService.ShowErrorMessage(error);
+            }
+          );
+        }
+
+        getTopicDetails() {
+          this.mcqService.getTopicList().subscribe(
+            (data: any) => {
+              this.topicDetails = data.Value;
+              this.setParameter();  // Assuming you need to call this after fetching topics, similar to subjects
+            },
+            (error: any) => {
+              this.alertService.ShowErrorMessage(error);
+            }
+          );
+        }
+        
       }

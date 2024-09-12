@@ -5,6 +5,7 @@ import { MessageService } from 'src/app/core/services/message.service';
 import { AlertService } from 'src/app/core/services/alertService';
 import { TableColumn,ActionColumn  } from 'src/app/shared/data-grid/model/data-grid-column.model';
 import { AddcollegesService } from './add-collegs/addcolleges.service';
+
 @Component({
   selector: 'app-colleges',
   templateUrl: './colleges.component.html',
@@ -52,13 +53,7 @@ export class CollegesComponent implements OnInit {
       minWidth: 150,
        headerTooltip:'College Website'
     },
-    // {
-    //   field: 'ContactDetails',
-    //   headerName: 'Contact Details',
-    //   filter: 'agTextColumnFilter',
-    //   filterParams: { buttons: ['reset', 'apply'] },
-    //   minWidth: 150
-    // },
+  
     {
       field: 'ContactDetails',
       headerName: 'Contact Details',
