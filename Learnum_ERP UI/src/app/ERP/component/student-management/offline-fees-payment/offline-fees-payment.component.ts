@@ -111,9 +111,6 @@ export class OfflineFeesPaymentComponent implements OnInit {
     },
   ];
 
-
-
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -126,60 +123,85 @@ export class OfflineFeesPaymentComponent implements OnInit {
   ngOnInit(): void {
     this.getOfflineFeesList();
   }
+  onAddOfflineFeesPayment(offlineFees?: any) {
 
-
+    let navigationExtras: NavigationExtras = {};
+    if (offlineFees) {
+      navigationExtras = {
+        state: {
+          offlineFeesData: offlineFees
+        }
+      };
+    }
+    this.router.navigateByUrl('erp/student-management/add-fees')
+  }
+  onRowAction(data: any) {
+    let data1 = {
+      'source': 'edit',
+      'OfflineFeesPaymentId': data.row.OfflineFeesPaymentId
+    }
+    this.router.navigate(['/erp/student-management/add-fees'], { queryParams: data1 });
+  }
+  onActionButton(action: string) {
+    alert(action + ' ' + 'action button clicked.');
+  }
+  selectOfflineFeesPayment($event: any) 
+  { 
+    throw new Error('Method not implemented.'); 
+  }
+  
   getOfflineFeesList() {
     this.addfeesService.getfeesList().subscribe((result: any) => {
       this.offlineFeesList = result.Value;
       let offlineFeesList = result.Value;
     })
   }
-  editFees(FeesData: any) {
-    const offlineFeesPaymentId = FeesData.offlineFeesPaymentId;
-    const index = this.offlineFeesList.findIndex(fees => fees.offlineFeesPaymentId === offlineFeesPaymentId);
-    if (index !== -1) {
-      this.openEditForm(FeesData).then((editedFeesData: any) => {
-        this.offlineFeesList[index] = editedFeesData;
-        console.log('Edited Fees Data:', editedFeesData);
-      });
-    }
-  }
-  openEditForm(FeesData: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const editedFeesData = { ...FeesData };
-        editedFeesData.Status = 'Edited';
-        resolve(editedFeesData);
-      }, 1000);
-    });
-  }
+  // editFees(FeesData: any) {
+  //   const offlineFeesPaymentId = FeesData.offlineFeesPaymentId;
+  //   const index = this.offlineFeesList.findIndex(fees => fees.offlineFeesPaymentId === offlineFeesPaymentId);
+  //   if (index !== -1) {
+  //     this.openEditForm(FeesData).then((editedFeesData: any) => {
+  //       this.offlineFeesList[index] = editedFeesData;
+  //       console.log('Edited Fees Data:', editedFeesData);
+  //     });
+  //   }
+  // }
+  // openEditForm(FeesData: any): Promise<any> {
+  //   return new Promise((resolve, reject) => {
+  //     setTimeout(() => {
+  //       const editedFeesData = { ...FeesData };
+  //       editedFeesData.Status = 'Edited';
+  //       resolve(editedFeesData);
+  //     }, 1000);
+  //   });
+  // }
 
-  AddOfflineFeesPayment() {
+  // AddOfflineFeesPayment() {
 
-    // let navigationExtras: NavigationExtras = {};
-    // if (fees) {
-    //   navigationExtras = {
-    //     state: {
-    //       FeesData: fees
-    //     }
-    //   };
-    // }
-    this.router.navigateByUrl('erp/student-management/add-fees')
-  }
+  //   // let navigationExtras: NavigationExtras = {};
+  //   // if (fees) {
+  //   //   navigationExtras = {
+  //   //     state: {
+  //   //       FeesData: fees
+  //   //     }
+  //   //   };
+  //   // }
+  //   this.router.navigateByUrl('erp/student-management/add-fees')
+  // }
 
-  onRowAction(data: any) {
-    let data1 = {
-      'source': 'edit',
-      'offlineFeesPaymentId': data.row.offlineFeesPaymentId
-    }
-    this.router.navigate(['erp/student-management/add-fees'], { queryParams: data1 });
-  }
+  // onRowAction(data: any) {
+  //   let data1 = {
+  //     'source': 'edit',
+  //     'offlineFeesPaymentId': data.row.offlineFeesPaymentId
+  //   }
+  //   this.router.navigate(['erp/student-management/add-fees'], { queryParams: data1 });
+  // }
 
-  onActionButton(action: string) {
-    alert(action + ' ' + 'action button clicked.');
-  }
+  // onActionButton(action: string) {
+  //   alert(action + ' ' + 'action button clicked.');
+  // }
 
-  selectOfflineFees($event: any) {
-    throw new Error('Method not implemented.');
-  }
+  // selectOfflineFees($event: any) {
+  //   throw new Error('Method not implemented.');
+  // }
 }

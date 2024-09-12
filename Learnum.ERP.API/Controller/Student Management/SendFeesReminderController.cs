@@ -21,8 +21,8 @@ namespace Learnum.ERP.API.Controller.Student_Management
             sendFeesReminderRepository = _sendFeesReminderRepository;
         }
 
-        [HttpPost("SendFeesReminder")]
-        public async Task<IActionResult> SendFeesReminder(SendFeesReminderModel sendFeesReminderModel)
+        [HttpPost("InsertSendFeesReminder")]
+        public async Task<IActionResult> InsertSendFeesReminder(SendFeesReminderModel sendFeesReminderModel)
         {
             if (sendFeesReminderModel == null)
             {
@@ -33,7 +33,7 @@ namespace Learnum.ERP.API.Controller.Student_Management
                 return BadRequest("Invalid model object");
             }
 
-            var result = await sendFeesReminderRepository.SendFeesReminder(sendFeesReminderModel);
+            var result = await sendFeesReminderRepository.InsertSendFeesReminder(sendFeesReminderModel);
             if (result == ResponseCode.Success || result == ResponseCode.Updated)
             {
                 return Ok(result);
@@ -50,6 +50,22 @@ namespace Learnum.ERP.API.Controller.Student_Management
                 return Ok(data);
             }
             return NotFound("No record found");
+        }
+
+        [HttpGet("GetSendFeesReminderBySendFeesId/{SendFeesId}")]
+        public async Task<IActionResult> GetSendFeesReminderBySendFeesId(long? SendFeesId)
+        {
+            if (SendFeesId == null)
+            {
+                return BadRequest("Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var result = await sendFeesReminderRepository.GetSendFeesReminderBySendFeesId(SendFeesId);
+            return Ok(result);
         }
     }
 }
