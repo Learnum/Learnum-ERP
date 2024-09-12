@@ -1,9 +1,11 @@
 export class SyllabusDetailsModel {
-    syllabusId: number;
-    courseId: number;
-    subjectId: number;
-    topicName: string;
-    isActive: boolean;
+    SyllabusId: number;
+    CourseId: number;
+    CourseName:string;
+    SubjectId: number;
+    SubjectName:string;
+    TopicName: string;
+    IsActive: boolean;
     AddedBy: number | null;
     AddedDate: Date | null;
     UpdatedBy: number | null;
@@ -12,15 +14,18 @@ export class SyllabusDetailsModel {
 }
 
 export class TopicInformationModel  {
-    topicId: number;
-    heading: string;
-    content: string;
-    reference: string;
-    subTopic: string;
+    TopicId: number;
+    Heading: string;
+    Content: string;
+    Reference: string;
+    SubTopic: string;
+    //attachments: File;
+  file: any;
+  static file: any;
 }
 
 export class SyllabusList {
-    syllabusDetailsModel: SyllabusDetailsModel;
-    topicInformationModel: TopicInformationModel[];
+    syllabusDetailsModel: SyllabusDetailsModel| null;
+    topicInformationModel: TopicInformationModel[] | null;
     
   }

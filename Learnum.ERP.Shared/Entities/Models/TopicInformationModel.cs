@@ -14,6 +14,7 @@ namespace Learnum.ERP.Shared.Entities.Models
         public string Content { get; set; }
         public string Reference { get; set; }
         public string SubTopic { get; set; }
+
         public string FilePath { get; set; }
         public string DocumentName { get; set; }
         public string FileName { get; set; }
@@ -22,7 +23,7 @@ namespace Learnum.ERP.Shared.Entities.Models
 
     public class TopicFormData
     {
-        public string TopicInformationModel { get; set; }
+        public TopicInformationModel TopicInformationModel { get; set; }
         public IFormFile File { get; set; }
 
     }

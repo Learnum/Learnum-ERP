@@ -29,11 +29,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let topic of topicDetails">
-          <td>{{ topic.heading }}</td>
-          <td>{{ topic.content }}</td>
+          <td>{{ topic.Heading }}</td>
+          <td>{{ topic.Content }}</td>
           <td>{{ topic.attachments }}</td>
-          <td>{{ topic.references }}</td>
-          <td>{{ topic.subTopicstatus }}</td>
+          <td>{{ topic.Reference }}</td>
+          <td>{{ topic.SubTopic }}</td>
           
          
         </tr>
@@ -59,17 +59,17 @@
       <div class="modal-body">
         <form [formGroup]="topicDetailsForm" (ngSubmit)="addTopicDetails()">
           <div class="form-group">
-            <label for="heading">Heading</label>
-            <input type="text" class="form-control" id="heading" formControlName="heading" placeholder="Enter Heading">
-            <div *ngIf="topicDetailsForm.get('heading').invalid && (topicDetailsForm.get('heading').dirty || topicDetailsForm.get('heading').touched)" class="text-danger">
-              <small *ngIf="topicDetailsForm.get('heading').errors?.required">Heading is required</small>
+            <label for="Heading">Heading</label>
+            <input type="text" class="form-control" id="Heading" formControlName="Heading" placeholder="Enter Heading">
+            <div *ngIf="topicDetailsForm.get('Heading').invalid && (topicDetailsForm.get('Heading').dirty || topicDetailsForm.get('Heading').touched)" class="text-danger">
+              <small *ngIf="topicDetailsForm.get('Heading').errors?.required">Heading is required</small>
             </div>
           </div>
           <div class="form-group">
-            <label for="content">Content</label>
-            <input type="text" class="form-control" id="content" formControlName="content" placeholder="Enter Content">
-            <div *ngIf="topicDetailsForm.get('content').invalid && (topicDetailsForm.get('content').dirty || topicDetailsForm.get('content').touched)" class="text-danger">
-              <small *ngIf="topicDetailsForm.get('content').errors?.required">Content is required</small>
+            <label for="Content">Content</label>
+            <input type="text" class="form-control" id="Content" formControlName="Content" placeholder="Enter Content">
+            <div *ngIf="topicDetailsForm.get('Content').invalid && (topicDetailsForm.get('Content').dirty || topicDetailsForm.get('Content').touched)" class="text-danger">
+              <small *ngIf="topicDetailsForm.get('Content').errors?.required">Content is required</small>
             </div>
           </div>
           <div class="form-group">
@@ -77,21 +77,21 @@
             <input type="file" class="form-control" id="attachments" formControlName="attachments">
           </div>
           <div class="form-group">
-            <label for="references">References</label>
-            <input type="text" class="form-control" id="references" formControlName="references" placeholder="Enter References">
-            <div *ngIf="topicDetailsForm.get('references').invalid && (topicDetailsForm.get('references').dirty || topicDetailsForm.get('references').touched)" class="text-danger">
-              <small *ngIf="topicDetailsForm.get('references').errors?.required">References are required</small>
+            <label for="Reference">References</label>
+            <input type="text" class="form-control" id="Reference" formControlName="Reference" placeholder="Enter References">
+            <div *ngIf="topicDetailsForm.get('Reference').invalid && (topicDetailsForm.get('Reference').dirty || topicDetailsForm.get('Reference').touched)" class="text-danger">
+              <small *ngIf="topicDetailsForm.get('Reference').errors?.required">References are required</small>
             </div>
           </div>
           <div class="form-group">
-            <label for="subTopicstatus">SubTopic Status</label>
-            <select class="form-select" id="subTopicstatus" formControlName="subTopicstatus">
+            <label for="SubTopic">SubTopic Status</label>
+            <select class="form-select" id="SubTopic" formControlName="SubTopic">
               <option value="">Select Status</option>
               <option value="option1">Active</option>
               <option value="option2">Inactive</option>
             </select>
-            <div *ngIf="topicDetailsForm.get('subTopicstatus').invalid && (topicDetailsForm.get('subTopicstatus').dirty || topicDetailsForm.get('subTopicstatus').touched)" class="text-danger">
-              <small *ngIf="topicDetailsForm.get('subTopicstatus').errors?.required">SubTopic status is required</small>
+            <div *ngIf="topicDetailsForm.get('SubTopic').invalid && (topicDetailsForm.get('SubTopic').dirty || topicDetailsForm.get('SubTopic').touched)" class="text-danger">
+              <small *ngIf="topicDetailsForm.get('SubTopic').errors?.required">SubTopic status is required</small>
             </div>
           </div>
           

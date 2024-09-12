@@ -22,8 +22,11 @@ export class AddsyllabusComponent implements OnInit {
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
-  form: FormGroup;
+  form = new FormGroup({});
   topicDetails: any[] = [];
+  topicInformationModel: any[] = [];
+  syllabusDetailsModel: any[] = [];
+  SyllabusDetailsModel: any[] = [];
   topicDetailsForm: FormGroup;
   subjectDetails: any;
   courseDetails: any;
@@ -41,8 +44,7 @@ export class AddsyllabusComponent implements OnInit {
     ) { }
   
     ngOnInit(): void {
-      this.setParameter();
-       this.createForm();
+       this.setParameter();
        this.createTopicDetailsForm();
        this.getCourseDetails();
        this.getSubjectDetails();
@@ -52,22 +54,15 @@ export class AddsyllabusComponent implements OnInit {
        }
     }
     
-      createForm(): void {
-        this.form = this.fb.group({
-          CourseName: ['', Validators.required], 
-          SubjectName: ['', Validators.required], 
-          NameofTopic: ['', Validators.required], 
-          TopicStatus: ['', Validators.required], 
-           });
-          }
+    
 
           createTopicDetailsForm(): void {
             this.topicDetailsForm = this.fb.group({
-              heading: ['', Validators.required],
-              content: ['', Validators.required],
-              attachments: [null],
-              references: ['', Validators.required],
-              subTopicstatus: ['', Validators.required],
+              Heading: ['', Validators.required],
+              Content: ['', Validators.required],
+              file: [],
+              Reference: ['', Validators.required],
+              SubTopic: ['', Validators.required],
               
             });
           }
@@ -152,7 +147,7 @@ export class AddsyllabusComponent implements OnInit {
                 {
                   className: 'col-md-3',
                   type: 'input',
-                  key: 'NameofTopic',
+                  key: 'TopicName',
                   props: { 
                     placeholder: 'Enter topic',
                     type: 'text',
@@ -199,8 +194,8 @@ export class AddsyllabusComponent implements OnInit {
       
         
         onSubmit():void {
-          this.form.markAllAsTouched();
-          if (this.form.valid) {
+          this.topicDetailsForm.markAllAsTouched();
+          if (this.topicDetails.length > 0) {
             this.insertSyllabusDetails();
              console.log(this.topicDetails);
             console.log(this.SyllabusList);
