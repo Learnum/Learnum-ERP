@@ -32,7 +32,7 @@ namespace Learnum.ERP.API.Controller.Add_Practical_Problem_Subform
         public async Task<IActionResult> AddPracticalProblem([FromForm] PracticalFormData practicalFormData)
         {
 
-            PracticalProblemsSubform? practicalProblemsSubform = JsonConvert.DeserializeObject<PracticalProblemsSubform>(practicalFormData.PracticalProblemsSubform); ;
+            PracticalProblemsMasterModel? practicalProblemsSubform = JsonConvert.DeserializeObject<PracticalProblemsMasterModel>(practicalFormData.PracticalProblemsSubform); ;
 
             var files = Request.Form.Files;
 

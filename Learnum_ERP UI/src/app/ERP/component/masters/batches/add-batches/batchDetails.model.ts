@@ -14,7 +14,6 @@ export class BatchesDetailsModel {
     StartOn: string;
     EndOn: string;
     isActive: boolean;
-   
     addedBy: number | null;
     addedDate: Date | null;
     updatedBy: number | null;
@@ -40,3 +39,4 @@ export class BatchesDetailsReqModel
 //         this.batchesDetailsModel = batchesDetailsModel;
 // }
 }
+

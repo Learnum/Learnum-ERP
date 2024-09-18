@@ -6,7 +6,7 @@ import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddsyllabusService } from './addsyllabus.service';
-import { SyllabusDetailsModel, SyllabusList } from './syllabusDetailsModel';
+import { SyllabusDetailsModel, SyllabusListModel } from './syllabusDetailsModel';
 import * as bootstrap from 'bootstrap';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
 
@@ -19,6 +19,8 @@ import { ResponseCode } from 'src/app/core/models/responseObject.model';
 export class AddsyllabusComponent implements OnInit {
 
   SyllabusList: SyllabusDetailsModel = new SyllabusDetailsModel();
+  syllabusListModel: SyllabusListModel = new SyllabusListModel();
+
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   editData: any;
@@ -56,16 +58,16 @@ export class AddsyllabusComponent implements OnInit {
     
     
 
-          createTopicDetailsForm(): void {
-            this.topicDetailsForm = this.fb.group({
-              Heading: ['', Validators.required],
-              Content: ['', Validators.required],
-              file: [],
-              Reference: ['', Validators.required],
-              SubTopic: ['', Validators.required],
-              
-            });
-          }
+    createTopicDetailsForm(): void {
+      this.topicDetailsForm = this.fb.group({
+        Heading: ['', Validators.required],
+        Content: ['', Validators.required],
+        File: [null, Validators.required],  // File is now a required field
+        Reference: ['', Validators.required],
+        SubTopic: ['', Validators.required],
+      });
+    }
+    
           addTopicDetails(): void {
             if (this.topicDetailsForm.valid) {
               this.topicDetails.push(this.topicDetailsForm.value);
@@ -75,6 +77,27 @@ export class AddsyllabusComponent implements OnInit {
               this.topicDetailsForm.markAllAsTouched();
             }
           }
+
+          // addTopicDetails(): void {
+          //   if (this.topicDetailsForm.valid) {
+          //     const formValue = this.topicDetailsForm.value;
+              
+          //     // Assuming file input is the first file from file input field
+          //     const fileInput = formValue.File;
+          //     const fileToUpload = fileInput ? fileInput[0] : null;
+          
+          //     this.topicDetails.push({
+          //       ...formValue,
+          //       File: fileToUpload ? [fileToUpload] : []  // Attach file as array of File
+          //     });
+          
+          //     this.topicDetailsForm.reset();
+          //     this.modalService.dismissAll();
+          //   } else {
+          //     this.topicDetailsForm.markAllAsTouched();
+          //   }
+          // }
+          
         
     
     
@@ -165,8 +188,8 @@ export class AddsyllabusComponent implements OnInit {
                     //placeholder: 'Select McqAssignment Status',
                     required: true,
                     options: [
-                      { value: 'Active', label: 'Active' },
-                      { value: 'Active', label: 'Inactive' }
+                      { value: true, label: 'Active' },
+                      { value: false, label: 'Inactive' }
                     ],
                     
                   },
@@ -199,7 +222,7 @@ export class AddsyllabusComponent implements OnInit {
             this.insertSyllabusDetails();
              console.log(this.topicDetails);
             console.log(this.SyllabusList);
-             console.log(this.TopicInformationModel);
+             //console.log(this.TopicInformationModel);
           }
           else {
             this.alertService.ShowErrorMessage('Please fill in all required fields.');
@@ -221,12 +244,13 @@ export class AddsyllabusComponent implements OnInit {
           this.SyllabusList.UpdatedBy = 1;
           this.SyllabusList.UpdatedDate = new Date();
       
-          const data: SyllabusList = {
+          const syllabusListModel: SyllabusListModel = {
             syllabusDetailsModel: this.form.value,
-            topicInformationModel: this.topicDetails
+            topicInformationModel: this.topicDetails,
+            
           };
       
-          this.addsyllabusService.insertSyllabusData(data).subscribe(
+          this.addsyllabusService.insertSyllabusData(syllabusListModel).subscribe(
             (result: any) => {
               const serviceResponse = result.Value;
               if (serviceResponse === ResponseCode.Success) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { APIService } from 'src/app/core/services/apiService';
-import { SyllabusDetailsModel, TopicInformationModel } from './syllabusDetailsModel';
+import { SyllabusDetailsModel, SyllabusListModel, TopicInformationModel } from './syllabusDetailsModel';
 import { Observable } from 'rxjs';
 import { HttpBackend, HttpClient } from '@angular/common/http';
 
@@ -21,18 +21,57 @@ export class AddsyllabusService {
     this.httpClientWithoutInterceptor = new HttpClient(httpBackend);
   }
 
-  insertSyllabusData( data:any) {
-
+  // insertSyllabusData( syllabusListModel:SyllabusListModel) : Observable<any> {
+  
    
+  //   const formData: FormData = new FormData();
+  //   formData.append('topicInformationModel', JSON.stringify(syllabusListModel));
+  //   formData.append('syllabusDetailsModel', JSON.stringify(syllabusListModel));
+
+  //   formData.append('File', TopicInformationModel.File[0]);
+  //   console.log(formData);
+  //   return this.apiService.postData(this.urlInsertSyllabusDetails,FormData);
+  // }
+  insertSyllabusData(syllabusListModel: SyllabusListModel): Observable<any> {
     const formData: FormData = new FormData();
-    formData.append('topicInformationModel', JSON.stringify(data.topicInformationModel));
-    formData.append('syllabusDetailsModel', JSON.stringify(data.syllabusDetailsModel));
 
-    // formData.append('File', TopicInformationModel.file[0]);
-    // console.log(formData);
-    return this.apiService.postData(this.urlInsertSyllabusDetails,data);
-  }
+    // Append the syllabus details as a JSON string
+    formData.append('syllabusDetailsModel', JSON.stringify(syllabusListModel.syllabusDetailsModel));
 
+    // Check if topicInformationModel exists and is an array
+    if (Array.isArray(syllabusListModel.topicInformationModel)) {
+        syllabusListModel.topicInformationModel.forEach((topic, index) => {
+            // Check that each property exists before appending
+            if (topic.TopicId !== undefined) {
+                formData.append(`topicInformationModel[${index}].TopicId`, topic.TopicId.toString());
+            }
+            if (topic.Heading) {
+                formData.append(`topicInformationModel[${index}].Heading`, topic.Heading);
+            }
+            if (topic.Content) {
+                formData.append(`topicInformationModel[${index}].Content`, topic.Content);
+            }
+            if (topic.Reference) {
+                formData.append(`topicInformationModel[${index}].Reference`, topic.Reference);
+            }
+            if (topic.SubTopic) {
+                formData.append(`topicInformationModel[${index}].SubTopic`, topic.SubTopic);
+            }
+
+            // Append file if present
+            if (topic.File) {
+                formData.append(`topicInformationModel[${index}].File`, topic.File, topic.File.name);
+            }
+        });
+    } else {
+        console.error("topicInformationModel is not an array or is undefined", syllabusListModel.topicInformationModel);
+    }
+
+    // Send the formData object via HTTP POST request
+    return this.apiService.postData(this.urlInsertSyllabusDetails, formData);
+}
+
+  
   getAddSyllabusDetailsById(syllabusId: number) {
     return this.apiService.getData(this.urlgetAddSyllabusDetailsById + '/' + syllabusId);
   }

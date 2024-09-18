@@ -28,6 +28,7 @@ namespace Learnum.ERP.Shared.Core
         AlreadyAssignOtherRole = 11111,
         Updated = 11116,
         UserDeactivated = 10016,
-        AccountDoesNotExists = 10017
+        AccountDoesNotExists = 10017,
+        Failure = 11117
     }
 }

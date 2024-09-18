@@ -17,13 +17,13 @@ namespace Learnum.ERP.Repository.Master.MySyllabus_repo
     public interface IPracticalProblemDetailsRepository
     {
 
-        Task<ResponseCode> InsertPracticalProblemDetails(PracticalProblemModel practicalproblemDetailsModel);
+        Task<ResponseCode> InsertPracticalProblemDetails(QuestionDetailsModel practicalproblemDetailsModel);
         Task<List<PracticalproblemResponseModel>> GetPracticalProblemDetailsList();
        
     }
     public class PracticalProblemDetailsRepository : BaseRepository, IPracticalProblemDetailsRepository
     {
-        public async Task<ResponseCode> InsertPracticalProblemDetails(PracticalProblemModel practicalproblemDetailsModel)
+        public async Task<ResponseCode> InsertPracticalProblemDetails(QuestionDetailsModel practicalproblemDetailsModel)
         {
             using (IDbConnection dbConnection = base.GetCoreConnection())
             {
@@ -45,7 +45,7 @@ namespace Learnum.ERP.Repository.Master.MySyllabus_repo
             }
         }
 
-        public Task<ResponseCode> PracticalProblemDetails(PracticalProblemModel practicalproblemDetailsModel)
+        public Task<ResponseCode> PracticalProblemDetails(QuestionDetailsModel practicalproblemDetailsModel)
         {
             throw new NotImplementedException();
         }
