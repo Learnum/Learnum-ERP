@@ -19,8 +19,9 @@ export class TopicInformationModel  {
     Content: string;
     Reference: string;
     SubTopic: string;
-    File : File
-  //static File: any;
+    File : File;
+  static File: any;
+  
  
 }
 

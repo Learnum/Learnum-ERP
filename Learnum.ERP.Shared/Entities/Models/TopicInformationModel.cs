@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models
 {
-    public class TopicInformationModel:BaseModel
+    public class TopicInformationModel
     {
-        public long TopicId { get; set; }
         public string Heading { get; set; }
         public string Content { get; set; }
         public string Reference { get; set; }
         public string SubTopic { get; set; }
-        public IFormFile? File { get; set; }
+        public IFormFile File { get; set; }
     }
 
     public class TopicFormData

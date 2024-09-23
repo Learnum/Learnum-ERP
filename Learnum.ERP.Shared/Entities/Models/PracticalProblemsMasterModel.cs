@@ -21,5 +21,6 @@ namespace Learnum.ERP.Shared.Entities.Models
     {
         public string PracticalProblemsMasterModel { get; set; }
         public IFormFile File { get; set; }
+        public string PracticalProblemsSubform { get; set; }
     }
 }

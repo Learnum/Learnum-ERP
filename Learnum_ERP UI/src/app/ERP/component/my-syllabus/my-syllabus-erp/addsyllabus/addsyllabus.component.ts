@@ -33,6 +33,7 @@ export class AddsyllabusComponent implements OnInit {
   subjectDetails: any;
   courseDetails: any;
   TopicInformationModel: any;
+index: any;
   
     constructor(
       private router: Router,
@@ -62,7 +63,7 @@ export class AddsyllabusComponent implements OnInit {
       this.topicDetailsForm = this.fb.group({
         Heading: ['', Validators.required],
         Content: ['', Validators.required],
-        File: [null, Validators.required],  // File is now a required field
+        File: [null, ],  // File is now a required field
         Reference: ['', Validators.required],
         SubTopic: ['', Validators.required],
       });
@@ -78,26 +79,7 @@ export class AddsyllabusComponent implements OnInit {
             }
           }
 
-          // addTopicDetails(): void {
-          //   if (this.topicDetailsForm.valid) {
-          //     const formValue = this.topicDetailsForm.value;
-              
-          //     // Assuming file input is the first file from file input field
-          //     const fileInput = formValue.File;
-          //     const fileToUpload = fileInput ? fileInput[0] : null;
-          
-          //     this.topicDetails.push({
-          //       ...formValue,
-          //       File: fileToUpload ? [fileToUpload] : []  // Attach file as array of File
-          //     });
-          
-          //     this.topicDetailsForm.reset();
-          //     this.modalService.dismissAll();
-          //   } else {
-          //     this.topicDetailsForm.markAllAsTouched();
-          //   }
-          // }
-          
+         
         
     
     
@@ -309,6 +291,11 @@ export class AddsyllabusComponent implements OnInit {
             console.error('Error retrieving MCQ details:', error);
           }
         );
+      }
+
+      onFileSelected(event: any, index: number): void {
+        const file = event.target.files[0]; // Get the file object
+        this.syllabusListModel.topicInformationModel[index].File = file; // Assign the file to the corresponding topic
       }
 
         }

@@ -67,7 +67,7 @@ namespace Learnum.ERP.API.Controller.Add_Practical_Problem_Subform
             fileUpload.Question = practicalProblemsSubform.Question;
             fileUpload.ModelAnswer = practicalProblemsSubform.ModelAnswer;
             fileUpload.Marks = practicalProblemsSubform.Marks;
-            fileUpload.IsActive = practicalProblemsSubform.IsActive;
+           // fileUpload.IsActive = practicalProblemsSubform.IsActive;
             fileUpload.AddedBy = base.User.Identity.GetUserId();
             fileUpload.UpdatedBy = base.User.Identity.GetUserId();
             fileUpload.AddedDate = DateTime.Now;
@@ -79,7 +79,7 @@ namespace Learnum.ERP.API.Controller.Add_Practical_Problem_Subform
             {
                 return Ok(result);
             }
-
+          
             return BadRequest("Failed to save");
         }
 

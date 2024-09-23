@@ -21,55 +21,47 @@ export class AddsyllabusService {
     this.httpClientWithoutInterceptor = new HttpClient(httpBackend);
   }
 
-  // insertSyllabusData( syllabusListModel:SyllabusListModel) : Observable<any> {
+//   insertSyllabusData(syllabusListModel: SyllabusListModel): Observable<any> {
+//     const formData: FormData = new FormData();
+
+//     formData.append('topicInformationModel', JSON.stringify(syllabusListModel.topicInformationModel));
+//     formData.append('syllabusDetailsModel', JSON.stringify(syllabusListModel.syllabusDetailsModel));
+
+//     // Ensure that File is selected and appended
+//     if (syllabusListModel.topicInformationModel[0].File) {
+//         formData.append('File', syllabusListModel.topicInformationModel[0].File[0]);
+//     } else {
+//         console.error("File is not selected.");
+//     }
+
+//     return this.apiService.postData(this.urlInsertSyllabusDetails, syllabusListModel);
+// }
   
-   
-  //   const formData: FormData = new FormData();
-  //   formData.append('topicInformationModel', JSON.stringify(syllabusListModel));
-  //   formData.append('syllabusDetailsModel', JSON.stringify(syllabusListModel));
+insertSyllabusData(syllabusListModel: SyllabusListModel): Observable<any> {
+  const formData: FormData = new FormData();
 
-  //   formData.append('File', TopicInformationModel.File[0]);
-  //   console.log(formData);
-  //   return this.apiService.postData(this.urlInsertSyllabusDetails,FormData);
-  // }
-  insertSyllabusData(syllabusListModel: SyllabusListModel): Observable<any> {
-    const formData: FormData = new FormData();
+  // Append the syllabusDetailsModel as JSON
+  formData.append('syllabusDetailsModel', JSON.stringify(syllabusListModel.syllabusDetailsModel));
 
-    // Append the syllabus details as a JSON string
-    formData.append('syllabusDetailsModel', JSON.stringify(syllabusListModel.syllabusDetailsModel));
+  // Append each TopicInformationModel's data
+  syllabusListModel.topicInformationModel.forEach((topic, index) => {
+      formData.append(`topicInformationModel[${index}].Heading`, topic.Heading);
+      formData.append(`topicInformationModel[${index}].Content`, topic.Content);
+      formData.append(`topicInformationModel[${index}].Reference`, topic.Reference);
+      formData.append(`topicInformationModel[${index}].SubTopic`, topic.SubTopic);
+      
+      // Append the file (check if it's a valid file object)
+      if (topic.File && topic.File instanceof File) {
+          formData.append(`topicInformationModel[${index}].File`, topic.File);
+      } else {
+          console.error("No valid file selected.");
+      }
+  });
 
-    // Check if topicInformationModel exists and is an array
-    if (Array.isArray(syllabusListModel.topicInformationModel)) {
-        syllabusListModel.topicInformationModel.forEach((topic, index) => {
-            // Check that each property exists before appending
-            if (topic.TopicId !== undefined) {
-                formData.append(`topicInformationModel[${index}].TopicId`, topic.TopicId.toString());
-            }
-            if (topic.Heading) {
-                formData.append(`topicInformationModel[${index}].Heading`, topic.Heading);
-            }
-            if (topic.Content) {
-                formData.append(`topicInformationModel[${index}].Content`, topic.Content);
-            }
-            if (topic.Reference) {
-                formData.append(`topicInformationModel[${index}].Reference`, topic.Reference);
-            }
-            if (topic.SubTopic) {
-                formData.append(`topicInformationModel[${index}].SubTopic`, topic.SubTopic);
-            }
-
-            // Append file if present
-            if (topic.File) {
-                formData.append(`topicInformationModel[${index}].File`, topic.File, topic.File.name);
-            }
-        });
-    } else {
-        console.error("topicInformationModel is not an array or is undefined", syllabusListModel.topicInformationModel);
-    }
-
-    // Send the formData object via HTTP POST request
-    return this.apiService.postData(this.urlInsertSyllabusDetails, formData);
+  return this.apiService.postData(this.urlInsertSyllabusDetails, formData);
 }
+
+
 
   
   getAddSyllabusDetailsById(syllabusId: number) {

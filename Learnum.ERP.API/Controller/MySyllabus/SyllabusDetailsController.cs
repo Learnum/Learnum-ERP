@@ -28,7 +28,7 @@ namespace Learnum.ERP.API.Controller.MySyllabus
         }
 
         [HttpPost("InsertSyllabusDetails")]
-        public async Task<IActionResult> InsertSyllabusDetails([FromForm] SyllabusListModel syllabusListModel)
+        public async Task<IActionResult> InsertSyllabusDetails( SyllabusListModel syllabusListModel)
         {
             //if (topicFormData == null)
             //{
