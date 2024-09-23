@@ -22,7 +22,7 @@
         <tr>
           <th>Heading</th>
           <th>Content</th>
-          <th>Attachments</th>
+          <th>File</th>
           <th>References</th>
           <th>SubTopic</th>
         </tr>
@@ -31,7 +31,7 @@
         <tr *ngFor="let topic of topicDetails">
           <td>{{ topic.Heading }}</td>
           <td>{{ topic.Content }}</td>
-          <td>{{ topic.attachments }}</td>
+          <td>{{ topic.File }}</td>
           <td>{{ topic.Reference }}</td>
           <td>{{ topic.SubTopic }}</td>
           
@@ -73,8 +73,8 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="attachments">Attachments</label>
-            <input type="file" class="form-control" id="attachments" formControlName="attachments">
+            <label for="File">File</label>
+            <input type="file" (change)="onFileSelected($event, index)" />           
           </div>
           <div class="form-group">
             <label for="Reference">References</label>

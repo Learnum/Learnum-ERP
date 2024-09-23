@@ -16,91 +16,113 @@ namespace Learnum.ERP.API.Controller.MySyllabus
     [ApiController]
     public class SyllabusDetailsController : ControllerBase
     {
-        private readonly ISyllabusDetailsRepository syllabusDetailsRepository;
-        private readonly ILogger<SyllabusDetailsController> logger;
+        private readonly ISyllabusDetailsRepository _syllabusDetailsRepository;
+        private readonly ILogger<SyllabusDetailsController> _logger;
 
         public SyllabusDetailsController(
-            ILogger<SyllabusDetailsController> _logger,
-            ISyllabusDetailsRepository _syllabusDetailsRepository)
+            ILogger<SyllabusDetailsController> logger,
+            ISyllabusDetailsRepository syllabusDetailsRepository)
         {
-            logger = _logger;
-            syllabusDetailsRepository = _syllabusDetailsRepository;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _syllabusDetailsRepository = syllabusDetailsRepository ?? throw new ArgumentNullException(nameof(syllabusDetailsRepository));
         }
 
         [HttpPost("InsertSyllabusDetails")]
-        public async Task<IActionResult> InsertCourseDetails([FromForm] TopicFormData topicFormData)
+        public async Task<IActionResult> InsertSyllabusDetails( SyllabusListModel syllabusListModel)
         {
+            //if (topicFormData == null)
+            //{
+            //    _logger.LogError("Received null form data");
+            //    return BadRequest("Form data is null");
+            //}
 
-            TopicInformationModel? topicInformationModel = JsonConvert.DeserializeObject<TopicInformationModel>(topicFormData.TopicInformationModel); ;
+            //if (!ModelState.IsValid)
+            //{
+            //    _logger.LogError("Invalid model state");
+            //    return BadRequest("Invalid model object");
+            //}
 
-            var files = Request.Form.Files;
-
-            if (topicFormData == null)
+            if (Request.Form.Files.Count == 0 || Request.Form.Files[0].Length == 0)
             {
-                return BadRequest("Object is null");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Invalid model object");
-            }
-
-            if (files.Count == 0 || files[0].Length == 0)
-            {
+                _logger.LogError("No file uploaded");
                 return BadRequest("No file uploaded");
             }
 
-            var file = files[0];
+            TopicInformationModel? topicInformationModel;
+            SyllabusDetailsModel? syllabusDetailsModel;
+            SyllabusListModel? syllabusTopicDetails;
+
+            //try
+            //{
+            //    topicInformationModel = JsonConvert.DeserializeObject<TopicInformationModel>(topicFormData.TopicInformationModel);
+            //    syllabusDetailsModel = JsonConvert.DeserializeObject<SyllabusDetailsModel>(topicFormData.SyllabusDetailsModel);
+            //    syllabusTopicDetails = JsonConvert.DeserializeObject<SyllabusListModel>(topicFormData.SyllabusDetailsModel);
+            //}
+            //catch (JsonException ex)
+            //{
+            //    _logger.LogError($"Error deserializing input data: {ex.Message}");
+            //    return BadRequest("Invalid data format");
+            //}
+
+            //if (topicInformationModel == null || syllabusDetailsModel == null || syllabusTopicDetails == null)
+            //{
+            //    _logger.LogError("Deserialization resulted in null model(s)");
+            //    return BadRequest("Deserialization error");
+            //}
+
+            var file = Request.Form.Files[0];
             var fullPath = Path.Combine(ApplicationSettings.UploadPath, DateTime.Now.Ticks.ToString() + "_" + file.FileName);
 
-            using (var stream = new FileStream(fullPath, FileMode.Create))
+            try
             {
-                await file.CopyToAsync(stream);
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"File upload failed: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, "File upload failed");
             }
 
-            //courseDetailsModel.FilePath = fullPath;
-            //courseDetailsModel.MimeType = file.ContentType;
-            //courseDetailsModel.FileName = file.FileName;
-            //courseDetailsModel.AddedBy = base.User.Identity.GetUserId();
-            //courseDetailsModel.UpdatedBy = base.User.Identity.GetUserId();
-            //courseDetailsModel.AddedDate = DateTime.Now;
-            //courseDetailsModel.UpdatedDate = DateTime.Now;
+            //TopicInformationModelFileUpload fileUpload = new TopicInformationModelFileUpload
+            //{
+            //    FileName = file.FileName,
+            //    MimeType = file.ContentType,
+            //    FilePath = fullPath,
+            //    TopicId = topicInformationModel.TopicId,
+            //    Heading = topicInformationModel.Heading,
+            //    Content = topicInformationModel.Content,
+            //    Reference = topicInformationModel.Reference,
+            //    SubTopic = topicInformationModel.SubTopic,
+            //    AddedBy = base.User.Identity.GetUserId(),
+            //    UpdatedBy = base.User.Identity.GetUserId(),
+            //    AddedDate = DateTime.Now,
+            //    UpdatedDate = DateTime.Now
+            //};
 
-            TopicInformationModel fileUpload = new TopicInformationModel();
-            fileUpload.FileName = file.FileName;
-            fileUpload.MimeType = file.ContentType;
-            fileUpload.FilePath = fullPath;
-            fileUpload.TopicId = topicInformationModel.TopicId;
-            fileUpload.Heading = topicInformationModel.Heading;
-            fileUpload.Content = topicInformationModel.Content;
-            fileUpload.Reference = topicInformationModel.Reference;
-            fileUpload.SubTopic = topicInformationModel.SubTopic;
-            fileUpload.AddedBy = base.User.Identity.GetUserId();
-            fileUpload.UpdatedBy = base.User.Identity.GetUserId();
-            fileUpload.AddedDate = DateTime.Now;
-            fileUpload.UpdatedDate = DateTime.Now;
+            //var result = await _syllabusDetailsRepository.InsertSyllabusDetails(fileUpload, syllabusDetailsModel, syllabusTopicDetails);
 
-            var result = await syllabusDetailsRepository.InsertSyllabusDetails(fileUpload);
+            //if (result == ResponseCode.Success || result == ResponseCode.Updated)
+            //{
+            //    return Ok(result);
+            //}
 
-            if (result == ResponseCode.Success || result == ResponseCode.Updated)
-            {
-                return Ok(result);
-            }
-
+            _logger.LogError("Failed to save the syllabus details");
             return BadRequest("Failed to save");
         }
 
         [HttpGet("getSyllabusDetails")]
         public async Task<IActionResult> GetSyllabusDetails()
         {
-            var data = await syllabusDetailsRepository.getSyllabusDetails();
+            var data = await _syllabusDetailsRepository.getSyllabusDetails();
             if (data != null)
             {
                 return Ok(data);
             }
             return NotFound("No record found");
         }
-
 
         [HttpGet("getSyllabusDetailsById/{SyllabusId}")]
         public async Task<IActionResult> GetSyllabusDetailsById(long? SyllabusId)
@@ -114,7 +136,7 @@ namespace Learnum.ERP.API.Controller.MySyllabus
                 return BadRequest("Invalid model object");
             }
 
-            var result = await syllabusDetailsRepository.GetSyllabusDetailsById(SyllabusId);
+            var result = await _syllabusDetailsRepository.GetSyllabusDetailsById(SyllabusId);
             return Ok(result);
         }
     }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { APIService } from 'src/app/core/services/apiService';
-import { SyllabusDetailsModel, TopicInformationModel } from './syllabusDetailsModel';
+import { SyllabusDetailsModel, SyllabusListModel, TopicInformationModel } from './syllabusDetailsModel';
 import { Observable } from 'rxjs';
 import { HttpBackend, HttpClient } from '@angular/common/http';
 
@@ -21,18 +21,49 @@ export class AddsyllabusService {
     this.httpClientWithoutInterceptor = new HttpClient(httpBackend);
   }
 
-  insertSyllabusData( data:any) {
+//   insertSyllabusData(syllabusListModel: SyllabusListModel): Observable<any> {
+//     const formData: FormData = new FormData();
 
-   
-    const formData: FormData = new FormData();
-    formData.append('topicInformationModel', JSON.stringify(data.topicInformationModel));
-    formData.append('syllabusDetailsModel', JSON.stringify(data.syllabusDetailsModel));
+//     formData.append('topicInformationModel', JSON.stringify(syllabusListModel.topicInformationModel));
+//     formData.append('syllabusDetailsModel', JSON.stringify(syllabusListModel.syllabusDetailsModel));
 
-    // formData.append('File', TopicInformationModel.file[0]);
-    // console.log(formData);
-    return this.apiService.postData(this.urlInsertSyllabusDetails,data);
-  }
+//     // Ensure that File is selected and appended
+//     if (syllabusListModel.topicInformationModel[0].File) {
+//         formData.append('File', syllabusListModel.topicInformationModel[0].File[0]);
+//     } else {
+//         console.error("File is not selected.");
+//     }
 
+//     return this.apiService.postData(this.urlInsertSyllabusDetails, syllabusListModel);
+// }
+  
+insertSyllabusData(syllabusListModel: SyllabusListModel): Observable<any> {
+  const formData: FormData = new FormData();
+
+  // Append the syllabusDetailsModel as JSON
+  formData.append('syllabusDetailsModel', JSON.stringify(syllabusListModel.syllabusDetailsModel));
+
+  // Append each TopicInformationModel's data
+  syllabusListModel.topicInformationModel.forEach((topic, index) => {
+      formData.append(`topicInformationModel[${index}].Heading`, topic.Heading);
+      formData.append(`topicInformationModel[${index}].Content`, topic.Content);
+      formData.append(`topicInformationModel[${index}].Reference`, topic.Reference);
+      formData.append(`topicInformationModel[${index}].SubTopic`, topic.SubTopic);
+      
+      // Append the file (check if it's a valid file object)
+      if (topic.File && topic.File instanceof File) {
+          formData.append(`topicInformationModel[${index}].File`, topic.File);
+      } else {
+          console.error("No valid file selected.");
+      }
+  });
+
+  return this.apiService.postData(this.urlInsertSyllabusDetails, formData);
+}
+
+
+
+  
   getAddSyllabusDetailsById(syllabusId: number) {
     return this.apiService.getData(this.urlgetAddSyllabusDetailsById + '/' + syllabusId);
   }

@@ -19,12 +19,14 @@ export class TopicInformationModel  {
     Content: string;
     Reference: string;
     SubTopic: string;
-    //attachments: File;
-  file: any;
-  static file: any;
+    File : File;
+  static File: any;
+  
+ 
 }
 
-export class SyllabusList {
+export class SyllabusListModel {
+ 
     syllabusDetailsModel: SyllabusDetailsModel| null;
     topicInformationModel: TopicInformationModel[] | null;
     

@@ -7,21 +7,20 @@ using System.Threading.Tasks;
 
 namespace Learnum.ERP.Shared.Entities.Models
 {
-    public class PracticalProblemsSubform : BaseModel
+    public class PracticalProblemsMasterModel : BaseModel
     {
         public long QuestionId { get; set; }
         public string Question { get; set; }
         public string ModelAnswer { get; set; }
         public long Marks { get; set; }
-        public bool IsActive { get; set; }
+        public string status { get; set; }
     }
 
 
     public class PracticalFormData
     {
-        public string PracticalProblemsSubform { get; set; }
+        public string PracticalProblemsMasterModel { get; set; }
         public IFormFile File { get; set; }
-
-
+        public string PracticalProblemsSubform { get; set; }
     }
 }

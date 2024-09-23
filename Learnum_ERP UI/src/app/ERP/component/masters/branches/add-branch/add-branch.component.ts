@@ -69,7 +69,7 @@ export class AddBranchComponent implements OnInit {
                 });
               }
             },
-            validation: {
+            validation: { 
               messages: {
                 required: 'Branch Name is required',
               },
