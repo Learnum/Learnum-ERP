@@ -8,13 +8,9 @@ import { addfeesModel } from './addfeesmodel';
 })
 export class AddFeesService extends BaseService{
  
-  // private urlgetBranchList: string = "BranchDetails/getAllBranchList";
-  // private urlgetCourseList: string = "CourseDetails/getAllCourseList";
-  // private urlgetSubjectList: string = "SubjectDetails/getAllSubjectList";
-  // private urlgetBatchList: string = "BatchesDetails/getAllBatchesList";
   private urlInsertfeesDetails: string = "OfflineFeesDetails/InsertOfflineFeesDetails";
-  private urlGetofflineFeesListByID: string = "OfflineFeesDetails/GetOfflineFeesDetailsByID";
   private urlgetfeesList: string = "OfflineFeesDetails/getOfflineFeesDetailsList";
+  private urlGetofflineFeesListByID: string = "OfflineFeesDetails/GetOfflineFeesDetailsByID";
 
   private urlgetAddStudentList: string = "StudentDetails/getAllStudentList";
   private urlgetCourseList: string = "StudentAdmissionsDetails/GetAllCourses";
@@ -32,8 +28,8 @@ export class AddFeesService extends BaseService{
   insertfeesDetails(OfflineFessDetails: addfeesModel) {
     return this.apiService.postBlob(this.urlInsertfeesDetails,OfflineFessDetails);
   }
-  getOfflineFessDetailsById(offlineFeesPaymentId:number){
-    return this.apiService.getData(this.urlGetofflineFeesListByID+ '/' + offlineFeesPaymentId);
+  getOfflineFessDetailsById(OfflineFeesPaymentId:number){
+    return this.apiService.getData(this.urlGetofflineFeesListByID+ '/' + OfflineFeesPaymentId);
   }
   getAddStudentList() {
     return this.apiService.getData(this.urlgetAddStudentList);

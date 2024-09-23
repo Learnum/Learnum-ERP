@@ -1,4 +1,5 @@
-﻿using Learnum.ERP.Repository.Authentication;
+﻿using Learnum.ERP.API.Controller.Student_Management;
+using Learnum.ERP.Repository.Authentication;
 using Learnum.ERP.Repository.Master;
 using Learnum.ERP.Repository.Master.Add_Practical_Problems_Subform;
 using Learnum.ERP.Repository.Master.Business_Lead_repo;
@@ -58,10 +59,6 @@ namespace Learnum.ERP.API.Helpers
             services.AddTransient<IEmployeeDetailsRepository, EmployeeDetailsRepository>();
             services.AddTransient<IWorksheetDetailsRepository, WorksheetDetailsRepository>();
             services.AddTransient<IBranchCounsellorDetailsRepository, BranchCounsellorDetailsRepository>();
-            services.AddTransient<ISyllabusDetailsRepository,SyllabusDetailsRepository>();
-           // services.AddTransient<IEmployeeDetailsRepository, EmployeeDetailsRepository>();
-
-          //  services.AddTransient<IEmployeeDetailsRepository, EmployeeDetailsRepository>();
             services.AddTransient<IBranchManagerDetailsRepository,BranchManagerDetailsRepository>();
             services.AddTransient<IBusinessLeadDetailsRepository, BusinessLeadDetailsRepository>();
             services.AddTransient<IPracticalProblemsSubformRepository,PracticalProblemsSubformRepository>();
@@ -74,8 +71,8 @@ namespace Learnum.ERP.API.Helpers
             services.AddTransient<IOfflineFeesDetailsRepository, OfflineFeesDetailsRepository>();
             services.AddTransient<IStudentAdmissionsDetailsRepository,  StudentAdmissionsDetailsRepository>();
             services.AddTransient<IAttendenceSheetDetailsRepository, AttendenceSheetDetailsRepository>();
-
             services.AddTransient<IMcqDetailsRepository, McqDetailsRepository>();
+            services.AddTransient<ISendFeesReminderRepository, SendFeesReminderRepository>();
         }
     }
 }

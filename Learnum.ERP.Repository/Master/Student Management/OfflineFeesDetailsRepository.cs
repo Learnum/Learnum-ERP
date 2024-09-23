@@ -54,8 +54,9 @@ namespace Learnum.ERP.Repository.Master.Student_Management
             {
                 var dbparams = new DynamicParameters();
                 dbparams.Add("@OfflineFeesPaymentId", @OfflineFeesPaymentId);
+                dbparams.Add("@Action", "GetOfflineFeesPaymentByOfflineFeesPaymentId");
                 dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
-                var result = dbConnection.Query<OfflineFeesDetailsModel?>("PROC_OfflineFeesPaymentDetailList", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var result = dbConnection.Query<OfflineFeesDetailsModel?>("PROC_OfflineFeesPayment", dbparams, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 ResponseCode responseCode = (ResponseCode)dbparams.Get<int>("@Result");
                 return await Task.FromResult(new Tuple<OfflineFeesDetailsModel?, ResponseCode>(result, responseCode));
             }

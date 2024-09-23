@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder,Validators, AbstractControl } from '@angular/for
 import { addfeesModel } from './addfeesmodel';
 import { AddFeesService } from './add-fees.service';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { BaseService } from 'src/app/core/services/baseService';
 
 @Component({
   selector: 'app-add-fees',
@@ -31,7 +32,8 @@ export class AddFeesComponent implements OnInit {
     private alertService: AlertService,
     private messageService: MessageService,
     private activateRoute: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private baseservice: BaseService,
   ) { }
 
   ngOnInit(): void {
@@ -41,20 +43,22 @@ export class AddFeesComponent implements OnInit {
     this.getBranchDetails();
 
     this.editData = this.activateRoute.snapshot.queryParams;
-    if (this.editData.source === 'edit' && this.editData.offlineFeesPaymentId) {
-      this.getOfflineFeesDetails(this.editData.offlineFeesPaymentId);
+    if (this.editData.source === 'edit' && this.editData.OfflineFeesPaymentId) {
+      this.getOfflineFessDetailsById(this.editData.OfflineFeesPaymentId);
     }
   }
 
- 
   setParameter() {
     this.fields = [
       {
         fieldGroupClassName: 'row card-body p-2',
         fieldGroup: [
           {
+            key:'OfflineFeesPaymentId'
+          },
+          {
             className: 'col-md-3',
-            key: 'dateOfPayment',
+            key: 'DateOfPayment',
             type: 'input',
             templateOptions: {
               label: 'Date of Payment',
@@ -65,7 +69,7 @@ export class AddFeesComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'modeOfPayment',
+            key: 'ModeOfPayment',
             type: 'select',
             templateOptions: {
               label: 'Mode of Payment',
@@ -83,7 +87,7 @@ export class AddFeesComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'referenceNumber',
+            key: 'ReferenceNumber',
             type: 'input',
             templateOptions: {
               label: 'Reference Number',
@@ -200,7 +204,7 @@ export class AddFeesComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'amountpaid',
+            key: 'Amountpaid',
             type: 'input',
             templateOptions: {
               label: 'Amount Paid',
@@ -211,7 +215,7 @@ export class AddFeesComponent implements OnInit {
           },
           {
             className: 'col-md-3',
-            key: 'remarks',
+            key: 'Remarks',
             type: 'input',
             templateOptions: {
               label: 'Remarks',
@@ -239,9 +243,9 @@ export class AddFeesComponent implements OnInit {
     ];
   }
 
-  onCancleClick() {
-    this.router.navigateByUrl('erp/student-management/offline-fees-payment');
-  }
+  // onCancleClick() {
+  //   this.router.navigateByUrl('erp/student-management/offline-fees-payment');
+  // }
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
@@ -249,6 +253,12 @@ export class AddFeesComponent implements OnInit {
     } else {
       this.alertService.ShowErrorMessage('Please fill in all required fields.');
     }
+  }
+  onCancleClick() {
+    this.router.navigateByUrl('erp/student-management/offline-fees-payment');
+  }
+  onResetClick() {
+    this.form.reset();
   }
 
   getAddStudentDetails() {
@@ -317,16 +327,13 @@ getBatchDetailsByBranchId(BranchId: number) {
     this.AddfeesModel.AddedDate = new Date();
     this.AddfeesModel.UpdatedBy = 1;
     this.AddfeesModel.UpdatedDate = new Date();
-    this.AddfeesModel.OfflineFeesPaymentId=0;
-    // this.branchManagerDetails.branchManagerId = 0;
-
+   // this.AddfeesModel.OfflineFeesPaymentId=0;
     this.addfeesService.insertfeesDetails(this.AddfeesModel).subscribe(
       (result: any) => {
         let serviceResponse = result.Value
         if (result.Value === ResponseCode.Success) {
           this.alertService.ShowSuccessMessage(this.messageService.savedSuccessfully);
           this.router.navigateByUrl('erp/student-management/offline-fees-payment');
-
         }
         else if (serviceResponse == ResponseCode.Update) {
           this.alertService.ShowSuccessMessage(this.messageService.updateSuccessfully);
@@ -342,13 +349,15 @@ getBatchDetailsByBranchId(BranchId: number) {
     )
 
   }
-  getOfflineFeesDetails(offlineFeesPaymentId: number) {
-    this.addfeesService.getOfflineFessDetailsById(offlineFeesPaymentId).subscribe(
+  getOfflineFessDetailsById(OfflineFeesPaymentId: number) {
+    this.addfeesService.getOfflineFessDetailsById(OfflineFeesPaymentId).subscribe(
       (result: any) => {
         if (result && result.Value) {
           this.AddfeesModel = result.Value.Item1;
+          this.AddfeesModel.DateOfPayment = this.baseservice.formatDate(this.AddfeesModel.DateOfPayment)
+          this.getBatchDetailsByBranchId(this.AddfeesModel.BranchId);
           this.setParameter();
-          console.error('No data found for offlineFeesPaymentId: ' + offlineFeesPaymentId);
+          console.error('No data found for OfflineFeesPaymentId: ' + OfflineFeesPaymentId);
         }
       },
       (error: any) => {
