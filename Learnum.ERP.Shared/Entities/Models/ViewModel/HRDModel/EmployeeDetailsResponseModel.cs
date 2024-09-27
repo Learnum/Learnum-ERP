@@ -25,7 +25,7 @@ namespace Learnum.ERP.Shared.Entities.Models.ViewModel.HRDModel
         public string Role { get; set; }
         public bool IsActive { get; set; }
 
-        public IFormFile File { get; set; }
+       
 
         public string FilePath { get; set; }
         public string DocumentName { get; set; }

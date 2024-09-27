@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
-
+import { EmployeeService } from './add-employee/employee.service';
 
 @Component({
   selector: 'app-employees',
@@ -14,12 +13,24 @@ import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-g
 })
 export class EmployeesComponent implements OnInit {
 
+  constructor(private router: Router,
+    private employeeService: EmployeeService,
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+    private alertService: AlertService,
+    private formBuilder: FormBuilder) { }
+
+  ngOnInit(): void {
+    this.getEmployeeList();
+  }
+
   form: FormGroup;
+  employeeList: [] = [];
 
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'ViewEmployee',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
@@ -98,16 +109,6 @@ export class EmployeesComponent implements OnInit {
 
     },
     {
-      field: 'EmployeePhoto ',
-      headerName: 'EmployeePhoto ',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 150
-
-    },
-    {
       field: 'addedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
@@ -137,58 +138,35 @@ export class EmployeesComponent implements OnInit {
     }
   ];
 
- 
-   employeeList: any;
 
+  editEmployee(employeeData: any) {}
 
-
-  ngOnInit(): void {
-    //this.GetEmployeeList();
-  }
-
-  constructor(private router: Router,
-    private route: ActivatedRoute,
-    private messageService: MessageService,
-    private alertService: AlertService,
-    
-    private formBuilder: FormBuilder) { }
- 
-  
- 
-  editEmployee(employeeData: any) {
-
-  //   const employeeId = employeeData.EmpID;
-  //   const index = this.tdsReturnList.findIndex(emp => emp.EmpID === employeeId);
-  //   if (index !== -1) {
-  //   this.openEditForm(employeeData).then((editedEmployeeData: any) => {
-  //   this.tdsReturnList[index] = editedEmployeeData;
-  //   console.log('Edited Employee:', editedEmployeeData);
-  // });
-  //   }
-  }
-
- 
-  onAddEmployee(employee?: any) {
-
-    // let navigationExtras: NavigationExtras = {};
-    // if (employee) {
-    //   navigationExtras = {
-    //     state: {
-    //       employeeData: employee
-    //     }
-    //   };
-    // }
-    this.router.navigateByUrl('erp/hrd/employees/add-employee')
-  }
- 
-  selectemployee($event: any) {
-    throw new Error('Method not implemented.');
+  onRowAction(data: any) {
+    let data1 = {
+      'source': 'edit',
+      'EmployeeDetailId': data.row.EmployeeDetailId
     }
-      
-
-  onActionButton(action: string) {
-    alert(action + ' ' + 'action button clicked.');
+    this.router.navigate(['erp/employees/add-employee'], { queryParams: data1 });
   }
+  
+   
+    onAddEmployee(employee?: any) {
+     this.router.navigateByUrl('erp/hrd/employees/add-employee')
+    }
+   
+    selectemployee($event: any) {
+      throw new Error('Method not implemented.');
+      }
+        
+  
+    onActionButton(action: string) {
+      alert(action + ' ' + 'action button clicked.');
+    }
 
-
+    getEmployeeList() {
+      this.employeeService.getEmployeeList().subscribe((result: any) => {
+        this.employeeList = result.Value;
+        
+      })
+    }
 }

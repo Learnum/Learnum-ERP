@@ -10,7 +10,7 @@ export class EmployeeDetailsModel {
     Gender: string;
     // filePath: string;
     // employeePhoto: string;
-    file: File;
+    File: File;
     Address: string;
     City: string;
     State: string;

@@ -26,10 +26,7 @@ namespace Learnum.ERP.Shared.Entities.Models
         public long PostalCode { get; set; }
         public string Role { get; set; }
         public bool IsActive { get; set; }
-        //public string FilePath { get; set; }
-        //public string DocumentName { get; set; }
-        //public string FileName { get; set; }
-        //public string MimeType { get; set; }
+       
       
     }
 

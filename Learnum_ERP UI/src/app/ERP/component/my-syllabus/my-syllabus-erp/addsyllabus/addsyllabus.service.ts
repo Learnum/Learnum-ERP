@@ -58,7 +58,7 @@ insertSyllabusData(syllabusListModel: SyllabusListModel): Observable<any> {
       }
   });
 
-  return this.apiService.postData(this.urlInsertSyllabusDetails, formData);
+  return this.apiService.postData(this.urlInsertSyllabusDetails, syllabusListModel);
 }
 
 

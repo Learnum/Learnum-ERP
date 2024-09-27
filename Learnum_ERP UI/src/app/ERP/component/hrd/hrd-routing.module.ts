@@ -17,13 +17,11 @@ const routes: Routes = [
       ]
   },
   {
-    path:"employees",
-    loadChildren:()=>
-      import("./employees/employees.module").then(
-        (m)=>m.EmployeesModule
-      ),
-  },
-  
+        path:"employees",
+        loadChildren:()=>
+         import("./employees/employees.module").then
+        ((m)=>m.EmployeesModule)
+     },
   {
     path:"trainer",
     loadChildren:()=>
