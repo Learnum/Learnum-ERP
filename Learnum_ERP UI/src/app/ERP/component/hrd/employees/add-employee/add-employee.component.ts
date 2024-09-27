@@ -1,15 +1,14 @@
-import { formatDate } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { EmployeeService } from './employee.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
-import { EmployeeDetailsModel } from './add-employee.model';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { EmployeeDetailsModel } from './employee.model';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { ResponseCode } from 'src/app/core/models/responseObject.model';
-import { AddemployeeService } from './addemployee.service';
-
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-add-employee',
@@ -17,17 +16,17 @@ import { AddemployeeService } from './addemployee.service';
   styleUrls: ['./add-employee.component.scss']
 })
 export class AddEmployeeComponent implements OnInit {
+  
   form = new FormGroup({});
   employeeDetails: EmployeeDetailsModel = new EmployeeDetailsModel();
   fields: FormlyFieldConfig[];
   options: FormlyFormOptions = {};
   GetEmployeeList: any;
   NowDate: any = new Date();
-  
-  
-  
+  editData: any;
+
   constructor(
-    private addemployeeService: AddemployeeService,
+    private employeeService: EmployeeService,
     private router: Router,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -38,7 +37,11 @@ export class AddEmployeeComponent implements OnInit {
  
 
   ngOnInit(): void {
-    this.setParameter();    //this.addSameAsCurrentAddressListener();
+    this.setParameter();  
+    this.editData = this.activateRoute.snapshot.queryParams;
+    if (this.editData.source === 'edit' && this.editData.EmployeeDetailId) {
+      this.getEmployeeDetails(this.editData.EmployeeDetailId);
+    }
   }
 
   setParameter() {
@@ -195,7 +198,7 @@ export class AddEmployeeComponent implements OnInit {
           },
           {
             className: 'col-md-2',
-            key: 'file',
+            key: 'File',
             type: 'file',
             templateOptions: {
               placeholder: 'Select File',
@@ -422,35 +425,6 @@ export class AddEmployeeComponent implements OnInit {
     }
     ];
   }
-  // getEmployeeDetails(EmployeeDetailId: number) {
-  //   this.addEmployeeService.getEmployeeDetails(EmployeeDetailId).subscribe(
-  //     (result: any) => {
-  //       if (result && result.Value && result.Value.Item1) {
-  //         this.employeeDetails = result.Value.Item1;
-          
-  //         //DateofPayment && DateOfDeduction
-
-      
-          
-  //         this.setParameter();
-  //       } else {
-  //         console.error('No data found for EmployeeDetailId: ' + EmployeeDetailId);
-
-  //       }
-  //     },
-  //     (error: any) => {
-  //       console.error('Error retrieving employee details:', error);
-
-  //       if (error && error.status === 404) {
-  //         console.error('Employee not found.');
-
-  //       } else {
-  //         console.error('An unexpected error occurred. Please try again later.');
-
-  //       }
-  //     }
-  //   );
-  // }
 
   onCancelClick() {
     this.router.navigateByUrl('erp/hrd/employees');
@@ -459,22 +433,6 @@ export class AddEmployeeComponent implements OnInit {
   onResetClick() {
     this.form.reset();
   }
-
-  // addSameAsCurrentAddressListener() {
-  //   this.form.get('AddressDetails.SameAsCurrentAddress').valueChanges.subscribe((checked: boolean) => {
-  //     if (checked) {
-  //       const currentAddress = this.form.get('AddressDetails').value;
-  //       this.form.get('PermanentAddress').setValue({
-  //         address: currentAddress.Address,
-  //         city: currentAddress.City,
-  //         state: currentAddress.State,
-  //         postalCode: currentAddress.PinCode
-  //       });
-  //     } else {
-  //       this.form.get('PermanentAddress').reset();
-  //     }
-  //   });
-  // }
 
   onSubmit(): void {
     this.form.markAllAsTouched();
@@ -494,7 +452,7 @@ export class AddEmployeeComponent implements OnInit {
     this.employeeDetails.updatedDate = new Date();
     //this.employeeDetails.employeeId = 0;
 
-    this.addemployeeService.insertEmployeeData(this.employeeDetails).subscribe(
+    this.employeeService.insertEmployeeData(this.employeeDetails).subscribe(
       (result: any) => {
         const serviceResponse = result.Value;
         if (serviceResponse === ResponseCode.Success) {
@@ -514,4 +472,32 @@ export class AddEmployeeComponent implements OnInit {
       }
     );
 }
+getEmployeeDetails(EmployeeDetailId: number) {
+    this.employeeService.getEmployeeDetails(EmployeeDetailId).subscribe(
+      (result: any) => {
+        if (result && result.Value && result.Value.Item1) {
+          this.employeeDetails = result.Value.Item1;
+          
+          //DateofPayment && DateOfDeduction 
+          this.setParameter(); 
+        } else {
+          console.error('No data found for EmployeeDetailId: ' + EmployeeDetailId);
+
+        }
+
+      },
+      (error: any) => {
+        console.error('Error retrieving employee details:', error);
+
+        if (error && error.status === 404) {
+          console.error('Employee not found.');
+
+        } else {
+          console.error('An unexpected error occurred. Please try again later.');
+
+        }
+      }
+    );
+  }
+
 }

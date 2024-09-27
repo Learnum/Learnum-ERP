@@ -3,22 +3,22 @@ import { RouterModule, Routes } from '@angular/router';
 import { EmployeesComponent } from './employees.component';
 
 const routes: Routes = [
+
   {
     path: '',
     component: EmployeesComponent,
-    children: [
+    children:[
       {
-        path: '',
-        redirectTo: 'employees',
-        pathMatch: 'full'
-      },
+        path:'',
+        redirectTo:'add-employee',
+        pathMatch:'full'
+      }, 
     ]
   },
   {
-    path: 'add-employee',
-    loadChildren: () => import('./add-employee/add-employee.module').then(m => m.AddEmployeeModule)
+    path:'add-employee',
+    loadChildren:()=>import('./add-employee/add-employee.module').then(m=>m.AddEmployeeModule)
   },
-
 ];
 
 @NgModule({

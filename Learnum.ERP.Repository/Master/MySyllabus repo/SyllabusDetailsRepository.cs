@@ -21,7 +21,7 @@ namespace Learnum.ERP.Repository.Master.MySyllabus_repo
     {
         //Task<ResponseCode> InsertSyllabusDetails(TopicDetailsModel topicDetailsModel);
         Task<List<SyllabusDetailsResponseModel>> getSyllabusDetails();
-        Task<ResponseCode> InsertSyllabusDetails(TopicInformationModelFileUpload fileUpload, SyllabusDetailsModel syllabusDetailsModel, SyllabusListModel syllabusTopicDetails);
+        Task<ResponseCode> InsertSyllabusDetails(SyllabusListModel syllabusListModel);
 
         Task<Tuple<SyllabusListModel?, ResponseCode>> GetSyllabusDetailsById(long? SyllabusId);
 
@@ -107,24 +107,24 @@ namespace Learnum.ERP.Repository.Master.MySyllabus_repo
 
     public class SyllabusDetailsRepository : BaseRepository, ISyllabusDetailsRepository
     {
-        public async Task<ResponseCode> InsertSyllabusDetails(TopicInformationModelFileUpload fileUpload, SyllabusDetailsModel syllabusDetailsModel, SyllabusListModel syllabusTopicDetails)
+        public async Task<ResponseCode> InsertSyllabusDetails(SyllabusListModel syllabusListModel)
         {
             try
             {
                 using (IDbConnection dbConnection = base.GetCoreConnection())
                 {
-                    var dbparams = new DynamicParameters(syllabusDetailsModel);
-                    dbparams.Add("@SyllabusId", syllabusDetailsModel.SyllabusId, DbType.Int64);
-                    dbparams.Add("@CourseId", syllabusDetailsModel.CourseId, DbType.Int64);
-                    dbparams.Add("@SubjectId", syllabusDetailsModel.SubjectId, DbType.Int64);
-                    dbparams.Add("@TopicName", syllabusDetailsModel.TopicName, DbType.String);
-                    dbparams.Add("@IsActive", syllabusDetailsModel.IsActive, DbType.Boolean);
+                    var dbparams = new DynamicParameters(syllabusListModel);
+                    /*dbparams.Add("@SyllabusId", syllabusListModel.SyllabusId, DbType.Int64);
+                    dbparams.Add("@CourseId", syllabusListModel.CourseId, DbType.Int64);
+                    dbparams.Add("@SubjectId", syllabusListModel.SubjectId, DbType.Int64);
+                    dbparams.Add("@TopicName", syllabusListModel.TopicName, DbType.String);
+                    dbparams.Add("@IsActive", syllabusListModel.IsActive, DbType.Boolean);*/
                     dbparams.Add("@Action", "InsertOrUpdateSyllabus");
                     dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
 
-                    DataTable topicDetailsTable = new ListConverter().ToDataTable<TopicInformationModel>(syllabusTopicDetails.topicInformationModel);
-                    topicDetailsTable.SetTypeName("TopicDetailsType");
-                    dbparams.Add("@TopicDetailsType", topicDetailsTable.AsTableValuedParameter("TopicDetailsType"));
+                  //  DataTable topicDetailsTable = new ListConverter().ToDataTable<TopicInformationModel>(syllabusTopicDetails.topicInformationModel);
+//topicDetailsTable.SetTypeName("TopicDetailsType");
+                  //  dbparams.Add("@TopicDetailsType", topicDetailsTable.AsTableValuedParameter("TopicDetailsType"));
 
                     await dbConnection.QueryAsync("PROC_SyllabusDetails", dbparams, commandType: CommandType.StoredProcedure);
                     ResponseCode result = (ResponseCode)dbparams.Get<int>("@Result");
