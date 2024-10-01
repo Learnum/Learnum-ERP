@@ -11,7 +11,11 @@ import { EmployeeService } from './add-employee/employee.service';
   templateUrl: './employees.component.html',
   styleUrls: ['./employees.component.scss']
 })
+
 export class EmployeesComponent implements OnInit {
+
+  form: FormGroup;
+  employeeList: [] = [];
 
   constructor(private router: Router,
     private employeeService: EmployeeService,
@@ -24,8 +28,7 @@ export class EmployeesComponent implements OnInit {
     this.getEmployeeList();
   }
 
-  form: FormGroup;
-  employeeList: [] = [];
+  
 
   declaredActionColumns: ActionColumn[] = [
     {
@@ -34,7 +37,7 @@ export class EmployeesComponent implements OnInit {
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip: 'Edit Employee'
     },
   ];
 
@@ -49,7 +52,7 @@ export class EmployeesComponent implements OnInit {
       minWidth: 200
     },
     {
-      field: 'EmployeeEmail',
+      field: 'Email',
       headerName: 'Employee Email',
       filter: 'agTextColumnFilter',
       filterParams: {
@@ -72,10 +75,21 @@ export class EmployeesComponent implements OnInit {
       field: 'DateofBirth',
       headerName: 'Date of Birth',
       filter: 'agTextColumnFilter',
+      cellClass: "dateLong",
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      minWidth: 200,
+      headerTooltip: 'Date',
+      valueFormatter: (params) => {
+        var date = new Date(params.value);
+        var day = date.getDate().toString().padStart(2, "0");
+        var month = (date.getMonth() + 1).toString().padStart(2, "0");
+        var year = date.getFullYear().toString();
+       
+        return ( day + "/" +  month + "/" + year + "");
+
+      },
 
     },
     {
@@ -89,7 +103,7 @@ export class EmployeesComponent implements OnInit {
 
     },
     {
-      field: 'BloodGroup ',
+      field: 'BloodGroup',
       headerName: 'BloodGroup ',
       filter: 'agTextColumnFilter',
       filterParams: {
@@ -99,7 +113,7 @@ export class EmployeesComponent implements OnInit {
 
     },
     {
-      field: 'Gender ',
+      field: 'Gender',
       headerName: 'Gender ',
       filter: 'agTextColumnFilter',
       filterParams: {
@@ -109,32 +123,52 @@ export class EmployeesComponent implements OnInit {
 
     },
     {
-      field: 'addedBy',
+      field: 'AddedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 100
     },
     {
-      field: 'addedTime',
+      field: 'AddedDate',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 200,
+      headerTooltip: 'Date',
+      valueFormatter: (params) => {
+        var date = new Date(params.value);
+        var day = date.getDate().toString().padStart(2, "0");
+        var month = (date.getMonth() + 1).toString().padStart(2, "0");
+        var year = date.getFullYear().toString();
+       
+        return ( day + "/" +  month + "/" + year + "");
+
+      },
     },
     {
-      field: 'modifiedBy',
+      field: 'UpdatedBy',
       headerName: 'Modified By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'modifiedTime',
+      field: 'UpdatedDate',
       headerName: 'Modified Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 200,
+      headerTooltip: 'Date',
+      valueFormatter: (params) => {
+        var date = new Date(params.value);
+        var day = date.getDate().toString().padStart(2, "0");
+        var month = (date.getMonth() + 1).toString().padStart(2, "0");
+        var year = date.getFullYear().toString();
+       
+        return ( day + "/" +  month + "/" + year + "");
+
+      },
     }
   ];
 
@@ -144,9 +178,9 @@ export class EmployeesComponent implements OnInit {
   onRowAction(data: any) {
     let data1 = {
       'source': 'edit',
-      'EmployeeDetailId': data.row.EmployeeDetailId
+      'EmployeeId': data.row.EmployeeId
     }
-    this.router.navigate(['erp/employees/add-employee'], { queryParams: data1 });
+    this.router.navigate(['erp/hrd/employees/add-employee'], { queryParams: data1 });
   }
   
    

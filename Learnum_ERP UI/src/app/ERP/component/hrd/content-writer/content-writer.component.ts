@@ -126,6 +126,7 @@ export class ContentWriterComponent implements OnInit {
       this.form = this.formBuilder.group({});
     }
   }
+  
   selectContentWriter($event: any) {
     throw new Error('Method not implemented.');
   }
