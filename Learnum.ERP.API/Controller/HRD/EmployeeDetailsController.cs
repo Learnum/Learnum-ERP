@@ -31,10 +31,11 @@ namespace Learnum.ERP.API.Controller.HRD
         }
 
         [HttpPost("InsertEmployeeDetails")]
-        public async Task<IActionResult> InsertEmployeeDetails([FromForm] EmployeeFormData employeeFormData)
+
+        public async Task<IActionResult> InsertEmployeeDetails([FromForm] employeeFormData employeeFormData)
         {
 
-            EmployeeDetailsModel? employeeDetailsModel = JsonConvert.DeserializeObject<EmployeeDetailsModel>(employeeFormData.EmployeeDetailsModel);
+            EmployeeDetailsModel? employeeDetailsModel = JsonConvert.DeserializeObject<EmployeeDetailsModel>(employeeFormData.EmployeeDetailsModel); ;
 
             var files = Request.Form.Files;
 
@@ -42,10 +43,12 @@ namespace Learnum.ERP.API.Controller.HRD
             {
                 return BadRequest("Object is null");
             }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest("Invalid model object");
             }
+
             if (files.Count == 0 || files[0].Length == 0)
             {
                 return BadRequest("No file uploaded");
@@ -59,21 +62,30 @@ namespace Learnum.ERP.API.Controller.HRD
                 await file.CopyToAsync(stream);
             }
 
+            //courseDetailsModel.FilePath = fullPath;
+            //courseDetailsModel.MimeType = file.ContentType;
+            //courseDetailsModel.FileName = file.FileName;
+            //courseDetailsModel.AddedBy = base.User.Identity.GetUserId();
+            //courseDetailsModel.UpdatedBy = base.User.Identity.GetUserId();
+            //courseDetailsModel.AddedDate = DateTime.Now;
+            //courseDetailsModel.UpdatedDate = DateTime.Now;
+
             EmployeePhotoupload fileUpload = new EmployeePhotoupload();
             fileUpload.FileName = file.FileName;
             fileUpload.MimeType = file.ContentType;
             fileUpload.FilePath = fullPath;
+            fileUpload.EmployeeId = employeeDetailsModel.EmployeeId;
             fileUpload.EmployeeName = employeeDetailsModel.EmployeeName;
-            fileUpload.EmployeePhone = employeeDetailsModel.EmployeePhone;
             fileUpload.Email = employeeDetailsModel.Email;
+            fileUpload.EmployeePhone = employeeDetailsModel.EmployeePhone;
             fileUpload.AadharNumber = employeeDetailsModel.AadharNumber;
-            fileUpload.DateOfBirth = employeeDetailsModel.DateOfBirth;
+            fileUpload.DateofBirth = employeeDetailsModel.DateofBirth;
+            fileUpload.Qualification = employeeDetailsModel.Qualification;
             fileUpload.BloodGroup = employeeDetailsModel.BloodGroup;
             fileUpload.Gender = employeeDetailsModel.Gender;
-            fileUpload.Qualification = employeeDetailsModel.Qualification;
             fileUpload.Address = employeeDetailsModel.Address;
             fileUpload.City = employeeDetailsModel.City;
-            fileUpload.State = employeeDetailsModel.State;
+            fileUpload.StateId = employeeDetailsModel.StateId;
             fileUpload.PostalCode = employeeDetailsModel.PostalCode;
             fileUpload.Role = employeeDetailsModel.Role;
             fileUpload.IsActive = employeeDetailsModel.IsActive;
@@ -82,16 +94,19 @@ namespace Learnum.ERP.API.Controller.HRD
             fileUpload.AddedDate = DateTime.Now;
             fileUpload.UpdatedDate = DateTime.Now;
 
-
             var result = await employeeDetailsRepository.InsertEmployeeDetails(fileUpload);
+
             if (result == ResponseCode.Success || result == ResponseCode.Updated)
             {
                 return Ok(result);
             }
-            return BadRequest("Failed to Save");
+
+            return BadRequest("Failed to save");
         }
 
-        [HttpGet("getAllEmployeeList")]
+
+
+        [HttpGet("getEmployeeDetailsList")]
         public async Task<IActionResult> GetEmployeeDetailsList()
         {
             var data = await employeeDetailsRepository.GetEmployeeDetailsList();
