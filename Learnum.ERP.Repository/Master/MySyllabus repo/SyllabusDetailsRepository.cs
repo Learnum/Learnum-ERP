@@ -123,7 +123,7 @@ namespace Learnum.ERP.Repository.Master.MySyllabus_repo
                     dbparams.Add("@Result", DbType.Int64, direction: ParameterDirection.InputOutput);
 
                   //  DataTable topicDetailsTable = new ListConverter().ToDataTable<TopicInformationModel>(syllabusTopicDetails.topicInformationModel);
-//topicDetailsTable.SetTypeName("TopicDetailsType");
+                  //topicDetailsTable.SetTypeName("TopicDetailsType");
                   //  dbparams.Add("@TopicDetailsType", topicDetailsTable.AsTableValuedParameter("TopicDetailsType"));
 
                     await dbConnection.QueryAsync("PROC_SyllabusDetails", dbparams, commandType: CommandType.StoredProcedure);
@@ -175,3 +175,13 @@ namespace Learnum.ERP.Repository.Master.MySyllabus_repo
         }
     }
 }
+
+public async Task<Tuple><SyllabusDetailsModel?, ResponseCode>> GetSyllabudDetailsById(long? Syllabus)
+    {
+      using (IDbConnection dbConnection = base.GetCoreConnection())
+    {
+        var dbparams = new DynamicParameters();
+        dp
+    }
+}
+    

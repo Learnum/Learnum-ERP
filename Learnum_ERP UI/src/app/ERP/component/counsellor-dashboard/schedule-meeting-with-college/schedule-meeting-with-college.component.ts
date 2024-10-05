@@ -61,6 +61,7 @@ export class ScheduleMeetingWithCollegeComponent implements OnInit {
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150,
       headerTooltip:'Meeting Date'
+      
     },
     {
       field: 'MeetingTime',

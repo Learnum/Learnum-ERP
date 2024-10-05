@@ -9,7 +9,7 @@ export interface TableColumn extends ColDef {
     maxWidth?: number;
     headerCheckboxSelection?: boolean;
     checkboxSelection?: boolean;
-    tooltip?: string;
+    tooltip?: string; 
 }
 
 
