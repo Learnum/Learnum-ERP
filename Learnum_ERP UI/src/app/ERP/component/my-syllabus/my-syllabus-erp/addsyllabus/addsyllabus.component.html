@@ -72,9 +72,9 @@
               <small *ngIf="topicDetailsForm.get('Content').errors?.required">Content is required</small>
             </div>
           </div>
-          <div class="form-group">
-            <label for="File">File</label>
-            <input type="file" (change)="onFileSelected($event, index)" />           
+          <div class="form-group"> 
+            <label for="File">File</label> 
+            <input type="File" class="form-control" id="File" formControlName="File"> 
           </div>
           <div class="form-group">
             <label for="Reference">References</label>
@@ -87,8 +87,8 @@
             <label for="SubTopic">SubTopic Status</label>
             <select class="form-select" id="SubTopic" formControlName="SubTopic">
               <option value="">Select Status</option>
-              <option value="option1">Active</option>
-              <option value="option2">Inactive</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
             </select>
             <div *ngIf="topicDetailsForm.get('SubTopic').invalid && (topicDetailsForm.get('SubTopic').dirty || topicDetailsForm.get('SubTopic').touched)" class="text-danger">
               <small *ngIf="topicDetailsForm.get('SubTopic').errors?.required">SubTopic status is required</small>

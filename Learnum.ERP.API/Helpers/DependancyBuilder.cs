@@ -73,6 +73,7 @@ namespace Learnum.ERP.API.Helpers
             services.AddTransient<IAttendenceSheetDetailsRepository, AttendenceSheetDetailsRepository>();
             services.AddTransient<IMcqDetailsRepository, McqDetailsRepository>();
             services.AddTransient<ISendFeesReminderRepository, SendFeesReminderRepository>();
+            services.AddTransient<ISyllabusDetailsRepository, SyllabusDetailsRepository>();
         }
     }
 }
