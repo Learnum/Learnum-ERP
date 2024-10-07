@@ -16,24 +16,20 @@ namespace Learnum.ERP.Shared.Entities.Models
         public string Email { get; set; }
         public long EmployeePhone { get; set; }
         public long AadharNumber { get; set; }
-        public DateTime? DateOfBirth { get; set; }
+        public DateTime DateofBirth { get; set; }
         public string Qualification { get; set; }
         public string BloodGroup { get; set; }
         public string Gender { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
-        public string State { get; set; }
+        public long StateId { get; set; }
         public long PostalCode { get; set; }
         public string Role { get; set; }
         public bool IsActive { get; set; }
-        //public string FilePath { get; set; }
-        //public string DocumentName { get; set; }
-        //public string FileName { get; set; }
-        //public string MimeType { get; set; }
       
     }
 
-    public class EmployeeFormData
+    public class employeeFormData
     {
         public string EmployeeDetailsModel { get; set; }
         public IFormFile File { get; set; }

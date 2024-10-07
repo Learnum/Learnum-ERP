@@ -1,21 +1,20 @@
 <h6 class="mt-2 pb-2 border-bottom">
-  <b class="ms-3">
-    <!-- <i class="uil uil-multiply" style="cursor: pointer;"></i> -->
-    Employess
-  </b>
-</h6>
-<div class="col-md-12">
-  <div class="row" align="right">
-    <div class="col-md-12" style="display: flex; justify-content: flex-end;">
-      <button class="btn btn-fent-cloud" (click)="onAddEmployee()">
-        <i class="uil uil-plus"></i> Add Employee
-      </button>
+    <b class="ms-3">
+      Employess
+    </b>
+  </h6>
+  <div class="col-md-12">
+    <div class="row" align="right">
+      <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+        <button class="btn btn-fent-cloud" (click)="onAddEmployee()">
+          <i class="uil uil-plus"></i> Add Employee
+        </button>
+      </div>
     </div>
   </div>
-</div>
-<!-- ag-grid -->
-<app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="employeeList" [tableColumns]="declaredTableColumns"
-  [actionColumns]="declaredActionColumns" [isEditable]="false" [isSortable]="true" [isFilterable]="false"
-  [isColumnFilterable]="false" [isResizable]="false" [isPageable]="true" [defaultPageSize]="12"
-   (rowAction)="selectemployee($event)" (actionButton)="onActionButton($event)">
-</app-data-grid>
+  <!-- ag-grid -->
+  <app-data-grid class="ag-theme-alpine" #declaredGrid [tableData]="employeeList" [tableColumns]="declaredTableColumns"
+    [actionColumns]="declaredActionColumns" [isEditable]="false" [isSortable]="true" [isFilterable]="false"
+    [isColumnFilterable]="false" [isResizable]="false" [isPageable]="true" [defaultPageSize]="12"
+     (rowAction)="selectemployee($event)" (rowAction)="onRowAction($event)" (actionButton)="onActionButton($event)">
+  </app-data-grid>

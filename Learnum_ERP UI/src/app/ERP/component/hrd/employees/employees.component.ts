@@ -1,29 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { ResponseCode } from 'src/app/core/models/responseObject.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alertService';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ActionColumn, TableColumn } from 'src/app/shared/data-grid/model/data-grid-column.model';
-
+import { EmployeeService } from './add-employee/employee.service';
 
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
   styleUrls: ['./employees.component.scss']
 })
+
 export class EmployeesComponent implements OnInit {
 
   form: FormGroup;
+  employeeList: [] = [];
+
+  constructor(private router: Router,
+    private employeeService: EmployeeService,
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+    private alertService: AlertService,
+    private formBuilder: FormBuilder) { }
+
+  ngOnInit(): void {
+    this.getEmployeeList();
+  }
+
+  
 
   declaredActionColumns: ActionColumn[] = [
     {
       action: 'view',
-      actionPage: 'ViewTrainer',
+      actionPage: 'ViewEmployee',
       actionIcon: 'uil uil-pen rounded text-secondary mb-0',
       buttonClass: 'btn btn-sm btn-secondary',
       colorClass: 'text-secondary h4',
-      tooltip:'Edit Trainer'
+      tooltip: 'Edit Employee'
     },
   ];
 
@@ -38,7 +52,7 @@ export class EmployeesComponent implements OnInit {
       minWidth: 200
     },
     {
-      field: 'EmployeeEmail',
+      field: 'Email',
       headerName: 'Employee Email',
       filter: 'agTextColumnFilter',
       filterParams: {
@@ -61,10 +75,21 @@ export class EmployeesComponent implements OnInit {
       field: 'DateofBirth',
       headerName: 'Date of Birth',
       filter: 'agTextColumnFilter',
+      cellClass: "dateLong",
       filterParams: {
         buttons: ['reset', 'apply'],
       },
-      minWidth: 200
+      minWidth: 200,
+      headerTooltip: 'Date',
+      valueFormatter: (params) => {
+        var date = new Date(params.value);
+        var day = date.getDate().toString().padStart(2, "0");
+        var month = (date.getMonth() + 1).toString().padStart(2, "0");
+        var year = date.getFullYear().toString();
+       
+        return ( day + "/" +  month + "/" + year + "");
+
+      },
 
     },
     {
@@ -78,7 +103,7 @@ export class EmployeesComponent implements OnInit {
 
     },
     {
-      field: 'BloodGroup ',
+      field: 'BloodGroup',
       headerName: 'BloodGroup ',
       filter: 'agTextColumnFilter',
       filterParams: {
@@ -88,7 +113,7 @@ export class EmployeesComponent implements OnInit {
 
     },
     {
-      field: 'Gender ',
+      field: 'Gender',
       headerName: 'Gender ',
       filter: 'agTextColumnFilter',
       filterParams: {
@@ -98,97 +123,84 @@ export class EmployeesComponent implements OnInit {
 
     },
     {
-      field: 'EmployeePhoto ',
-      headerName: 'EmployeePhoto ',
-      filter: 'agTextColumnFilter',
-      filterParams: {
-        buttons: ['reset', 'apply'],
-      },
-      minWidth: 150
-
-    },
-    {
-      field: 'addedBy',
+      field: 'AddedBy',
       headerName: 'Added By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 100
     },
     {
-      field: 'addedTime',
+      field: 'AddedDate',
       headerName: 'Added Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 200,
+      headerTooltip: 'Date',
+      valueFormatter: (params) => {
+        var date = new Date(params.value);
+        var day = date.getDate().toString().padStart(2, "0");
+        var month = (date.getMonth() + 1).toString().padStart(2, "0");
+        var year = date.getFullYear().toString();
+       
+        return ( day + "/" +  month + "/" + year + "");
+
+      },
     },
     {
-      field: 'modifiedBy',
+      field: 'UpdatedBy',
       headerName: 'Modified By',
       filter: 'agTextColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
       minWidth: 150
     },
     {
-      field: 'modifiedTime',
+      field: 'UpdatedDate',
       headerName: 'Modified Time',
       filter: 'agDateColumnFilter',
       filterParams: { buttons: ['reset', 'apply'] },
-      minWidth: 150
+      minWidth: 200,
+      headerTooltip: 'Date',
+      valueFormatter: (params) => {
+        var date = new Date(params.value);
+        var day = date.getDate().toString().padStart(2, "0");
+        var month = (date.getMonth() + 1).toString().padStart(2, "0");
+        var year = date.getFullYear().toString();
+       
+        return ( day + "/" +  month + "/" + year + "");
+
+      },
     }
   ];
 
- 
-   employeeList: any;
 
+  editEmployee(employeeData: any) {}
 
-
-  ngOnInit(): void {
-    //this.GetEmployeeList();
-  }
-
-  constructor(private router: Router,
-    private route: ActivatedRoute,
-    private messageService: MessageService,
-    private alertService: AlertService,
-    
-    private formBuilder: FormBuilder) { }
- 
-  
- 
-  editEmployee(employeeData: any) {
-
-  //   const employeeId = employeeData.EmpID;
-  //   const index = this.tdsReturnList.findIndex(emp => emp.EmpID === employeeId);
-  //   if (index !== -1) {
-  //   this.openEditForm(employeeData).then((editedEmployeeData: any) => {
-  //   this.tdsReturnList[index] = editedEmployeeData;
-  //   console.log('Edited Employee:', editedEmployeeData);
-  // });
-  //   }
-  }
-
- 
-  onAddEmployee(employee?: any) {
-
-    // let navigationExtras: NavigationExtras = {};
-    // if (employee) {
-    //   navigationExtras = {
-    //     state: {
-    //       employeeData: employee
-    //     }
-    //   };
-    // }
-    this.router.navigateByUrl('erp/hrd/employees/add-employee')
-  }
- 
-  selectemployee($event: any) {
-    throw new Error('Method not implemented.');
+  onRowAction(data: any) {
+    let data1 = {
+      'source': 'edit',
+      'EmployeeId': data.row.EmployeeId
     }
-      
-
-  onActionButton(action: string) {
-    alert(action + ' ' + 'action button clicked.');
+    this.router.navigate(['erp/hrd/employees/add-employee'], { queryParams: data1 });
   }
+  
+   
+    onAddEmployee(employee?: any) {
+     this.router.navigateByUrl('erp/hrd/employees/add-employee')
+    }
+   
+    selectemployee($event: any) {
+      throw new Error('Method not implemented.');
+      }
+        
+  
+    onActionButton(action: string) {
+      alert(action + ' ' + 'action button clicked.');
+    }
 
-
+    getEmployeeList() {
+      this.employeeService.getEmployeeList().subscribe((result: any) => {
+        this.employeeList = result.Value;
+        
+      })
+    }
 }
