@@ -13,6 +13,6 @@ namespace Learnum.ERP.Shared.Entities.Models
         public long SubjectId { get; set; }
         public string TopicName { get; set; }
         public bool IsActive { get; set; }
-      
+
     }
 }

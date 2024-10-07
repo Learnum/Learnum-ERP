@@ -10,7 +10,7 @@ app.Run();
 using Learnum.ERP.Shared.Core;
 using Learnum.ERP.Shared.Helpers;
 using Microsoft.AspNetCore.Hosting;
-using Serilog;
+using Serilog;  
 
 namespace Learnum.ERP.API
 {

@@ -15,19 +15,14 @@ namespace Learnum.ERP.Shared.Entities
         public string Heading { get; set; }
         public string Content { get; set; }
         public string Reference { get; set; }
-        public string SubTopic { get; set; }
+        public bool IsActive { get; set; }
 
-        public IFormFile File { get; set; }
         public string MimeType { get; set; }
         public string DocumentName { get; set; }
         public string FileName { get; set; }
         public string FilePath { get; set; }
 
     }
-
-
-
-
 
     public class SyllabusListModel
     {
